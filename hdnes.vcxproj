@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{CB764762-DEBC-4773-8E5A-B7A30155B70A}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>hdnes</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Users\mkwong98\Documents\Visual Studio 2010\common include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\mkwong98\Documents\Visual Studio 2010\SDL_mixer\lib\x86;C:\Users\mkwong98\Documents\Visual Studio 2010\glew-1.6.0\lib;C:\SourceCode\Libraries\wxWidgets2.8\lib\vc_lib;C:\Users\mkwong98\Documents\Visual Studio 2010\SDL_image-1.2.12\lib\x86;C:\Users\mkwong98\Documents\Visual Studio 2010\SDL-1.2.14\lib;$(LibraryPath)</LibraryPath>
+    <SourcePath>C:\Users\mkwong98\Documents\Visual Studio 2010\Projects\hdnes\wxwidget;$(SourcePath)</SourcePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Users\mkwong98\Documents\Visual Studio 2010\common include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\mkwong98\Documents\Visual Studio 2010\SDL_image-1.2.12\lib\x86;C:\Users\mkwong98\Documents\Visual Studio 2010\glew-1.6.0\lib;C:\SourceCode\Libraries\wxWidgets2.8\lib\vc_lib;C:\Users\mkwong98\Documents\Visual Studio 2010\SDL_mixer\lib\x86;C:\Users\mkwong98\Documents\Visual Studio 2010\SDL-1.2.14\lib;$(LibraryPath)</LibraryPath>
+    <SourcePath>C:\Users\mkwong98\Documents\Visual Studio 2010\Projects\hdnes\wxwidget;$(SourcePath)</SourcePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;__WINDOWS__;__WXMSW__;__WXDEBUG__;WXDEBUG=1;__WIN95__;__WIN32__;WINVER=0x0400;STRICT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>C:\SourceCode\Libraries\wxWidgets2.8\lib\vc_lib\mswud;C:\SourceCode\Libraries\wxWidgets2.8\contrib\include;C:\SourceCode\Libraries\wxWidgets2.8\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>sdl.lib;sdlmain.lib;opengl32.lib;glew32.lib;glu32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;comctl32.lib;rpcrt4.lib;wsock32.lib;winmm.lib;wxmsw28ud_core.lib;wxbase28ud.lib;Shlwapi.lib;SDL_image.lib;wxpngd.lib;wxtiffd.lib;wxzlibd.lib;wxjpegd.lib;SDL_mixer.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\SourceCode\Libraries\wxWidgets2.8\contrib\lib;C:\SourceCode\Libraries\wxWidgets2.8\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <LinkTimeCodeGeneration>PGOptimization</LinkTimeCodeGeneration>
+      <IgnoreSpecificDefaultLibraries>libcd.lib;libcid.lib;msvcrt.lib</IgnoreSpecificDefaultLibraries>
+      <Profile>true</Profile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;WIN32;_WINDOWS;__WINDOWS__;__WXMSW__;__WIN95__;__WIN32__;WINVER=0x0400;STRICT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <AdditionalIncludeDirectories>C:\SourceCode\Libraries\wxWidgets2.8\lib\vc_lib\mswu;C:\SourceCode\Libraries\wxWidgets2.8\contrib\include;C:\SourceCode\Libraries\wxWidgets2.8\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>sdl.lib;sdlmain.lib;opengl32.lib;glew32.lib;glu32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;comctl32.lib;rpcrt4.lib;wsock32.lib;winmm.lib;wxmsw28u_core.lib;wxbase28u.lib;Shlwapi.lib;SDL_image.lib;wxpngd.lib;wxtiffd.lib;wxzlibd.lib;wxjpegd.lib;SDL_mixer.lib</AdditionalDependencies>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>libcd.lib;libcid.lib;msvcrt.lib;LIBCMTD.lib</IgnoreSpecificDefaultLibraries>
+      <AdditionalLibraryDirectories>C:\SourceCode\Libraries\wxWidgets2.8\contrib\lib;C:\SourceCode\Libraries\wxWidgets2.8\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\wxwidget\formHDNes.h" />
+    <ClInclude Include="apu.h" />
+    <ClInclude Include="audio.h" />
+    <ClInclude Include="batchMapImp.h" />
+    <ClInclude Include="cart.h" />
+    <ClInclude Include="commonUtil.h" />
+    <ClInclude Include="cpu.h" />
+    <ClInclude Include="fraHDNesImp.h" />
+    <ClInclude Include="gameManager.h" />
+    <ClInclude Include="globalConst.h" />
+    <ClInclude Include="input.h" />
+    <ClInclude Include="mainApp.h" />
+    <ClInclude Include="mapper.h" />
+    <ClInclude Include="mapper0.h" />
+    <ClInclude Include="mapper1.h" />
+    <ClInclude Include="mapper10.h" />
+    <ClInclude Include="mapper16.h" />
+    <ClInclude Include="mapper2.h" />
+    <ClInclude Include="mapper3.h" />
+    <ClInclude Include="mapper4.h" />
+    <ClInclude Include="mapper7.h" />
+    <ClInclude Include="mapper9.h" />
+    <ClInclude Include="mapperList.h" />
+    <ClInclude Include="memory.h" />
+    <ClInclude Include="ppu.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="sysSetting.h" />
+    <ClInclude Include="sysState.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="video.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\wxwidget\formHDNes.cpp" />
+    <ClCompile Include="apu.cpp" />
+    <ClCompile Include="audio.cpp" />
+    <ClCompile Include="batchMapImp.cpp" />
+    <ClCompile Include="cart.cpp" />
+    <ClCompile Include="commonUtil.cpp" />
+    <ClCompile Include="cpu.cpp" />
+    <ClCompile Include="fraHDNesImp.cpp" />
+    <ClCompile Include="gameManager.cpp" />
+    <ClCompile Include="input.cpp" />
+    <ClCompile Include="mainApp.cpp" />
+    <ClCompile Include="mapper.cpp" />
+    <ClCompile Include="mapper0.cpp" />
+    <ClCompile Include="mapper1.cpp" />
+    <ClCompile Include="mapper10.cpp" />
+    <ClCompile Include="mapper16.cpp" />
+    <ClCompile Include="mapper2.cpp" />
+    <ClCompile Include="mapper3.cpp" />
+    <ClCompile Include="mapper4.cpp" />
+    <ClCompile Include="mapper7.cpp" />
+    <ClCompile Include="mapper9.cpp" />
+    <ClCompile Include="memory.cpp" />
+    <ClCompile Include="ppu.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="sysSetting.cpp" />
+    <ClCompile Include="sysState.cpp" />
+    <ClCompile Include="video.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
