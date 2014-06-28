@@ -446,16 +446,32 @@ void fraHDNesImp::showCustomImage( wxCommandEvent& event ){
 
 void fraHDNesImp::loadScreen(){
 	wxClientDC* objDC;
+	string filename;
+	
 	if(cboScreen->GetSelection() < cboScreen->GetCount() - 1){
-		string filename = getEditPackPath() + vid->screenFileNameList[cboScreen->GetSelection()];
-		objScreenImg = wxImage(wxString((filename + ".png").c_str(), wxConvUTF8));
-
-		refreshScreenBitmap();
-
-		objDC = new wxClientDC(pnlScreen);
-		objDC->DrawBitmap(objScreenBmp, 0, 0);
-		delete objDC;
+		filename = getEditPackPath() + vid->screenFileNameList[cboScreen->GetSelection()];
 	}
+	else{
+		int selCount;
+		wxArrayInt selections;
+		bitmapE* b;
+		selCount = lstScreenTiles->GetSelections(selections);
+		if(selCount > 0){
+			b = (bitmapE*)lstScreenTiles->GetClientData(selections[0]);
+			filename = getEditPackPath() + vid->screenFileNameList[b->bitmapID];
+		}
+		else{
+			return;
+		}
+	}
+	objScreenImg = wxImage(wxString((filename + ".png").c_str(), wxConvUTF8));
+	refreshScreenBitmap();
+
+	objDC = new wxClientDC(pnlScreen);
+	objDC->DrawBitmap(objScreenBmp, 0, 0);
+	delete objDC;
+	
+	
 }
 
 void fraHDNesImp::loadImage(){
@@ -558,6 +574,15 @@ void fraHDNesImp::refreshImageBitmap(){
 	int drawW;
 	int drawH;
 
+	int selCount;
+	wxArrayInt selections;
+	bitmapE* b;
+
+	int screentileX;
+	int screentileY;
+	int imagetileX;
+	int imagetileY;
+
 	if(objImageImg.GetWidth() / objImageImg.GetHeight() > pnlImage->GetSize().GetWidth() / pnlImage->GetSize().GetHeight()){
 		neww = pnlImage->GetSize().GetWidth();
 		newh = objImageImg.GetHeight() * pnlImage->GetSize().GetWidth() / objImageImg.GetWidth();
@@ -570,44 +595,60 @@ void fraHDNesImp::refreshImageBitmap(){
 	if(!objimg.HasAlpha()) objimg.InitAlpha(); 
 	if(string(txtMapX->GetValue().char_str()).compare("") != 0 
 		&& string(txtMapY->GetValue().char_str()).compare("") != 0){
-		offsetx = stoi(string(txtMapX->GetValue().char_str())) * neww / objImageImg.GetWidth();
-		offsety = stoi(string(txtMapY->GetValue().char_str())) * newh / objImageImg.GetHeight();
-		drawW = 8 * vid->packScale * neww / objImageImg.GetWidth();
-		drawH = 8 * vid->packScale * newh / objImageImg.GetHeight();
 
-		if(offsety + drawH < objimg.GetHeight() && offsetx + drawW < objimg.GetWidth()){
-			for(int i = offsetx; i < offsetx + drawW; i++){
-				objimg.SetRGB(i, offsety + 1, 0, 0, 0);
-				objimg.SetAlpha(i, offsety + 1, 255);
-				if(offsety + 1 + drawH < objimg.GetHeight()){
-					objimg.SetRGB(i, offsety + 1 + drawH, 0, 0, 0);
-					objimg.SetAlpha(i, offsety + 1 + drawH, 255);
+		imagetileX = stoi(string(txtMapX->GetValue().char_str()));
+		imagetileY = stoi(string(txtMapY->GetValue().char_str()));
+		
+		selCount = lstScreenTiles->GetSelections(selections);
+
+		if(selCount > 0){
+			b = (bitmapE*)lstScreenTiles->GetClientData(selections[0]);
+			screentileX = b->x;
+			screentileY = b->y;
+			for(int seli = 0; seli < selCount; seli++){
+				b = (bitmapE*)lstScreenTiles->GetClientData(selections[seli]);
+
+				offsetx = (imagetileX + ((b->x - screentileX) * vid->packScale)) * neww / objImageImg.GetWidth();
+				offsety = (imagetileY + ((b->y - screentileY) * vid->packScale)) * newh / objImageImg.GetHeight();
+				drawW = 8 * vid->packScale * neww / objImageImg.GetWidth();
+				drawH = 8 * vid->packScale * newh / objImageImg.GetHeight();
+
+				if(offsety + drawH < objimg.GetHeight() && offsetx + drawW < objimg.GetWidth()
+					&& offsety >= 0 && offsetx >= 0){
+					for(int i = offsetx; i < offsetx + drawW; i++){
+						objimg.SetRGB(i, offsety + 1, 0, (seli == 0 ? 127 : 0), (seli == 0 ? 255 : 0));
+						objimg.SetAlpha(i, offsety + 1, 255);
+						if(offsety + 1 + drawH < objimg.GetHeight()){
+							objimg.SetRGB(i, offsety + 1 + drawH, 0, (seli == 0 ? 127 : 0), (seli == 0 ? 255 : 0));
+							objimg.SetAlpha(i, offsety + 1 + drawH, 255);
+						}
+					}
+					for(int j = offsety; j < offsety + drawH; j++){
+						objimg.SetRGB(offsetx + 1, j, 0, (seli == 0 ? 127 : 0), (seli == 0 ? 255 : 0));
+						objimg.SetAlpha(offsetx + 1, j, 255);
+						if(offsetx + 1 + drawW < objimg.GetWidth()){
+							objimg.SetRGB(offsetx + 1 + drawW, j, 0, (seli == 0 ? 127 : 0), (seli == 0 ? 255 : 0));
+							objimg.SetAlpha(offsetx + 1 + drawW, j, 255);
+						}
+					}
+					for(int i = offsetx; i < offsetx + drawW; i++){
+						objimg.SetRGB(i, offsety, 255, (seli == 0 ? 127 : 255), (seli == 0 ? 0 : 255));
+						objimg.SetAlpha(i, offsety, 255);
+						if(offsety + drawH < objimg.GetHeight()){
+							objimg.SetRGB(i, offsety + drawH, 255, (seli == 0 ? 127 : 255), (seli == 0 ? 0 : 255));
+							objimg.SetAlpha(i, offsety + drawH, 255);
+						}
+					}
+					for(int j = offsety; j < offsety + drawH; j++){
+						objimg.SetRGB(offsetx, j, 255, (seli == 0 ? 127 : 255), (seli == 0 ? 0 : 255));
+						objimg.SetAlpha(offsetx, j, 255);
+						if(offsetx + drawW< objimg.GetWidth()){
+							objimg.SetRGB(offsetx + drawW, j, 255, (seli == 0 ? 127 : 255), (seli == 0 ? 0 : 255));
+							objimg.SetAlpha(offsetx + drawW, j, 255);
+						}
+					}			
 				}
-			}
-			for(int j = offsety; j < offsety + drawH; j++){
-				objimg.SetRGB(offsetx + 1, j, 0, 0, 0);
-				objimg.SetAlpha(offsetx + 1, j, 255);
-				if(offsetx + 1 + drawW < objimg.GetWidth()){
-					objimg.SetRGB(offsetx + 1 + drawW, j, 0, 0, 0);
-					objimg.SetAlpha(offsetx + 1 + drawW, j, 255);
-				}
-			}
-			for(int i = offsetx; i < offsetx + drawW; i++){
-				objimg.SetRGB(i, offsety, 255, 255, 255);
-				objimg.SetAlpha(i, offsety, 255);
-				if(offsety + drawH < objimg.GetHeight()){
-					objimg.SetRGB(i, offsety + drawH, 255, 255, 255);
-					objimg.SetAlpha(i, offsety + drawH, 255);
-				}
-			}
-			for(int j = offsety; j < offsety + drawH; j++){
-				objimg.SetRGB(offsetx, j, 255, 255, 255);
-				objimg.SetAlpha(offsetx, j, 255);
-				if(offsetx + drawW< objimg.GetWidth()){
-					objimg.SetRGB(offsetx + drawW, j, 255, 255, 255);
-					objimg.SetAlpha(offsetx + drawW, j, 255);
-				}
-			}			
+			}		
 		}
 	}
 	objImageBmp = wxBitmap(objimg);
@@ -620,49 +661,55 @@ void fraHDNesImp::screenTileSelected( wxCommandEvent& event ){
 	int offsety;
 	int drawW;
 	int drawH;
-	
-	bitmapE* b = (bitmapE*)lstScreenTiles->GetClientData(lstScreenTiles->GetSelection());
+	int selCount;
+	wxArrayInt selections;
+	bitmapE* b;
 
-	wxClientDC* objDC;
-	string filename = getEditPackPath() + vid->screenFileNameList[b->bitmapID];
-	objScreenImg = wxImage(wxString((filename + ".png").c_str(), wxConvUTF8));
-
-	refreshScreenBitmap();
-
-	objDC = new wxClientDC(pnlScreen);
-	objDC->DrawBitmap(objScreenBmp, 0, 0);
-	delete objDC;
-
-	//draw a box in the screenshot
+	loadScreen();
 	objimg = objScreenBmp.ConvertToImage();
-	offsetx = b->x * objimg.GetWidth() / DISPLAY_WIDTH;
-	offsety = b->y * objimg.GetHeight() / DISPLAY_HEIGHT;
-	drawW = 8 * objimg.GetWidth() / DISPLAY_WIDTH;
-	drawH = 8 * objimg.GetHeight() / DISPLAY_HEIGHT;
 
-	for(int i = offsetx; i < offsetx + drawW; i++){
-		if(i < objimg.GetWidth() && (offsety + 1) < objimg.GetHeight() && i >= 0 && (offsety + 1) >= 0)
-			objimg.SetRGB(i, offsety + 1, 0, 0, 0);
-		if(i < objimg.GetWidth() && (offsety + 1 + drawH) < objimg.GetHeight() && i >= 0 && (offsety + 1 + drawH) >= 0)
-			objimg.SetRGB(i, offsety + 1 + drawH, 0, 0, 0);
+	selCount = lstScreenTiles->GetSelections(selections);
+
+	if(selCount > 1 && (cboScreen->GetSelection() == cboScreen->GetCount() - 1)){
+		for(int seli = 1; seli < selCount; seli++){
+			lstScreenTiles->Deselect(selections[seli]);
+		}
+		selCount = 1;
 	}
-	for(int j = offsety; j < offsety + drawH; j++){
-		if((offsetx + 1) < objimg.GetWidth() && j < objimg.GetHeight() && (offsetx + 1) >= 0 && j >= 0)
-			objimg.SetRGB(offsetx + 1, j, 0, 0, 0);
-		if((offsetx + 1 + drawW) < objimg.GetWidth() && j < objimg.GetHeight() && (offsetx + 1 + drawW) >= 0 && j >= 0)
-			objimg.SetRGB(offsetx + 1 + drawW, j, 0, 0, 0);
-	}
-	for(int i = offsetx; i < offsetx + drawW; i++){
-		if(i < objimg.GetWidth() && offsety < objimg.GetHeight() && i >= 0 && offsety >= 0)
-			objimg.SetRGB(i, offsety, 255, 255, 255);
-		if(i < objimg.GetWidth() && (offsety + drawH) < objimg.GetHeight() && i >= 0 && (offsety + drawH) >= 0)
-			objimg.SetRGB(i, offsety + drawH, 255, 255, 255);
-	}
-	for(int j = offsety; j < offsety + drawH; j++){
-		if(offsetx < objimg.GetWidth() && j < objimg.GetHeight() && offsetx >= 0 && j >= 0)
-			objimg.SetRGB(offsetx, j, 255, 255, 255);
-		if((offsetx + drawW) < objimg.GetWidth() && j < objimg.GetHeight() && (offsetx + drawW) >= 0 && j >= 0)
-			objimg.SetRGB(offsetx + drawW, j, 255, 255, 255);
+
+	for(int seli = 0; seli < selCount; seli++){
+		b = (bitmapE*)lstScreenTiles->GetClientData(selections[seli]);
+
+		//draw a box in the screenshot
+		offsetx = b->x * objimg.GetWidth() / DISPLAY_WIDTH;
+		offsety = b->y * objimg.GetHeight() / DISPLAY_HEIGHT;
+		drawW = 8 * objimg.GetWidth() / DISPLAY_WIDTH;
+		drawH = 8 * objimg.GetHeight() / DISPLAY_HEIGHT;
+
+		for(int i = offsetx; i < offsetx + drawW; i++){
+			if(i < objimg.GetWidth() && (offsety + 1) < objimg.GetHeight() && i >= 0 && (offsety + 1) >= 0)
+				objimg.SetRGB(i, offsety + 1, 0, (seli == 0 ? 127 : 0), (seli == 0 ? 255 : 0));
+			if(i < objimg.GetWidth() && (offsety + 1 + drawH) < objimg.GetHeight() && i >= 0 && (offsety + 1 + drawH) >= 0)
+				objimg.SetRGB(i, offsety + 1 + drawH, 0, (seli == 0 ? 127 : 0), (seli == 0 ? 255 : 0));
+		}
+		for(int j = offsety; j < offsety + drawH; j++){
+			if((offsetx + 1) < objimg.GetWidth() && j < objimg.GetHeight() && (offsetx + 1) >= 0 && j >= 0)
+				objimg.SetRGB(offsetx + 1, j, 0, (seli == 0 ? 127 : 0), (seli == 0 ? 255 : 0));
+			if((offsetx + 1 + drawW) < objimg.GetWidth() && j < objimg.GetHeight() && (offsetx + 1 + drawW) >= 0 && j >= 0)
+				objimg.SetRGB(offsetx + 1 + drawW, j, 0, (seli == 0 ? 127 : 0), (seli == 0 ? 255 : 0));
+		}
+		for(int i = offsetx; i < offsetx + drawW; i++){
+			if(i < objimg.GetWidth() && offsety < objimg.GetHeight() && i >= 0 && offsety >= 0)
+				objimg.SetRGB(i, offsety, 255, (seli == 0 ? 127 : 255), (seli == 0 ? 0 : 255));
+			if(i < objimg.GetWidth() && (offsety + drawH) < objimg.GetHeight() && i >= 0 && (offsety + drawH) >= 0)
+				objimg.SetRGB(i, offsety + drawH, 255, (seli == 0 ? 127 : 255), (seli == 0 ? 0 : 255));
+		}
+		for(int j = offsety; j < offsety + drawH; j++){
+			if(offsetx < objimg.GetWidth() && j < objimg.GetHeight() && offsetx >= 0 && j >= 0)
+				objimg.SetRGB(offsetx, j, 255, (seli == 0 ? 127 : 255), (seli == 0 ? 0 : 255));
+			if((offsetx + drawW) < objimg.GetWidth() && j < objimg.GetHeight() && (offsetx + drawW) >= 0 && j >= 0)
+				objimg.SetRGB(offsetx + drawW, j, 255, (seli == 0 ? 127 : 255), (seli == 0 ? 0 : 255));
+		}	
 	}
 
 	objScreenBmp = wxBitmap(objimg);
@@ -672,22 +719,26 @@ void fraHDNesImp::screenTileSelected( wxCommandEvent& event ){
 	cboImage->SetSelection(-1);
 	chkDefaultTile->SetValue(false);
 	//check if the tile has a custom tile
-	if(vid->packData[b->patternAddress] != BAD_ADDRESS){
-		TileData t = vid->tdata[vid->packData[b->patternAddress]];
-		txtMapX->SetValue(wxString("", wxConvUTF8)); 
-		txtMapY->SetValue(wxString("", wxConvUTF8)); 
-		for(unsigned int i = 0; i < t.bitmapP.size(); i++){
-			if(t.bitmapP[i].colors.colorValues == b->colors.colorValues){
-				cboImage->SetSelection(t.bitmapP[i].bitmapID);
-				txtMapX->SetValue(wxString(to_string((long double)(t.bitmapP[i].x)).c_str(), wxConvUTF8)); 
-				txtMapY->SetValue(wxString(to_string((long double)(t.bitmapP[i].y)).c_str(), wxConvUTF8));
-				txtBrightness->SetValue(wxString(to_string((long double)(t.bitmapP[i].brightness * 100)).c_str(), wxConvUTF8));
-				chkDefaultTile->SetValue(t.defaultID == i);
-				loadImage();
-				refreshImageBitmap();
-				displayImageBitmap();
+
+	if(selCount > 0){
+		b = (bitmapE*)lstScreenTiles->GetClientData(selections[0]);
+		if(vid->packData[b->patternAddress] != BAD_ADDRESS){
+			TileData t = vid->tdata[vid->packData[b->patternAddress]];
+			txtMapX->SetValue(wxString("", wxConvUTF8)); 
+			txtMapY->SetValue(wxString("", wxConvUTF8)); 
+			for(unsigned int i = 0; i < t.bitmapP.size(); i++){
+				if(t.bitmapP[i].colors.colorValues == b->colors.colorValues){
+					cboImage->SetSelection(t.bitmapP[i].bitmapID);
+					txtMapX->SetValue(wxString(to_string((long double)(t.bitmapP[i].x)).c_str(), wxConvUTF8)); 
+					txtMapY->SetValue(wxString(to_string((long double)(t.bitmapP[i].y)).c_str(), wxConvUTF8));
+					txtBrightness->SetValue(wxString(to_string((long double)(t.bitmapP[i].brightness * 100)).c_str(), wxConvUTF8));
+					chkDefaultTile->SetValue(t.defaultID == i);
+					loadImage();
+					refreshImageBitmap();
+					displayImageBitmap();
+				}
 			}
-		}
+		}	
 	}
 }
 
@@ -799,16 +850,19 @@ void fraHDNesImp::addImageToPack( wxFileDirPickerEvent& event ){
 }
 
 void fraHDNesImp::confirmImgSelection( wxCommandEvent& event ){
-	if(lstScreenTiles->GetSelection() == -1 || cboImage->GetSelection() == -1) return;
+	if(cboImage->GetSelection() == -1) return;
 		
-	bitmapE* b = (bitmapE*)lstScreenTiles->GetClientData(lstScreenTiles->GetSelection());
+	int selCount;
+	wxArrayInt selections;
+	bitmapE* b;
 	bitmapF c;
-	c.bitmapID = b->bitmapID;
-	c.colors = b->colors;
-	c.rawDat = b->rawDat;
-	c.x = b->x;
-	c.y = b->y;
-	c.brightness = b->brightness;
+
+	int screentileX;
+	int screentileY;
+	int imagetileX;
+	int imagetileY;
+	int offsetx;
+	int offsety;
 
 	TileData t;
 	int tid;
@@ -816,112 +870,139 @@ void fraHDNesImp::confirmImgSelection( wxCommandEvent& event ){
 	int bid;
 	bool patternMatch;
 
-	//check if the tile has a custom tile
-	if(vid->packData[b->patternAddress] == BAD_ADDRESS){
-		vid->packData[b->patternAddress] = vid->tdata.size();
-		t.defaultID = -1;
-		vid->tdata.push_back(t);
-	}
-	tid = vid->packData[b->patternAddress];
+	if(string(txtMapX->GetValue().char_str()).compare("") != 0 
+		&& string(txtMapY->GetValue().char_str()).compare("") != 0){
 
-	//check existing mapping
-	bmpFound = false;
-	for(unsigned int i = 0; i < vid->tdata[tid].bitmapP.size(); i++){
-		if(vid->tdata[tid].bitmapP[i].colors.colorValues == b->colors.colorValues){
-			if(romDat->chrPageCount > 0){
-				patternMatch = true;
-			}
-			else{
-				patternMatch = (vid->tdata[tid].bitmapP[i].rawDat.pixStrip1 == b->rawDat.pixStrip1
-							&& vid->tdata[tid].bitmapP[i].rawDat.pixStrip2 == b->rawDat.pixStrip2
-							&& vid->tdata[tid].bitmapP[i].rawDat.pixStrip3 == b->rawDat.pixStrip3
-							&& vid->tdata[tid].bitmapP[i].rawDat.pixStrip4 == b->rawDat.pixStrip4);
-			}
-			if(patternMatch){
-				bid = i;
-				bmpFound = true;
+		imagetileX = stoi(string(txtMapX->GetValue().char_str()));
+		imagetileY = stoi(string(txtMapY->GetValue().char_str()));
+		
+		selCount = lstScreenTiles->GetSelections(selections);
+		if(selCount > 0){
+			b = (bitmapE*)lstScreenTiles->GetClientData(selections[0]);
+			screentileX = b->x;
+			screentileY = b->y;
+			for(int seli = 0; seli < selCount; seli++){
+				b = (bitmapE*)lstScreenTiles->GetClientData(selections[seli]);
+				c.bitmapID = b->bitmapID;
+				c.colors = b->colors;
+				c.rawDat = b->rawDat;
+				c.x = b->x;
+				c.y = b->y;
+				c.brightness = b->brightness;
+
+				offsetx = imagetileX + ((b->x - screentileX) * vid->packScale);
+				offsety = imagetileY + ((b->y - screentileY) * vid->packScale);
+
+				if(offsety + (8 * vid->packScale) < objImageImg.GetHeight() && offsetx + (8 * vid->packScale) < objImageImg.GetWidth()
+					&& offsety >= 0 && offsetx >= 0){
+					//check if the tile has a custom tile
+					if(vid->packData[b->patternAddress] == BAD_ADDRESS){
+						vid->packData[b->patternAddress] = vid->tdata.size();
+						t.defaultID = -1;
+						vid->tdata.push_back(t);
+					}
+					tid = vid->packData[b->patternAddress];
+
+					//check existing mapping
+					bmpFound = false;
+					for(unsigned int i = 0; i < vid->tdata[tid].bitmapP.size(); i++){
+						if(vid->tdata[tid].bitmapP[i].colors.colorValues == b->colors.colorValues){
+							if(romDat->chrPageCount > 0){
+								patternMatch = true;
+							}
+							else{
+								patternMatch = (vid->tdata[tid].bitmapP[i].rawDat.pixStrip1 == b->rawDat.pixStrip1
+											&& vid->tdata[tid].bitmapP[i].rawDat.pixStrip2 == b->rawDat.pixStrip2
+											&& vid->tdata[tid].bitmapP[i].rawDat.pixStrip3 == b->rawDat.pixStrip3
+											&& vid->tdata[tid].bitmapP[i].rawDat.pixStrip4 == b->rawDat.pixStrip4);
+							}
+							if(patternMatch){
+								bid = i;
+								bmpFound = true;
+							}
+						}
+					}
+					if(!bmpFound){
+						//add new mapping
+						bid = vid->tdata[tid].bitmapP.size();
+						vid->tdata[tid].bitmapP.push_back(c);
+					}
+					vid->tdata[tid].bitmapP[bid].bitmapID = cboImage->GetSelection();
+					if(string(txtMapX->GetValue().char_str()).compare("") != 0 
+						&& string(txtMapY->GetValue().char_str()).compare("") != 0){
+						vid->tdata[tid].bitmapP[bid].x = offsetx;
+						vid->tdata[tid].bitmapP[bid].y = offsety;
+					}
+					if(string(txtBrightness->GetValue().char_str()).compare("") != 0){
+						vid->tdata[tid].bitmapP[bid].brightness = 0.01f * stof(string(txtBrightness->GetValue().char_str()));
+					}
+					//set default value
+					if(chkDefaultTile->GetValue()){
+						vid->tdata[tid].defaultID = bid;	
+					}
+					else if(vid->tdata[tid].defaultID == bid){
+						vid->tdata[tid].defaultID = -1;
+					}
+					//refresh screen tile list
+					string tiledisplay = to_string((long double)(b->patternAddress)) + "," + vid->GetPaletteString(b->colors); 
+					tiledisplay = tiledisplay + "->" + vid->bmpInfos[vid->tdata[tid].bitmapP[bid].bitmapID].filename + "," + to_string((long double)(vid->tdata[tid].bitmapP[bid].x)) + "," + to_string((long double)(vid->tdata[tid].bitmapP[bid].y)) + "," + to_string((long double)(vid->tdata[tid].bitmapP[bid].brightness * 100)) + "%"; 
+
+					lstScreenTiles->SetString(selections[seli], wxString(tiledisplay.c_str(), wxConvUTF8));
+				}
 			}
 		}
 	}
-	if(!bmpFound){
-		//add new mapping
-		bid = vid->tdata[tid].bitmapP.size();
-		vid->tdata[tid].bitmapP.push_back(c);
-	}
-	vid->tdata[tid].bitmapP[bid].bitmapID = cboImage->GetSelection();
-	if(string(txtMapX->GetValue().char_str()).compare("") != 0 
-		&& string(txtMapY->GetValue().char_str()).compare("") != 0){
-		vid->tdata[tid].bitmapP[bid].x = stoi(string(txtMapX->GetValue().char_str()));
-		vid->tdata[tid].bitmapP[bid].y = stoi(string(txtMapY->GetValue().char_str()));
-	}
-	if(string(txtBrightness->GetValue().char_str()).compare("") != 0){
-		vid->tdata[tid].bitmapP[bid].brightness = 0.01f * stof(string(txtBrightness->GetValue().char_str()));
-	}
-	//set default value
-	if(chkDefaultTile->GetValue()){
-		vid->tdata[tid].defaultID = bid;	
-	}
-	else if(vid->tdata[tid].defaultID == bid){
-		vid->tdata[tid].defaultID = -1;
-	}
-	//refresh screen tile list
-	string tiledisplay = to_string((long double)(b->patternAddress)) + "," + vid->GetPaletteString(b->colors); 
-	tiledisplay = tiledisplay + "->" + vid->bmpInfos[vid->tdata[tid].bitmapP[bid].bitmapID].filename + "," + to_string((long double)(vid->tdata[tid].bitmapP[bid].x)) + "," + to_string((long double)(vid->tdata[tid].bitmapP[bid].y)) + "," + to_string((long double)(vid->tdata[tid].bitmapP[bid].brightness * 100)) + "%"; 
-
-	lstScreenTiles->SetString(lstScreenTiles->GetSelection(), wxString(tiledisplay.c_str(), wxConvUTF8));
 }
 
 void fraHDNesImp::cancelSelection( wxCommandEvent& event ){
 	bool patternMatch;
-
-	if(lstScreenTiles->GetSelection() == -1) return;
-
-	bitmapE* b = (bitmapE*)lstScreenTiles->GetClientData(lstScreenTiles->GetSelection());
+	int selCount;
 	int tid;
-	//check if the tile has a custom tile
-	if(vid->packData[b->patternAddress] == BAD_ADDRESS){
-		return;
-	}
-	tid = vid->packData[b->patternAddress];
+	wxArrayInt selections;
+	bitmapE* b;
+
+	selCount = lstScreenTiles->GetSelections(selections);
+	if(selCount > 0){
+		for(int seli = 0; seli < selCount; seli++){
+			b = (bitmapE*)lstScreenTiles->GetClientData(selections[seli]);
 
 
-	//check existing mapping
-	for(unsigned int i = 0; i < vid->tdata[tid].bitmapP.size(); i++){
-		if(vid->tdata[tid].bitmapP[i].colors.colorValues == b->colors.colorValues){
+			//check if the tile has a custom tile
+			if(vid->packData[b->patternAddress] != BAD_ADDRESS){
+				tid = vid->packData[b->patternAddress];
 
-			if(romDat->chrPageCount > 0){
-				patternMatch = true;
-			}
-			else{
-				patternMatch = (vid->tdata[tid].bitmapP[i].rawDat.pixStrip1 == b->rawDat.pixStrip1
-							&& vid->tdata[tid].bitmapP[i].rawDat.pixStrip2 == b->rawDat.pixStrip2
-							&& vid->tdata[tid].bitmapP[i].rawDat.pixStrip3 == b->rawDat.pixStrip3
-							&& vid->tdata[tid].bitmapP[i].rawDat.pixStrip4 == b->rawDat.pixStrip4);
-			}
-			if(patternMatch){
+				//check existing mapping
+				for(unsigned int i = 0; i < vid->tdata[tid].bitmapP.size(); i++){
+					if(vid->tdata[tid].bitmapP[i].colors.colorValues == b->colors.colorValues){
+						if(romDat->chrPageCount > 0){
+							patternMatch = true;
+						}
+						else{
+							patternMatch = (vid->tdata[tid].bitmapP[i].rawDat.pixStrip1 == b->rawDat.pixStrip1
+										&& vid->tdata[tid].bitmapP[i].rawDat.pixStrip2 == b->rawDat.pixStrip2
+										&& vid->tdata[tid].bitmapP[i].rawDat.pixStrip3 == b->rawDat.pixStrip3
+										&& vid->tdata[tid].bitmapP[i].rawDat.pixStrip4 == b->rawDat.pixStrip4);
+						}
+						if(patternMatch){
 
-				//cancel default
-				if(vid->tdata[tid].defaultID == i){
-					vid->tdata[tid].defaultID = -1;
+							//cancel default
+							if(vid->tdata[tid].defaultID == i){
+								vid->tdata[tid].defaultID = -1;
+							}
+							vid->tdata[tid].bitmapP.erase(vid->tdata[tid].bitmapP.begin() + i);
+
+							//refresh list
+							string tiledisplay = to_string((long double)(b->patternAddress)) + "," + vid->GetPaletteString(b->colors); 
+							if(vid->tdata[tid].defaultID != -1){
+								tiledisplay = tiledisplay + "-> Using default";
+							}
+							lstScreenTiles->SetString(selections[seli], wxString(tiledisplay.c_str(), wxConvUTF8));
+						}
+					}
 				}
-				vid->tdata[tid].bitmapP.erase(vid->tdata[tid].bitmapP.begin() + i);
-
-				//refresh list
-				string tiledisplay = to_string((long double)(b->patternAddress)) + "," + vid->GetPaletteString(b->colors); 
-				if(vid->tdata[tid].defaultID != -1){
-					tiledisplay = tiledisplay + "-> Using default";
-				}
-				lstScreenTiles->SetString(lstScreenTiles->GetSelection(), wxString(tiledisplay.c_str(), wxConvUTF8));
-
 			}
 		}
 	}
-
-	pnlImage->ClearBackground();
-	cboImage->SetSelection(-1);
-	chkDefaultTile->SetValue(false);
-	txtMapX->SetValue(wxString("", wxConvUTF8)); 
-	txtMapY->SetValue(wxString("", wxConvUTF8)); 
 }
 
 void fraHDNesImp::genHDPack( wxCommandEvent& event ){

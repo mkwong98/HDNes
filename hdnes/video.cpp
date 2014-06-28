@@ -1018,7 +1018,7 @@ void video::setBGStripData(Uint16 row, Uint8 bgID){
 				if(ppuCore->bgLoadingY == 0){
 					//bg tiles
 					int tileX = (bgID * 8) - ppuCore->offsetX;
-					if((tileX >= 8 && tileX < 240) || ((tileX >= 0 && tileX < 248) && !cutEdgeTiles)){
+					if((tileX >= 8 && tileX <= 240) || ((tileX >= 0 && tileX <= 248) && !cutEdgeTiles)){
 						int index = ppuCore->bgAddressFretched[bgID];
 						TileData t;
 						//0 for bg
@@ -1276,7 +1276,7 @@ void video::setSPStripData(Uint16 row, Uint16 col, Uint8 spID){
         if ((row >= 8 && row < 224) || (row < 232 && !cutEdgeTiles)) {
             if(ppuCore->showSpr){
 				if(ppuCore->tmpSprRAM2[spID * 4] != 0xff){
-					if(((col >= 16  && col < 248) || (col >= 8 && !cutEdgeTiles)) 
+					if(((col >= 16  && col <= 248) || (col >= 8 && !cutEdgeTiles)) 
 						&& (ppuCore->spRowFretched[spID] == (ppuCore->tmpSprRAM2[spID * 4 + 2] >> 7 == 0 ? 0 : 7)
 						|| ppuCore->spRowFretched[spID] == (ppuCore->tmpSprRAM2[spID * 4 + 2] >> 7 == 0 ? 8 : 15))){
 						int index = ppuCore->spAddressFretched[spID];
@@ -2000,13 +2000,15 @@ void video::AddDarkMapping(){
 	for(unsigned int i = 0; i < packSize; i++){
 		if(packData[i] != BAD_ADDRESS){
             t = &(tdata[packData[i]]);
-			for(unsigned int j = 0; j < t->bitmapP.size(); j++){
+			if(t->defaultID == -1){
+				for(unsigned int j = 0; j < t->bitmapP.size(); j++){
 				bitmapF b = t->bitmapP[j];
 				if(b.brightness == 1.0f){
 					if (editData[i] != BAD_ADDRESS){
 						//do not add if it has a default
-                        e = etiledata[editData[i]];
-						if(e.defaultID == 0){
+
+						
+							e = etiledata[editData[i]];
                             //search for a palette of that tile with no HD replacement
 							for(unsigned int k = 0; k < e.bitmapP.size(); k++){
                                 //only do it when that palette is different from the original
@@ -2061,8 +2063,12 @@ GLfloat video::CalBrightnessValue(colorCombo color, colorCombo refColor){
     Uint16 b1;
     Uint16 b2;
     
-    b1 = ((colourList[color.color1] >> 24) & 0x00FF) + ((colourList[color.color1] >> 16) & 0x00FF) + ((colourList[color.color1] >> 8) & 0x00FF);
-    b2 = ((colourList[refColor.color1] >> 24) & 0x00FF) + ((colourList[refColor.color1] >> 16) & 0x00FF) + ((colourList[refColor.color1] >> 8) & 0x00FF);
+    b1 = ((colourList[color.color1] >> 24) & 0x00FF) + ((colourList[color.color1] >> 16) & 0x00FF) + ((colourList[color.color1] >> 8) & 0x00FF)
+		+ ((colourList[color.color2] >> 24) & 0x00FF) + ((colourList[color.color2] >> 16) & 0x00FF) + ((colourList[color.color2] >> 8) & 0x00FF)
+		+ ((colourList[color.color3] >> 24) & 0x00FF) + ((colourList[color.color3] >> 16) & 0x00FF) + ((colourList[color.color3] >> 8) & 0x00FF);
+    b2 = ((colourList[refColor.color1] >> 24) & 0x00FF) + ((colourList[refColor.color1] >> 16) & 0x00FF) + ((colourList[refColor.color1] >> 8) & 0x00FF)
+		+ ((colourList[refColor.color2] >> 24) & 0x00FF) + ((colourList[refColor.color2] >> 16) & 0x00FF) + ((colourList[refColor.color2] >> 8) & 0x00FF)
+		+ ((colourList[refColor.color3] >> 24) & 0x00FF) + ((colourList[refColor.color3] >> 16) & 0x00FF) + ((colourList[refColor.color3] >> 8) & 0x00FF);
     if (b2 > 0) {
         return (float)((b1 * 100) / b2) / 100.0f;
     }
@@ -2076,7 +2082,10 @@ bool video::IsDarkerPalette(colorCombo color, colorCombo refColor){
 }
 
 bool video::IsDarkerColor(Uint16 color, Uint16 refColor){
-    if(colourList[color] == 0x000000FF){
+	if(color == refColor){
+		return true;
+	}
+    else if(colourList[color] == 0x000000FF){
         //return true for new color is pure black
         return true;
     }

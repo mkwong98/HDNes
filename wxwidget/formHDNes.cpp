@@ -699,7 +699,7 @@ fraHDNes::fraHDNes( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	m_staticText32->Wrap( -1 );
 	bSizer46->Add( m_staticText32, 0, wxALL, 5 );
 	
-	lstScreenTiles = new wxListBox( m_panel7, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL, 0 ); 
+	lstScreenTiles = new wxListBox( m_panel7, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL, wxLB_EXTENDED ); 
 	lstScreenTiles->SetMinSize( wxSize( 200,200 ) );
 	
 	bSizer46->Add( lstScreenTiles, 1, wxALL, 5 );
