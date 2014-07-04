@@ -461,7 +461,7 @@ void video::update_texture(GLuint uniformID, GLuint textureRef, GLuint samplerRe
 
 void video::initColour(){
 	Uint8 colourDish[64][3];
-    /*
+    
 	colourDish[0][0] = 0x80; 
 	colourDish[0][1] = 0x80; 
 	colourDish[0][2] = 0x80; 
@@ -560,8 +560,8 @@ void video::initColour(){
 	colourDish[31][1] = 0x09; 
 	colourDish[31][2] = 0x09;
 
-	colourDish[32][0] = 0xFF; 
-	colourDish[32][1] = 0xFF; 
+	colourDish[32][0] = 0xFE; 
+	colourDish[32][1] = 0xFE; 
 	colourDish[32][2] = 0xFF; 
 	colourDish[33][0] = 0x0F; 
 	colourDish[33][1] = 0xD7; 
@@ -657,7 +657,7 @@ void video::initColour(){
 	colourDish[63][0] = 0x11; 
 	colourDish[63][1] = 0x11; 
 	colourDish[63][2] = 0x11;
-    */
+    /*
 	colourDish[0][0] = 0x46;
 	colourDish[0][1] = 0x46;
 	colourDish[0][2] = 0x46;
@@ -853,7 +853,7 @@ void video::initColour(){
 	colourDish[63][0] = 0x00;
 	colourDish[63][1] = 0x00;
 	colourDish[63][2] = 0x00;
-    
+    */
 	for(Uint8 i = 0; i < 64; i++){
 		colourList[i] = (colourDish[i][0] << 24) | (colourDish[i][1] << 16) | (colourDish[i][2] << 8) | 0xFF;
 	}
@@ -2096,7 +2096,7 @@ bool video::IsDarkerColor(Uint16 color, Uint16 refColor){
     else if(((color & 0x000F) == 0x0000) || ((color & 0x000F) == 0x000D)){
         //monochrome matching
         if(((refColor & 0x000F) == 0x0000) || ((refColor & 0x000F) == 0x000D)){
-            return (colourList[refColor] > colourList[color]);
+            return (colourList[refColor] >= colourList[color]);
         }
         else{
             return false;

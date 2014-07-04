@@ -34,6 +34,7 @@
 #include <wx/notebook.h>
 #include <wx/frame.h>
 #include <wx/dialog.h>
+#include <wx/clrpicker.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -153,6 +154,7 @@ class fraHDNes : public wxFrame
 		wxButton* m_button6;
 		wxButton* btn_Swap;
 		wxButton* btn_MapDarkPalette;
+		wxButton* btn_CustomizePalette;
 		wxPanel* pnlImage;
 		wxPanel* m_panel8;
 		wxButton* btnLoadAudioPack;
@@ -236,6 +238,7 @@ class fraHDNes : public wxFrame
 		virtual void genHDPack( wxCommandEvent& event ) { event.Skip(); }
 		virtual void addBatchMapping( wxCommandEvent& event ) { event.Skip(); }
 		virtual void AddDarkMapping( wxCommandEvent& event ) { event.Skip(); }
+		virtual void customizePaletteClicked( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ImageTileSelected( wxMouseEvent& event ) { event.Skip(); }
 		virtual void loadAudioPack( wxCommandEvent& event ) { event.Skip(); }
 		virtual void saveAudioPack( wxCommandEvent& event ) { event.Skip(); }
@@ -303,6 +306,35 @@ class batchMap : public wxDialog
 		
 		batchMap( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 761,537 ), long style = wxDEFAULT_DIALOG_STYLE ); 
 		~batchMap();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class paletteDialog
+///////////////////////////////////////////////////////////////////////////////
+class paletteDialog : public wxDialog 
+{
+	private:
+	
+	protected:
+		wxPanel* pnlPalette;
+		wxPanel* m_panel13;
+		wxStaticText* m_staticText67;
+		wxColourPickerCtrl* colorPicker;
+		wxStaticText* m_staticText68;
+		wxFilePickerCtrl* selectPalette;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void paletteCellSelected( wxMouseEvent& event ) { event.Skip(); }
+		virtual void paletteRepaint( wxPaintEvent& event ) { event.Skip(); }
+		virtual void newColorSelected( wxColourPickerEvent& event ) { event.Skip(); }
+		virtual void paletteFileSelected( wxFileDirPickerEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		
+		paletteDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 641,351 ), long style = wxDEFAULT_DIALOG_STYLE ); 
+		~paletteDialog();
 	
 };
 

@@ -14,6 +14,7 @@ protected:
 	wxImage objImageImg;
 	wxBitmap objImageBmp;
 	batchMap* bmDialog;
+	paletteDialog* pDialog;
 
 	void powerButtonClicked( wxCommandEvent& event );
 	void input1UP( wxCommandEvent& event );
@@ -65,6 +66,7 @@ protected:
 	void inputContCap( wxCommandEvent& event );
 	void addBatchMapping( wxCommandEvent& event );
 	void optimizeScreenEdit( wxCommandEvent& event );
+	void customizePaletteClicked( wxCommandEvent& event );
 
 	Sint16 editingMusic;
 	void loadAudioPack( wxCommandEvent& event );

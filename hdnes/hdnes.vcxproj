@@ -128,6 +128,7 @@
     <ClInclude Include="mapper9.h" />
     <ClInclude Include="mapperList.h" />
     <ClInclude Include="memory.h" />
+    <ClInclude Include="paletteDialogImp.h" />
     <ClInclude Include="ppu.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="sysSetting.h" />
@@ -158,6 +159,7 @@
     <ClCompile Include="mapper7.cpp" />
     <ClCompile Include="mapper9.cpp" />
     <ClCompile Include="memory.cpp" />
+    <ClCompile Include="paletteDialogImp.cpp" />
     <ClCompile Include="ppu.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

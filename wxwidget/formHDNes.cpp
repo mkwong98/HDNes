@@ -832,6 +832,9 @@ fraHDNes::fraHDNes( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	btn_MapDarkPalette = new wxButton( m_panel7, wxID_ANY, wxT("Map dark palette"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer511->Add( btn_MapDarkPalette, 0, wxALL, 5 );
 	
+	btn_CustomizePalette = new wxButton( m_panel7, wxID_ANY, wxT("Customize palette"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer511->Add( btn_CustomizePalette, 0, wxALL, 5 );
+	
 	
 	bSizer37->Add( bSizer511, 1, wxEXPAND, 5 );
 	
@@ -1108,6 +1111,7 @@ fraHDNes::fraHDNes( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	m_button6->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( fraHDNes::genHDPack ), NULL, this );
 	btn_Swap->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( fraHDNes::addBatchMapping ), NULL, this );
 	btn_MapDarkPalette->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( fraHDNes::AddDarkMapping ), NULL, this );
+	btn_CustomizePalette->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( fraHDNes::customizePaletteClicked ), NULL, this );
 	pnlImage->Connect( wxEVT_LEFT_UP, wxMouseEventHandler( fraHDNes::ImageTileSelected ), NULL, this );
 	btnLoadAudioPack->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( fraHDNes::loadAudioPack ), NULL, this );
 	btnSaveAudioPack->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( fraHDNes::saveAudioPack ), NULL, this );
@@ -1173,6 +1177,7 @@ fraHDNes::~fraHDNes()
 	m_button6->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( fraHDNes::genHDPack ), NULL, this );
 	btn_Swap->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( fraHDNes::addBatchMapping ), NULL, this );
 	btn_MapDarkPalette->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( fraHDNes::AddDarkMapping ), NULL, this );
+	btn_CustomizePalette->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( fraHDNes::customizePaletteClicked ), NULL, this );
 	pnlImage->Disconnect( wxEVT_LEFT_UP, wxMouseEventHandler( fraHDNes::ImageTileSelected ), NULL, this );
 	btnLoadAudioPack->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( fraHDNes::loadAudioPack ), NULL, this );
 	btnSaveAudioPack->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( fraHDNes::saveAudioPack ), NULL, this );
@@ -1404,5 +1409,64 @@ batchMap::~batchMap()
 	btnAddMappings->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( batchMap::addMappings ), NULL, this );
 	btnCancel->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( batchMap::cancel ), NULL, this );
 	pnlNewImage->Disconnect( wxEVT_LEFT_UP, wxMouseEventHandler( batchMap::ImageTileSelected ), NULL, this );
+	
+}
+
+paletteDialog::paletteDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	wxBoxSizer* bSizer84;
+	bSizer84 = new wxBoxSizer( wxVERTICAL );
+	
+	pnlPalette = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	pnlPalette->SetMinSize( wxSize( 128,32 ) );
+	
+	bSizer84->Add( pnlPalette, 4, wxEXPAND | wxALL, 5 );
+	
+	m_panel13 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizer86;
+	bSizer86 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText67 = new wxStaticText( m_panel13, wxID_ANY, wxT("Click on a cell and select a new color:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText67->Wrap( -1 );
+	bSizer86->Add( m_staticText67, 0, wxALL, 5 );
+	
+	colorPicker = new wxColourPickerCtrl( m_panel13, wxID_ANY, *wxBLACK, wxDefaultPosition, wxDefaultSize, wxCLRP_SHOW_LABEL );
+	bSizer86->Add( colorPicker, 0, wxALL, 5 );
+	
+	m_staticText68 = new wxStaticText( m_panel13, wxID_ANY, wxT("or import a palette from a file:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText68->Wrap( -1 );
+	bSizer86->Add( m_staticText68, 0, wxALL, 5 );
+	
+	selectPalette = new wxFilePickerCtrl( m_panel13, wxID_ANY, wxEmptyString, wxT("Import palette from a file"), wxT("*.*"), wxDefaultPosition, wxDefaultSize, wxFLP_CHANGE_DIR|wxFLP_FILE_MUST_EXIST|wxFLP_OPEN );
+	bSizer86->Add( selectPalette, 0, wxALL, 5 );
+	
+	
+	m_panel13->SetSizer( bSizer86 );
+	m_panel13->Layout();
+	bSizer86->Fit( m_panel13 );
+	bSizer84->Add( m_panel13, 0, wxEXPAND | wxALL, 5 );
+	
+	
+	this->SetSizer( bSizer84 );
+	this->Layout();
+	
+	this->Centre( wxBOTH );
+	
+	// Connect Events
+	pnlPalette->Connect( wxEVT_LEFT_UP, wxMouseEventHandler( paletteDialog::paletteCellSelected ), NULL, this );
+	pnlPalette->Connect( wxEVT_PAINT, wxPaintEventHandler( paletteDialog::paletteRepaint ), NULL, this );
+	colorPicker->Connect( wxEVT_COMMAND_COLOURPICKER_CHANGED, wxColourPickerEventHandler( paletteDialog::newColorSelected ), NULL, this );
+	selectPalette->Connect( wxEVT_COMMAND_FILEPICKER_CHANGED, wxFileDirPickerEventHandler( paletteDialog::paletteFileSelected ), NULL, this );
+}
+
+paletteDialog::~paletteDialog()
+{
+	// Disconnect Events
+	pnlPalette->Disconnect( wxEVT_LEFT_UP, wxMouseEventHandler( paletteDialog::paletteCellSelected ), NULL, this );
+	pnlPalette->Disconnect( wxEVT_PAINT, wxPaintEventHandler( paletteDialog::paletteRepaint ), NULL, this );
+	colorPicker->Disconnect( wxEVT_COMMAND_COLOURPICKER_CHANGED, wxColourPickerEventHandler( paletteDialog::newColorSelected ), NULL, this );
+	selectPalette->Disconnect( wxEVT_COMMAND_FILEPICKER_CHANGED, wxFileDirPickerEventHandler( paletteDialog::paletteFileSelected ), NULL, this );
 	
 }

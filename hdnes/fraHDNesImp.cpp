@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "fraHDNesImp.h"
 #include "batchMapImp.h"
+#include "paletteDialogImp.h"
 #include "sysState.h"
 #include <wx/rawbmp.h>
 #include <Shlwapi.h>
@@ -893,7 +894,7 @@ void fraHDNesImp::confirmImgSelection( wxCommandEvent& event ){
 				offsetx = imagetileX + ((b->x - screentileX) * vid->packScale);
 				offsety = imagetileY + ((b->y - screentileY) * vid->packScale);
 
-				if(offsety + (8 * vid->packScale) < objImageImg.GetHeight() && offsetx + (8 * vid->packScale) < objImageImg.GetWidth()
+				if(offsety + (8 * vid->packScale) <= objImageImg.GetHeight() && offsetx + (8 * vid->packScale) <= objImageImg.GetWidth()
 					&& offsety >= 0 && offsetx >= 0){
 					//check if the tile has a custom tile
 					if(vid->packData[b->patternAddress] == BAD_ADDRESS){
@@ -1543,4 +1544,15 @@ void fraHDNesImp::AddDarkMapping( wxCommandEvent& event ){
 	vid->CleanHiResPack();
 	vid->ReadHiResPack();
 	refreshGraphicsPackGUI();
+}
+
+void fraHDNesImp::customizePaletteClicked( wxCommandEvent& event ) {
+	pDialog = new paletteDialogImp();
+	if(pDialog->ShowModal()){
+		vid->SaveHiResPack();
+		vid->CleanHiResPack();
+		vid->ReadHiResPack();
+		refreshGraphicsPackGUI();
+	}
+	delete pDialog;
 }
