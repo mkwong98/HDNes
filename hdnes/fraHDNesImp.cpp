@@ -1319,18 +1319,16 @@ void fraHDNesImp::genHDPack( wxCommandEvent& event ){
 			vid->bmpInfos.push_back(f);
 		}
 	}
-	vid->SaveHiResPack();
-	vid->CleanHiResPack();
-	vid->ReadHiResPack();
 	refreshGraphicsPackGUI();
 }
 
 void fraHDNesImp::addBatchMapping( wxCommandEvent& event ) { 
 	bmDialog = new batchMapImp();
 	if(bmDialog->ShowModal()){
-		vid->SaveHiResPack();
+/*		vid->SaveHiResPack();
 		vid->CleanHiResPack();
 		vid->ReadHiResPack();
+ */
 		refreshGraphicsPackGUI();
 	}
 	delete bmDialog;
@@ -1540,18 +1538,12 @@ void fraHDNesImp::optimizeScreenEdit( wxCommandEvent& event ){
 
 void fraHDNesImp::AddDarkMapping( wxCommandEvent& event ){
 	vid->AddDarkMapping();
-	vid->SaveHiResPack();
-	vid->CleanHiResPack();
-	vid->ReadHiResPack();
 	refreshGraphicsPackGUI();
 }
 
 void fraHDNesImp::customizePaletteClicked( wxCommandEvent& event ) {
 	pDialog = new paletteDialogImp();
 	if(pDialog->ShowModal()){
-		vid->SaveHiResPack();
-		vid->CleanHiResPack();
-		vid->ReadHiResPack();
 		refreshGraphicsPackGUI();
 	}
 	delete pDialog;

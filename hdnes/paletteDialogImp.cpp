@@ -11,43 +11,43 @@ paletteDialogImp::paletteDialogImp():paletteDialog(NULL){
 	showSelectedCellColor();
 }
 
-
-
-
 paletteDialogImp::~paletteDialogImp(){
 }
 
 void paletteDialogImp::paletteCellSelected( wxMouseEvent& event ){
-	int selectX;
-	int selectY;
-	float scale;
+    //calculate which cell is clicked
+	selectedX = event.GetPosition().x * 16.0f / (float)pnlPalette->GetSize().GetWidth();
+	selectedY = event.GetPosition().y * 4.0f / (float)pnlPalette->GetSize().GetHeight();
 
-	scale = 16.0f / (float)pnlPalette->GetSize().GetWidth();
-
-	selectX = event.GetPosition().x * scale;
-	selectX = selectX - (selectX % (8 * vid->packScale));
-	selectY = event.GetPosition().y * scale;
-	selectY = selectY - (selectY % (8 * vid->packScale));
-
-	if(selectX < objImageImg.GetWidth() && selectY < objImageImg.GetHeight()){
-		txtMapX->SetValue(wxString(to_string((long double)(selectX)).c_str(), wxConvUTF8)); 
-		txtMapY->SetValue(wxString(to_string((long double)(selectY)).c_str(), wxConvUTF8));
-		refreshImageBitmap();
-		displayImageBitmap();
-	}
+	showSelectedCellColor();
 
 	wxClientDC* objDC;
 	objDC = new wxClientDC(pnlPalette);
 	refreshPalette(objDC);
 	delete objDC;
 
-	showSelectedCellColor();
 }
 
 void paletteDialogImp::newColorSelected( wxColourPickerEvent& event ){
+    //set the selected colour to the selected cell
+	wxColour c = colorPicker->GetColour();
+    vid->colourList[selectedY * 16 + selectedX] = (c.Red() << 24) | (c.Green() << 16) | (c.Blue() << 8) | 0xFF;
+ 
+	wxClientDC* objDC;
+	objDC = new wxClientDC(pnlPalette);
+	refreshPalette(objDC);
+	delete objDC;
 }
 
 void paletteDialogImp::paletteFileSelected( wxFileDirPickerEvent& event ){
+    //read a colour set directly from a file
+    string filename = string(event.GetPath().char_str());
+    vid->ReadPalette(filename);
+
+	wxClientDC* objDC;
+	objDC = new wxClientDC(pnlPalette);
+	refreshPalette(objDC);
+	delete objDC;    
 }
 
 void paletteDialogImp::refreshPalette(wxDC* dc){
@@ -60,6 +60,7 @@ void paletteDialogImp::refreshPalette(wxDC* dc){
 	Uint16 boxWidth;
 	Uint16 boxHeight;
 
+    //paint the current colour set to an image
 	img = new wxImage(16, 4, true);
 	img->InitAlpha();
 	for(int i = 0; i < 4; i++){
@@ -68,6 +69,7 @@ void paletteDialogImp::refreshPalette(wxDC* dc){
 			img->SetRGB(j, i, (vid->colourList[i * 16 + j] & 0xFF000000) >> 24, (vid->colourList[i * 16 + j] & 0x00FF0000) >> 16, (vid->colourList[i * 16 + j] & 0x0000FF00) >> 8);
 		}
 	}
+    //enlarge the image to the panel size and draw a box around the selected cell
 	scaledImg = img->Scale(pnlPalette->GetSize().GetWidth(), pnlPalette->GetSize().GetHeight());
 	offX = selectedX * pnlPalette->GetSize().GetWidth() / 16;
 	offY = selectedY * pnlPalette->GetSize().GetHeight() / 4;
@@ -104,7 +106,6 @@ void paletteDialogImp::refreshPalette(wxDC* dc){
 
 	}
 
-
 	bmp = wxBitmap(scaledImg);
 	
 	dc->DrawBitmap(bmp, 0, 0);
@@ -118,6 +119,7 @@ void paletteDialogImp::paletteRepaint( wxPaintEvent& event ){
 
 
 void paletteDialogImp::showSelectedCellColor(){
+    //get the colour of the selected cell and set it to the colour picker
 	Uint32 color = vid->colourList[selectedY * 16 + selectedX];
 	wxColour c((color & 0xFF000000) >> 24, (color & 0x00FF0000) >> 16, (color & 0x0000FF00) >> 8, 255);
 	colorPicker->SetColour(c);

@@ -1808,6 +1808,7 @@ int video::convertScreenCapToPNG(void* data){
 }
 
 void video::SaveHiResPack(){
+    char rawPalette[192];
 	if(packData == 0) return;
 
 	//get directory and check exists
@@ -1821,7 +1822,7 @@ void video::SaveHiResPack(){
 		filename = path + "\\hires.txt";
 		logfile.open(filename, ios::out | ios::trunc);
 		if (logfile.is_open()){
-			logfile << "<ver>1\n";
+			logfile << "<ver>2\n";
             logfile << "<scale>" + to_string((long double)packScale) + "\n";
 			for(unsigned int i = 0; i < bmpInfos.size(); i++){
 				logfile << "<img>" + bmpInfos[i].filename + "\n";
@@ -1853,6 +1854,17 @@ void video::SaveHiResPack(){
 			}
 			logfile.close();
 		}
+        filename = path + "\\palette.dat";
+		logfile.open(filename, ios::out | ios::binary | ios::trunc);
+		if (logfile.is_open()){
+            for (int i = 0; i < 64; i++) {
+                rawPalette[i * 3] = (colourList[i] >> 24) & 0xff;
+                rawPalette[i * 3 + 1] = (colourList[i] >> 16) & 0xff;
+                rawPalette[i * 3 + 2] = (colourList[i] >> 8) & 0xff;
+            }
+            logfile.write((char *)(rawPalette), 192);
+            logfile.close();
+        }
 	}
 }
 
@@ -1866,6 +1878,7 @@ void video::ReadHiResPack(){
 	}
 	packScale = 2;
     packVersion = 0;
+    initColour();
 
 	//get directory and check exists
     string path = getHDPackPath();
@@ -1941,6 +1954,10 @@ void video::ReadHiResPack(){
                 }
 			}
 			inifile.close();
+            
+            if(packVersion > 1){
+                ReadPalette(path + "\\palette.dat");
+            }
 		}
 	}
 }
@@ -2748,4 +2765,17 @@ void video::RewritePackEdit(){
 			}
 		}
 	}
+}
+
+void video::ReadPalette(string path){
+    fstream palettefile;
+    char rawPalette[192];
+    palettefile.open(path, ios::in | ios::binary);
+    if (palettefile.is_open()){
+        palettefile.read(rawPalette, 192);
+        palettefile.close();
+        for(int i = 0; i < 64; i++){
+            colourList[i] = ((rawPalette[i * 3] << 24) & 0xFF000000) | ((rawPalette[i * 3 + 1] << 16) & 0x00FF0000) | ((rawPalette[i * 3 + 2] << 8) & 0x0000FF00) | 0xFF;
+        }
+    }
 }

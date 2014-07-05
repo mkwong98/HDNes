@@ -345,6 +345,7 @@ public:
 	void SaveGraphics(string path);
 	void SaveBuffers(string path);
 	void SavePatterns(string path);
+    void ReadPalette(string path);
 
     
 	//config settings
