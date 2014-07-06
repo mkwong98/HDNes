@@ -708,10 +708,13 @@ fraHDNes::fraHDNes( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	bSizer42->Add( bSizer46, 1, wxEXPAND, 5 );
 	
 	
-	bSizer30->Add( bSizer42, 4, wxEXPAND, 5 );
+	bSizer30->Add( bSizer42, 6, wxEXPAND, 6 );
 	
 	pnlScreen = new wxPanel( m_panel7, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	bSizer30->Add( pnlScreen, 3, wxALL|wxEXPAND, 5 );
+	bSizer30->Add( pnlScreen, 6, wxALL|wxEXPAND, 5 );
+	
+	pnlScreenTile = new wxPanel( m_panel7, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	bSizer30->Add( pnlScreenTile, 2, wxEXPAND | wxALL, 5 );
 	
 	
 	bSizer341->Add( bSizer30, 1, wxEXPAND, 5 );
@@ -1116,7 +1119,7 @@ fraHDNes::fraHDNes( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	btnLoadAudioPack->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( fraHDNes::loadAudioPack ), NULL, this );
 	btnSaveAudioPack->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( fraHDNes::saveAudioPack ), NULL, this );
 	lstMusic->Connect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( fraHDNes::musicSelected ), NULL, this );
-	m_filePicker4->Connect( wxEVT_COMMAND_FILEPICKER_CHANGED, wxFileDirPickerEventHandler( fraHDNes::addMP3ToPick ), NULL, this );
+	m_filePicker4->Connect( wxEVT_COMMAND_FILEPICKER_CHANGED, wxFileDirPickerEventHandler( fraHDNes::addMP3ToPack ), NULL, this );
 	btnAddMP3->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( fraHDNes::addMP3 ), NULL, this );
 	btnConfirmMP3->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( fraHDNes::changeMP3 ), NULL, this );
 	btnCancelMP3->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( fraHDNes::deleteMP3 ), NULL, this );
@@ -1182,7 +1185,7 @@ fraHDNes::~fraHDNes()
 	btnLoadAudioPack->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( fraHDNes::loadAudioPack ), NULL, this );
 	btnSaveAudioPack->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( fraHDNes::saveAudioPack ), NULL, this );
 	lstMusic->Disconnect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( fraHDNes::musicSelected ), NULL, this );
-	m_filePicker4->Disconnect( wxEVT_COMMAND_FILEPICKER_CHANGED, wxFileDirPickerEventHandler( fraHDNes::addMP3ToPick ), NULL, this );
+	m_filePicker4->Disconnect( wxEVT_COMMAND_FILEPICKER_CHANGED, wxFileDirPickerEventHandler( fraHDNes::addMP3ToPack ), NULL, this );
 	btnAddMP3->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( fraHDNes::addMP3 ), NULL, this );
 	btnConfirmMP3->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( fraHDNes::changeMP3 ), NULL, this );
 	btnCancelMP3->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( fraHDNes::deleteMP3 ), NULL, this );

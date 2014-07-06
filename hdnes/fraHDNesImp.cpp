@@ -663,8 +663,11 @@ void fraHDNesImp::screenTileSelected( wxCommandEvent& event ){
 	int drawW;
 	int drawH;
 	int selCount;
+	Uint8 byte1;
+	Uint8 byte2;
 	wxArrayInt selections;
 	bitmapE* b;
+	wxClientDC* objDC;
 
 	loadScreen();
 	objimg = objScreenBmp.ConvertToImage();
@@ -715,6 +718,65 @@ void fraHDNesImp::screenTileSelected( wxCommandEvent& event ){
 
 	objScreenBmp = wxBitmap(objimg);
 	displayScreenBitmap();
+
+	if(selCount > 0){
+		//display the first selected in a seperate panel
+		b = (bitmapE*)lstScreenTiles->GetClientData(selections[0]);
+		objimg = wxImage(8, 8, true);
+		objimg.InitAlpha();
+		for(int i = 0; i < 8; i++){
+			for(int j = 0; j < 8; j++){
+				objimg.SetAlpha(0);
+			}
+		}
+
+		for(int r = 0; r < 8; r++){
+			//compose the tile
+			if(romDat->chrPageCount > 0){
+				byte1 = romDat->chrROM[(b->patternAddress << 4) + r];
+				byte2 = romDat->chrROM[(b->patternAddress << 4) + 8 + r];
+			}
+			else{
+				byte1 = *(((Uint8*)(&(b->rawDat))) + r);
+				byte2 = *(((Uint8*)(&(b->rawDat))) + 8 + r);											
+			}
+			for(int c = 0; c < 8; c++){
+				int pix = ((byte1 >> (7 - c)) & 0x01) | (((byte2 >> (7 - c)) & 0x01) << 1);
+				switch(pix){
+				case 0:
+					objimg.SetAlpha(c, r, 0);
+					objimg.SetRGB(c, r, 0, 0, 0);
+					break;
+				case 1:
+					objimg.SetAlpha(c, r, 255);
+					objimg.SetRGB(c, r, 
+						(vid->colourList[b->colors.color1 & 0x3F] & 0xFF000000) >> 24, 
+						(vid->colourList[b->colors.color1 & 0x3F] & 0x00FF0000) >> 16, 
+						(vid->colourList[b->colors.color1 & 0x3F] & 0x0000FF00) >> 8);
+					break;
+				case 2:
+					objimg.SetAlpha(c, r, 255);
+					objimg.SetRGB(c, r, 
+						(vid->colourList[b->colors.color2 & 0x3F] & 0xFF000000) >> 24, 
+						(vid->colourList[b->colors.color2 & 0x3F] & 0x00FF0000) >> 16, 
+						(vid->colourList[b->colors.color2 & 0x3F] & 0x0000FF00) >> 8);
+					break;
+				case 3:
+					objimg.SetAlpha(c, r, 255);
+					objimg.SetRGB(c, r, 
+						(vid->colourList[b->colors.color3 & 0x3F] & 0xFF000000) >> 24, 
+						(vid->colourList[b->colors.color3 & 0x3F] & 0x00FF0000) >> 16, 
+						(vid->colourList[b->colors.color3 & 0x3F] & 0x0000FF00) >> 8);
+					break;
+				}
+			}
+		}
+		pnlScreenTile->ClearBackground();
+		objDC = new wxClientDC(pnlScreenTile);
+		objDC->DrawBitmap(wxBitmap(objimg.Scale(pnlScreenTile->GetSize().GetWidth(), pnlScreenTile->GetSize().GetWidth() ) ), 0, 0);
+		delete objDC;
+	}
+
 	
 	pnlImage->ClearBackground();
 	cboImage->SetSelection(-1);
@@ -1344,7 +1406,7 @@ void fraHDNesImp::saveAudioPack( wxCommandEvent& event ) {
 	mixer->SaveAudioPack();
 }
 
-void fraHDNesImp::addMP3ToPick( wxFileDirPickerEvent& event ) {
+void fraHDNesImp::addMP3ToPack( wxFileDirPickerEvent& event ) {
 	string filename = string(m_filePicker4->GetPath().char_str());
 	//create hd pack dir
 	string packdir = getHDPackPath() + "\\";

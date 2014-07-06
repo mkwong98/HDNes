@@ -71,7 +71,7 @@ protected:
 	Sint16 editingMusic;
 	void loadAudioPack( wxCommandEvent& event );
 	void saveAudioPack( wxCommandEvent& event );
-	void addMP3ToPick( wxFileDirPickerEvent& event );
+	void addMP3ToPack( wxFileDirPickerEvent& event );
 	void addMP3( wxCommandEvent& event );
 	void changeMP3( wxCommandEvent& event );
 	void deleteMP3( wxCommandEvent& event );

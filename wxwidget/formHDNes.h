@@ -134,6 +134,7 @@ class fraHDNes : public wxFrame
 		wxStaticText* m_staticText32;
 		wxListBox* lstScreenTiles;
 		wxPanel* pnlScreen;
+		wxPanel* pnlScreenTile;
 		wxStaticText* m_staticText31;
 		wxStaticText* m_staticText26;
 		wxChoice* cboImage;
@@ -243,7 +244,7 @@ class fraHDNes : public wxFrame
 		virtual void loadAudioPack( wxCommandEvent& event ) { event.Skip(); }
 		virtual void saveAudioPack( wxCommandEvent& event ) { event.Skip(); }
 		virtual void musicSelected( wxListEvent& event ) { event.Skip(); }
-		virtual void addMP3ToPick( wxFileDirPickerEvent& event ) { event.Skip(); }
+		virtual void addMP3ToPack( wxFileDirPickerEvent& event ) { event.Skip(); }
 		virtual void addMP3( wxCommandEvent& event ) { event.Skip(); }
 		virtual void changeMP3( wxCommandEvent& event ) { event.Skip(); }
 		virtual void deleteMP3( wxCommandEvent& event ) { event.Skip(); }
