@@ -1020,11 +1020,12 @@ void video::setBGStripData(Uint16 row, Uint8 bgID){
 					int tileX = (bgID * 8) - ppuCore->offsetX;
 					if((tileX >= 8 && tileX <= 240) || ((tileX >= 0 && tileX <= 248) && !cutEdgeTiles)){
 						int index = ppuCore->bgAddressFretched[bgID];
-						TileData t;
-						//0 for bg
-						t.defaultID = 0;
-						t.patternAddress = index;
 						if(index != BAD_ADDRESS){
+							TileData t;
+							//0 for bg
+							t.defaultID = 0;
+							t.patternAddress = index;
+
 							int packID = -1;
 							int packID2 = -1;
                             
@@ -1280,10 +1281,11 @@ void video::setSPStripData(Uint16 row, Uint16 col, Uint8 spID){
 						&& (ppuCore->spRowFretched[spID] == (ppuCore->tmpSprRAM2[spID * 4 + 2] >> 7 == 0 ? 0 : 7)
 						|| ppuCore->spRowFretched[spID] == (ppuCore->tmpSprRAM2[spID * 4 + 2] >> 7 == 0 ? 8 : 15))){
 						int index = ppuCore->spAddressFretched[spID];
-						TileData t;
-						t.defaultID = 1;
-						t.patternAddress = index;
 						if(index != BAD_ADDRESS){
+							TileData t;
+							t.defaultID = 1;
+							t.patternAddress = index;
+
 							int packID = -1;
 							int packID2 = -1;
 
@@ -1476,37 +1478,43 @@ void video::prepareTileData(bool isBg, Uint32 patternAddress, Uint8 row,
 			}
 
 			//look for matching pattern
-			for(std::vector<Uint32>::const_iterator i =  patlist[lookupIdx].begin(); i != patlist[lookupIdx].end(); i++){
-				if(patDat[*i].patternAddress == patternAddress
-					&& patDat[*i].row == row
-					&& patDat[*i].colors.colorValues == colors.colorValues){
-					if(romDat->chrPageCount > 0){
-						patternMatch = true;
-					}
-					else{
-						patternMatch = (patternData.pixStrip1 == patDat[*i].rawDat.pixStrip1
-									&& patternData.pixStrip2 == patDat[*i].rawDat.pixStrip2
-									&& patternData.pixStrip3 == patDat[*i].rawDat.pixStrip3
-									&& patternData.pixStrip4 == patDat[*i].rawDat.pixStrip4);
-					}
-					if(patternMatch){
-						hasWork = false;
-						decodedX = ((*i) & 0x3F) << 5;
-						decodedY = ((*i) >> 4) & 0x1FC;
-                        brightness = patDat[*i].brightness;
-						patternScale = patDat[*i].scale;
-						patternInUse[*i] = 1;
-						lastIsBg = isBg;
-						lastPatID = *i;
-
-						if(isBg){
-							patDat[bgCounter].displayID = lastPatID;
-							bgCounter++;
+			const size_t e = patlist[lookupIdx].size();
+			if(e > 0){
+				const Uint32* lastInt = &patlist[lookupIdx][e - 1];
+				Uint32* i = &patlist[lookupIdx][0];
+				for( ; i <= lastInt; ++i){
+					if(patDat[*i].patternAddress == patternAddress
+						&& patDat[*i].row == row
+						&& patDat[*i].colors.colorValues == colors.colorValues){
+						if(romDat->chrPageCount > 0){
+							patternMatch = true;
 						}
-						return;
+						else{
+							patternMatch = (patternData.pixStrip1 == patDat[*i].rawDat.pixStrip1
+										&& patternData.pixStrip2 == patDat[*i].rawDat.pixStrip2
+										&& patternData.pixStrip3 == patDat[*i].rawDat.pixStrip3
+										&& patternData.pixStrip4 == patDat[*i].rawDat.pixStrip4);
+						}
+						if(patternMatch){
+							hasWork = false;
+							decodedX = ((*i) & 0x3F) << 5;
+							decodedY = ((*i) >> 4) & 0x1FC;
+							brightness = patDat[*i].brightness;
+							patternScale = patDat[*i].scale;
+							patternInUse[*i] = 1;
+							lastIsBg = isBg;
+							lastPatID = *i;
+
+							if(isBg){
+								patDat[bgCounter].displayID = lastPatID;
+								bgCounter++;
+							}
+							return;
+						}
 					}
 				}
 			}
+
 		}
 
 
@@ -1577,7 +1585,7 @@ void video::prepareTileData(bool isBg, Uint32 patternAddress, Uint8 row,
             brightness = 1.0f;
 			//decode
 			picPos = decodedY * 2048 + decodedX;
-			for(int i = 7; i >= 0; i--){
+			for(int i = 7; i >= 0; --i){
 				pix = ((patternByte0 >> i) & 0x01) | (((patternByte1 >> i) & 0x01) << 1);
 				switch(pix){
 				case 0:
@@ -1735,10 +1743,10 @@ void video::saveScreenToPath(string path, bool useNative){
     if (useNative) {
         capWidth = DISPLAY_WIDTH;
         capHeight = DISPLAY_HEIGHT;
-		for(int tmpy = 0; tmpy < DISPLAY_HEIGHT; tmpy++){
+		for(unsigned int tmpy = 0; tmpy < DISPLAY_HEIGHT; ++tmpy){
 			idxY[tmpy] = screenSizeHeight * tmpy / capHeight;
 		}
-		for(int tmpx = 0; tmpx < DISPLAY_WIDTH; tmpx++){
+		for(unsigned int tmpx = 0; tmpx < DISPLAY_WIDTH; ++tmpx){
 			idxX[tmpx] = screenSizeWidth * tmpx / capWidth;
 		}
     }
@@ -1758,10 +1766,10 @@ void video::saveScreenToPath(string path, bool useNative){
 			int y;
 			int runy;
 			SDL_LockSurface(sc);
-		    for(y = capHeight - 1, runy = 0; y >= 0; y--, runy++){
+		    for(y = capHeight - 1, runy = 0; y >= 0; --y, ++runy){
 				Uint8 *p = (Uint8 *)sc->pixels + y * sc->pitch;
 				j = 0;
-		        for(int x = 0; x < capWidth; x++){
+		        for(unsigned int x = 0; x < capWidth; ++x){
 					if (useNative){
 						i = 3 * (screenSizeWidth * idxY[runy] + idxX[x]);
 					}
@@ -2484,10 +2492,10 @@ void video::SaveGraphics(string path){
 	if(sc){
 		int i = 0;
 		SDL_LockSurface(sc);
-		for(int y = 512 - 1; y >= 0; y--){
-		    for(int x = 0; x < 2048; x++){
+		for(int y = 512 - 1; y >= 0; --y){
+		    for(int x = 0; x < 2048; ++x){
 				Uint8 *p = (Uint8 *)sc->pixels + y * sc->pitch + x * 3;
-				for(int c = 0; c < 3; c++){
+				for(int c = 0; c < 3; ++c){
 					p[c] = (bgGraphics[i] >> ((3 - c) * 8)) & 0x0000FF;
 				}	
 				i++;	
@@ -2505,10 +2513,10 @@ void video::SaveGraphics(string path){
 	if(sc){
 		int i = 0;
 		SDL_LockSurface(sc);
-		for(int y = 128 - 1; y >= 0; y--){
-		    for(int x = 0; x < 2048; x++){
+		for(int y = 128 - 1; y >= 0; --y){
+		    for(int x = 0; x < 2048; ++x){
 				Uint8 *p = (Uint8 *)sc->pixels + y * sc->pitch + x * 3;
-				for(int c = 0; c < 3; c++){
+				for(int c = 0; c < 3; ++c){
 					p[c] = (spGraphics[i] >> ((3 - c) * 8)) & 0x0000FF;
 				}	
 				i++;	
