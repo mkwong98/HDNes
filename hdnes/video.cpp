@@ -128,6 +128,7 @@ void video::init(){
 	maxSpIdx = 0;
 	blankBgIdx = 0;
 	blankSpIdx = 0;
+	bgCounter = 0;
 }
 
 video::~video(void){

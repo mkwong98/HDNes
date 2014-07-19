@@ -132,6 +132,8 @@ void gameManager::loadState(){
         cpuCore->loadState(&statefile);
         ppuCore->loadState(&statefile);
         apuCore->loadState(&statefile);
+		vid->init();
+		
 		statefile.close();
 
 	}
