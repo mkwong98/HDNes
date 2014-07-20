@@ -68,18 +68,16 @@ void gameManager::start(){
 					ppuCore->resetCycleCount();
 					apuCore->resetCycleCount();
 					mmc->resetCycleCount();
+					if (loadStateFlag) {
+						loadState();
+					}
+					if (saveStateFlag) {
+						saveState();
+					}
 				}
             }
 			if(pauseFrame != 1 && !vid->waitFrame){
 				cpuCore->runIRQ();
-                
-                if (loadStateFlag) {
-                    loadState();
-                }
-                if (saveStateFlag) {
-                    saveState();
-                }
-                
 			}
             while( SDL_PollEvent( &event ) ){
                 inputCore->handleEvent(event);
@@ -131,11 +129,8 @@ void gameManager::loadState(){
         mmc->loadState(&statefile);
         cpuCore->loadState(&statefile);
         ppuCore->loadState(&statefile);
-        apuCore->loadState(&statefile);
-		vid->init();
-		
+        apuCore->loadState(&statefile);	
 		statefile.close();
-
 	}
     loadStateFlag = false;
 }
