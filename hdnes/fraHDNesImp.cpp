@@ -488,6 +488,11 @@ void fraHDNesImp::loadImage(){
 	delete objDC;
 }
 
+void fraHDNesImp::toggleShowAllTiles( wxCommandEvent& event ){
+	loadScreenTiles();
+}
+
+
 void fraHDNesImp::loadScreenTiles(){
 	bitmapE b;
 	bitmapF c;
@@ -502,31 +507,51 @@ void fraHDNesImp::loadScreenTiles(){
 	}
 	
 	for(unsigned int i = 0; i < vid->packSize; i++){
-		if(vid->editData[i] != BAD_ADDRESS){
-			for(unsigned int j = 0; j < vid->etiledata[vid->editData[i]].bitmapP.size(); j++){
-				if((vid->etiledata[vid->editData[i]].bitmapP[j].bitmapID == cboScreen->GetSelection()) || (cboScreen->GetSelection() == (cboScreen->GetCount() - 1))){
-					c = vid->etiledata[vid->editData[i]].bitmapP[j];
-					b.bitmapID = c.bitmapID;
-					b.colors = c.colors;
-					b.rawDat = c.rawDat;
-					b.patternAddress = vid->etiledata[vid->editData[i]].patternAddress;
-					b.x = c.x;
-					b.y = c.y;
-					b.brightness = c.brightness;
-					v.push_back(b);
+		if(chkShowAllTiles->GetValue() && (cboScreen->GetSelection() != (cboScreen->GetCount() - 1))){
+			if(vid->allEditData[i] != BAD_ADDRESS){
+				for(unsigned int j = 0; j < vid->allEtiledata[vid->allEditData[i]].bitmapP.size(); j++){
+					if(vid->allEtiledata[vid->allEditData[i]].bitmapP[j].bitmapID == cboScreen->GetSelection()){
+						c = vid->allEtiledata[vid->allEditData[i]].bitmapP[j];
+						b.bitmapID = c.bitmapID;
+						b.colors = c.colors;
+						b.rawDat = c.rawDat;
+						b.patternAddress = vid->allEtiledata[vid->allEditData[i]].patternAddress;
+						b.x = c.x;
+						b.y = c.y;
+						b.brightness = c.brightness;
+						v.push_back(b);
+					}
+				}
+			}
+		}
+		else{
+			if(vid->editData[i] != BAD_ADDRESS){
+				for(unsigned int j = 0; j < vid->etiledata[vid->editData[i]].bitmapP.size(); j++){
+					if((vid->etiledata[vid->editData[i]].bitmapP[j].bitmapID == cboScreen->GetSelection()) || (cboScreen->GetSelection() == (cboScreen->GetCount() - 1))){
+						c = vid->etiledata[vid->editData[i]].bitmapP[j];
+						b.bitmapID = c.bitmapID;
+						b.colors = c.colors;
+						b.rawDat = c.rawDat;
+						b.patternAddress = vid->etiledata[vid->editData[i]].patternAddress;
+						b.x = c.x;
+						b.y = c.y;
+						b.brightness = c.brightness;
+						v.push_back(b);
+					}
 				}
 			}
 		}
 	}
+
 	if(v.size() > 0){
 		screenTileCache = (bitmapE*)malloc(v.size() * sizeof(bitmapE));
 		for(unsigned int i = 0; i < v.size(); i++){
+			bool tileFound = false;
 			screenTileCache[i] = v[i];
 			tiledisplay = to_string((long double)(screenTileCache[i].patternAddress)) + "," + vid->GetPaletteString(screenTileCache[i].colors); 
 			//check for custom tile
 			if(vid->packData[v[i].patternAddress] != BAD_ADDRESS){
 				TileData t = vid->tdata[vid->packData[v[i].patternAddress]];
-				bool tileFound = false;
 				for(unsigned int j = 0; j < t.bitmapP.size(); j++){
 					if(t.bitmapP[j].colors.colorValues == v[i].colors.colorValues){
 						if(romDat->chrPageCount > 0){
@@ -544,9 +569,15 @@ void fraHDNesImp::loadScreenTiles(){
 						}
 					}
 				}
-				if(t.defaultID != -1 && !tileFound){
-					tiledisplay = tiledisplay + "-> Using default";
+				if(!tileFound){
+					if(t.defaultID != -1){
+						tiledisplay = tiledisplay + "-> Using default";
+						tileFound = true;
+					}
 				}
+			}
+			if(!tileFound && cboScreen->GetSelection() == (cboScreen->GetCount() - 1)){
+				tiledisplay = tiledisplay + " @ " + vid->screenFileNameList[v[i].bitmapID];
 			}
 			lstScreenTiles->Append(wxString(tiledisplay.c_str(), wxConvUTF8), &screenTileCache[i]);
 		}

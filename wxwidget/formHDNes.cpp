@@ -663,6 +663,9 @@ fraHDNes::fraHDNes( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	optPackScale4 = new wxRadioButton( m_panel7, wxID_ANY, wxT("4x"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer39->Add( optPackScale4, 0, wxALL, 5 );
 	
+	chkShowAllTiles = new wxCheckBox( m_panel7, wxID_ANY, wxT("Show all tiles in the screen shot"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer39->Add( chkShowAllTiles, 0, wxALL, 5 );
+	
 	
 	bSizer341->Add( bSizer39, 0, 0, 5 );
 	
@@ -1103,6 +1106,7 @@ fraHDNes::fraHDNes( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	optPackScale1->Connect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( fraHDNes::setPackScale ), NULL, this );
 	optPackScale2->Connect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( fraHDNes::setPackScale ), NULL, this );
 	optPackScale4->Connect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( fraHDNes::setPackScale ), NULL, this );
+	chkShowAllTiles->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( fraHDNes::toggleShowAllTiles ), NULL, this );
 	cboScreen->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( fraHDNes::showScreenShot ), NULL, this );
 	btnOptimizeScreenEdit->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( fraHDNes::optimizeScreenEdit ), NULL, this );
 	lstScreenTiles->Connect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( fraHDNes::screenTileSelected ), NULL, this );
@@ -1169,6 +1173,7 @@ fraHDNes::~fraHDNes()
 	optPackScale1->Disconnect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( fraHDNes::setPackScale ), NULL, this );
 	optPackScale2->Disconnect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( fraHDNes::setPackScale ), NULL, this );
 	optPackScale4->Disconnect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( fraHDNes::setPackScale ), NULL, this );
+	chkShowAllTiles->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( fraHDNes::toggleShowAllTiles ), NULL, this );
 	cboScreen->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( fraHDNes::showScreenShot ), NULL, this );
 	btnOptimizeScreenEdit->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( fraHDNes::optimizeScreenEdit ), NULL, this );
 	lstScreenTiles->Disconnect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( fraHDNes::screenTileSelected ), NULL, this );

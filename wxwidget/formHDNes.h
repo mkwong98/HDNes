@@ -128,6 +128,7 @@ class fraHDNes : public wxFrame
 		wxRadioButton* optPackScale1;
 		wxRadioButton* optPackScale2;
 		wxRadioButton* optPackScale4;
+		wxCheckBox* chkShowAllTiles;
 		wxStaticText* m_staticText25;
 		wxChoice* cboScreen;
 		wxButton* btnOptimizeScreenEdit;
@@ -228,6 +229,7 @@ class fraHDNes : public wxFrame
 		virtual void loadPackData( wxCommandEvent& event ) { event.Skip(); }
 		virtual void savePackData( wxCommandEvent& event ) { event.Skip(); }
 		virtual void setPackScale( wxCommandEvent& event ) { event.Skip(); }
+		virtual void toggleShowAllTiles( wxCommandEvent& event ) { event.Skip(); }
 		virtual void showScreenShot( wxCommandEvent& event ) { event.Skip(); }
 		virtual void optimizeScreenEdit( wxCommandEvent& event ) { event.Skip(); }
 		virtual void screenTileSelected( wxCommandEvent& event ) { event.Skip(); }

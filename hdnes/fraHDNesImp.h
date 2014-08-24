@@ -79,6 +79,8 @@ protected:
 	void toggleAudioPack( wxCommandEvent& event );
 	void removeImageFromPack( wxCommandEvent& event );
 	void AddDarkMapping( wxCommandEvent& event );
+	void toggleShowAllTiles( wxCommandEvent& event );
+
 
 public:
 	fraHDNesImp();
