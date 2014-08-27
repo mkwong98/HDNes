@@ -1945,8 +1945,8 @@ void video::ReadHiResPack(){
                         if(lineTokens[readIdx] == "Y"){
                             tdata[packData[index]].defaultID = tdata[packData[index]].bitmapP.size();
                             readIdx++;
-
                         }
+						readIdx++;
 						if(romDat->chrPageCount == 0){
 							for(int i = 0; i < 16; i++){
 								*((Uint8*)(&(b.rawDat)) + i) = stoi(lineTokens[readIdx]);
