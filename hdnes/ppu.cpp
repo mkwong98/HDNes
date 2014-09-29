@@ -95,100 +95,189 @@ void ppu::runStep(){
 		spr0hitDone = false;
 		++frameCount;
 	}
-
-	if(screenX == 0 && screenY < 240){
-		vid->initScanlineData(screenY);
-	}
-	if(screenY < 240 && (screenX % 8 == 0) && screenX <= 256 && enabled){
-		vid->setBGStripData(screenY, screenX >> 3);
-	}
-
-
-	//if(screenY < 240 && screenX == 256 && enabled){
-	//	vid->setScanlineData();
-	//}
-
-	if(screenY < 240 && screenX < 256 && enabled){
+	if(screenY < 240){
 		if(screenX == 0){
-			currentBgTile = 0;
-			currentBgX = offsetX;
-			for(int i = 0; i < 8; ++i){
-				currentSpX[i] = 0;
-			}
-			for(int i = 0; i < 32; ++i){
-				tmpSprRAM2[i] = memDat->sprRAM2[i];
-			}
+			vid->initScanlineData(screenY);
 		}
+		if(screenX < 256 && enabled){
+			if(screenX % 8 == 0){
+				vid->setBGStripData(screenY, screenX >> 3);
+			}
+			if(screenX == 0){
+				currentBgTile = 0;
+				currentBgX = offsetX;
+				for(int i = 0; i < 8; ++i){
+					currentSpX[i] = 0;
+				}
+				for(int i = 0; i < 32; ++i){
+					tmpSprRAM2[i] = memDat->sprRAM2[i];
+				}
+			}
 
-		//render pixel
-		//get bg pix
-		bgPix = ((bgPatternDataFretched[currentBgTile][0] >> (7 - currentBgX)) & 0x01) | (((bgPatternDataFretched[currentBgTile][1] >> (7 - currentBgX)) & 0x01) << 1);
-		for (int i = 0; i < 8; ++i){
-			if(tmpSprRAM2[i * 4 + 3] == 0 && currentSpX[i] == 0){
-				vid->setSPStripData(screenY, screenX, i);
+			//render pixel
+			//get bg pix
+			bgPix = ((bgPatternDataFretched[currentBgTile][0] >> (7 - currentBgX)) & 0x01) | (((bgPatternDataFretched[currentBgTile][1] >> (7 - currentBgX)) & 0x01) << 1);
+			for (int i = 0; i < 8; ++i){
+				if(tmpSprRAM2[i * 4 + 3] == 0 && currentSpX[i] == 0){
+					vid->setSPStripData(screenY, screenX, i);
+				}
 			}
-		}
-		//check spr
-		for (int i = 0; i < 8; ++i){
-			spPix = 0;
-			if(tmpSprRAM2[i * 4] != 0xFF){
-				if(tmpSprRAM2[i * 4 + 3] == 0 && currentSpX[i] < 8){
-					if(spPatternDataFretched[i][0] != 0 || spPatternDataFretched[i][1] != 0){
-						//check hflip
-						if(((tmpSprRAM2[i * 4 + 2] >> 6) & 0x01) != 0){
-							spPix = ((spPatternDataFretched[i][0] >> currentSpX[i]) & 0x01) | (((spPatternDataFretched[i][1] >> currentSpX[i]) & 0x01) << 1);
-						}
-						else{
-							spPix = ((spPatternDataFretched[i][0] >> (7 - currentSpX[i])) & 0x01) | (((spPatternDataFretched[i][1] >> (7 - currentSpX[i])) & 0x01) << 1);					
-						}					
-						if(spPix != 0){
-							if(lastIsSp0 && bgPix != 0 && !spr0hit && !spr0hitDone && i == 0 && showBG && showSpr && ((showBGOnLeft && showSprOnLeft) || screenX >= 8) && screenX < 255){
-								spr0hit = true;
-								spr0hitDone = true;
+			//check spr
+			for (int i = 0; i < 8; ++i){
+				spPix = 0;
+				if(tmpSprRAM2[i * 4] != 0xFF){
+					if(tmpSprRAM2[i * 4 + 3] == 0 && currentSpX[i] < 8){
+						if(spPatternDataFretched[i][0] != 0 || spPatternDataFretched[i][1] != 0){
+							//check hflip
+							if(((tmpSprRAM2[i * 4 + 2] >> 6) & 0x01) != 0){
+								spPix = ((spPatternDataFretched[i][0] >> currentSpX[i]) & 0x01) | (((spPatternDataFretched[i][1] >> currentSpX[i]) & 0x01) << 1);
 							}
-							if(((tmpSprRAM2[i * 4 + 2] >> 5) & 0x01) != 0){
-								//sp is back
-								if(bgPix == 0){
+							else{
+								spPix = ((spPatternDataFretched[i][0] >> (7 - currentSpX[i])) & 0x01) | (((spPatternDataFretched[i][1] >> (7 - currentSpX[i])) & 0x01) << 1);					
+							}					
+							if(spPix != 0){
+								if(lastIsSp0 && bgPix != 0 && !spr0hit && !spr0hitDone && i == 0 && showBG && showSpr && ((showBGOnLeft && showSprOnLeft) || screenX >= 8) && screenX < 255){
+									spr0hit = true;
+									spr0hitDone = true;
+								}
+								if(((tmpSprRAM2[i * 4 + 2] >> 5) & 0x01) != 0){
+									//sp is back
+									if(bgPix == 0){
+										//render sp
+										colourID = memDat->paletteTable[(tmpSprRAM2[i * 4 + 2] & 0x03) | 0x04][spPix];
+									}
+									else{
+										//render bg
+										colourID = memDat->paletteTable[bgPaletteFretched[currentBgTile]][bgPix];
+									}
+								}
+								else{
 									//render sp
 									colourID = memDat->paletteTable[(tmpSprRAM2[i * 4 + 2] & 0x03) | 0x04][spPix];
 								}
-								else{
-									//render bg
-									colourID = memDat->paletteTable[bgPaletteFretched[currentBgTile]][bgPix];
-								}
-							}
-							else{
-								//render sp
-								colourID = memDat->paletteTable[(tmpSprRAM2[i * 4 + 2] & 0x03) | 0x04][spPix];
-							}
-							break;
-						} 
+								break;
+							} 
+						}
+					}
+				}
+			}
+
+
+			++currentBgX;
+			if(currentBgX == 8){
+				++currentBgTile;
+				currentBgX = 0;
+			}
+			//shift all sprite pixel
+			for (int i = 0; i < 8; ++i){
+				if(tmpSprRAM2[i * 4] != 0xFF){
+					if(tmpSprRAM2[i * 4 + 3] == 0){
+						++currentSpX[i];
+					}		
+					else{
+						--tmpSprRAM2[i * 4 + 3];
 					}
 				}
 			}
 		}
 
+		//sprite evaluation
+		if(enabled){
+			if(screenX < 256){
+				if((screenX & 0x01) == 0){
+					if(screenX == 0){
+						enableWriteOAM2 = true;
+						spAddressToEval = 0;
+						oam2AddressToWrite = 0;
+						spFound = 0;
+						spEvalStateCheckY = true;
+						spYInRange = false;
+						isSp0 = false;
+						spBytesToCopy = 32;
+					}
 
-		++currentBgX;
-		if(currentBgX == 8){
-			++currentBgTile;
-			currentBgX = 0;
-		}
-		//shift all sprite pixel
-		for (int i = 0; i < 8; ++i){
-			if(tmpSprRAM2[i * 4] != 0xFF){
-				if(tmpSprRAM2[i * 4 + 3] == 0){
-					++currentSpX[i];
-				}		
+					//even cycles
+					if(screenX < 64){
+						//init OAM2 to $FF
+						dataToWriteOAM2 = 0xFF;
+					}
+					else{
+						if(spAddressToEval < 256){
+							if(screenX == 64){
+								oam2AddressToWrite = 0;
+							}
+							//read OAM
+							dataToWriteOAM2 = memDat->sprRAM[spAddressToEval];
+							if(spEvalStateCheckY){
+								//check Y in range
+								spYInRange = (dataToWriteOAM2 <= screenY && (dataToWriteOAM2 + sprHeight) > screenY);
+								if(spYInRange){
+									if(spFound < 8){
+										if(spFound == 0 && spAddressToEval == 0){
+											isSp0 = true; 
+										}
+										++spFound;
+									}
+									else{
+										sprOverflow = true;
+									}
+									spEvalStateCheckY = false;
+									spBytesToCopy = 4;
+									++spAddressToEval;
+								}
+								else{
+									spAddressToEval += 4;
+									if(spFound == 8){
+										++spAddressToEval;
+									}
+								}
+							}
+							else{
+								++spAddressToEval;
+							}
+						}
+						else{
+							//all sprite passed
+						}
+					}
+				}
 				else{
-					--tmpSprRAM2[i * 4 + 3];
+					//On odd cycles, data is written to secondary OAM
+					if(enableWriteOAM2){
+						if(spBytesToCopy > 0){
+							memDat->sprRAM2[oam2AddressToWrite] = dataToWriteOAM2;
+							++oam2AddressToWrite;
+						}
+					}
+					else{
+						//(unless writes are inhibited, in which case it will read the value in secondary OAM instead)
+						dataToWriteOAM2 = memDat->sprRAM2[oam2AddressToWrite];
+					}
+
+					if(spBytesToCopy > 0){
+						--spBytesToCopy;
+						if(spBytesToCopy == 0){
+							spEvalStateCheckY = true;
+							if(spFound == 8){
+								enableWriteOAM2 = false;
+							}
+						}
+					}
 				}
 			}
+			else if(screenX == 256){
+				lastIsSp0 = isSp0;
+			}
+			else if(screenX < 320){
+				//fretch tiles see below
+			}
+			else{
+				//read first byte in OAM2
+			}
 		}
+
 	}
-	
-	//prerender line
-	if(screenY == 261){
+	else if(screenY == 261){
 		if(screenX == 0){
 			vBlankFlag = false;
 			spr0hit = false;
@@ -206,101 +295,6 @@ void ppu::runStep(){
 		}
 	}
 
-	//sprite evaluation
-	if(screenY < 240 && enabled){
-		if(screenX == 0){
-			enableWriteOAM2 = true;
-			spAddressToEval = 0;
-			oam2AddressToWrite = 0;
-			spFound = 0;
-			spEvalStateCheckY = true;
-			spYInRange = false;
-			isSp0 = false;
-		}
-		if(screenX < 256){
-			if((screenX & 0x01) == 0){
-				//even cycles
-				if(screenX < 64){
-					if(screenX == 0){
-						spBytesToCopy = 32;
-					}
-					//init OAM2 to $FF
-					dataToWriteOAM2 = 0xFF;
-				}
-				else{
-					if(spAddressToEval < 256){
-						if(screenX == 64){
-							oam2AddressToWrite = 0;
-						}
-						//read OAM
-						dataToWriteOAM2 = memDat->sprRAM[spAddressToEval];
-						if(spEvalStateCheckY){
-							//check Y in range
-							spYInRange = (dataToWriteOAM2 <= screenY && (dataToWriteOAM2 + sprHeight) > screenY);
-							if(spYInRange){
-								if(spFound < 8){
-									if(spFound == 0 && spAddressToEval == 0){
-										isSp0 = true; 
-									}
-									++spFound;
-								}
-								else{
-									sprOverflow = true;
-								}
-								spEvalStateCheckY = false;
-								spBytesToCopy = 4;
-								++spAddressToEval;
-							}
-							else{
-								spAddressToEval += 4;
-								if(spFound == 8){
-									++spAddressToEval;
-								}
-							}
-						}
-						else{
-							++spAddressToEval;
-						}
-					}
-					else{
-						//all sprite passed
-					}
-				}
-			}
-			else{
-				//On odd cycles, data is written to secondary OAM
-				if(enableWriteOAM2){
-					if(spBytesToCopy > 0){
-						memDat->sprRAM2[oam2AddressToWrite] = dataToWriteOAM2;
-						++oam2AddressToWrite;
-					}
-				}
-				else{
-					//(unless writes are inhibited, in which case it will read the value in secondary OAM instead)
-					dataToWriteOAM2 = memDat->sprRAM2[oam2AddressToWrite];
-				}
-
-				if(spBytesToCopy > 0){
-					--spBytesToCopy;
-					if(spBytesToCopy == 0){
-						spEvalStateCheckY = true;
-						if(spFound == 8){
-							enableWriteOAM2 = false;
-						}
-					}
-				}
-			}
-		}
-		else if(screenX == 256){
-			lastIsSp0 = isSp0;
-		}
-		else if(screenX < 320){
-			//fretch tiles see below
-		}
-		else{
-			//read first byte in OAM2
-		}
-	}
 
 	//reset bg fretch
 	if(screenX == 320){

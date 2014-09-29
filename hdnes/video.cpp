@@ -21,6 +21,7 @@ video::video(void){
 	useScaleIdx[4] = 2;
 	clockPerFrame = CLOCKS_PER_SEC / 60;
 	initColour();
+	bgCBufferSize = 142560 * sizeof(GLfloat);
 }
 
 void video::RefreshPackSize(){
@@ -292,6 +293,7 @@ void video::displayFrame(){
 
 void video::clearScreenData(){
 	glBindBuffer(GL_ARRAY_BUFFER, bgCBufferRef);
+	glBufferData(GL_ARRAY_BUFFER, bgCBufferSize, NULL, GL_WRITE_ONLY);
 	bgCBuffer = (GLfloat*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
 
 	glBindBuffer(GL_ARRAY_BUFFER, spVBufferRef);
@@ -899,9 +901,7 @@ void video::initBuffer(){
 	bgVBufferRef = make_buffer(GL_ARRAY_BUFFER, 0, vSize);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, vSize, vbuffer);
 
-
-	vSize = 142560 * sizeof(GLfloat); //240 * 33 * 6 * 3
-	bgCBufferRef = make_buffer(GL_ARRAY_BUFFER, 0, vSize);
+	bgCBufferRef = make_buffer(GL_ARRAY_BUFFER, 0, bgCBufferSize);
 	bgCBuffer = (GLfloat*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
 
 	vSize = 34560 * sizeof(GLshort); //240 * 8 * 6 * 3

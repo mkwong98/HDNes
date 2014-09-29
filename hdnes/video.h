@@ -217,6 +217,7 @@ public:
 	GLuint bgVBufferRef;
 	GLuint bgCBufferRef;
 	GLfloat* bgCBuffer; 
+	Uint32 bgCBufferSize;
 
 	GLfloat spTileDataBuffer[5760]; //240*8*3
 	GLuint spTileDataBufferRef;
