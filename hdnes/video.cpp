@@ -22,6 +22,7 @@ video::video(void){
 	clockPerFrame = CLOCKS_PER_SEC / 60;
 	initColour();
 	bgCBufferSize = 142560 * sizeof(GLfloat);
+	capRate = 5;
 }
 
 void video::RefreshPackSize(){
@@ -29,6 +30,7 @@ void video::RefreshPackSize(){
 }
 
 void video::init(){
+	SDL_ShowCursor(SDL_DISABLE);
 	RefreshPackSize();
 	CleanHiResPack();
 	ReadHiResPack();
@@ -57,6 +59,7 @@ void video::init(){
 		writeLog("Cannot create display surface with SDL_SetVideoMode");
 		return;
     }
+	SDL_WM_SetCaption("HDNes", 0);
 	glewInit(); 
 	
 	//init resource
@@ -281,7 +284,7 @@ void video::displayFrame(){
         }
 		capDataFlag = false;
     }
-	if(contCapFlag && (++contCapCounter >= CONT_CAP_RATE)){
+	if(contCapFlag && (++contCapCounter >= capRate)){
 		contCapCounter = 0;
 		capScreen(true);
 	}
@@ -2331,6 +2334,10 @@ void video::readConfig(string value){
     if (lineTokens[0].compare("chrRamMatch") == 0) {
         chrRamMatch = (lineTokens[1].compare("Y") == 0);
     }
+    if (lineTokens[0].compare("caprate") == 0) {
+        capRate = stoi(lineTokens[1]);
+    }
+
 }
 
 void video::saveConfig(fstream* inifile){
@@ -2339,6 +2346,7 @@ void video::saveConfig(fstream* inifile){
     (*inifile) << "video:editrecordtype," +  to_string((long double)editRecordingType) + "\n";
     (*inifile) << "video:edgetile," +  string(!cutEdgeTiles ? "Y":"N") + "\n";
     (*inifile) << "video:chrRamMatch," +  string(chrRamMatch ? "Y":"N") + "\n";
+    (*inifile) << "video:caprate," +  to_string((long double)capRate) + "\n";
 }
 
 void video::SavePackEditScreen(){

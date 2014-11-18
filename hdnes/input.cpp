@@ -39,7 +39,6 @@ input::~input(void)
 }
 
 void input::Init(){
-    
 	for(Uint8 i = 0; i < BUTTON_COUNT; ++i){
 		controller[0][i].currentState = false;
 		controller[0][i].recordedState = false;
@@ -103,6 +102,8 @@ void input::handleEvent(SDL_Event event){
 		eventButton = findKeyButton(event.key.keysym.sym);
 		if(eventButton != NULL) eventButton->currentState = false;
         break;
+	case SDL_QUIT:
+		gm->continuePlay = false;
 
       default:
         break;

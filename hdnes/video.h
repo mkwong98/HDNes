@@ -11,8 +11,6 @@
 #define RECORDING_TYPE_MANU 1
 #define RECORDING_TYPE_NONE 2
 
-#define CONT_CAP_RATE 5
-
 #define BG_PATTERN_SIZE 8192
 #define SP_PATTERN_SIZE 1024
 
@@ -285,6 +283,7 @@ public:
     vector<screenTile> screenTiles; //new tiles in the current screen
     vector<screenTile> allScreenTiles; //all tiles in the current screen
 
+	int capRate;
 	vector<string> capScreenQueue;
 
 	void initColour();

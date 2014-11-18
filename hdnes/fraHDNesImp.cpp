@@ -151,6 +151,7 @@ void fraHDNesImp::refreshVideoGUI(){
 	rbxGenerateData->SetSelection(vid->editRecordingType);
 	chkNearEdge->SetValue(vid->cutEdgeTiles);
 	chkCHRRamEdit->SetValue(!vid->chrRamMatch);
+	spnCapRate->SetValue(vid->capRate);
 }
 
 void fraHDNesImp::refreshGraphicsPackGUI(){
@@ -349,6 +350,9 @@ void fraHDNesImp::inputContCap( wxCommandEvent& event ){
 	inputCore->setting[SETTING_CONT_CAP].assignedKey = (*(SDLKey*)(cboContCap->GetClientData(cboContCap->GetCurrentSelection())));
 }
 
+void fraHDNesImp::capRateChange( wxSpinEvent& event ) { 
+	vid->capRate = spnCapRate->GetValue();
+}
 
 
 void fraHDNesImp::screen1x( wxCommandEvent& event ){

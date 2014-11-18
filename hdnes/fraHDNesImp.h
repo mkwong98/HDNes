@@ -67,6 +67,7 @@ protected:
 	void addBatchMapping( wxCommandEvent& event );
 	void optimizeScreenEdit( wxCommandEvent& event );
 	void customizePaletteClicked( wxCommandEvent& event );
+	void capRateChange( wxSpinEvent& event );
 
 	Sint16 editingMusic;
 	void loadAudioPack( wxCommandEvent& event );
