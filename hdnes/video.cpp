@@ -1709,6 +1709,7 @@ void video::prepareTileData(bool isBg, Uint32 patternAddress, Uint8 row,
 
 void video::capScreen(bool useNative){
 	char buffer [80];
+	char frameCntBuffer[10];
     time_t timer;
 	struct tm * timeinfo;
 	string filename;
@@ -1717,7 +1718,8 @@ void video::capScreen(bool useNative){
 	time(&timer);
 	timeinfo = localtime (&timer);
 	strftime (buffer,80,"%Y%m%d%H%M%S",timeinfo);
-	filename = setting->exeDir + "\\screen\\" + buffer + to_string((long double)ppuCore->frameCount) + ".png";
+	sprintf (frameCntBuffer, "X%08x", ppuCore->frameCount);
+	filename = setting->exeDir + "\\screen\\" + buffer + frameCntBuffer + ".png";
 
 	saveScreenToPath(filename, useNative);
 
@@ -1794,10 +1796,11 @@ void video::saveScreenToPath(string path, bool useNative){
 			SDL_SaveBMP(sc, (path + ".bmp").c_str());
 			SDL_FreeSurface(sc);
 		}
+		
 		capScreenQueue.push_back(path);
 		SDL_Thread* gh;  
 		gh = SDL_CreateThread(video::convertScreenCapToPNG, NULL);
-
+		
 	}
 	else{
 		return;
@@ -2357,6 +2360,7 @@ void video::SavePackEditScreen(){
 	DWORD ftyp = GetFileAttributesA(path.c_str());
 	if (ftyp & FILE_ATTRIBUTE_DIRECTORY){
 		char buffer[80];
+		char frameCntBuffer[10];
 		time_t timer;
 		struct tm * timeinfo;
 		string filename;
@@ -2365,13 +2369,14 @@ void video::SavePackEditScreen(){
 		time(&timer);
 		timeinfo = localtime (&timer);
 		strftime (buffer,80,"%Y%m%d%H%M%S",timeinfo);
-		filename = path + buffer + to_string((long double)ppuCore->frameCount) + ".png";
+		sprintf (frameCntBuffer, "X%08x", ppuCore->frameCount);
+		filename = path + buffer + frameCntBuffer + ".png";
 		saveScreenToPath(filename, TRUE);
     
 		//save screen file log
 		fstream logfile;
     
-		filename = path + buffer + to_string((long double)ppuCore->frameCount) + ".dat";
+		filename = path + buffer + frameCntBuffer + ".dat";
 		logfile.open(filename, ios::out | ios::trunc);
 		if (logfile.is_open()){
 			for(unsigned int i = 0; i < screenTiles.size(); i++){
@@ -2398,7 +2403,7 @@ void video::SavePackEditScreen(){
 			logfile.close();
 		}
     
-		filename = path + buffer + to_string((long double)ppuCore->frameCount) + "_a.dat";
+		filename = path + buffer + frameCntBuffer + "_a.dat";
 		logfile.open(filename, ios::out | ios::trunc);
 		if (logfile.is_open()){
 			for(unsigned int i = 0; i < allScreenTiles.size(); i++){
@@ -2426,7 +2431,7 @@ void video::SavePackEditScreen(){
 		}
         
 		//save screen list
-		filename = buffer + to_string((long double)ppuCore->frameCount);
+		filename = string(buffer) + frameCntBuffer;
 		screenNameList.push_back("/");
 		screenFileNameList.push_back(filename);
     

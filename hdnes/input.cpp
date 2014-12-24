@@ -39,6 +39,11 @@ input::~input(void)
 }
 
 void input::Init(){
+	SDL_EventState(SDL_MOUSEMOTION, SDL_IGNORE);
+	SDL_EventState(SDL_MOUSEBUTTONDOWN, SDL_IGNORE);
+	SDL_EventState(SDL_MOUSEBUTTONUP, SDL_IGNORE);
+	SDL_EventState(SDL_ACTIVEEVENT, SDL_IGNORE);
+
 	for(Uint8 i = 0; i < BUTTON_COUNT; ++i){
 		controller[0][i].currentState = false;
 		controller[0][i].recordedState = false;
@@ -54,7 +59,7 @@ void input::handleEvent(SDL_Event event){
     button* eventButton;
     int settingKey;
 	switch( event.type ){
-      case SDL_KEYDOWN:
+    case SDL_KEYDOWN:
 		//find if controller key pressed
 		eventButton = findKeyButton(event.key.keysym.sym);
 		if(eventButton != NULL) {
@@ -98,14 +103,15 @@ void input::handleEvent(SDL_Event event){
             
 
 		break;
-      case SDL_KEYUP:
+    case SDL_KEYUP:
 		eventButton = findKeyButton(event.key.keysym.sym);
 		if(eventButton != NULL) eventButton->currentState = false;
         break;
 	case SDL_QUIT:
 		gm->continuePlay = false;
+		break;
 
-      default:
+    default:
         break;
     }
 
