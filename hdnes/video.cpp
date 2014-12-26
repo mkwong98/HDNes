@@ -1709,7 +1709,7 @@ void video::prepareTileData(bool isBg, Uint32 patternAddress, Uint8 row,
 
 void video::capScreen(bool useNative){
 	char buffer [80];
-	char frameCntBuffer[10];
+	char frameCntBuffer[15];
     time_t timer;
 	struct tm * timeinfo;
 	string filename;
@@ -1718,7 +1718,7 @@ void video::capScreen(bool useNative){
 	time(&timer);
 	timeinfo = localtime (&timer);
 	strftime (buffer,80,"%Y%m%d%H%M%S",timeinfo);
-	sprintf (frameCntBuffer, "X%08x", ppuCore->frameCount);
+	sprintf (frameCntBuffer, "X%013d", ppuCore->frameCount);
 	filename = setting->exeDir + "\\screen\\" + buffer + frameCntBuffer + ".png";
 
 	saveScreenToPath(filename, useNative);
@@ -2360,7 +2360,7 @@ void video::SavePackEditScreen(){
 	DWORD ftyp = GetFileAttributesA(path.c_str());
 	if (ftyp & FILE_ATTRIBUTE_DIRECTORY){
 		char buffer[80];
-		char frameCntBuffer[10];
+		char frameCntBuffer[15];
 		time_t timer;
 		struct tm * timeinfo;
 		string filename;
@@ -2369,7 +2369,7 @@ void video::SavePackEditScreen(){
 		time(&timer);
 		timeinfo = localtime (&timer);
 		strftime (buffer,80,"%Y%m%d%H%M%S",timeinfo);
-		sprintf (frameCntBuffer, "X%08x", ppuCore->frameCount);
+		sprintf (frameCntBuffer, "X%013d", ppuCore->frameCount);
 		filename = path + buffer + frameCntBuffer + ".png";
 		saveScreenToPath(filename, TRUE);
     
