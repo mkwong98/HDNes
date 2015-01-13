@@ -40,13 +40,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>C:\Users\mkwong98\Documents\Visual Studio 2010\common include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\mkwong98\Documents\Visual Studio 2010\SDL_mixer\lib\x86;C:\Users\mkwong98\Documents\Visual Studio 2010\glew-1.6.0\lib;C:\SourceCode\Libraries\wxWidgets2.8\lib\vc_lib;C:\Users\mkwong98\Documents\Visual Studio 2010\SDL_image-1.2.12\lib\x86;C:\Users\mkwong98\Documents\Visual Studio 2010\SDL-1.2.14\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Users\mkwong98\Documents\Visual Studio 2010\glew-1.6.0\lib;C:\SourceCode\Libraries\wxWidgets2.8\lib\vc_lib;C:\Users\mkwong98\Documents\Visual Studio 2010\SDL2_image-2.0.0\lib\x86;C:\Users\mkwong98\Documents\Visual Studio 2010\SDL2_mixer-2.0.0\lib\x86;C:\Users\mkwong98\Documents\Visual Studio 2010\SDL2-2.0.3\lib\x86;$(LibraryPath)</LibraryPath>
     <SourcePath>C:\Users\mkwong98\Documents\Visual Studio 2010\Projects\hdnes\wxwidget;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>C:\Users\mkwong98\Documents\Visual Studio 2010\common include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\mkwong98\Documents\Visual Studio 2010\SDL_image-1.2.12\lib\x86;C:\Users\mkwong98\Documents\Visual Studio 2010\glew-1.6.0\lib;C:\SourceCode\Libraries\wxWidgets2.8\lib\vc_lib;C:\Users\mkwong98\Documents\Visual Studio 2010\SDL_mixer\lib\x86;C:\Users\mkwong98\Documents\Visual Studio 2010\SDL-1.2.14\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Users\mkwong98\Documents\Visual Studio 2010\glew-1.6.0\lib;C:\SourceCode\Libraries\wxWidgets2.8\lib\vc_lib;C:\Users\mkwong98\Documents\Visual Studio 2010\SDL2_image-2.0.0\lib\x86;C:\Users\mkwong98\Documents\Visual Studio 2010\SDL2_mixer-2.0.0\lib\x86;C:\Users\mkwong98\Documents\Visual Studio 2010\SDL2-2.0.3\lib\x86;$(LibraryPath)</LibraryPath>
     <SourcePath>C:\Users\mkwong98\Documents\Visual Studio 2010\Projects\hdnes\wxwidget;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -67,7 +67,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>sdl.lib;sdlmain.lib;opengl32.lib;glew32.lib;glu32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;comctl32.lib;rpcrt4.lib;wsock32.lib;winmm.lib;wxmsw28ud_core.lib;wxbase28ud.lib;Shlwapi.lib;SDL_image.lib;wxpngd.lib;wxtiffd.lib;wxzlibd.lib;wxjpegd.lib;SDL_mixer.lib</AdditionalDependencies>
+      <AdditionalDependencies>sdl2.lib;sdl2main.lib;opengl32.lib;glew32.lib;glu32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;comctl32.lib;rpcrt4.lib;wsock32.lib;winmm.lib;wxmsw28ud_core.lib;wxbase28ud.lib;Shlwapi.lib;SDL2_image.lib;wxpngd.lib;wxtiffd.lib;wxzlibd.lib;wxjpegd.lib;SDL2_mixer.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\SourceCode\Libraries\wxWidgets2.8\contrib\lib;C:\SourceCode\Libraries\wxWidgets2.8\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <LinkTimeCodeGeneration>PGOptimization</LinkTimeCodeGeneration>
@@ -94,7 +94,7 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>sdl.lib;sdlmain.lib;opengl32.lib;glew32.lib;glu32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;comctl32.lib;rpcrt4.lib;wsock32.lib;winmm.lib;wxmsw28u_core.lib;wxbase28u.lib;Shlwapi.lib;SDL_image.lib;wxpngd.lib;wxtiffd.lib;wxzlibd.lib;wxjpegd.lib;SDL_mixer.lib</AdditionalDependencies>
+      <AdditionalDependencies>sdl2.lib;sdl2main.lib;opengl32.lib;glew32.lib;glu32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;comctl32.lib;rpcrt4.lib;wsock32.lib;winmm.lib;wxmsw28u_core.lib;wxbase28u.lib;Shlwapi.lib;SDL2_image.lib;wxpngd.lib;wxtiffd.lib;wxzlibd.lib;wxjpegd.lib;SDL2_mixer.lib</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>libcd.lib;libcid.lib;msvcrt.lib;LIBCMTD.lib</IgnoreSpecificDefaultLibraries>
       <AdditionalLibraryDirectories>C:\SourceCode\Libraries\wxWidgets2.8\contrib\lib;C:\SourceCode\Libraries\wxWidgets2.8\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

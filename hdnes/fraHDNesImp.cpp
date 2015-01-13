@@ -13,7 +13,7 @@ fraHDNesImp::fraHDNesImp():fraHDNes(NULL){
 	wxInitAllImageHandlers();
 	screenTileCache = NULL;
 
-	for(int i = SDLK_FIRST; i < SDLK_LAST; i++){
+	for(int i = 0; i < SDL_NUM_SCANCODES; i++){
 		keycodes[i] = i;
 	}
 
@@ -87,16 +87,16 @@ void fraHDNesImp::refreshGUI(){
 
 void fraHDNesImp::addKeyCode(wxChoice* cbobox){
 	string keyname;
-	for(int i = SDLK_FIRST; i < SDLK_LAST; i++){
-		keyname = string(SDL_GetKeyName((SDLKey)i));
-		if(keyname.compare("unknown key") != 0){
+	for(int i = 0; i < SDL_NUM_SCANCODES; i++){
+		keyname = string(SDL_GetScancodeName((SDL_Scancode)i));
+		if(keyname.compare("") != 0){
 			cbobox->Append(wxString(keyname.c_str(), wxConvUTF8), &(keycodes[i]));
 		}
 	}
 }
 
-void fraHDNesImp::showKeyCode(wxChoice* cbobox, SDLKey key){
-	cbobox->SetSelection(cbobox->FindString(wxString(SDL_GetKeyName(key), wxConvUTF8)));
+void fraHDNesImp::showKeyCode(wxChoice* cbobox, SDL_Scancode key){
+	cbobox->SetSelection(cbobox->FindString(wxString(SDL_GetScancodeName(key), wxConvUTF8)));
 }
 
 
@@ -255,99 +255,99 @@ void fraHDNesImp::powerButtonClicked( wxCommandEvent& event ) {
 }
 
 void fraHDNesImp::input1UP( wxCommandEvent& event ){
-	inputCore->controller[0][BUTTON_UP].assignedKey = (*(SDLKey*)(cbo1UP->GetClientData(cbo1UP->GetCurrentSelection())));
+	inputCore->controller[0][BUTTON_UP].assignedKey = (*(SDL_Scancode*)(cbo1UP->GetClientData(cbo1UP->GetCurrentSelection())));
 }
 
 void fraHDNesImp::input1DOWN( wxCommandEvent& event ){
-	inputCore->controller[0][BUTTON_DOWN].assignedKey = (*(SDLKey*)(cbo1DOWN->GetClientData(cbo1DOWN->GetCurrentSelection())));
+	inputCore->controller[0][BUTTON_DOWN].assignedKey = (*(SDL_Scancode*)(cbo1DOWN->GetClientData(cbo1DOWN->GetCurrentSelection())));
 }
 
 void fraHDNesImp::input1LEFT( wxCommandEvent& event ){
-	inputCore->controller[0][BUTTON_LEFT].assignedKey = (*(SDLKey*)(cbo1LEFT->GetClientData(cbo1LEFT->GetCurrentSelection())));
+	inputCore->controller[0][BUTTON_LEFT].assignedKey = (*(SDL_Scancode*)(cbo1LEFT->GetClientData(cbo1LEFT->GetCurrentSelection())));
 }
 
 void fraHDNesImp::input1RIGHT( wxCommandEvent& event ){
-	inputCore->controller[0][BUTTON_RIGHT].assignedKey = (*(SDLKey*)(cbo1RIGHT->GetClientData(cbo1RIGHT->GetCurrentSelection())));
+	inputCore->controller[0][BUTTON_RIGHT].assignedKey = (*(SDL_Scancode*)(cbo1RIGHT->GetClientData(cbo1RIGHT->GetCurrentSelection())));
 }
 
 void fraHDNesImp::input1A( wxCommandEvent& event ){
-	inputCore->controller[0][BUTTON_A].assignedKey = (*(SDLKey*)(cbo1A->GetClientData(cbo1A->GetCurrentSelection())));
+	inputCore->controller[0][BUTTON_A].assignedKey = (*(SDL_Scancode*)(cbo1A->GetClientData(cbo1A->GetCurrentSelection())));
 }
 
 void fraHDNesImp::input1B( wxCommandEvent& event ){
-	inputCore->controller[0][BUTTON_B].assignedKey = (*(SDLKey*)(cbo1B->GetClientData(cbo1B->GetCurrentSelection())));
+	inputCore->controller[0][BUTTON_B].assignedKey = (*(SDL_Scancode*)(cbo1B->GetClientData(cbo1B->GetCurrentSelection())));
 }
 
 void fraHDNesImp::input1SELECT( wxCommandEvent& event ){
-	inputCore->controller[0][BUTTON_SELECT].assignedKey = (*(SDLKey*)(cbo1SELECT->GetClientData(cbo1SELECT->GetCurrentSelection())));
+	inputCore->controller[0][BUTTON_SELECT].assignedKey = (*(SDL_Scancode*)(cbo1SELECT->GetClientData(cbo1SELECT->GetCurrentSelection())));
 }
 
 void fraHDNesImp::input1START( wxCommandEvent& event ){
-	inputCore->controller[0][BUTTON_START].assignedKey = (*(SDLKey*)(cbo1START->GetClientData(cbo1START->GetCurrentSelection())));
+	inputCore->controller[0][BUTTON_START].assignedKey = (*(SDL_Scancode*)(cbo1START->GetClientData(cbo1START->GetCurrentSelection())));
 }
 
 void fraHDNesImp::input2UP( wxCommandEvent& event ){
-	inputCore->controller[1][BUTTON_UP].assignedKey = (*(SDLKey*)(cbo2UP->GetClientData(cbo2UP->GetCurrentSelection())));
+	inputCore->controller[1][BUTTON_UP].assignedKey = (*(SDL_Scancode*)(cbo2UP->GetClientData(cbo2UP->GetCurrentSelection())));
 }
 
 void fraHDNesImp::input2DOWN( wxCommandEvent& event ){
-	inputCore->controller[1][BUTTON_DOWN].assignedKey = (*(SDLKey*)(cbo2DOWN->GetClientData(cbo2DOWN->GetCurrentSelection())));
+	inputCore->controller[1][BUTTON_DOWN].assignedKey = (*(SDL_Scancode*)(cbo2DOWN->GetClientData(cbo2DOWN->GetCurrentSelection())));
 }
 
 void fraHDNesImp::input2LEFT( wxCommandEvent& event ){
-	inputCore->controller[1][BUTTON_LEFT].assignedKey = (*(SDLKey*)(cbo2LEFT->GetClientData(cbo2LEFT->GetCurrentSelection())));
+	inputCore->controller[1][BUTTON_LEFT].assignedKey = (*(SDL_Scancode*)(cbo2LEFT->GetClientData(cbo2LEFT->GetCurrentSelection())));
 }
 
 void fraHDNesImp::input2RIGHT( wxCommandEvent& event ){
-	inputCore->controller[1][BUTTON_RIGHT].assignedKey = (*(SDLKey*)(cbo2RIGHT->GetClientData(cbo2RIGHT->GetCurrentSelection())));
+	inputCore->controller[1][BUTTON_RIGHT].assignedKey = (*(SDL_Scancode*)(cbo2RIGHT->GetClientData(cbo2RIGHT->GetCurrentSelection())));
 }
 
 void fraHDNesImp::input2A( wxCommandEvent& event ){
-	inputCore->controller[1][BUTTON_A].assignedKey = (*(SDLKey*)(cbo2A->GetClientData(cbo2A->GetCurrentSelection())));
+	inputCore->controller[1][BUTTON_A].assignedKey = (*(SDL_Scancode*)(cbo2A->GetClientData(cbo2A->GetCurrentSelection())));
 }
 
 void fraHDNesImp::input2B( wxCommandEvent& event ){
-	inputCore->controller[1][BUTTON_B].assignedKey = (*(SDLKey*)(cbo2B->GetClientData(cbo2B->GetCurrentSelection())));
+	inputCore->controller[1][BUTTON_B].assignedKey = (*(SDL_Scancode*)(cbo2B->GetClientData(cbo2B->GetCurrentSelection())));
 }
 
 void fraHDNesImp::input2SELECT( wxCommandEvent& event ){
-	inputCore->controller[1][BUTTON_SELECT].assignedKey = (*(SDLKey*)(cbo2SELECT->GetClientData(cbo2SELECT->GetCurrentSelection())));
+	inputCore->controller[1][BUTTON_SELECT].assignedKey = (*(SDL_Scancode*)(cbo2SELECT->GetClientData(cbo2SELECT->GetCurrentSelection())));
 }
 
 void fraHDNesImp::input2START( wxCommandEvent& event ){
-	inputCore->controller[1][BUTTON_START].assignedKey = (*(SDLKey*)(cbo2START->GetClientData(cbo2START->GetCurrentSelection())));
+	inputCore->controller[1][BUTTON_START].assignedKey = (*(SDL_Scancode*)(cbo2START->GetClientData(cbo2START->GetCurrentSelection())));
 }
 
 void fraHDNesImp::inputEndGame( wxCommandEvent& event ){
-	inputCore->setting[SETTING_END_EMU].assignedKey = (*(SDLKey*)(cboEndGame->GetClientData(cboEndGame->GetCurrentSelection())));
+	inputCore->setting[SETTING_END_EMU].assignedKey = (*(SDL_Scancode*)(cboEndGame->GetClientData(cboEndGame->GetCurrentSelection())));
 }
 
 void fraHDNesImp::inputSaveState( wxCommandEvent& event ){
-	inputCore->setting[SETTING_SAVE_STATE].assignedKey = (*(SDLKey*)(cboSaveState->GetClientData(cboSaveState->GetCurrentSelection())));
+	inputCore->setting[SETTING_SAVE_STATE].assignedKey = (*(SDL_Scancode*)(cboSaveState->GetClientData(cboSaveState->GetCurrentSelection())));
 }
 
 void fraHDNesImp::inputLoadState( wxCommandEvent& event ){
-	inputCore->setting[SETTING_LOAD_STATE].assignedKey = (*(SDLKey*)(cboLoadState->GetClientData(cboLoadState->GetCurrentSelection())));
+	inputCore->setting[SETTING_LOAD_STATE].assignedKey = (*(SDL_Scancode*)(cboLoadState->GetClientData(cboLoadState->GetCurrentSelection())));
 }
 
 void fraHDNesImp::inputScreenCap( wxCommandEvent& event ){
-	inputCore->setting[SETTING_SCREENCAP].assignedKey = (*(SDLKey*)(cboScreenCap->GetClientData(cboScreenCap->GetCurrentSelection())));
+	inputCore->setting[SETTING_SCREENCAP].assignedKey = (*(SDL_Scancode*)(cboScreenCap->GetClientData(cboScreenCap->GetCurrentSelection())));
 }
 
 void fraHDNesImp::inputDataCap( wxCommandEvent& event ){
-	inputCore->setting[SETTING_CAP_DATA].assignedKey = (*(SDLKey*)(cboDataCap->GetClientData(cboDataCap->GetCurrentSelection())));
+	inputCore->setting[SETTING_CAP_DATA].assignedKey = (*(SDL_Scancode*)(cboDataCap->GetClientData(cboDataCap->GetCurrentSelection())));
 }
 
 void fraHDNesImp::inputPause( wxCommandEvent& event ){
-	inputCore->setting[SETTING_PAUSE].assignedKey = (*(SDLKey*)(cboPause->GetClientData(cboPause->GetCurrentSelection())));
+	inputCore->setting[SETTING_PAUSE].assignedKey = (*(SDL_Scancode*)(cboPause->GetClientData(cboPause->GetCurrentSelection())));
 }
 
 void fraHDNesImp::inputRunFrame( wxCommandEvent& event ){
-	inputCore->setting[SETTING_RUN_FRAME].assignedKey = (*(SDLKey*)(cboRunFrame->GetClientData(cboRunFrame->GetCurrentSelection())));
+	inputCore->setting[SETTING_RUN_FRAME].assignedKey = (*(SDL_Scancode*)(cboRunFrame->GetClientData(cboRunFrame->GetCurrentSelection())));
 }
 
 void fraHDNesImp::inputContCap( wxCommandEvent& event ){
-	inputCore->setting[SETTING_CONT_CAP].assignedKey = (*(SDLKey*)(cboContCap->GetClientData(cboContCap->GetCurrentSelection())));
+	inputCore->setting[SETTING_CONT_CAP].assignedKey = (*(SDL_Scancode*)(cboContCap->GetClientData(cboContCap->GetCurrentSelection())));
 }
 
 void fraHDNesImp::capRateChange( wxSpinEvent& event ) { 

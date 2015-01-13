@@ -26,7 +26,7 @@
 struct button{
 	bool recordedState;
 	bool currentState;
-	SDLKey assignedKey;
+	SDL_Scancode assignedKey;
 };
 
 class input
@@ -42,8 +42,8 @@ public:
 	~input(void);
 	void Init();
 	void handleEvent(SDL_Event event);
-	button* findKeyButton(SDLKey key);
-	int findSettingButton(SDLKey key);
+	button* findKeyButton(SDL_Scancode key);
+	int findSettingButton(SDL_Scancode key);
     
 	Uint8 readReg(Uint8 address);
 	void writeReg(Uint8 address, Uint8 data);

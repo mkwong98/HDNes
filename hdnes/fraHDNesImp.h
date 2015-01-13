@@ -86,9 +86,9 @@ protected:
 public:
 	fraHDNesImp();
 	~fraHDNesImp();
-    int keycodes[SDLK_LAST];
+    int keycodes[SDL_NUM_SCANCODES];
     void addKeyCode(wxChoice* cbobox);
-	void showKeyCode(wxChoice* cbobox, SDLKey key);
+	void showKeyCode(wxChoice* cbobox, SDL_Scancode key);
 	void refreshGUI();
     void refreshInputGUI();
     void refreshVideoGUI();

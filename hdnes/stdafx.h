@@ -10,8 +10,8 @@
 #include <stdio.h>
 #include <tchar.h>
 #include <time.h>
-#include "SDL/SDL.h"
-#include "SDL/SDL_mixer.h"
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_mixer.h"
 #include <GL\glew.h>
 #include <gl/gl.h>
 #include <gl/glu.h>

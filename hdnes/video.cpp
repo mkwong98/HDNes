@@ -54,12 +54,12 @@ void video::init(){
             break;
     }
     
-	if((Surf_Display = SDL_SetVideoMode(screenSizeWidth, screenSizeHeight, 32, SDL_HWSURFACE | SDL_GL_DOUBLEBUFFER | SDL_OPENGL)) == NULL) {
+	if((Surf_Display = SDL_CreateWindow("HDNes", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screenSizeWidth, screenSizeHeight, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL)) == NULL) {
         initState = false;
 		writeLog("Cannot create display surface with SDL_SetVideoMode");
 		return;
     }
-	SDL_WM_SetCaption("HDNes", 0);
+	glcontext = SDL_GL_CreateContext(Surf_Display);
 	glewInit(); 
 	
 	//init resource
@@ -141,6 +141,8 @@ video::~video(void){
 }
 
 void video::cleanUp(){
+	SDL_GL_DeleteContext(glcontext); 
+	SDL_DestroyWindow(Surf_Display);
 	Surf_Display = NULL;
 	glDeleteTextures(1, &bgTextureRef);
 	glDeleteTextures(1, &spTextureRef);
@@ -289,7 +291,7 @@ void video::displayFrame(){
 		capScreen(true);
 	}
 
-	SDL_GL_SwapBuffers();
+	SDL_GL_SwapWindow(Surf_Display);
 
 	//capScreen(false);
 }
@@ -1799,7 +1801,7 @@ void video::saveScreenToPath(string path, bool useNative){
 		
 		capScreenQueue.push_back(path);
 		SDL_Thread* gh;  
-		gh = SDL_CreateThread(video::convertScreenCapToPNG, NULL);
+		gh = SDL_CreateThread(video::convertScreenCapToPNG, NULL, NULL);
 		
 	}
 	else{

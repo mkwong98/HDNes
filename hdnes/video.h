@@ -156,7 +156,8 @@ struct screenTile{
 class video
 {
 public:
-	SDL_Surface* Surf_Display;
+	SDL_Window * Surf_Display;
+	SDL_GLContext glcontext;
 	bool initState;
 
     int screenSizeOption;
