@@ -44,6 +44,7 @@ bool sysSetting::loadSetting(void){
 
 	inifile.open(exeDir + "\\hdnes.ini", ios::in);
 	if (inifile.is_open()){
+		version = 0;
 		while ( inifile.good() ){
 			std::getline(inifile, line);
 			loadLine(line);
@@ -61,11 +62,16 @@ void sysSetting::loadLine(string pline){
 	if (found!=std::string::npos){
 		token = pline.substr (0,found); 
 		value = pline.substr (found + 1, std::string::npos);
+		if (token.compare("version") == 0){
+			version = stoi(value);
+		}
 		if (token.compare("gamePath") == 0){
 			gamePath = value;
 		}
-		if (token.compare("input") == 0){
-			inputCore->readConfig(value);
+		if(version > 0){
+			if (token.compare("input") == 0){
+				inputCore->readConfig(value);
+			}		
 		}
 		if (token.compare("video") == 0){
 			vid->readConfig(value);
@@ -87,6 +93,7 @@ void sysSetting::saveSetting(){
 	fstream inifile;
 
 	inifile.open(exeDir + "\\hdnes.ini", ios::out);
+	inifile << "version:1\n";
 	inifile << "gamePath:" + gamePath + "\n";
     inputCore->saveConfig(&inifile);
     vid->saveConfig(&inifile);

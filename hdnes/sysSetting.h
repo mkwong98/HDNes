@@ -18,6 +18,7 @@ public:
 	string progDir;
 	string logDir;
 	string logName;
+	Uint32 version;
 
 	Uint32 debugVal;
 };
