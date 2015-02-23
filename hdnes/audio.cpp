@@ -53,7 +53,7 @@ void fill_audio(void *data,Uint8 *stream,int len)
 
 
 	for(i = 0; i < 4; ++i){
-		if(stepPerSample[i] != mixer->lastFreq[i]){
+		if(vol[i] == 0){
 			mixer->step[i] = 0.0;
 			mixer->lastFreq[i] = stepPerSample[i];
 		}
@@ -109,9 +109,8 @@ void fill_audio(void *data,Uint8 *stream,int len)
 		}
 
 		//always output counter value
-		//result[CHANNEL_SQUARE1] = apuCore->apuBuffer[CHANNEL_SQUARE1][apuCore->apuBufferCounter];
-		//result[CHANNEL_SQUARE2] = apuCore->apuBuffer[CHANNEL_SQUARE2][apuCore->apuBufferCounter];
 		result[CHANNEL_DMC] = apuCore->apuBuffer[CHANNEL_DMC][apuCore->apuBufferCounter];
+
 		if(apuCore->apuBufferFilled > 1){
 			++(apuCore->apuBufferCounter);
 			--(apuCore->apuBufferFilled);
@@ -122,6 +121,9 @@ void fill_audio(void *data,Uint8 *stream,int len)
 
 
 		buff[i] = 492 * (result[CHANNEL_SQUARE1] + result[CHANNEL_SQUARE2]) + 557 * result[CHANNEL_TRIANGLE] + 323 * result[CHANNEL_NOISE] + 219 * result[CHANNEL_DMC];
+		if(buff[i] > 32767){
+			buff[i] = 32767;
+		}
 		buff[i + 1] = buff[i];
 	}
 
