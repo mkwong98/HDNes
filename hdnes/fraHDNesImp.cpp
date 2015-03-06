@@ -987,6 +987,7 @@ void fraHDNesImp::confirmImgSelection( wxCommandEvent& event ){
 				c.x = b->x;
 				c.y = b->y;
 				c.brightness = b->brightness;
+				
 
 				offsetx = imagetileX + ((b->x - screentileX) * vid->packScale);
 				offsety = imagetileY + ((b->y - screentileY) * vid->packScale);
@@ -997,6 +998,7 @@ void fraHDNesImp::confirmImgSelection( wxCommandEvent& event ){
 					if(vid->packData[b->patternAddress] == BAD_ADDRESS){
 						vid->packData[b->patternAddress] = vid->tdata.size();
 						t.defaultID = -1;
+						t.patternAddress = b->patternAddress;
 						vid->tdata.push_back(t);
 					}
 					tid = vid->packData[b->patternAddress];
