@@ -14,11 +14,6 @@ video::video(void){
 	chrRamMatch = false;
 	packData = 0;
 	editData = 0;
-	useScaleIdx[0] = 0;
-	useScaleIdx[1] = 0;
-	useScaleIdx[2] = 1;
-	useScaleIdx[3] = 1;
-	useScaleIdx[4] = 2;
 	clockPerFrame = CLOCKS_PER_SEC / 60;
 	initColour();
 	bgCBufferSize = 142560 * sizeof(GLfloat);
@@ -82,6 +77,7 @@ void video::init(){
 	glProgID = make_program(glVShader, glPShader);
 
 	uniTexture = glGetUniformLocation(glProgID, "textureb");
+	uniTextureBase = glGetUniformLocation(glProgID, "texturebBase");
 	uniXOffset = glGetUniformLocation(glProgID, "xOffset");
 	uniFlagBG = glGetUniformLocation(glProgID, "flags");
 
@@ -94,6 +90,7 @@ void video::init(){
 	glProgIDSp1 = make_program(glVShaderSp1, glPShaderSp1);
 
 	uniTextureSp1 = glGetUniformLocation(glProgIDSp1, "textureb");
+	uniTextureSp1Base = glGetUniformLocation(glProgIDSp1, "texturebBase");
 	uniFlagSp1 = glGetUniformLocation(glProgIDSp1, "flagsSP1");
 	atrVectCoordSp1 = glGetAttribLocation(glProgIDSp1, "position");
 	atrTextCoordSp1 = glGetAttribLocation(glProgIDSp1, "textCoord");
@@ -104,13 +101,15 @@ void video::init(){
 	glProgIDSp2 = make_program(glVShaderSp2, glPShaderSp2);
 
 	uniTextureSp2 = glGetUniformLocation(glProgIDSp2, "textureb");
+	uniTextureSp2Base = glGetUniformLocation(glProgIDSp2, "texturebBase");
 	uniFlagSp2 = glGetUniformLocation(glProgIDSp2, "flagsSP2");
 	atrVectCoordSp2 = glGetAttribLocation(glProgIDSp2, "position");
 	atrTextCoordSp2 = glGetAttribLocation(glProgIDSp2, "textCoord");
 
 	//textures
-	bgTextureRef = make_texture(2048, 512, bgGraphics, GL_TEXTURE_2D, 4, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8);
-	spTextureRef = make_texture(2048, 128, spGraphics, GL_TEXTURE_2D, 4, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8);
+	hdTextureRef = make_texture(packScale * TEXTURE_CACHE_TILE_COL_COUNT * 8, packScale * TEXTURE_CACHE_TILE_ROW_COUNT * 8, hdTextureCache, GL_TEXTURE_2D, 4, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8);
+	baseTextureRef = make_texture(TEXTURE_CACHE_TILE_COL_COUNT * 8, TEXTURE_CACHE_TILE_ROW_COUNT * 8, baseTextureCache, GL_TEXTURE_2D, 4, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8);
+
 	xOffsetTexture = make_texture(256, 1, bgXTexture, GL_TEXTURE_1D, GL_R8UI, GL_RED_INTEGER, GL_UNSIGNED_BYTE);
 	flagsTextureT = make_texture(256, 1, flagsTexture, GL_TEXTURE_1D, GL_R8UI, GL_RED_INTEGER, GL_UNSIGNED_BYTE);
 
@@ -126,12 +125,15 @@ void video::init(){
 
 	memset(bgPatternInUse, 0xFF, BG_PATTERN_SIZE);
 	memset(spPatternInUse, 0xFF, SP_PATTERN_SIZE);
-	minBgIdx = 0;
-	minSpIdx = 0;
-	maxBgIdx = 0;
-	maxSpIdx = 0;
-	blankBgIdx = 0;
-	blankSpIdx = 0;
+	memset(bgHDResult, 0xFF, 4 * 0x3C0 * 2);
+	memset(spHDResult, 0xFF, 64 * 2 * 2);
+	hdResultInInitState = true;
+	minHDIdx = 0;
+	minBaseIdx = 0;
+	maxHDIdx = 0;
+	maxBaseIdx = 0;
+	blankHDIdx = 0;
+	blankBaseIdx = 0;
 	bgCounter = 0;
 }
 
@@ -144,8 +146,8 @@ void video::cleanUp(){
 	SDL_GL_DeleteContext(glcontext); 
 	SDL_DestroyWindow(Surf_Display);
 	Surf_Display = NULL;
-	glDeleteTextures(1, &bgTextureRef);
-	glDeleteTextures(1, &spTextureRef);
+	glDeleteTextures(1, &hdTextureRef);
+	glDeleteTextures(1, &baseTextureRef);
 	glDeleteTextures(1, &xOffsetTexture);
 	glDeleteTextures(1, &flagsTextureT);
 	glDeleteShader(glVShader);
@@ -161,6 +163,7 @@ void video::cleanUp(){
 	glDeleteBuffers(1, &bgVBufferRef);
 	glDeleteBuffers(1, &spCBufferRef);
 	glDeleteBuffers(1, &spVBufferRef);
+	free(hdTextureCache);
 
 	guiForm->refreshGraphicsPackGUI();
 }
@@ -281,7 +284,7 @@ void video::displayFrame(){
 	}
     
     if (editRecordingType == RECORDING_TYPE_AUTO || capDataFlag) {
-        if (screenTiles.size() > 0) {
+        if (screenTiles.size() > 0 || capDataFlag) {
             SavePackEditScreen();
         }
 		capDataFlag = false;
@@ -922,6 +925,7 @@ void video::initBuffer(){
 void video::initPatternArea(){
 	spPatCount = 0;
 	lastPatID = BG_PATTERN_SIZE;
+	hdTextureCache = (Uint32 *)malloc(packScale * packScale * TEXTURE_CACHE_TILE_ROW_COUNT * TEXTURE_CACHE_TILE_COL_COUNT * 4 * 8 * 8);
 }
 
 void video::initScanlineData(Uint16 row){
@@ -963,8 +967,10 @@ void video::setBGStripData(Uint16 row, Uint8 bgID){
 		colors.color1 = memDat->paletteTable[ppuCore->bgPaletteFretched[bgID]][1];
 		colors.color2 = memDat->paletteTable[ppuCore->bgPaletteFretched[bgID]][2];
 		colors.color3 = memDat->paletteTable[ppuCore->bgPaletteFretched[bgID]][3];
-
-		prepareTileData(true, ppuCore->bgAddressFretched[bgID], ppuCore->bgLoadingY, colors, 
+		if(ppuCore->bgAddressFretched[bgID] == 339){
+			ppuCore->bgAddressFretched[bgID] = 339;		
+		}
+		prepareTileData(true, ppuCore->bgAddressFretched[bgID], ppuCore->bgTableID[bgID], ppuCore->bgNameTableAddress[bgID], ppuCore->bgLoadingY, colors, 
 			ppuCore->bgPatternDataFretched[bgID][0], ppuCore->bgPatternDataFretched[bgID][1], ppuCore->bgRAMAddress[bgID],
 			decodeX, decodeY, decodeScale, brightness);
 
@@ -1166,7 +1172,7 @@ void video::setSPStripData(Uint16 row, Uint16 col, Uint8 spID){
 		colors.color2 = memDat->paletteTable[(ppuCore->tmpSprRAM2[spID * 4 + 2] & 0x03) | 0x04][2];
 		colors.color3 = memDat->paletteTable[(ppuCore->tmpSprRAM2[spID * 4 + 2] & 0x03) | 0x04][3];
 		
-		prepareTileData(false, ppuCore->spAddressFretched[spID], ppuCore->spRowFretched[spID], colors,
+		prepareTileData(false, ppuCore->spAddressFretched[spID], 0, ppuCore->spEvalAddress[spID] + (ppuCore->spEvalIsTopTile[spID] == 0 ? 0 : 64), ppuCore->spRowFretched[spID], colors,
 			ppuCore->spPatternDataFretched[spID][0], ppuCore->spPatternDataFretched[spID][1], ppuCore->spRAMAddress[spID],
 			decodeX, decodeY, decodeScale, brightness);
 
@@ -1398,8 +1404,15 @@ void video::setSPStripData(Uint16 row, Uint16 col, Uint8 spID){
     }
 }
 
+void video::initHDResult(){
+	if(!hdResultInInitState){
+		memset(bgHDResult, 0xFF, 4 * 0x3C0 * 2);
+		memset(spHDResult, 0xFF, 64 * 2 * 2);
+		hdResultInInitState = true;
+	}
+}
 
-void video::prepareTileData(bool isBg, Uint32 patternAddress, Uint8 row,
+void video::prepareTileData(bool isBg, Uint32 patternAddress, Uint8 tableID, Uint16 nameTableAddress, Uint8 row,
 	colorCombo colors, Uint8 patternByte0, Uint8 patternByte1, Uint32 ramAddress, 
 	GLuint& decodedX, GLuint& decodedY, GLuint& patternScale, GLfloat& brightness){
 		bool hasWork = true;
@@ -1407,19 +1420,18 @@ void video::prepareTileData(bool isBg, Uint32 patternAddress, Uint8 row,
 		patternDat* patDat;
 		Uint8* patternInUse;
 		Uint32 idx;
-		Uint32 maxIdx;
+		Uint16* hdResult;
+		Uint16 resultSize;
 
 		bool blankFound = false;
 		Uint32 dataSize;
 		Uint8 pix;
 		Uint32 picPos;
-		Uint32* picDat;
     
+		Uint16 readResult;
         bool hasHD;
         Uint32 picPos2;
         bitmapF packbmp;
-
-		std::vector<Uint32>* patlist;
 
 		bool patternMatch;
 		rawPattern patternData;
@@ -1429,68 +1441,65 @@ void video::prepareTileData(bool isBg, Uint32 patternAddress, Uint8 row,
 			patDat = bgPatternData;
 			patternInUse = bgPatternInUse;
 			dataSize = BG_PATTERN_SIZE;
-			maxIdx = maxBgIdx;
-			picDat = bgGraphics;
-			patlist = bgList;
+			hdResult = (Uint16*)bgHDResult;
+			resultSize = 0x3C0;
 		}
 		else{
 			patDat = spPatternData;
 			patternInUse = spPatternInUse;
 			dataSize = SP_PATTERN_SIZE;
-			maxIdx = maxSpIdx;
-			picDat = spGraphics;
-			patlist = spList;
+			hdResult = (Uint16*)spHDResult;
+			resultSize = 0;
 			if(row >= 8) row -= 8;
 		}
 		//look up index
-		Uint8 lookupIdx = ((patternAddress << 3) | (row & 0x07)) & 0xFF;
 		patternScale = 1;
 		if(patternAddress != BAD_ADDRESS){
+			Uint8 lookupIdx = (patternAddress & 0x00FF);
 
 			if(romDat->chrPageCount == 0){
 				patternData = *((rawPattern*)(&(romDat->chrRAM[ramAddress])));
 			}
 
-			//check for repeating tiles
-			if(lastIsBg && isBg && lastPatID < BG_PATTERN_SIZE){
-				if(patDat[lastPatID].patternAddress == patternAddress
-					&& patDat[lastPatID].row == row
-					&& patDat[lastPatID].colors.colorValues == colors.colorValues){
+			////check for repeating tiles
+			//if(lastIsBg && isBg && lastPatID < BG_PATTERN_SIZE){
+			//	if(patDat[lastPatID].patternAddress == patternAddress
+			//		&& patDat[lastPatID].row == row
+			//		&& patDat[lastPatID].colors.colorValues == colors.colorValues){
 
-					if(romDat->chrPageCount > 0){
-						patternMatch = true;
-					}
-					else{
-						patternMatch = (patternData.pixStrip1 == patDat[lastPatID].rawDat.pixStrip1
-									&& patternData.pixStrip2 == patDat[lastPatID].rawDat.pixStrip2
-									&& patternData.pixStrip3 == patDat[lastPatID].rawDat.pixStrip3
-									&& patternData.pixStrip4 == patDat[lastPatID].rawDat.pixStrip4);
-					}
-					if(patternMatch){
-						hasWork = false;
-						decodedX = (lastPatID & 0x3F) << 5;
-						decodedY = (lastPatID >> 4) & 0x1FC;
-                        brightness = patDat[lastPatID].brightness;
-						patternScale =  patDat[lastPatID].scale;
-						patternInUse[lastPatID] = 1;
+			//		if(romDat->chrPageCount > 0){
+			//			patternMatch = true;
+			//		}
+			//		else{
+			//			patternMatch = (patternData.pixStrip1 == patDat[lastPatID].rawDat.pixStrip1
+			//						&& patternData.pixStrip2 == patDat[lastPatID].rawDat.pixStrip2
+			//						&& patternData.pixStrip3 == patDat[lastPatID].rawDat.pixStrip3
+			//						&& patternData.pixStrip4 == patDat[lastPatID].rawDat.pixStrip4);
+			//		}
+			//		if(patternMatch){
+			//			hasWork = false;
+			//			decodedX = (lastPatID & 0x3F) << 5;
+			//			decodedY = (lastPatID >> 4) & 0x1FC;
+   //                     brightness = patDat[lastPatID].brightness;
+			//			patternScale =  patDat[lastPatID].scale;
+			//			patternInUse[lastPatID] = 1;
 
-						if(isBg){
-							patDat[bgCounter].displayID = lastPatID;
-							bgCounter++;
-						}
-						return;
-					}
-				}
-			}
+			//			if(isBg){
+			//				patDat[bgCounter].displayID = lastPatID;
+			//				bgCounter++;
+			//			}
+			//			return;
+			//		}
+			//	}
+			//}
 
 			//look for matching pattern
-			const size_t e = patlist[lookupIdx].size();
+			const size_t e = hdList[lookupIdx].size();
 			if(e > 0){
-				const Uint32* lastInt = &patlist[lookupIdx][e - 1];
-				Uint32* i = &patlist[lookupIdx][0];
+				const Uint32* lastInt = &hdList[lookupIdx][e - 1];
+				Uint32* i = &hdList[lookupIdx][0];
 				for( ; i <= lastInt; ++i){
 					if(patDat[*i].patternAddress == patternAddress
-						&& patDat[*i].row == row
 						&& patDat[*i].colors.colorValues == colors.colorValues){
 						if(romDat->chrPageCount > 0){
 							patternMatch = true;
@@ -1520,7 +1529,9 @@ void video::prepareTileData(bool isBg, Uint32 patternAddress, Uint8 row,
 					}
 				}
 			}
-
+			else{
+			
+			}
 		}
 
 
@@ -1528,36 +1539,54 @@ void video::prepareTileData(bool isBg, Uint32 patternAddress, Uint8 row,
         if(usePack){
             //check the tile has HD version
 			if((chrRamMatch || romDat->chrPageCount > 0) && patternAddress != BAD_ADDRESS){
-				if (packData[patternAddress] != BAD_ADDRESS){
-					TileData* t;
-					int packID = -1;
-					t = &(tdata[packData[patternAddress]]);
-					for (unsigned int tidx = 0; tidx < t->bitmapP.size(); ++tidx){
-						if (t->bitmapP[tidx].colors.colorValues == colors.colorValues){
-							if(romDat->chrPageCount > 0){
-								patternMatch = true;
-							}
-							else{
-								patternMatch = (patternData.pixStrip1 == t->bitmapP[tidx].rawDat.pixStrip1
-											&& patternData.pixStrip2 == t->bitmapP[tidx].rawDat.pixStrip2
-											&& patternData.pixStrip3 == t->bitmapP[tidx].rawDat.pixStrip3
-											&& patternData.pixStrip4 == t->bitmapP[tidx].rawDat.pixStrip4);
-							}
-							if(patternMatch){
-								packID = tidx;
-								hasHD = true;
-								break;
+				readResult = hdResult[tableID * resultSize + nameTableAddress];
+				if((readResult != HD_TILE_NOT_CHECKED)){
+					if(readResult == HD_TILE_NO_MATCH){
+						hasHD = false;
+					}
+					else{
+						TileData* t;
+						hasHD = true;
+						patternScale = packScale;
+						t = &(tdata[packData[patternAddress]]);
+						packbmp = t->bitmapP[readResult];
+					}
+				}
+				else{
+					hdResultInInitState = false;
+					hdResult[tableID * resultSize + nameTableAddress] = HD_TILE_NO_MATCH;
+					if (packData[patternAddress] != BAD_ADDRESS){
+						TileData* t;
+						int packID = -1;
+						t = &(tdata[packData[patternAddress]]);
+						for (unsigned int tidx = 0; tidx < t->bitmapP.size(); ++tidx){
+							if (t->bitmapP[tidx].colors.colorValues == colors.colorValues){
+								if(romDat->chrPageCount > 0){
+									patternMatch = true;
+								}
+								else{
+									patternMatch = (patternData.pixStrip1 == t->bitmapP[tidx].rawDat.pixStrip1
+												&& patternData.pixStrip2 == t->bitmapP[tidx].rawDat.pixStrip2
+												&& patternData.pixStrip3 == t->bitmapP[tidx].rawDat.pixStrip3
+												&& patternData.pixStrip4 == t->bitmapP[tidx].rawDat.pixStrip4);
+								}
+								if(patternMatch){
+									packID = tidx;
+									hasHD = true;
+									break;
+								}
 							}
 						}
-					}
-					if (packID == -1 && t->defaultID != -1){ 
-						packID = t->defaultID;
-						hasHD = true;
-					}
-					if(hasHD){
-						//get scale from hd pack
-			            patternScale = packScale;
-						packbmp = t->bitmapP[packID];
+						if (packID == -1 && t->defaultID != -1){ 
+							packID = t->defaultID;
+							hasHD = true;
+						}
+						if(hasHD){
+							//get scale from hd pack
+							patternScale = packScale;
+							packbmp = t->bitmapP[packID];
+							hdResult[tableID * resultSize + nameTableAddress] = packID;
+						}
 					}
 				}
 			}
@@ -1869,6 +1898,36 @@ void video::SaveHiResPack(){
 					}
 				}
 			}
+			for(unsigned int i = 0; i < metaSprites.size(); i++){
+				metaSprite metaspr = metaSprites[i];
+
+				logfile << "<metas>" + metaspr.name + "," 
+				+ to_string((long double)metaspr.bitmapID) + "," 
+				+ to_string((long double)metaspr.brightness) + ","
+				+ to_string((long double)metaspr.priority) + ","
+				+ (metaspr.useLargeSpr ? "Y" : "N");
+				logfile << "\n";
+
+				for(unsigned int j = 0; j < metaspr.parts.size(); j++){
+					metaSpritePart metaPart = metaspr.parts[j];
+
+					logfile << "<metasp>" + to_string((long double)metaPart.patternAddress) + "," 
+					+ to_string((long double)metaPart.colors.color1) + "," 
+					+ to_string((long double)metaPart.colors.color2) + "," 
+					+ to_string((long double)metaPart.colors.color3) + "," 
+					+ to_string((long double)metaPart.relativeX) + "," 
+					+ to_string((long double)metaPart.relativeY) + ","
+					+ (metaPart.relativeHFlip ? "Y" : "N") + ","
+					+ (metaPart.relativeVFlip ? "Y" : "N") + ","
+					+ (metaPart.isSecond ? "Y" : "N");
+					if(romDat->chrPageCount == 0){
+						for(int i = 0; i < 16; i++){
+							logfile << ", " + to_string((long double)(*((Uint8*)(&(metaPart.rawDat)) + i)));
+						}
+					}
+					logfile << "\n";
+				}
+			}
 			logfile.close();
 		}
         filename = path + "\\palette.dat";
@@ -1969,6 +2028,46 @@ void video::ReadHiResPack(){
                 else if(line.substr(0, 7) == "<scale>"){
                     packScale = stoi(line.substr(7, string::npos));
                 }
+				else if(line.substr(0, 7) == "<metas>"){
+                    vector<string> lineTokens;
+
+                    split(line.substr(7, string::npos), ',', lineTokens);
+                    if (lineTokens.size() >= 5) {
+						metaSprite metaspr;
+						metaspr.id = metaSprites.size();
+						metaspr.name = lineTokens[0];
+						metaspr.bitmapID = stoi(lineTokens[1]);
+                        metaspr.brightness = stof(lineTokens[2]);
+						metaspr.priority = stoi(lineTokens[3]);
+						metaspr.useLargeSpr = (lineTokens[4] == "Y");
+						metaSprites.push_back(metaspr);
+					}
+				}
+				else if(line.substr(0, 8) == "<metasp>"){
+                    vector<string> lineTokens;
+
+                    split(line.substr(8, string::npos), ',', lineTokens);
+                    if (lineTokens.size() >= 9) {
+						metaSpritePart metapat;
+						metapat.patternAddress = stoi(lineTokens[0]);
+                        metapat.colors.color1 = stoi(lineTokens[1]);
+                        metapat.colors.color2 = stoi(lineTokens[2]);
+                        metapat.colors.color3 = stoi(lineTokens[3]);
+                        metapat.relativeX = stoi(lineTokens[4]);
+                        metapat.relativeY = stoi(lineTokens[5]);
+						metapat.relativeHFlip = (lineTokens[6] == "Y");
+						metapat.relativeVFlip = (lineTokens[7] == "Y");
+						metapat.isSecond = (lineTokens[8] == "Y");
+						if(romDat->chrPageCount == 0){
+							for(int i = 9; i < 25; i++){
+								*((Uint8*)(&(metapat.rawDat)) + i) = stoi(lineTokens[i]);
+							}
+						}         
+						metaSprite metaspr = metaSprites[metaSprites.size() - 1];
+						metaspr.parts.push_back(metapat);
+						metaSprites[metaSprites.size() - 1] = metaspr;
+					}
+				}
 			}
 			inifile.close();
             
@@ -1988,6 +2087,7 @@ void video::CleanHiResPack(){
 		tdata.clear();
 		rawBits.clear();
 		bmpInfos.clear();
+		metaSprites.clear();
 	}
 }
 
@@ -2302,12 +2402,10 @@ void video::ReadPackEdit(){
 						}
 					}
 					inifile2.close();
-                    
 				}
 			}
 			inifile.close();
 			guiForm->refreshGraphicsPackGUI();
-
 		}
 	}
 }
@@ -2431,7 +2529,14 @@ void video::SavePackEditScreen(){
 			}
 			logfile.close();
 		}
-        
+    
+		filename = path + buffer + frameCntBuffer + "_ppu.dat";
+		logfile.open(filename, ios::out | ios::binary |  ios::trunc);
+		if (logfile.is_open()){
+			memDat->savePPUData(&logfile);
+			logfile.close();
+		}
+
 		//save screen list
 		filename = string(buffer) + frameCntBuffer;
 		screenNameList.push_back("/");
@@ -2721,7 +2826,7 @@ void video::OptimizePackEdit(){
                 }
             }
 
-		   //remove the shot
+		    //remove the shot
             screenFileNameList.erase(screenFileNameList.begin() + tScreenIndex);
 
 			//adjust bmp id for all other tiles
@@ -2803,3 +2908,33 @@ void video::ReadPalette(string path){
         }
     }
 }
+
+/*
+Note:
+packSize = CHR ROM or PRG ROM size
+HD images: info in bmpInfos and pixel data in rawBits
+
+packData[ROM address] stores the index of this address in array tdata
+tdata is an array of TileData
+TileData has an array of bitmapF and the default
+bitmapF has an index of HD image, x and y coordinate in that image, the brightness and the palette
+
+
+*/
+
+
+/*
+meta sprite check
+If a sprite tile is unmatched then
+	check that it matches any sprite in any meta sprite
+	if has meta sprite then
+		check for the origin sprite
+		if origin sprite matches then
+			use origin sprite to match all others 
+			if all matches then
+				udpate match result to sprites
+			endif
+		end if
+	end if
+end if
+*/

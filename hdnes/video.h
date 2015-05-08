@@ -11,8 +11,13 @@
 #define RECORDING_TYPE_MANU 1
 #define RECORDING_TYPE_NONE 2
 
-#define BG_PATTERN_SIZE 8192
-#define SP_PATTERN_SIZE 1024
+#define PATTERN_SIZE 1200
+
+#define HD_TILE_NO_MATCH    0xFFFE
+#define HD_TILE_NOT_CHECKED 0xFFFF
+
+#define TEXTURE_CACHE_TILE_ROW_COUNT 64 
+#define TEXTURE_CACHE_TILE_COL_COUNT 64 
 
 struct rawPattern{
 	Uint32 pixStrip1;
@@ -98,7 +103,6 @@ union colorCombo{
 struct patternDat{
 	Uint8 scale;
 	Uint32 patternAddress;
-	Uint8 row;
 	colorCombo colors;
 	rawPattern rawDat;
 	Uint8 lookupIdx;
@@ -126,6 +130,10 @@ struct bitmapF{
     int y;
     GLfloat brightness;
     bool isBg;
+
+	bool isMetaSpr;
+	Uint16 metaSprId;
+	Uint8 metaSprPartId;
 };
 
 struct TileData{
@@ -140,6 +148,28 @@ struct bmpInfo{
 	string filename;
 };
 
+
+struct metaSpritePart{
+	Uint32 patternAddress;
+    colorCombo colors;
+	rawPattern rawDat;
+
+	Sint16 relativeX;
+	Sint16 relativeY;
+	bool relativeHFlip;
+	bool relativeVFlip;
+	bool isSecond;
+};
+
+struct metaSprite{
+	Uint16 id;
+	string name;
+	Uint32 bitmapID;
+    GLfloat brightness;
+	vector<metaSpritePart> parts;
+	Uint16 priority;
+	bool useLargeSpr;
+};
 
 
 //editing struct
@@ -183,11 +213,14 @@ public:
 	GLuint glPShaderSp2;
 
 	GLuint uniTexture;
+	GLuint uniTextureBase;
 	GLuint uniXOffset;
 	GLuint uniFlagBG;
 
 	GLuint uniTextureSp1;
 	GLuint uniTextureSp2;
+	GLuint uniTextureSp1Base;
+	GLuint uniTextureSp2Base;
 	GLuint uniFlagSp1;
 	GLuint uniFlagSp2;
 
@@ -228,36 +261,40 @@ public:
 	GLfloat* spCBuffer; 
 
 	//graphics
-	Uint32 bgGraphics[2048 * 512];
-	Uint32 spGraphics[2048 * 128];
+	Uint32* hdTextureCache;
+	GLuint hdTextureRef;
 
-	std::vector<Uint32> bgList[256];
-	std::vector<Uint32> spList[256];
+	Uint32 baseTextureCache[512 * 512];
+	GLuint baseTextureRef;
+
+	std::vector<Uint32> hdList[256];
+	std::vector<Uint32> baseList[256];
 
 	Uint16 bgCounter;
 	patternDat bgPatternData[BG_PATTERN_SIZE]; //33 * 240 * 4
 	patternDat spPatternData[SP_PATTERN_SIZE]; //64 * 16 * 4
 	Uint8 bgPatternInUse[BG_PATTERN_SIZE];
 	Uint8 spPatternInUse[SP_PATTERN_SIZE];
-	Uint16 minBgIdx;
-	Uint16 minSpIdx;
-	Uint16 maxBgIdx;
-	Uint16 maxSpIdx;
-	Uint16 blankBgIdx;
-	Uint16 blankSpIdx;
+	Uint16 minHDIdx;
+	Uint16 minBaseIdx;
+	Uint16 maxHDIdx;
+	Uint16 maxBaseIdx;
+	Uint16 blankHDIdx;
+	Uint16 blankBaseIdx;
 
-	Uint8 useScaleIdx[5];
 	Uint16 lastPatID;
 	bool lastIsBg;
 
-	GLuint bgTextureRef;
-	GLuint spTextureRef;
 
 	bool capScreenFlag; 
 	bool capDataFlag;
 	bool contCapFlag;
 	Uint8 contCapCounter;
 
+	//HD tile result
+	Uint16 bgHDResult[4 * 0x3C0];
+	Uint16 spHDResult[64 * 2];
+	bool hdResultInInitState;
 
 	Uint32 packSize;
 	//graphics pack data
@@ -267,6 +304,7 @@ public:
     Uint32* packData;
 	Uint8 packScale;
 	bool usePack;
+	vector<metaSprite>metaSprites;
 
 	//pack edit data
 	Uint8 editRecordingType;
@@ -311,11 +349,12 @@ public:
 	void clearScreenData();
 	//void setScanlineData();
 
+	void initHDResult();
 	void initScanlineData(Uint16 row);
 	void setBGStripData(Uint16 row, Uint8 bgID);
 	void setSPStripData(Uint16 row, Uint16 col, Uint8 spID);
 
-	void prepareTileData(bool isBg, Uint32 patternAddress, Uint8 row,
+	void prepareTileData(bool isBg, Uint32 patternAddress, Uint8 tableID, Uint16 nameTableAddress, Uint8 row,
 		colorCombo colors, Uint8 patternByte0, Uint8 patternByte1, Uint32 ramAddress,
 		GLuint& decodedX, GLuint& decodedY, GLuint& patternScale, GLfloat& brightness);
 
