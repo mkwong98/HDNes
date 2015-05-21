@@ -103,6 +103,9 @@ void ppu::runStep(){
 			if(screenX % 8 == 0){
 				vid->setBGStripData(screenY, screenX >> 3);
 			}
+			else if(screenX == 255 && offsetX != 0){
+				vid->setBGStripData(screenY, 32);				
+			}
 			if(screenX == 0){
 				currentBgTile = 0;
 				currentBgX = offsetX;
@@ -216,6 +219,8 @@ void ppu::runStep(){
 										if(spFound == 0 && spAddressToEval == 0){
 											isSp0 = true; 
 										}
+										spEvalAddressPre[spFound] = ((spAddressToEval >> 2) & 0x00FF);
+										spEvalIsTopTilePre[spFound] = ((screenY - dataToWriteOAM2) < 8 ? 0 : 1);
 										++spFound;
 									}
 									else{
@@ -312,17 +317,18 @@ void ppu::runStep(){
 			switch(screenX % 8){
 			case 0:
 				//start read name table byte
+				memDat->ppuTranslateNameTableAddress(bgFretchNameTableAddress, bgTableID[bgTileToLoad], bgNameTableAddress[bgTileToLoad], bgAttributeTableAddress[bgTileToLoad]);
 				break;
 			case 1:
 				//finish read name table byte
-				bgPatternIDFretched[bgTileToLoad] = memDat->ppuBusRead(bgFretchNameTableAddress);
+				bgPatternIDFretched[bgTileToLoad] = memDat->nameTable[bgTableID[bgTileToLoad]][bgNameTableAddress[bgTileToLoad]] ;
 				break;
 			case 2:
 				//start read attribute table byte
 				break;
 			case 3:
 				//finish read attribute table byte
-				bgPaletteFretched[bgTileToLoad] = mmc->getTilePalette((bgFretchNameTableAddress >> 10) & 0x0001, (bgFretchNameTableAddress >> 11) & 0x0001,  bgFretchNameTableAddress & 0x001F,  (bgFretchNameTableAddress >> 5) & 0x001F);
+				bgPaletteFretched[bgTileToLoad] = memDat->ppuReadAttribute(bgTableID[bgTileToLoad], bgAttributeTableAddress[bgTileToLoad], bgFretchNameTableAddress);
 				break;
 			case 4:
 				//start read tile bitmap A
@@ -411,6 +417,8 @@ void ppu::runStep(){
 				case 5:
 					//finish read tile bitmap A
 					//check vertical flip
+					spEvalAddress[spTileToLoad] = spEvalAddressPre[spTileToLoad];
+					spEvalIsTopTile[spTileToLoad] = spEvalIsTopTilePre[spTileToLoad];
 					spRowFretched[spTileToLoad] = ((memDat->sprRAM2[spTileToLoad * 4 + 2] >> 7) != 0 ? sprHeight - 1 - (screenY - memDat->sprRAM2[spTileToLoad * 4]): screenY - memDat->sprRAM2[spTileToLoad * 4]);
 					mmc->getPattern(getSprPatternAddress(memDat->sprRAM2[spTileToLoad * 4 + 1]), spRowFretched[spTileToLoad], true, spPatternDataFretched[spTileToLoad][0], spAddressFretched[spTileToLoad], spRAMAddress[spTileToLoad]);
 					break;
@@ -584,6 +592,8 @@ Uint8 ppu::read2004(){
 
 void ppu::write2004(Uint8 data){
 	memDat->sprRAM[reg[3]] = data;
+	vid->spHDResult[(reg[3] >> 2) & 0x003F] = HD_TILE_NOT_CHECKED;
+	vid->spHDResult[((reg[3] >> 2) & 0x003F) + 64] = HD_TILE_NOT_CHECKED;
 	++reg[3];
 }
 
@@ -665,6 +675,8 @@ void ppu::transferDMA(Uint8 data){
 	address = (data << 8);
 	for(Uint16 i = 0; i < 256; ++i){
 		memDat->sprRAM[reg[3]] = memDat->cpuBusRead(address);
+		vid->spHDResult[(reg[3] >> 2) & 0x003F] = HD_TILE_NOT_CHECKED;
+		vid->spHDResult[((reg[3] >> 2) & 0x003F) + 64] = HD_TILE_NOT_CHECKED;
 		++reg[3];
 		++address;
 	}
@@ -688,7 +700,6 @@ void ppu::saveState(fstream* statefile){
     statefile->write((char *)(&frameCount), sizeof(Uint32));
     statefile->write((char *)(&writeDisabledPeriod), sizeof(unsigned int));
     statefile->write((char *)(reg), sizeof(Uint8) * 8);
-    statefile->write((char *)(spriteList), sizeof(sprite) * 64);
     statefile->write((char *)(&baseNameTableAddress), sizeof(Uint8));
     statefile->write((char *)(&aIncSize), sizeof(Uint8));
     statefile->write((char *)(&sprPatternTable), sizeof(Uint16));
@@ -758,7 +769,6 @@ void ppu::loadState(fstream* statefile){
     statefile->read((char *)(&frameCount), sizeof(Uint32));
     statefile->read((char *)(&writeDisabledPeriod), sizeof(unsigned int));
     statefile->read((char *)(reg), sizeof(Uint8) * 8);
-    statefile->read((char *)(spriteList), sizeof(sprite) * 64);
     statefile->read((char *)(&baseNameTableAddress), sizeof(Uint8));
     statefile->read((char *)(&aIncSize), sizeof(Uint8));
     statefile->read((char *)(&sprPatternTable), sizeof(Uint16));

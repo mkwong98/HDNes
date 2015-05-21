@@ -16,8 +16,10 @@
 #define HD_TILE_NO_MATCH    0xFFFE
 #define HD_TILE_NOT_CHECKED 0xFFFF
 
+#define TEXTURE_CACHE_TILE_COUNT     0x1000  //64 * 64
 #define TEXTURE_CACHE_TILE_ROW_COUNT 64 
 #define TEXTURE_CACHE_TILE_COL_COUNT 64 
+#define TEXTURE_CACHE_TILE_COL_SHIFT 3  // (y/64) * 8 
 
 struct rawPattern{
 	Uint32 pixStrip1;
@@ -101,14 +103,13 @@ union colorCombo{
 };
 
 struct patternDat{
-	Uint8 scale;
 	Uint32 patternAddress;
 	colorCombo colors;
 	rawPattern rawDat;
 	Uint8 lookupIdx;
 	Uint16 index;
-	Uint16 displayID;
     GLfloat brightness;
+	Uint16 hdResult;
 };
 
 
@@ -217,10 +218,12 @@ public:
 	GLuint uniXOffset;
 	GLuint uniFlagBG;
 
+
 	GLuint uniTextureSp1;
+	GLuint uniTextureBaseSp1;
 	GLuint uniTextureSp2;
-	GLuint uniTextureSp1Base;
-	GLuint uniTextureSp2Base;
+	GLuint uniTextureBaseSp2;
+
 	GLuint uniFlagSp1;
 	GLuint uniFlagSp2;
 
@@ -232,6 +235,7 @@ public:
 	GLuint atrTextCoordSp2;
 
 	GLuint sampler;
+	GLuint baseSampler;
 	GLuint xOffsetSampler;
 	GLuint flagSampler;
 	
@@ -270,11 +274,10 @@ public:
 	std::vector<Uint32> hdList[256];
 	std::vector<Uint32> baseList[256];
 
-	Uint16 bgCounter;
-	patternDat bgPatternData[BG_PATTERN_SIZE]; //33 * 240 * 4
-	patternDat spPatternData[SP_PATTERN_SIZE]; //64 * 16 * 4
-	Uint8 bgPatternInUse[BG_PATTERN_SIZE];
-	Uint8 spPatternInUse[SP_PATTERN_SIZE];
+	patternDat hdPatternData[TEXTURE_CACHE_TILE_COUNT];
+	patternDat basePatternData[TEXTURE_CACHE_TILE_COUNT];
+	Uint8 hdPatternInUse[TEXTURE_CACHE_TILE_COUNT];
+	Uint8 basePatternInUse[TEXTURE_CACHE_TILE_COUNT];
 	Uint16 minHDIdx;
 	Uint16 minBaseIdx;
 	Uint16 maxHDIdx;
@@ -283,7 +286,7 @@ public:
 	Uint16 blankBaseIdx;
 
 	Uint16 lastPatID;
-	bool lastIsBg;
+	bool lastIsHD;
 
 
 	bool capScreenFlag; 
@@ -355,8 +358,7 @@ public:
 	void setSPStripData(Uint16 row, Uint16 col, Uint8 spID);
 
 	void prepareTileData(bool isBg, Uint32 patternAddress, Uint8 tableID, Uint16 nameTableAddress, Uint8 row,
-		colorCombo colors, Uint8 patternByte0, Uint8 patternByte1, Uint32 ramAddress,
-		GLuint& decodedX, GLuint& decodedY, GLuint& patternScale, GLfloat& brightness);
+		colorCombo colors, Uint32 ramAddress, GLfloat& decodedX, GLfloat& decodedY, bool& isHD, GLfloat& brightness);
 
 	void capScreen(bool useNative);
 	void saveScreenToPath(string path, bool useNative);
@@ -384,7 +386,6 @@ public:
     void SavePackEditScreenList();
 	void SaveGraphics(string path);
 	void SaveBuffers(string path);
-	void SavePatterns(string path);
     void ReadPalette(string path);
 
     
