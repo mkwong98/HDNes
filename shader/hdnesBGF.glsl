@@ -1,9 +1,10 @@
 #version 330
 
 uniform sampler2D textureb;
+uniform sampler2D texturebBase;
 uniform usampler1D flags;
 smooth in vec3 texcoord;
-smooth in vec2 realcoord;
+smooth in vec3 realcoord;
 out vec4 fColor;
 
 void main(void)
@@ -12,7 +13,13 @@ void main(void)
     if(realcoord.x < (-120.0 / 128.0) && ((0x01u & f) == 0x00u)){
         discard;
     }
-    vec4 c = texture2D(textureb, texcoord.xy);
+    vec4 c;
+    if(realcoord.z == 0.0){
+        c = texture2D(textureb, texcoord.xy);
+    }
+    else{
+        c = texture2D(texturebBase, texcoord.xy);
+    }
     c.r = c.r * texcoord.z;
     c.g = c.g * texcoord.z;
     c.b = c.b * texcoord.z;

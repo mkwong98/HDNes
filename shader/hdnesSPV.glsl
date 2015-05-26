@@ -2,11 +2,11 @@
 
 in vec3 position;
 
-in vec3 textCoord;
+in vec4 textCoord;
 
 
 smooth out vec4 texcoord;
-smooth out vec2 realcoord;
+smooth out vec3 realcoord;
 
 void main()
 {
@@ -16,5 +16,5 @@ void main()
 
     gl_Position = vec4(a.xy, position.z / 20.0, 1.0);
     texcoord = vec4(textCoord.xy, position.z / 20.0, textCoord.z);
-    realcoord = vec2(a.x, -position.y / 256.0);
+    realcoord = vec3(a.x, -position.y / 256.0, textCoord.w);
 }
