@@ -8,6 +8,8 @@ class game_manager
         game_manager();
         ~game_manager();
 
+        void run_game();
+
     protected:
 
     private:

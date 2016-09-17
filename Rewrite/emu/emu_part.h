@@ -1,6 +1,9 @@
 #ifndef EMU_PART_H
 #define EMU_PART_H
 
+#include "../common.h"
+
+using namespace std;
 
 class emu_part
 {
