@@ -1,6 +1,8 @@
 #ifndef GAME_MANAGER_H
 #define GAME_MANAGER_H
 
+#include "wx\wx.h"
+#include "wx\mainFrameImp.h"
 
 class game_manager
 {
@@ -13,6 +15,7 @@ class game_manager
     protected:
 
     private:
+        mainFrameImp * ui;
 };
 
 #endif // GAME_MANAGER_H

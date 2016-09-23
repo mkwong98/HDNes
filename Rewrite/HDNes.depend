@@ -331,7 +331,7 @@
 1474075856 c:\work\hdnesr\trunk\rewrite\core\core_part.h
 	"../common.h"
 
-1474604028 c:\work\hdnesr\trunk\rewrite\common.h
+1474623383 c:\work\hdnesr\trunk\rewrite\common.h
 	<fstream>
 	"SDL2\SDL.h"
 
@@ -3260,29 +3260,40 @@
 1474076481 c:\work\hdnesr\trunk\rewrite\emu\emu_part.h
 	"../common.h"
 
-1474079753 source:c:\work\hdnesr\trunk\rewrite\game_manager.cpp
+1474624575 source:c:\work\hdnesr\trunk\rewrite\game_manager.cpp
 	"game_manager.h"
 
-1474078435 c:\work\hdnesr\trunk\rewrite\game_manager.h
+1474620607 c:\work\hdnesr\trunk\rewrite\game_manager.h
+	"wx\wx.h"
+	"wx\mainFrameImp.h"
 
-1474603582 source:c:\work\hdnesr\trunk\rewrite\mainapp.cpp
+1474623265 source:c:\work\hdnesr\trunk\rewrite\mainapp.cpp
 	"mainApp.h"
+	"game_manager.h"
 
-1474600490 c:\work\hdnesr\trunk\rewrite\mainapp.h
+1474623484 c:\work\hdnesr\trunk\rewrite\mainapp.h
 	"common.h"
+	"wx\wx.h"
 
-1474597906 source:c:\work\hdnesr\trunk\rewrite\wx\mainframe.cpp
+1474605963 source:c:\work\hdnesr\trunk\rewrite\wx\mainframe.cpp
 	"mainFrame.h"
 
-1474604990 c:\work\hdnesr\trunk\rewrite\wx\mainframe.h
+1474605963 c:\work\hdnesr\trunk\rewrite\wx\mainframe.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/string.h>
-	<wx/frame.h>
+	<wx/button.h>
 	<wx/gdicmn.h>
 	<wx/font.h>
 	<wx/colour.h>
 	<wx/settings.h>
+	<wx/sizer.h>
+	<wx/panel.h>
+	<wx/bitmap.h>
+	<wx/image.h>
+	<wx/icon.h>
+	<wx/notebook.h>
+	<wx/frame.h>
 
 1412631243 c:\work\include\wx\xrc\xmlres.h
 	"wx/defs.h"
@@ -3315,4 +3326,71 @@
 	"wx/filesys.h"
 	"wx/imaglist.h"
 	"wx/window.h"
+
+1474606610 c:\work\hdnesr\trunk\rewrite\wx\mainframeimp.h
+	"mainFrame.h"
+
+1412631243 c:\work\include\wx\notebook.h
+	"wx/defs.h"
+	"wx/bookctrl.h"
+	"wx/univ/notebook.h"
+	"wx/msw/notebook.h"
+	"wx/generic/notebook.h"
+	"wx/gtk/notebook.h"
+	"wx/gtk1/notebook.h"
+	"wx/osx/notebook.h"
+	"wx/cocoa/notebook.h"
+	"wx/os2/notebook.h"
+
+1412631242 c:\work\include\wx\bookctrl.h
+	"wx/defs.h"
+	"wx/control.h"
+	"wx/dynarray.h"
+	"wx/withimages.h"
+	"wx/notebook.h"
+	"wx/choicebk.h"
+
+1412631243 c:\work\include\wx\withimages.h
+	"wx/defs.h"
+	"wx/icon.h"
+	"wx/imaglist.h"
+
+1412631242 c:\work\include\wx\choicebk.h
+	"wx/defs.h"
+	"wx/bookctrl.h"
+	"wx/choice.h"
+	"wx/containr.h"
+
+1412631243 c:\work\include\wx\univ\notebook.h
+	"wx/arrstr.h"
+
+1412631243 c:\work\include\wx\msw\notebook.h
+	"wx/control.h"
+
+1412631242 c:\work\include\wx\generic\notebook.h
+	"wx/event.h"
+	"wx/control.h"
+
+1412631242 c:\work\include\wx\gtk\notebook.h
+	"wx/list.h"
+
+1412631242 c:\work\include\wx\gtk1\notebook.h
+	"wx/list.h"
+
+1412631243 c:\work\include\wx\osx\notebook.h
+	"wx/event.h"
+
+1412631242 c:\work\include\wx\cocoa\notebook.h
+	"wx/cocoa/NSTabView.h"
+
+1412631242 c:\work\include\wx\cocoa\nstabview.h
+	"wx/hashmap.h"
+	"wx/cocoa/ObjcAssociate.h"
+	"wx/cocoa/ObjcRef.h"
+
+1412631243 c:\work\include\wx\os2\notebook.h
+	"wx/control.h"
+
+1474606610 source:c:\work\hdnesr\trunk\rewrite\wx\mainframeimp.cpp
+	"mainFrameImp.h"
 

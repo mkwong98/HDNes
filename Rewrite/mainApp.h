@@ -1,7 +1,6 @@
 #pragma once
 #include "common.h"
 #include "wx\wx.h"
-#include "wx\mainFrameImp.h"
 
 class mainApp : public wxApp{
 public:
@@ -10,4 +9,3 @@ public:
 	~mainApp(void);
 	bool OnInit();
 };
-

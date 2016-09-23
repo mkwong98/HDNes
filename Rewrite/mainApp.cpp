@@ -1,6 +1,9 @@
 #include "mainApp.h"
+#include "game_manager.h"
 
 IMPLEMENT_APP(mainApp)
+
+game_manager *gm;
 
 mainApp::mainApp(void){
 
@@ -9,19 +12,20 @@ mainApp::mainApp(void){
 		initOK = false;
 	}
 	else{
-		SDL_Quit();
 		initOK = true;
 	}
 }
 
-
 mainApp::~mainApp(void){
+    if(initOK){
+        delete(gm);
+        SDL_Quit();
+    }
 }
 
 bool mainApp::OnInit(){
 	if(initOK){
-        mainFrameImp *frame = new mainFrameImp(NULL);
-        frame->Show( true );
+        gm = new game_manager();
 		return true;
 	}
 	else{
