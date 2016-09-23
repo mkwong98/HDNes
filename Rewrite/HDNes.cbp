@@ -7,8 +7,8 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/HDNes" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Debug/" />
+				<Option output="../../bin/Debug/HDNes" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../../obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -19,8 +19,8 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/HDNes" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Release/" />
+				<Option output="../../bin/Release/HDNes" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../../obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -36,12 +36,21 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add option="-std=c++11" />
 			<Add option="-fexceptions" />
 			<Add directory="../../../include" />
 		</Compiler>
 		<Linker>
-			<Add library="../../../lib/SDL2main.lib" />
 			<Add library="../../../lib/SDL2.lib" />
+			<Add library="../../../lib/libwxmsw30u_gl.a" />
+			<Add library="../../../lib/libwxmsw30u.a" />
+			<Add library="../../../lib/libwxscintilla.a" />
+			<Add library="../../../lib/libwxexpat.a" />
+			<Add library="../../../lib/libwxtiff.a" />
+			<Add library="../../../lib/libwxjpeg.a" />
+			<Add library="../../../lib/libwxpng.a" />
+			<Add library="../../../lib/libwxzlib.a" />
+			<Add library="../../../lib/libwxregexu.a" />
 			<Add directory="../../../lib" />
 		</Linker>
 		<Unit filename="common.h" />
@@ -51,7 +60,15 @@
 		<Unit filename="emu/emu_part.h" />
 		<Unit filename="game_manager.cpp" />
 		<Unit filename="game_manager.h" />
-		<Unit filename="main.cpp" />
+		<Unit filename="mainApp.cpp" />
+		<Unit filename="mainApp.h" />
+		<Unit filename="wx/mainFrame.cpp" />
+		<Unit filename="wx/mainFrame.h" />
+		<Unit filename="wx/mainFrameImp.cpp" />
+		<Unit filename="wx/mainFrameImp.h" />
+		<Unit filename="wx/mainGUI.fbp">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Extensions>
 			<code_completion />
 			<envvars />
