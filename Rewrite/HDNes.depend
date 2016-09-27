@@ -3257,17 +3257,19 @@
 1474075856 source:c:\work\hdnesr\trunk\rewrite\emu\emu_part.cpp
 	"emu_part.h"
 
-1474076481 c:\work\hdnesr\trunk\rewrite\emu\emu_part.h
+1474967377 c:\work\hdnesr\trunk\rewrite\emu\emu_part.h
 	"../common.h"
 
-1474624575 source:c:\work\hdnesr\trunk\rewrite\game_manager.cpp
+1474969754 source:c:\work\hdnesr\trunk\rewrite\game_manager.cpp
 	"game_manager.h"
 
-1474620607 c:\work\hdnesr\trunk\rewrite\game_manager.h
+1474969094 c:\work\hdnesr\trunk\rewrite\game_manager.h
 	"wx\wx.h"
 	"wx\mainFrameImp.h"
+	"classList.h"
+	"emu\video.h"
 
-1474623265 source:c:\work\hdnesr\trunk\rewrite\mainapp.cpp
+1474968415 source:c:\work\hdnesr\trunk\rewrite\mainapp.cpp
 	"mainApp.h"
 	"game_manager.h"
 
@@ -3327,8 +3329,10 @@
 	"wx/imaglist.h"
 	"wx/window.h"
 
-1474606610 c:\work\hdnesr\trunk\rewrite\wx\mainframeimp.h
+1474969149 c:\work\hdnesr\trunk\rewrite\wx\mainframeimp.h
+	"../classList.h"
 	"mainFrame.h"
+	"../game_manager.h"
 
 1412631243 c:\work\include\wx\notebook.h
 	"wx/defs.h"
@@ -3391,6 +3395,31 @@
 1412631243 c:\work\include\wx\os2\notebook.h
 	"wx/control.h"
 
-1474606610 source:c:\work\hdnesr\trunk\rewrite\wx\mainframeimp.cpp
+1474968475 source:c:\work\hdnesr\trunk\rewrite\wx\mainframeimp.cpp
 	"mainFrameImp.h"
+
+1474965180 source:c:\work\hdnesr\trunk\rewrite\emu\audio.cpp
+	"audio.h"
+
+1474965180 c:\work\hdnesr\trunk\rewrite\emu\audio.h
+	<emu_part.h>
+
+1474973025 source:c:\work\hdnesr\trunk\rewrite\emu\video.cpp
+	<GL/glew.h>
+	"video.h"
+
+1474970624 c:\work\hdnesr\trunk\rewrite\emu\video.h
+	"../classList.h"
+	<emu_part.h>
+
+1474969025 c:\work\hdnesr\trunk\rewrite\classlist.h
+
+1474972550 c:\work\include\gl\glew.h
+	<stddef.h>
+	<inttypes.h>
+	<stdint.h>
+	<inttypes.h>
+	<Availability.h>
+	<OpenGL/glu.h>
+	<GL/glu.h>
 

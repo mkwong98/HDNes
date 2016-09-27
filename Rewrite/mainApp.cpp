@@ -3,7 +3,7 @@
 
 IMPLEMENT_APP(mainApp)
 
-game_manager *gm;
+game_manager* gm;
 
 mainApp::mainApp(void){
 

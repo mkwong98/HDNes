@@ -13,7 +13,8 @@ class emu_part
 
         virtual void saveConfig(fstream* statefile) = 0;
         virtual void loadConfig(fstream* statefile) = 0;
-
+        virtual void startGame() = 0;
+        virtual void endGame() = 0;
     protected:
 
     private:

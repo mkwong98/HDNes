@@ -51,13 +51,21 @@
 			<Add library="../../../lib/libwxpng.a" />
 			<Add library="../../../lib/libwxzlib.a" />
 			<Add library="../../../lib/libwxregexu.a" />
+			<Add library="libopengl32.a" />
+			<Add library="../../../lib/glew32.lib" />
 			<Add directory="../../../lib" />
+			<Add directory="C:/Program Files (x86)/CodeBlocks/MinGW/lib" />
 		</Linker>
+		<Unit filename="classList.h" />
 		<Unit filename="common.h" />
 		<Unit filename="core/core_part.cpp" />
 		<Unit filename="core/core_part.h" />
+		<Unit filename="emu/audio.cpp" />
+		<Unit filename="emu/audio.h" />
 		<Unit filename="emu/emu_part.cpp" />
 		<Unit filename="emu/emu_part.h" />
+		<Unit filename="emu/video.cpp" />
+		<Unit filename="emu/video.h" />
 		<Unit filename="game_manager.cpp" />
 		<Unit filename="game_manager.h" />
 		<Unit filename="mainApp.cpp" />

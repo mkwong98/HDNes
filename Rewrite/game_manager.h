@@ -4,6 +4,9 @@
 #include "wx\wx.h"
 #include "wx\mainFrameImp.h"
 
+#include "classList.h"
+#include "emu\video.h"
+
 class game_manager
 {
     public:
@@ -15,7 +18,8 @@ class game_manager
     protected:
 
     private:
-        mainFrameImp * ui;
+        mainFrameImp* ui;
+        video* vid;
 };
 
 #endif // GAME_MANAGER_H
