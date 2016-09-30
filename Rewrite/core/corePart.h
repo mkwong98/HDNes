@@ -1,15 +1,15 @@
-#ifndef CORE_PART_H
-#define CORE_PART_H
+#ifndef COREPART_H
+#define COREPART_H
 
 #include "../common.h"
 
 using namespace std;
 
-class core_part
+class corePart
 {
     public:
-        core_part();
-        ~core_part();
+        corePart();
+        ~corePart();
 
         virtual void reset() = 0;
         virtual void saveState(fstream* statefile) = 0;
@@ -20,4 +20,4 @@ class core_part
     private:
 };
 
-#endif // CORE_PART_H
+#endif // COREPART_H

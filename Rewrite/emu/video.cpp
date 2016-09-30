@@ -11,10 +11,11 @@ video::~video()
     //dtor
 }
 
-void video::loadConfig(fstream* statefile){
+void video::loadConfig(fstream* fs){
 }
 
-void video::saveConfig(fstream* statefile){
+void video::saveConfig(fstream* fs){
+    (*fs) << "<video>";
 }
 
 void video::startGame(){

@@ -1,9 +1,9 @@
 #include "mainApp.h"
-#include "game_manager.h"
+#include "gameManager.h"
 
 IMPLEMENT_APP(mainApp)
 
-game_manager* gm;
+gameManager* gm;
 
 mainApp::mainApp(void){
 
@@ -25,7 +25,7 @@ mainApp::~mainApp(void){
 
 bool mainApp::OnInit(){
 	if(initOK){
-        gm = new game_manager();
+        gm = new gameManager();
 		return true;
 	}
 	else{

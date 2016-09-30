@@ -2,16 +2,16 @@
 #define VIDEO_H
 
 #include "../classList.h"
-#include <emu_part.h>
+#include <emuPart.h>
 
-class video : public emu_part
+class video : public emuPart
 {
     public:
         video();
         virtual ~video();
 
-        void loadConfig(fstream* statefile);
-        void saveConfig(fstream* statefile);
+        void loadConfig(fstream* fs);
+        void saveConfig(fstream* fs);
 
         void startGame();
         void endGame();

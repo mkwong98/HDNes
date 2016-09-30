@@ -58,16 +58,16 @@
 		</Linker>
 		<Unit filename="classList.h" />
 		<Unit filename="common.h" />
-		<Unit filename="core/core_part.cpp" />
-		<Unit filename="core/core_part.h" />
+		<Unit filename="core/corePart.cpp" />
+		<Unit filename="core/corePart.h" />
 		<Unit filename="emu/audio.cpp" />
 		<Unit filename="emu/audio.h" />
-		<Unit filename="emu/emu_part.cpp" />
-		<Unit filename="emu/emu_part.h" />
+		<Unit filename="emu/emuPart.cpp" />
+		<Unit filename="emu/emuPart.h" />
 		<Unit filename="emu/video.cpp" />
 		<Unit filename="emu/video.h" />
-		<Unit filename="game_manager.cpp" />
-		<Unit filename="game_manager.h" />
+		<Unit filename="gameManager.cpp" />
+		<Unit filename="gameManager.h" />
 		<Unit filename="mainApp.cpp" />
 		<Unit filename="mainApp.h" />
 		<Unit filename="wx/mainFrame.cpp" />

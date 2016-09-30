@@ -7,19 +7,21 @@
 #include "classList.h"
 #include "emu\video.h"
 
-class game_manager
+class gameManager
 {
     public:
-        game_manager();
-        ~game_manager();
+        gameManager();
+        ~gameManager();
 
-        void run_game();
-
+        void runGame();
     protected:
 
     private:
         mainFrameImp* ui;
         video* vid;
+        bool loadConfig();
+        void saveConfig();
+
 };
 
 #endif // GAME_MANAGER_H

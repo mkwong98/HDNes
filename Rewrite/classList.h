@@ -1,13 +1,13 @@
 #ifndef CLASSLIST_H_INCLUDED
 #define CLASSLIST_H_INCLUDED
 
-class core_part;
+class corePart;
 
-class emu_part;
+class emuPart;
 class audio;
 class video;
 
 class mainFrameImp;
-class game_manager;
+class gameManager;
 
 #endif // CLASSLIST_H_INCLUDED

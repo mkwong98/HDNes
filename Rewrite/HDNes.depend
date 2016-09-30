@@ -3269,9 +3269,9 @@
 	"classList.h"
 	"emu\video.h"
 
-1474968415 source:c:\work\hdnesr\trunk\rewrite\mainapp.cpp
+1475223273 source:c:\work\hdnesr\trunk\rewrite\mainapp.cpp
 	"mainApp.h"
-	"game_manager.h"
+	"gameManager.h"
 
 1474623484 c:\work\hdnesr\trunk\rewrite\mainapp.h
 	"common.h"
@@ -3329,10 +3329,10 @@
 	"wx/imaglist.h"
 	"wx/window.h"
 
-1474969149 c:\work\hdnesr\trunk\rewrite\wx\mainframeimp.h
+1475223273 c:\work\hdnesr\trunk\rewrite\wx\mainframeimp.h
 	"../classList.h"
 	"mainFrame.h"
-	"../game_manager.h"
+	"../gameManager.h"
 
 1412631243 c:\work\include\wx\notebook.h
 	"wx/defs.h"
@@ -3395,24 +3395,24 @@
 1412631243 c:\work\include\wx\os2\notebook.h
 	"wx/control.h"
 
-1474968475 source:c:\work\hdnesr\trunk\rewrite\wx\mainframeimp.cpp
+1475223483 source:c:\work\hdnesr\trunk\rewrite\wx\mainframeimp.cpp
 	"mainFrameImp.h"
 
 1474965180 source:c:\work\hdnesr\trunk\rewrite\emu\audio.cpp
 	"audio.h"
 
-1474965180 c:\work\hdnesr\trunk\rewrite\emu\audio.h
-	<emu_part.h>
+1475223273 c:\work\hdnesr\trunk\rewrite\emu\audio.h
+	<emuPart.h>
 
-1474973025 source:c:\work\hdnesr\trunk\rewrite\emu\video.cpp
+1474975204 source:c:\work\hdnesr\trunk\rewrite\emu\video.cpp
 	<GL/glew.h>
 	"video.h"
 
-1474970624 c:\work\hdnesr\trunk\rewrite\emu\video.h
+1475225461 c:\work\hdnesr\trunk\rewrite\emu\video.h
 	"../classList.h"
-	<emu_part.h>
+	<emuPart.h>
 
-1474969025 c:\work\hdnesr\trunk\rewrite\classlist.h
+1475223273 c:\work\hdnesr\trunk\rewrite\classlist.h
 
 1474972550 c:\work\include\gl\glew.h
 	<stddef.h>
@@ -3422,4 +3422,25 @@
 	<Availability.h>
 	<OpenGL/glu.h>
 	<GL/glu.h>
+
+1475225461 c:\work\hdnesr\trunk\rewrite\emu\emupart.h
+	"../common.h"
+
+1475223929 c:\work\hdnesr\trunk\rewrite\gamemanager.h
+	"wx\wx.h"
+	"wx\mainFrameImp.h"
+	"classList.h"
+	"emu\video.h"
+
+1475223273 source:c:\work\hdnesr\trunk\rewrite\core\corepart.cpp
+	"corePart.h"
+
+1475223273 c:\work\hdnesr\trunk\rewrite\core\corepart.h
+	"../common.h"
+
+1475223273 source:c:\work\hdnesr\trunk\rewrite\emu\emupart.cpp
+	"emuPart.h"
+
+1475224224 source:c:\work\hdnesr\trunk\rewrite\gamemanager.cpp
+	"gameManager.h"
 

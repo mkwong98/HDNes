@@ -1,10 +1,10 @@
 #ifndef AUDIO_H
 #define AUDIO_H
 
-#include <emu_part.h>
+#include <emuPart.h>
 
 
-class audio : public emu_part
+class audio : public emuPart
 {
     public:
         audio();
