@@ -9,9 +9,10 @@ class video : public emuPart
     public:
         video();
         virtual ~video();
+        string partName();
 
-        void loadConfig(fstream* fs);
-        void saveConfig(fstream* fs);
+        void saveConfigLines(fstream* fs);
+        void loadConfigVal(string hdr, string value);
 
         void startGame();
         void endGame();

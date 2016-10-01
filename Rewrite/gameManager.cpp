@@ -50,9 +50,16 @@ void gameManager::runGame(){
 bool gameManager::loadConfig(){
     //if has config file then open file and have each emu part read it
     fstream fs;
+    string line;
+    string lineHdr;
     fs.open("config.ini", fstream::in);
     if(fs.is_open()){
-        vid->loadConfig(&fs);
+        while(getline(fs, line)){
+            lineHdr = emuPart::getConfigLineHdr(line);
+            if(lineHdr.compare(vid->partName()) == 0){
+                vid->loadConfig(&fs);
+            }
+        }
         fs.close();
         return true;
     }

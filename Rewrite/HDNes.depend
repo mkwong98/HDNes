@@ -3414,7 +3414,7 @@
 
 1475223273 c:\work\hdnesr\trunk\rewrite\classlist.h
 
-1474972550 c:\work\include\gl\glew.h
+1475249934 c:\work\include\gl\glew.h
 	<stddef.h>
 	<inttypes.h>
 	<stdint.h>
@@ -3442,5 +3442,82 @@
 	"emuPart.h"
 
 1475224224 source:c:\work\hdnesr\trunk\rewrite\gamemanager.cpp
+	"gameManager.h"
+
+1475250574 source:c:\work\hdnes\trunk\rewrite\core\corepart.cpp
+	"corePart.h"
+
+1475250574 c:\work\hdnes\trunk\rewrite\core\corepart.h
+	"../common.h"
+
+1475250574 c:\work\hdnes\trunk\rewrite\common.h
+	<fstream>
+	"SDL2\SDL.h"
+
+1475250574 source:c:\work\hdnes\trunk\rewrite\emu\audio.cpp
+	"audio.h"
+
+1475250574 c:\work\hdnes\trunk\rewrite\emu\audio.h
+	<emuPart.h>
+
+1475290431 c:\work\hdnes\trunk\rewrite\emu\emupart.h
+	"../common.h"
+
+1475250574 source:c:\work\hdnes\trunk\rewrite\mainapp.cpp
+	"mainApp.h"
+	"gameManager.h"
+
+1475250574 c:\work\hdnes\trunk\rewrite\mainapp.h
+	"common.h"
+	"wx\wx.h"
+
+1475250574 c:\work\hdnes\trunk\rewrite\gamemanager.h
+	"wx\wx.h"
+	"wx\mainFrameImp.h"
+	"classList.h"
+	"emu\video.h"
+
+1475250574 c:\work\hdnes\trunk\rewrite\wx\mainframeimp.h
+	"../classList.h"
+	"mainFrame.h"
+	"../gameManager.h"
+
+1475250574 c:\work\hdnes\trunk\rewrite\classlist.h
+
+1475250574 c:\work\hdnes\trunk\rewrite\wx\mainframe.h
+	<wx/artprov.h>
+	<wx/xrc/xmlres.h>
+	<wx/string.h>
+	<wx/button.h>
+	<wx/gdicmn.h>
+	<wx/font.h>
+	<wx/colour.h>
+	<wx/settings.h>
+	<wx/sizer.h>
+	<wx/panel.h>
+	<wx/bitmap.h>
+	<wx/image.h>
+	<wx/icon.h>
+	<wx/notebook.h>
+	<wx/frame.h>
+
+1475288431 c:\work\hdnes\trunk\rewrite\emu\video.h
+	"../classList.h"
+	<emuPart.h>
+
+1475250574 source:c:\work\hdnes\trunk\rewrite\wx\mainframe.cpp
+	"mainFrame.h"
+
+1475250574 source:c:\work\hdnes\trunk\rewrite\wx\mainframeimp.cpp
+	"mainFrameImp.h"
+
+1475290562 source:c:\work\hdnes\trunk\rewrite\emu\emupart.cpp
+	"emuPart.h"
+
+1475289114 source:c:\work\hdnes\trunk\rewrite\emu\video.cpp
+	<GL/glew.h>
+	"video.h"
+
+1475290237 source:c:\work\hdnes\trunk\rewrite\gamemanager.cpp
 	"gameManager.h"
 

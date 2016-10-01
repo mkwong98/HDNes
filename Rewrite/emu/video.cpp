@@ -1,21 +1,28 @@
 #include <GL/glew.h>
 #include "video.h"
 
-video::video()
-{
-    //ctor
+using namespace std;
+
+video::video(){
 }
 
-video::~video()
-{
+video::~video(){
     //dtor
 }
 
-void video::loadConfig(fstream* fs){
+string video::partName(){
+    return string("video");
 }
 
-void video::saveConfig(fstream* fs){
-    (*fs) << "<video>";
+
+void video::saveConfigLines(fstream* fs){
+    saveConfigLine(fs, string("a"), string("b"));
+}
+
+void video::loadConfigVal(string hdr, string value){
+    if(hdr.compare("a") == 0){
+
+    }
 }
 
 void video::startGame(){
