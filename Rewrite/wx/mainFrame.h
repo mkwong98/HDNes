@@ -30,6 +30,7 @@
 #include <wx/spinctrl.h>
 #include <wx/slider.h>
 #include <wx/notebook.h>
+#include <wx/statusbr.h>
 #include <wx/frame.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -58,106 +59,107 @@ class mainFrame : public wxFrame
 		wxStaticText* m_staticText10;
 		wxPanel* m_panel5;
 		wxStaticText* m_staticText2;
-		wxChoice* m_choice1;
+		wxChoice* cboP1Up;
 		wxStaticText* m_staticText3;
-		wxChoice* m_choice2;
+		wxChoice* cboP1Left;
 		wxStaticText* m_staticText4;
-		wxChoice* m_choice3;
+		wxChoice* cboP1Right;
 		wxPanel* m_panel6;
 		wxStaticText* m_staticText9;
-		wxChoice* m_choice8;
+		wxChoice* cboP1Down;
 		wxPanel* m_panel7;
 		wxStaticText* m_staticText5;
-		wxChoice* m_choice4;
+		wxChoice* cboP1Select;
 		wxStaticText* m_staticText6;
-		wxChoice* m_choice5;
+		wxChoice* cboP1Start;
 		wxStaticText* m_staticText7;
-		wxChoice* m_choice6;
+		wxChoice* cboP1B;
 		wxStaticText* m_staticText8;
-		wxChoice* m_choice7;
+		wxChoice* cboP1A;
 		wxPanel* m_panel81;
 		wxStaticText* m_staticText101;
 		wxPanel* m_panel51;
 		wxStaticText* m_staticText21;
-		wxChoice* m_choice11;
+		wxChoice* cboP2Up;
 		wxStaticText* m_staticText31;
-		wxChoice* m_choice21;
+		wxChoice* cboP2Left;
 		wxStaticText* m_staticText41;
-		wxChoice* m_choice31;
+		wxChoice* cboP2Right;
 		wxPanel* m_panel61;
 		wxStaticText* m_staticText91;
-		wxChoice* m_choice81;
+		wxChoice* cboP2Down;
 		wxPanel* m_panel71;
 		wxStaticText* m_staticText51;
-		wxChoice* m_choice41;
+		wxChoice* cboP2Select;
 		wxStaticText* m_staticText61;
-		wxChoice* m_choice51;
+		wxChoice* cboP2Start;
 		wxStaticText* m_staticText71;
-		wxChoice* m_choice61;
+		wxChoice* cboP2B;
 		wxStaticText* m_staticText81;
-		wxChoice* m_choice71;
+		wxChoice* cboP2A;
 		wxPanel* m_panel13;
 		wxStaticText* m_staticText24;
-		wxChoice* m_choice37;
+		wxChoice* cboKeyPause;
 		wxStaticText* m_staticText25;
-		wxChoice* m_choice22;
+		wxChoice* cboKeyAdvanceFrame;
 		wxStaticText* m_staticText26;
-		wxChoice* m_choice23;
+		wxChoice* cboKeyCapScreen;
 		wxStaticText* m_staticText27;
-		wxChoice* m_choice24;
+		wxChoice* cboKeyToggleContSCap;
 		wxStaticText* m_staticText411;
-		wxChoice* m_choice211;
+		wxChoice* cboKeyStop;
 		wxStaticLine* m_staticline1;
 		wxStaticText* m_staticText20;
-		wxChoice* m_choice17;
+		wxChoice* cboKeySaveState;
 		wxStaticText* m_staticText211;
-		wxChoice* m_choice18;
+		wxChoice* cboKeyLoadState;
 		wxStaticText* m_staticText22;
-		wxChoice* m_choice19;
+		wxChoice* cboKeyLoadLastState;
 		wxStaticText* m_staticText23;
-		wxChoice* m_choice20;
+		wxChoice* cboKeyRotateSlot;
 		wxStaticLine* m_staticline2;
 		wxStaticText* m_staticText28;
-		wxChoice* m_choice25;
+		wxChoice* cboKeySlot1;
 		wxStaticText* m_staticText29;
-		wxChoice* m_choice26;
+		wxChoice* cboKeySlot2;
 		wxStaticText* m_staticText30;
-		wxChoice* m_choice27;
+		wxChoice* cboKeySlot3;
 		wxStaticText* m_staticText311;
-		wxChoice* m_choice28;
+		wxChoice* cboKeySlot4;
 		wxStaticText* m_staticText32;
-		wxChoice* m_choice29;
+		wxChoice* cboKeySlot5;
 		wxStaticText* m_staticText33;
-		wxChoice* m_choice30;
+		wxChoice* cboKeySlot6;
 		wxStaticText* m_staticText34;
-		wxChoice* m_choice311;
+		wxChoice* cboKeySlot7;
 		wxStaticText* m_staticText35;
-		wxChoice* m_choice32;
+		wxChoice* cboKeySlot8;
 		wxStaticText* m_staticText36;
-		wxChoice* m_choice33;
+		wxChoice* cboKeySlot9;
 		wxStaticText* m_staticText37;
-		wxChoice* m_choice34;
+		wxChoice* cboKeySlot10;
 		wxStaticLine* m_staticline3;
 		wxStaticText* m_staticText38;
-		wxChoice* m_choice35;
+		wxChoice* cboKeyHDCapFrame;
 		wxStaticText* m_staticText39;
-		wxChoice* m_choice36;
+		wxChoice* cboKeyToggleHDCap;
 		wxStaticText* m_staticText44;
-		wxChoice* m_choice38;
+		wxChoice* cboKeyToggleIgnoreEdge;
 		wxPanel* m_panel2;
-		wxRadioBox* m_radioBox2;
+		wxRadioBox* rbnScreenSize;
 		wxStaticText* m_staticText42;
-		wxSpinCtrl* m_spinCtrl1;
+		wxSpinCtrl* spnContCapRate;
 		wxStaticText* m_staticText43;
-		wxCheckBox* m_checkBox2;
-		wxCheckBox* m_checkBox3;
-		wxCheckBox* m_checkBox5;
-		wxCheckBox* m_checkBox6;
-		wxCheckBox* m_checkBox4;
+		wxCheckBox* chkUseHDGraphicsPack;
+		wxCheckBox* chkGenHDData;
+		wxCheckBox* chkGenROM;
+		wxCheckBox* chkGenRAM;
+		wxCheckBox* chkIgnoreEdge;
 		wxPanel* m_panel3;
 		wxStaticText* m_staticText45;
-		wxSlider* m_slider1;
-		wxCheckBox* m_checkBox21;
+		wxSlider* sldVolume;
+		wxCheckBox* chkUseHDMusicPack;
+		wxStatusBar* stbStatus;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void startGame( wxCommandEvent& event ) { event.Skip(); }
@@ -165,7 +167,7 @@ class mainFrame : public wxFrame
 	
 	public:
 		
-		mainFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("HDNes"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 696,398 ), long style = wxCAPTION|wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		mainFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("HDNes"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 696,420 ), long style = wxCAPTION|wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 		
 		~mainFrame();
 	

@@ -95,10 +95,10 @@ mainFrame::mainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	m_staticText2->Wrap( -1 );
 	bSizer13->Add( m_staticText2, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice1Choices;
-	m_choice1 = new wxChoice( m_panel5, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice1Choices, 0 );
-	m_choice1->SetSelection( 0 );
-	bSizer13->Add( m_choice1, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	wxArrayString cboP1UpChoices;
+	cboP1Up = new wxChoice( m_panel5, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboP1UpChoices, 0 );
+	cboP1Up->SetSelection( 0 );
+	bSizer13->Add( cboP1Up, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	
 	m_panel5->SetSizer( bSizer13 );
@@ -116,19 +116,19 @@ mainFrame::mainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	m_staticText3->Wrap( -1 );
 	bSizer12->Add( m_staticText3, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice2Choices;
-	m_choice2 = new wxChoice( m_panel8, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice2Choices, 0 );
-	m_choice2->SetSelection( 0 );
-	bSizer12->Add( m_choice2, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	wxArrayString cboP1LeftChoices;
+	cboP1Left = new wxChoice( m_panel8, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboP1LeftChoices, 0 );
+	cboP1Left->SetSelection( 0 );
+	bSizer12->Add( cboP1Left, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	m_staticText4 = new wxStaticText( m_panel8, wxID_ANY, wxT("Right"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText4->Wrap( -1 );
 	bSizer12->Add( m_staticText4, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice3Choices;
-	m_choice3 = new wxChoice( m_panel8, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice3Choices, 0 );
-	m_choice3->SetSelection( 0 );
-	bSizer12->Add( m_choice3, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	wxArrayString cboP1RightChoices;
+	cboP1Right = new wxChoice( m_panel8, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboP1RightChoices, 0 );
+	cboP1Right->SetSelection( 0 );
+	bSizer12->Add( cboP1Right, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	
 	bSizer9->Add( bSizer12, 0, wxEXPAND, 5 );
@@ -144,10 +144,10 @@ mainFrame::mainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	m_staticText9->Wrap( -1 );
 	bSizer15->Add( m_staticText9, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice8Choices;
-	m_choice8 = new wxChoice( m_panel6, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice8Choices, 0 );
-	m_choice8->SetSelection( 0 );
-	bSizer15->Add( m_choice8, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	wxArrayString cboP1DownChoices;
+	cboP1Down = new wxChoice( m_panel6, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboP1DownChoices, 0 );
+	cboP1Down->SetSelection( 0 );
+	bSizer15->Add( cboP1Down, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	
 	m_panel6->SetSizer( bSizer15 );
@@ -174,37 +174,37 @@ mainFrame::mainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	m_staticText5->Wrap( -1 );
 	fgSizer1->Add( m_staticText5, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice4Choices;
-	m_choice4 = new wxChoice( m_panel7, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice4Choices, 0 );
-	m_choice4->SetSelection( 0 );
-	fgSizer1->Add( m_choice4, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	wxArrayString cboP1SelectChoices;
+	cboP1Select = new wxChoice( m_panel7, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboP1SelectChoices, 0 );
+	cboP1Select->SetSelection( 0 );
+	fgSizer1->Add( cboP1Select, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	m_staticText6 = new wxStaticText( m_panel7, wxID_ANY, wxT("Start"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText6->Wrap( -1 );
 	fgSizer1->Add( m_staticText6, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice5Choices;
-	m_choice5 = new wxChoice( m_panel7, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice5Choices, 0 );
-	m_choice5->SetSelection( 0 );
-	fgSizer1->Add( m_choice5, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	wxArrayString cboP1StartChoices;
+	cboP1Start = new wxChoice( m_panel7, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboP1StartChoices, 0 );
+	cboP1Start->SetSelection( 0 );
+	fgSizer1->Add( cboP1Start, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	m_staticText7 = new wxStaticText( m_panel7, wxID_ANY, wxT("B"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText7->Wrap( -1 );
 	fgSizer1->Add( m_staticText7, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice6Choices;
-	m_choice6 = new wxChoice( m_panel7, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice6Choices, 0 );
-	m_choice6->SetSelection( 0 );
-	fgSizer1->Add( m_choice6, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	wxArrayString cboP1BChoices;
+	cboP1B = new wxChoice( m_panel7, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboP1BChoices, 0 );
+	cboP1B->SetSelection( 0 );
+	fgSizer1->Add( cboP1B, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	m_staticText8 = new wxStaticText( m_panel7, wxID_ANY, wxT("A"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText8->Wrap( -1 );
 	fgSizer1->Add( m_staticText8, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice7Choices;
-	m_choice7 = new wxChoice( m_panel7, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice7Choices, 0 );
-	m_choice7->SetSelection( 0 );
-	fgSizer1->Add( m_choice7, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	wxArrayString cboP1AChoices;
+	cboP1A = new wxChoice( m_panel7, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboP1AChoices, 0 );
+	cboP1A->SetSelection( 0 );
+	fgSizer1->Add( cboP1A, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	
 	m_panel7->SetSizer( fgSizer1 );
@@ -249,10 +249,10 @@ mainFrame::mainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	m_staticText21->Wrap( -1 );
 	bSizer131->Add( m_staticText21, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice11Choices;
-	m_choice11 = new wxChoice( m_panel51, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice11Choices, 0 );
-	m_choice11->SetSelection( 0 );
-	bSizer131->Add( m_choice11, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	wxArrayString cboP2UpChoices;
+	cboP2Up = new wxChoice( m_panel51, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboP2UpChoices, 0 );
+	cboP2Up->SetSelection( 0 );
+	bSizer131->Add( cboP2Up, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	
 	m_panel51->SetSizer( bSizer131 );
@@ -270,19 +270,19 @@ mainFrame::mainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	m_staticText31->Wrap( -1 );
 	bSizer121->Add( m_staticText31, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice21Choices;
-	m_choice21 = new wxChoice( m_panel81, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice21Choices, 0 );
-	m_choice21->SetSelection( 0 );
-	bSizer121->Add( m_choice21, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	wxArrayString cboP2LeftChoices;
+	cboP2Left = new wxChoice( m_panel81, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboP2LeftChoices, 0 );
+	cboP2Left->SetSelection( 0 );
+	bSizer121->Add( cboP2Left, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	m_staticText41 = new wxStaticText( m_panel81, wxID_ANY, wxT("Right"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText41->Wrap( -1 );
 	bSizer121->Add( m_staticText41, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice31Choices;
-	m_choice31 = new wxChoice( m_panel81, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice31Choices, 0 );
-	m_choice31->SetSelection( 0 );
-	bSizer121->Add( m_choice31, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	wxArrayString cboP2RightChoices;
+	cboP2Right = new wxChoice( m_panel81, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboP2RightChoices, 0 );
+	cboP2Right->SetSelection( 0 );
+	bSizer121->Add( cboP2Right, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	
 	bSizer91->Add( bSizer121, 0, wxEXPAND, 5 );
@@ -298,10 +298,10 @@ mainFrame::mainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	m_staticText91->Wrap( -1 );
 	bSizer151->Add( m_staticText91, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice81Choices;
-	m_choice81 = new wxChoice( m_panel61, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice81Choices, 0 );
-	m_choice81->SetSelection( 0 );
-	bSizer151->Add( m_choice81, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	wxArrayString cboP2DownChoices;
+	cboP2Down = new wxChoice( m_panel61, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboP2DownChoices, 0 );
+	cboP2Down->SetSelection( 0 );
+	bSizer151->Add( cboP2Down, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	
 	m_panel61->SetSizer( bSizer151 );
@@ -328,37 +328,37 @@ mainFrame::mainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	m_staticText51->Wrap( -1 );
 	fgSizer11->Add( m_staticText51, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice41Choices;
-	m_choice41 = new wxChoice( m_panel71, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice41Choices, 0 );
-	m_choice41->SetSelection( 0 );
-	fgSizer11->Add( m_choice41, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	wxArrayString cboP2SelectChoices;
+	cboP2Select = new wxChoice( m_panel71, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboP2SelectChoices, 0 );
+	cboP2Select->SetSelection( 0 );
+	fgSizer11->Add( cboP2Select, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	m_staticText61 = new wxStaticText( m_panel71, wxID_ANY, wxT("Start"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText61->Wrap( -1 );
 	fgSizer11->Add( m_staticText61, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice51Choices;
-	m_choice51 = new wxChoice( m_panel71, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice51Choices, 0 );
-	m_choice51->SetSelection( 0 );
-	fgSizer11->Add( m_choice51, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	wxArrayString cboP2StartChoices;
+	cboP2Start = new wxChoice( m_panel71, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboP2StartChoices, 0 );
+	cboP2Start->SetSelection( 0 );
+	fgSizer11->Add( cboP2Start, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	m_staticText71 = new wxStaticText( m_panel71, wxID_ANY, wxT("B"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText71->Wrap( -1 );
 	fgSizer11->Add( m_staticText71, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice61Choices;
-	m_choice61 = new wxChoice( m_panel71, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice61Choices, 0 );
-	m_choice61->SetSelection( 0 );
-	fgSizer11->Add( m_choice61, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	wxArrayString cboP2BChoices;
+	cboP2B = new wxChoice( m_panel71, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboP2BChoices, 0 );
+	cboP2B->SetSelection( 0 );
+	fgSizer11->Add( cboP2B, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	m_staticText81 = new wxStaticText( m_panel71, wxID_ANY, wxT("A"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText81->Wrap( -1 );
 	fgSizer11->Add( m_staticText81, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice71Choices;
-	m_choice71 = new wxChoice( m_panel71, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice71Choices, 0 );
-	m_choice71->SetSelection( 0 );
-	fgSizer11->Add( m_choice71, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	wxArrayString cboP2AChoices;
+	cboP2A = new wxChoice( m_panel71, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboP2AChoices, 0 );
+	cboP2A->SetSelection( 0 );
+	fgSizer11->Add( cboP2A, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	
 	m_panel71->SetSizer( fgSizer11 );
@@ -399,46 +399,46 @@ mainFrame::mainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	m_staticText24->Wrap( -1 );
 	fgSizer3->Add( m_staticText24, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice37Choices;
-	m_choice37 = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice37Choices, 0 );
-	m_choice37->SetSelection( 0 );
-	fgSizer3->Add( m_choice37, 0, wxALL, 5 );
+	wxArrayString cboKeyPauseChoices;
+	cboKeyPause = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboKeyPauseChoices, 0 );
+	cboKeyPause->SetSelection( 0 );
+	fgSizer3->Add( cboKeyPause, 0, wxALL, 5 );
 	
 	m_staticText25 = new wxStaticText( m_panel13, wxID_ANY, wxT("Advance by 1 frame"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText25->Wrap( 100 );
 	fgSizer3->Add( m_staticText25, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice22Choices;
-	m_choice22 = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice22Choices, 0 );
-	m_choice22->SetSelection( 0 );
-	fgSizer3->Add( m_choice22, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	wxArrayString cboKeyAdvanceFrameChoices;
+	cboKeyAdvanceFrame = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboKeyAdvanceFrameChoices, 0 );
+	cboKeyAdvanceFrame->SetSelection( 0 );
+	fgSizer3->Add( cboKeyAdvanceFrame, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	m_staticText26 = new wxStaticText( m_panel13, wxID_ANY, wxT("Capture screen"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText26->Wrap( 100 );
 	fgSizer3->Add( m_staticText26, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice23Choices;
-	m_choice23 = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice23Choices, 0 );
-	m_choice23->SetSelection( 0 );
-	fgSizer3->Add( m_choice23, 0, wxALL, 5 );
+	wxArrayString cboKeyCapScreenChoices;
+	cboKeyCapScreen = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboKeyCapScreenChoices, 0 );
+	cboKeyCapScreen->SetSelection( 0 );
+	fgSizer3->Add( cboKeyCapScreen, 0, wxALL, 5 );
 	
 	m_staticText27 = new wxStaticText( m_panel13, wxID_ANY, wxT("Toggle continuous screen capture"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText27->Wrap( 100 );
 	fgSizer3->Add( m_staticText27, 0, wxALL, 5 );
 	
-	wxArrayString m_choice24Choices;
-	m_choice24 = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice24Choices, 0 );
-	m_choice24->SetSelection( 0 );
-	fgSizer3->Add( m_choice24, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	wxArrayString cboKeyToggleContSCapChoices;
+	cboKeyToggleContSCap = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboKeyToggleContSCapChoices, 0 );
+	cboKeyToggleContSCap->SetSelection( 0 );
+	fgSizer3->Add( cboKeyToggleContSCap, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	m_staticText411 = new wxStaticText( m_panel13, wxID_ANY, wxT("Stop emulation"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText411->Wrap( -1 );
 	fgSizer3->Add( m_staticText411, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice211Choices;
-	m_choice211 = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice211Choices, 0 );
-	m_choice211->SetSelection( 0 );
-	fgSizer3->Add( m_choice211, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	wxArrayString cboKeyStopChoices;
+	cboKeyStop = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboKeyStopChoices, 0 );
+	cboKeyStop->SetSelection( 0 );
+	fgSizer3->Add( cboKeyStop, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	
 	bSizer25->Add( fgSizer3, 0, wxEXPAND, 5 );
@@ -455,37 +455,37 @@ mainFrame::mainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	m_staticText20->Wrap( -1 );
 	fgSizer5->Add( m_staticText20, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice17Choices;
-	m_choice17 = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice17Choices, 0 );
-	m_choice17->SetSelection( 0 );
-	fgSizer5->Add( m_choice17, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	wxArrayString cboKeySaveStateChoices;
+	cboKeySaveState = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboKeySaveStateChoices, 0 );
+	cboKeySaveState->SetSelection( 0 );
+	fgSizer5->Add( cboKeySaveState, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	m_staticText211 = new wxStaticText( m_panel13, wxID_ANY, wxT("Load state"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText211->Wrap( -1 );
 	fgSizer5->Add( m_staticText211, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice18Choices;
-	m_choice18 = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice18Choices, 0 );
-	m_choice18->SetSelection( 0 );
-	fgSizer5->Add( m_choice18, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	wxArrayString cboKeyLoadStateChoices;
+	cboKeyLoadState = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboKeyLoadStateChoices, 0 );
+	cboKeyLoadState->SetSelection( 0 );
+	fgSizer5->Add( cboKeyLoadState, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	m_staticText22 = new wxStaticText( m_panel13, wxID_ANY, wxT("Load last state saved"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText22->Wrap( 100 );
 	fgSizer5->Add( m_staticText22, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice19Choices;
-	m_choice19 = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice19Choices, 0 );
-	m_choice19->SetSelection( 0 );
-	fgSizer5->Add( m_choice19, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	wxArrayString cboKeyLoadLastStateChoices;
+	cboKeyLoadLastState = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboKeyLoadLastStateChoices, 0 );
+	cboKeyLoadLastState->SetSelection( 0 );
+	fgSizer5->Add( cboKeyLoadLastState, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	m_staticText23 = new wxStaticText( m_panel13, wxID_ANY, wxT("Rotate to next state slot"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText23->Wrap( 100 );
 	fgSizer5->Add( m_staticText23, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice20Choices;
-	m_choice20 = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice20Choices, 0 );
-	m_choice20->SetSelection( 0 );
-	fgSizer5->Add( m_choice20, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	wxArrayString cboKeyRotateSlotChoices;
+	cboKeyRotateSlot = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboKeyRotateSlotChoices, 0 );
+	cboKeyRotateSlot->SetSelection( 0 );
+	fgSizer5->Add( cboKeyRotateSlot, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	
 	bSizer25->Add( fgSizer5, 1, wxEXPAND, 5 );
@@ -505,91 +505,91 @@ mainFrame::mainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	m_staticText28->Wrap( -1 );
 	fgSizer4->Add( m_staticText28, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice25Choices;
-	m_choice25 = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice25Choices, 0 );
-	m_choice25->SetSelection( 0 );
-	fgSizer4->Add( m_choice25, 0, wxALL, 5 );
+	wxArrayString cboKeySlot1Choices;
+	cboKeySlot1 = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboKeySlot1Choices, 0 );
+	cboKeySlot1->SetSelection( 0 );
+	fgSizer4->Add( cboKeySlot1, 0, wxALL, 5 );
 	
 	m_staticText29 = new wxStaticText( m_panel13, wxID_ANY, wxT("State slot 2"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText29->Wrap( -1 );
 	fgSizer4->Add( m_staticText29, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice26Choices;
-	m_choice26 = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice26Choices, 0 );
-	m_choice26->SetSelection( 0 );
-	fgSizer4->Add( m_choice26, 0, wxALL, 5 );
+	wxArrayString cboKeySlot2Choices;
+	cboKeySlot2 = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboKeySlot2Choices, 0 );
+	cboKeySlot2->SetSelection( 0 );
+	fgSizer4->Add( cboKeySlot2, 0, wxALL, 5 );
 	
 	m_staticText30 = new wxStaticText( m_panel13, wxID_ANY, wxT("State slot 3"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText30->Wrap( -1 );
 	fgSizer4->Add( m_staticText30, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice27Choices;
-	m_choice27 = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice27Choices, 0 );
-	m_choice27->SetSelection( 0 );
-	fgSizer4->Add( m_choice27, 0, wxALL, 5 );
+	wxArrayString cboKeySlot3Choices;
+	cboKeySlot3 = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboKeySlot3Choices, 0 );
+	cboKeySlot3->SetSelection( 0 );
+	fgSizer4->Add( cboKeySlot3, 0, wxALL, 5 );
 	
 	m_staticText311 = new wxStaticText( m_panel13, wxID_ANY, wxT("State slot 4"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText311->Wrap( -1 );
 	fgSizer4->Add( m_staticText311, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice28Choices;
-	m_choice28 = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice28Choices, 0 );
-	m_choice28->SetSelection( 0 );
-	fgSizer4->Add( m_choice28, 0, wxALL, 5 );
+	wxArrayString cboKeySlot4Choices;
+	cboKeySlot4 = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboKeySlot4Choices, 0 );
+	cboKeySlot4->SetSelection( 0 );
+	fgSizer4->Add( cboKeySlot4, 0, wxALL, 5 );
 	
 	m_staticText32 = new wxStaticText( m_panel13, wxID_ANY, wxT("State slot 5"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText32->Wrap( -1 );
 	fgSizer4->Add( m_staticText32, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice29Choices;
-	m_choice29 = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice29Choices, 0 );
-	m_choice29->SetSelection( 0 );
-	fgSizer4->Add( m_choice29, 0, wxALL, 5 );
+	wxArrayString cboKeySlot5Choices;
+	cboKeySlot5 = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboKeySlot5Choices, 0 );
+	cboKeySlot5->SetSelection( 0 );
+	fgSizer4->Add( cboKeySlot5, 0, wxALL, 5 );
 	
 	m_staticText33 = new wxStaticText( m_panel13, wxID_ANY, wxT("State slot 6"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText33->Wrap( -1 );
 	fgSizer4->Add( m_staticText33, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice30Choices;
-	m_choice30 = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice30Choices, 0 );
-	m_choice30->SetSelection( 0 );
-	fgSizer4->Add( m_choice30, 0, wxALL, 5 );
+	wxArrayString cboKeySlot6Choices;
+	cboKeySlot6 = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboKeySlot6Choices, 0 );
+	cboKeySlot6->SetSelection( 0 );
+	fgSizer4->Add( cboKeySlot6, 0, wxALL, 5 );
 	
 	m_staticText34 = new wxStaticText( m_panel13, wxID_ANY, wxT("State slot 7"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText34->Wrap( -1 );
 	fgSizer4->Add( m_staticText34, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice311Choices;
-	m_choice311 = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice311Choices, 0 );
-	m_choice311->SetSelection( 0 );
-	fgSizer4->Add( m_choice311, 0, wxALL, 5 );
+	wxArrayString cboKeySlot7Choices;
+	cboKeySlot7 = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboKeySlot7Choices, 0 );
+	cboKeySlot7->SetSelection( 0 );
+	fgSizer4->Add( cboKeySlot7, 0, wxALL, 5 );
 	
 	m_staticText35 = new wxStaticText( m_panel13, wxID_ANY, wxT("State slot 8"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText35->Wrap( -1 );
 	fgSizer4->Add( m_staticText35, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice32Choices;
-	m_choice32 = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice32Choices, 0 );
-	m_choice32->SetSelection( 0 );
-	fgSizer4->Add( m_choice32, 0, wxALL, 5 );
+	wxArrayString cboKeySlot8Choices;
+	cboKeySlot8 = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboKeySlot8Choices, 0 );
+	cboKeySlot8->SetSelection( 0 );
+	fgSizer4->Add( cboKeySlot8, 0, wxALL, 5 );
 	
 	m_staticText36 = new wxStaticText( m_panel13, wxID_ANY, wxT("State slot 9"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText36->Wrap( -1 );
 	fgSizer4->Add( m_staticText36, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice33Choices;
-	m_choice33 = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice33Choices, 0 );
-	m_choice33->SetSelection( 0 );
-	fgSizer4->Add( m_choice33, 0, wxALL, 5 );
+	wxArrayString cboKeySlot9Choices;
+	cboKeySlot9 = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboKeySlot9Choices, 0 );
+	cboKeySlot9->SetSelection( 0 );
+	fgSizer4->Add( cboKeySlot9, 0, wxALL, 5 );
 	
 	m_staticText37 = new wxStaticText( m_panel13, wxID_ANY, wxT("State slot 10"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText37->Wrap( -1 );
 	fgSizer4->Add( m_staticText37, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice34Choices;
-	m_choice34 = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice34Choices, 0 );
-	m_choice34->SetSelection( 0 );
-	fgSizer4->Add( m_choice34, 0, wxALL, 5 );
+	wxArrayString cboKeySlot10Choices;
+	cboKeySlot10 = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboKeySlot10Choices, 0 );
+	cboKeySlot10->SetSelection( 0 );
+	fgSizer4->Add( cboKeySlot10, 0, wxALL, 5 );
 	
 	
 	bSizer24->Add( fgSizer4, 0, wxEXPAND, 5 );
@@ -606,28 +606,28 @@ mainFrame::mainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	m_staticText38->Wrap( 100 );
 	fgSizer6->Add( m_staticText38, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice35Choices;
-	m_choice35 = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice35Choices, 0 );
-	m_choice35->SetSelection( 0 );
-	fgSizer6->Add( m_choice35, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	wxArrayString cboKeyHDCapFrameChoices;
+	cboKeyHDCapFrame = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboKeyHDCapFrameChoices, 0 );
+	cboKeyHDCapFrame->SetSelection( 0 );
+	fgSizer6->Add( cboKeyHDCapFrame, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	m_staticText39 = new wxStaticText( m_panel13, wxID_ANY, wxT("Toggle automatic frame data capture"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText39->Wrap( 100 );
 	fgSizer6->Add( m_staticText39, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice36Choices;
-	m_choice36 = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice36Choices, 0 );
-	m_choice36->SetSelection( 0 );
-	fgSizer6->Add( m_choice36, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	wxArrayString cboKeyToggleHDCapChoices;
+	cboKeyToggleHDCap = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboKeyToggleHDCapChoices, 0 );
+	cboKeyToggleHDCap->SetSelection( 0 );
+	fgSizer6->Add( cboKeyToggleHDCap, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	m_staticText44 = new wxStaticText( m_panel13, wxID_ANY, wxT("Toggle ignore graphics near the edge of the screen"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText44->Wrap( 100 );
 	fgSizer6->Add( m_staticText44, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice38Choices;
-	m_choice38 = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice38Choices, 0 );
-	m_choice38->SetSelection( 0 );
-	fgSizer6->Add( m_choice38, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	wxArrayString cboKeyToggleIgnoreEdgeChoices;
+	cboKeyToggleIgnoreEdge = new wxChoice( m_panel13, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboKeyToggleIgnoreEdgeChoices, 0 );
+	cboKeyToggleIgnoreEdge->SetSelection( 0 );
+	fgSizer6->Add( cboKeyToggleIgnoreEdge, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	
 	bSizer24->Add( fgSizer6, 1, wxEXPAND, 5 );
@@ -644,11 +644,11 @@ mainFrame::mainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	wxBoxSizer* bSizer27;
 	bSizer27 = new wxBoxSizer( wxHORIZONTAL );
 	
-	wxString m_radioBox2Choices[] = { wxT("1x"), wxT("2x"), wxT("4x") };
-	int m_radioBox2NChoices = sizeof( m_radioBox2Choices ) / sizeof( wxString );
-	m_radioBox2 = new wxRadioBox( m_panel2, wxID_ANY, wxT("Screen size"), wxDefaultPosition, wxDefaultSize, m_radioBox2NChoices, m_radioBox2Choices, 1, wxRA_SPECIFY_ROWS );
-	m_radioBox2->SetSelection( 0 );
-	bSizer27->Add( m_radioBox2, 0, wxALL, 5 );
+	wxString rbnScreenSizeChoices[] = { wxT("1x"), wxT("2x"), wxT("4x") };
+	int rbnScreenSizeNChoices = sizeof( rbnScreenSizeChoices ) / sizeof( wxString );
+	rbnScreenSize = new wxRadioBox( m_panel2, wxID_ANY, wxT("Screen size"), wxDefaultPosition, wxDefaultSize, rbnScreenSizeNChoices, rbnScreenSizeChoices, 1, wxRA_SPECIFY_ROWS );
+	rbnScreenSize->SetSelection( 0 );
+	bSizer27->Add( rbnScreenSize, 0, wxALL, 5 );
 	
 	
 	bSizer26->Add( bSizer27, 0, wxEXPAND, 5 );
@@ -660,8 +660,8 @@ mainFrame::mainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	m_staticText42->Wrap( -1 );
 	bSizer28->Add( m_staticText42, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	m_spinCtrl1 = new wxSpinCtrl( m_panel2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 0, 300, 5 );
-	bSizer28->Add( m_spinCtrl1, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	spnContCapRate = new wxSpinCtrl( m_panel2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 0, 300, 5 );
+	bSizer28->Add( spnContCapRate, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	m_staticText43 = new wxStaticText( m_panel2, wxID_ANY, wxT("frame(s)"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText43->Wrap( -1 );
@@ -670,26 +670,26 @@ mainFrame::mainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	
 	bSizer26->Add( bSizer28, 0, wxEXPAND, 5 );
 	
-	m_checkBox2 = new wxCheckBox( m_panel2, wxID_ANY, wxT("Use HD graphics pack when available "), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer26->Add( m_checkBox2, 0, wxALL, 5 );
+	chkUseHDGraphicsPack = new wxCheckBox( m_panel2, wxID_ANY, wxT("Use HD graphics pack when available "), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer26->Add( chkUseHDGraphicsPack, 0, wxALL, 5 );
 	
 	wxBoxSizer* bSizer29;
 	bSizer29 = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_checkBox3 = new wxCheckBox( m_panel2, wxID_ANY, wxT("Automatically capture frame data for making HD graphics pack"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer29->Add( m_checkBox3, 0, wxALL, 5 );
+	chkGenHDData = new wxCheckBox( m_panel2, wxID_ANY, wxT("Automatically capture frame data for making HD graphics pack"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer29->Add( chkGenHDData, 0, wxALL, 5 );
 	
-	m_checkBox5 = new wxCheckBox( m_panel2, wxID_ANY, wxT("CHR-ROM games"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer29->Add( m_checkBox5, 0, wxALL, 5 );
+	chkGenROM = new wxCheckBox( m_panel2, wxID_ANY, wxT("CHR-ROM games"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer29->Add( chkGenROM, 0, wxALL, 5 );
 	
-	m_checkBox6 = new wxCheckBox( m_panel2, wxID_ANY, wxT("CHR-RAM games"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer29->Add( m_checkBox6, 0, wxALL, 5 );
+	chkGenRAM = new wxCheckBox( m_panel2, wxID_ANY, wxT("CHR-RAM games"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer29->Add( chkGenRAM, 0, wxALL, 5 );
 	
 	
 	bSizer26->Add( bSizer29, 0, wxEXPAND, 5 );
 	
-	m_checkBox4 = new wxCheckBox( m_panel2, wxID_ANY, wxT("Ignore graphics near the edge of the screen"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer26->Add( m_checkBox4, 0, wxALL, 5 );
+	chkIgnoreEdge = new wxCheckBox( m_panel2, wxID_ANY, wxT("Ignore graphics near the edge of the screen"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer26->Add( chkIgnoreEdge, 0, wxALL, 5 );
 	
 	
 	m_panel2->SetSizer( bSizer26 );
@@ -707,16 +707,16 @@ mainFrame::mainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	m_staticText45->Wrap( -1 );
 	bSizer31->Add( m_staticText45, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	m_slider1 = new wxSlider( m_panel3, wxID_ANY, 50, 0, 100, wxDefaultPosition, wxDefaultSize, wxSL_BOTTOM|wxSL_HORIZONTAL|wxSL_LABELS );
-	m_slider1->SetMinSize( wxSize( 200,-1 ) );
+	sldVolume = new wxSlider( m_panel3, wxID_ANY, 50, 0, 100, wxDefaultPosition, wxDefaultSize, wxSL_BOTTOM|wxSL_HORIZONTAL|wxSL_LABELS );
+	sldVolume->SetMinSize( wxSize( 200,-1 ) );
 	
-	bSizer31->Add( m_slider1, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	bSizer31->Add( sldVolume, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
 	
 	bSizer30->Add( bSizer31, 0, wxEXPAND, 5 );
 	
-	m_checkBox21 = new wxCheckBox( m_panel3, wxID_ANY, wxT("Use HD music pack when available "), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer30->Add( m_checkBox21, 0, wxALL, 5 );
+	chkUseHDMusicPack = new wxCheckBox( m_panel3, wxID_ANY, wxT("Use HD music pack when available "), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer30->Add( chkUseHDMusicPack, 0, wxALL, 5 );
 	
 	
 	m_panel3->SetSizer( bSizer30 );
@@ -729,6 +729,7 @@ mainFrame::mainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	
 	this->SetSizer( bSizer1 );
 	this->Layout();
+	stbStatus = this->CreateStatusBar( 1, wxST_SIZEGRIP, wxID_ANY );
 	
 	this->Centre( wxBOTH );
 	
