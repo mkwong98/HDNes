@@ -1,14 +1,21 @@
-#ifndef VIDEO_H
-#define VIDEO_H
+#ifndef GAMEFILE_H
+#define GAMEFILE_H
 
 #include "../classList.h"
 #include <emuPart.h>
 
-class video : public emuPart
-{
+
+class gameFile : public emuPart{
     public:
-        video();
-        virtual ~video();
+        //variables
+        string romPath;
+        int currentStateSlot;
+        int lastSavedSlot;
+        bool rotateState;
+
+        //functions
+        gameFile();
+        virtual ~gameFile();
         string partName();
 
         void saveConfigLines(fstream* fs);
@@ -18,11 +25,11 @@ class video : public emuPart
 
         void startGame();
         void endGame();
+
     protected:
 
     private:
-        SDL_Window* displayWindow;
-        SDL_GLContext glcontext;
+
 };
 
-#endif // VIDEO_H
+#endif // GAMEFILE_H

@@ -6,6 +6,7 @@ class corePart;
 class emuPart;
 class audio;
 class video;
+class gameFile;
 
 class mainFrameImp;
 class gameManager;

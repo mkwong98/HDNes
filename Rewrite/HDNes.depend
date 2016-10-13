@@ -331,8 +331,11 @@
 1474075856 c:\work\hdnesr\trunk\rewrite\core\core_part.h
 	"../common.h"
 
-1474623383 c:\work\hdnesr\trunk\rewrite\common.h
+1476345408 c:\work\hdnesr\trunk\rewrite\common.h
 	<fstream>
+	<sstream>
+	<string>
+	<iostream>
 	"SDL2\SDL.h"
 
 1412631243 c:\work\include\wx\wx.h
@@ -3277,24 +3280,33 @@
 	"common.h"
 	"wx\wx.h"
 
-1474605963 source:c:\work\hdnesr\trunk\rewrite\wx\mainframe.cpp
+1476352468 source:c:\work\hdnesr\trunk\rewrite\wx\mainframe.cpp
 	"mainFrame.h"
 
-1474605963 c:\work\hdnesr\trunk\rewrite\wx\mainframe.h
+1476352468 c:\work\hdnesr\trunk\rewrite\wx\mainframe.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/string.h>
-	<wx/button.h>
+	<wx/stattext.h>
 	<wx/gdicmn.h>
 	<wx/font.h>
 	<wx/colour.h>
 	<wx/settings.h>
+	<wx/filepicker.h>
+	<wx/button.h>
 	<wx/sizer.h>
+	<wx/radiobox.h>
+	<wx/checkbox.h>
 	<wx/panel.h>
 	<wx/bitmap.h>
 	<wx/image.h>
 	<wx/icon.h>
+	<wx/choice.h>
+	<wx/statline.h>
+	<wx/spinctrl.h>
+	<wx/slider.h>
 	<wx/notebook.h>
+	<wx/statusbr.h>
 	<wx/frame.h>
 
 1412631243 c:\work\include\wx\xrc\xmlres.h
@@ -3329,7 +3341,7 @@
 	"wx/imaglist.h"
 	"wx/window.h"
 
-1475223273 c:\work\hdnesr\trunk\rewrite\wx\mainframeimp.h
+1476353421 c:\work\hdnesr\trunk\rewrite\wx\mainframeimp.h
 	"../classList.h"
 	"mainFrame.h"
 	"../gameManager.h"
@@ -3395,7 +3407,7 @@
 1412631243 c:\work\include\wx\os2\notebook.h
 	"wx/control.h"
 
-1475223483 source:c:\work\hdnesr\trunk\rewrite\wx\mainframeimp.cpp
+1476353422 source:c:\work\hdnesr\trunk\rewrite\wx\mainframeimp.cpp
 	"mainFrameImp.h"
 
 1474965180 source:c:\work\hdnesr\trunk\rewrite\emu\audio.cpp
@@ -3404,17 +3416,17 @@
 1475223273 c:\work\hdnesr\trunk\rewrite\emu\audio.h
 	<emuPart.h>
 
-1474975204 source:c:\work\hdnesr\trunk\rewrite\emu\video.cpp
+1476351809 source:c:\work\hdnesr\trunk\rewrite\emu\video.cpp
 	<GL/glew.h>
 	"video.h"
 
-1475225461 c:\work\hdnesr\trunk\rewrite\emu\video.h
+1476351738 c:\work\hdnesr\trunk\rewrite\emu\video.h
 	"../classList.h"
 	<emuPart.h>
 
-1475223273 c:\work\hdnesr\trunk\rewrite\classlist.h
+1476329984 c:\work\hdnesr\trunk\rewrite\classlist.h
 
-1475249934 c:\work\include\gl\glew.h
+1474972550 c:\work\include\gl\glew.h
 	<stddef.h>
 	<inttypes.h>
 	<stdint.h>
@@ -3423,14 +3435,15 @@
 	<OpenGL/glu.h>
 	<GL/glu.h>
 
-1475225461 c:\work\hdnesr\trunk\rewrite\emu\emupart.h
+1476351915 c:\work\hdnesr\trunk\rewrite\emu\emupart.h
 	"../common.h"
 
-1475223929 c:\work\hdnesr\trunk\rewrite\gamemanager.h
+1476350198 c:\work\hdnesr\trunk\rewrite\gamemanager.h
 	"wx\wx.h"
 	"wx\mainFrameImp.h"
 	"classList.h"
 	"emu\video.h"
+	"emu\gameFile.h"
 
 1475223273 source:c:\work\hdnesr\trunk\rewrite\core\corepart.cpp
 	"corePart.h"
@@ -3438,10 +3451,10 @@
 1475223273 c:\work\hdnesr\trunk\rewrite\core\corepart.h
 	"../common.h"
 
-1475223273 source:c:\work\hdnesr\trunk\rewrite\emu\emupart.cpp
+1476351611 source:c:\work\hdnesr\trunk\rewrite\emu\emupart.cpp
 	"emuPart.h"
 
-1475224224 source:c:\work\hdnesr\trunk\rewrite\gamemanager.cpp
+1476351944 source:c:\work\hdnesr\trunk\rewrite\gamemanager.cpp
 	"gameManager.h"
 
 1475250574 source:c:\work\hdnes\trunk\rewrite\core\corepart.cpp
@@ -3520,4 +3533,132 @@
 
 1475290237 source:c:\work\hdnes\trunk\rewrite\gamemanager.cpp
 	"gameManager.h"
+
+1412631242 c:\work\include\wx\filepicker.h
+	"wx/defs.h"
+	"wx/pickerbase.h"
+	"wx/filename.h"
+	"wx/gtk/filepicker.h"
+	"wx/generic/filepickerg.h"
+
+1412631243 c:\work\include\wx\pickerbase.h
+	"wx/control.h"
+	"wx/sizer.h"
+	"wx/containr.h"
+
+1412631242 c:\work\include\wx\gtk\filepicker.h
+	"wx/generic/filepickerg.h"
+
+1412631242 c:\work\include\wx\generic\filepickerg.h
+	"wx/button.h"
+	"wx/filedlg.h"
+	"wx/dirdlg.h"
+
+1412631243 c:\work\include\wx\statline.h
+	"wx/defs.h"
+	"wx/control.h"
+	"wx/univ/statline.h"
+	"wx/msw/statline.h"
+	"wx/gtk/statline.h"
+	"wx/gtk1/statline.h"
+	"wx/os2/statline.h"
+	"wx/osx/statline.h"
+	"wx/cocoa/statline.h"
+	"wx/generic/statline.h"
+
+1412631243 c:\work\include\wx\univ\statline.h
+
+1412631243 c:\work\include\wx\msw\statline.h
+
+1412631242 c:\work\include\wx\gtk\statline.h
+	"wx/defs.h"
+
+1412631242 c:\work\include\wx\gtk1\statline.h
+	"wx/defs.h"
+
+1412631243 c:\work\include\wx\os2\statline.h
+
+1412631243 c:\work\include\wx\osx\statline.h
+
+1412631242 c:\work\include\wx\cocoa\statline.h
+
+1412631242 c:\work\include\wx\generic\statline.h
+
+1412631243 c:\work\include\wx\spinctrl.h
+	"wx/defs.h"
+	"wx/spinbutt.h"
+	"wx/msw/spinctrl.h"
+	"wx/os2/spinctrl.h"
+	"wx/gtk/spinctrl.h"
+	"wx/gtk1/spinctrl.h"
+	"wx/generic/spinctlg.h"
+
+1412631243 c:\work\include\wx\spinbutt.h
+	"wx/defs.h"
+	"wx/control.h"
+	"wx/event.h"
+	"wx/range.h"
+	"wx/univ/spinbutt.h"
+	"wx/msw/spinbutt.h"
+	"wx/motif/spinbutt.h"
+	"wx/gtk/spinbutt.h"
+	"wx/gtk1/spinbutt.h"
+	"wx/osx/spinbutt.h"
+	"wx/cocoa/spinbutt.h"
+	"wx/os2/spinbutt.h"
+
+1412631243 c:\work\include\wx\range.h
+	"wx/defs.h"
+
+1412631243 c:\work\include\wx\univ\spinbutt.h
+	"wx/univ/scrarrow.h"
+
+1412631243 c:\work\include\wx\msw\spinbutt.h
+	"wx/control.h"
+	"wx/event.h"
+
+1412631243 c:\work\include\wx\motif\spinbutt.h
+
+1412631242 c:\work\include\wx\gtk\spinbutt.h
+
+1412631242 c:\work\include\wx\gtk1\spinbutt.h
+
+1412631243 c:\work\include\wx\osx\spinbutt.h
+	"wx/control.h"
+	"wx/event.h"
+
+1412631242 c:\work\include\wx\cocoa\spinbutt.h
+
+1412631243 c:\work\include\wx\os2\spinbutt.h
+	"wx/control.h"
+	"wx/event.h"
+
+1412631243 c:\work\include\wx\msw\spinctrl.h
+	"wx/spinbutt.h"
+	"wx/dynarray.h"
+
+1412631243 c:\work\include\wx\os2\spinctrl.h
+	"wx/spinbutt.h"
+	"wx/dynarray.h"
+
+1412631242 c:\work\include\wx\gtk\spinctrl.h
+
+1412631242 c:\work\include\wx\gtk1\spinctrl.h
+	"wx/defs.h"
+	"wx/control.h"
+
+1412631242 c:\work\include\wx\generic\spinctlg.h
+	"wx/compositewin.h"
+	"wx/textctrl.h"
+
+1412631242 c:\work\include\wx\compositewin.h
+	"wx/window.h"
+	"wx/containr.h"
+
+1476351809 source:c:\work\hdnesr\trunk\rewrite\emu\gamefile.cpp
+	"gameFile.h"
+
+1476351738 c:\work\hdnesr\trunk\rewrite\emu\gamefile.h
+	"../classList.h"
+	<emuPart.h>
 

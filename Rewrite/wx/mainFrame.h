@@ -162,7 +162,13 @@ class mainFrame : public wxFrame
 		wxStatusBar* stbStatus;
 		
 		// Virtual event handlers, overide them in your derived class
+		virtual void romSelected( wxFileDirPickerEvent& event ) { event.Skip(); }
 		virtual void startGame( wxCommandEvent& event ) { event.Skip(); }
+		virtual void stateSlotSelected( wxCommandEvent& event ) { event.Skip(); }
+		virtual void rotateSlotSelected( wxCommandEvent& event ) { event.Skip(); }
+		virtual void saveStatePressed( wxCommandEvent& event ) { event.Skip(); }
+		virtual void loadStatePressed( wxCommandEvent& event ) { event.Skip(); }
+		virtual void loadLastPressed( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:

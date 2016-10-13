@@ -416,7 +416,7 @@
                                                     <event name="OnChar"></event>
                                                     <event name="OnEnterWindow"></event>
                                                     <event name="OnEraseBackground"></event>
-                                                    <event name="OnFileChanged"></event>
+                                                    <event name="OnFileChanged">romSelected</event>
                                                     <event name="OnKeyDown"></event>
                                                     <event name="OnKeyUp"></event>
                                                     <event name="OnKillFocus"></event>
@@ -562,7 +562,7 @@
                                             <property name="gripper">0</property>
                                             <property name="hidden">0</property>
                                             <property name="id">wxID_ANY</property>
-                                            <property name="label">Current state slot</property>
+                                            <property name="label">Current state slot (game specific)</property>
                                             <property name="majorDimension">1</property>
                                             <property name="max_size"></property>
                                             <property name="maximize_button">0</property>
@@ -610,7 +610,7 @@
                                             <event name="OnMouseEvents"></event>
                                             <event name="OnMouseWheel"></event>
                                             <event name="OnPaint"></event>
-                                            <event name="OnRadioBox"></event>
+                                            <event name="OnRadioBox">stateSlotSelected</event>
                                             <event name="OnRightDClick"></event>
                                             <event name="OnRightDown"></event>
                                             <event name="OnRightUp"></event>
@@ -682,7 +682,7 @@
                                             <property name="window_name"></property>
                                             <property name="window_style"></property>
                                             <event name="OnChar"></event>
-                                            <event name="OnCheckBox"></event>
+                                            <event name="OnCheckBox">rotateSlotSelected</event>
                                             <event name="OnEnterWindow"></event>
                                             <event name="OnEraseBackground"></event>
                                             <event name="OnKeyDown"></event>
@@ -778,7 +778,7 @@
                                                     <property name="window_extra_style"></property>
                                                     <property name="window_name"></property>
                                                     <property name="window_style"></property>
-                                                    <event name="OnButtonClick"></event>
+                                                    <event name="OnButtonClick">saveStatePressed</event>
                                                     <event name="OnChar"></event>
                                                     <event name="OnEnterWindow"></event>
                                                     <event name="OnEraseBackground"></event>
@@ -866,7 +866,7 @@
                                                     <property name="window_extra_style"></property>
                                                     <property name="window_name"></property>
                                                     <property name="window_style"></property>
-                                                    <event name="OnButtonClick"></event>
+                                                    <event name="OnButtonClick">loadStatePressed</event>
                                                     <event name="OnChar"></event>
                                                     <event name="OnEnterWindow"></event>
                                                     <event name="OnEraseBackground"></event>
@@ -954,7 +954,7 @@
                                                     <property name="window_extra_style"></property>
                                                     <property name="window_name"></property>
                                                     <property name="window_style"></property>
-                                                    <event name="OnButtonClick"></event>
+                                                    <event name="OnButtonClick">loadLastPressed</event>
                                                     <event name="OnChar"></event>
                                                     <event name="OnEnterWindow"></event>
                                                     <event name="OnEraseBackground"></event>

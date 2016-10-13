@@ -6,26 +6,31 @@ gameManager::gameManager(){
     //create core parts
     //create emu parts
     vid = new video();
+    romF = new gameFile();
 
     if(!this->loadConfig()){
         //if does not have config file then save the default
         this->saveConfig();
     }
-
+    //load game specific config
+    loadGameConfig();
     //create gui
     ui = new mainFrameImp(NULL);
     ui->gm = this;
+    ui->updateDisplay();
     ui->Show(true);
 }
 
 gameManager::~gameManager(){
     //save config file
     this->saveConfig();
+    this->saveGameConfig();
 
     //gui is destory already
 
     //destory emu parts
     delete(vid);
+    delete(romF);
 
     //destory core parts
 }
@@ -35,6 +40,7 @@ void gameManager::runGame(){
     //init core parts
     //init emu parts
     vid->startGame();
+    romF->startGame();
     //while is running
     //  handle input
     //      handle game ui events like save and load state
@@ -44,6 +50,7 @@ void gameManager::runGame(){
     //      regulate frame rate
     //clean up
     vid->endGame();
+    romF->endGame();
 }
 
 
@@ -59,6 +66,9 @@ bool gameManager::loadConfig(){
             if(lineHdr.compare(vid->partName()) == 0){
                 vid->loadConfig(&fs);
             }
+            if(lineHdr.compare(romF->partName()) == 0){
+                romF->loadConfig(&fs);
+            }
         }
         fs.close();
         return true;
@@ -73,6 +83,52 @@ void gameManager::saveConfig(){
     fstream fs;
     fs.open("config.ini", fstream::out);
     vid->saveConfig(&fs);
+    romF->saveConfig(&fs);
     fs.close();
 }
 
+void gameManager::romSelected(const string& romName){
+    //save game specific config for the current game
+    saveGameConfig();
+    romF->romPath = romName;
+
+    vid->initGameConfig();
+    romF->initGameConfig();
+    //load config for new game
+    loadGameConfig();
+}
+
+bool gameManager::loadGameConfig(){
+    //if has config file then open file and have each emu part read it
+    fstream fs;
+    string line;
+    string lineHdr;
+    if(romF->romPath.compare("") == 0) return false;
+    fs.open(emuPart::getFileName(romF->romPath) + ".ini", fstream::in);
+    if(fs.is_open()){
+        while(getline(fs, line)){
+            lineHdr = emuPart::getConfigLineHdr(line);
+            if(lineHdr.compare(vid->partName()) == 0){
+                vid->loadConfig(&fs);
+            }
+            if(lineHdr.compare(romF->partName()) == 0){
+                romF->loadConfig(&fs);
+            }
+        }
+        fs.close();
+        return true;
+    }
+    else{
+        fs.clear();
+        return false;
+    }
+}
+
+void gameManager::saveGameConfig(){
+    if(romF->romPath.compare("") == 0) return;
+    fstream fs;
+    fs.open(emuPart::getFileName(romF->romPath) + ".ini", fstream::out);
+    vid->saveGameConfig(&fs);
+    romF->saveGameConfig(&fs);
+    fs.close();
+}

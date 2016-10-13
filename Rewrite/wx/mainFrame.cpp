@@ -39,7 +39,7 @@ mainFrame::mainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	
 	wxString rbnCurrentSlotChoices[] = { wxT("1"), wxT("2"), wxT("3"), wxT("4"), wxT("5"), wxT("6"), wxT("7"), wxT("8"), wxT("9"), wxT("10") };
 	int rbnCurrentSlotNChoices = sizeof( rbnCurrentSlotChoices ) / sizeof( wxString );
-	rbnCurrentSlot = new wxRadioBox( m_panel1, wxID_ANY, wxT("Current state slot"), wxDefaultPosition, wxDefaultSize, rbnCurrentSlotNChoices, rbnCurrentSlotChoices, 1, wxRA_SPECIFY_ROWS );
+	rbnCurrentSlot = new wxRadioBox( m_panel1, wxID_ANY, wxT("Current state slot (game specific)"), wxDefaultPosition, wxDefaultSize, rbnCurrentSlotNChoices, rbnCurrentSlotChoices, 1, wxRA_SPECIFY_ROWS );
 	rbnCurrentSlot->SetSelection( 0 );
 	bSizer2->Add( rbnCurrentSlot, 0, wxALL, 5 );
 	
@@ -734,12 +734,24 @@ mainFrame::mainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	this->Centre( wxBOTH );
 	
 	// Connect Events
+	fslROMPicker->Connect( wxEVT_COMMAND_FILEPICKER_CHANGED, wxFileDirPickerEventHandler( mainFrame::romSelected ), NULL, this );
 	btnStart->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::startGame ), NULL, this );
+	rbnCurrentSlot->Connect( wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler( mainFrame::stateSlotSelected ), NULL, this );
+	chkRotateSlot->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( mainFrame::rotateSlotSelected ), NULL, this );
+	btnSaveState->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::saveStatePressed ), NULL, this );
+	btnLoadState->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::loadStatePressed ), NULL, this );
+	btnLoadLastState->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::loadLastPressed ), NULL, this );
 }
 
 mainFrame::~mainFrame()
 {
 	// Disconnect Events
+	fslROMPicker->Disconnect( wxEVT_COMMAND_FILEPICKER_CHANGED, wxFileDirPickerEventHandler( mainFrame::romSelected ), NULL, this );
 	btnStart->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::startGame ), NULL, this );
+	rbnCurrentSlot->Disconnect( wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler( mainFrame::stateSlotSelected ), NULL, this );
+	chkRotateSlot->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( mainFrame::rotateSlotSelected ), NULL, this );
+	btnSaveState->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::saveStatePressed ), NULL, this );
+	btnLoadState->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::loadStatePressed ), NULL, this );
+	btnLoadLastState->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::loadLastPressed ), NULL, this );
 	
 }

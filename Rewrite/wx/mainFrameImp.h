@@ -18,12 +18,17 @@ class mainFrameImp : public mainFrame
 	protected:
 		// Handlers for mainFrame events.
 		void startGame( wxCommandEvent& event );
+        void romSelected( wxFileDirPickerEvent& event );
+        void stateSlotSelected( wxCommandEvent& event );
+        void rotateSlotSelected( wxCommandEvent& event );
 	public:
 		/** Constructor */
 		mainFrameImp( wxWindow* parent );
 	//// end generated class members
 
         gameManager* gm;
+
+        void updateDisplay();
 };
 
 #endif // __mainFrameImp__

@@ -16,13 +16,21 @@ class emuPart
         //config secton
         //save config
         void saveConfig(fstream* fs);
+        void saveGameConfig(fstream* fs);
         virtual void saveConfigLines(fstream* fs) = 0;
-        static void saveConfigLine(fstream*fs, string hdr, string value);
+        virtual void saveGameConfigLines(fstream* fs) = 0;
+        static void saveConfigLine(fstream*fs, const string& hdr, const string& value);
+        static string intToString(int a);
+        static int stringToInt(const string& str);
+        static string getFolderPath(const string& path);
+        static string getFileName(const string& path);
+
         //load config
         void loadConfig(fstream* fs);
         static string getConfigLineHdr(string configLine);
         static string getConfigLineVal(string configLine);
-        virtual void loadConfigVal(string hdr, string value) = 0;
+        virtual void loadConfigVal(const string& hdr, const string& value) = 0;
+        virtual void initGameConfig() = 0;
 
         virtual void startGame() = 0;
         virtual void endGame() = 0;

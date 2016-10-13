@@ -6,21 +6,28 @@
 
 #include "classList.h"
 #include "emu\video.h"
+#include "emu\gameFile.h"
 
 class gameManager
 {
     public:
+        mainFrameImp* ui;
+        video* vid;
+        gameFile* romF;
+
+
         gameManager();
         ~gameManager();
 
         void runGame();
+        void romSelected(const string& romName);
     protected:
 
     private:
-        mainFrameImp* ui;
-        video* vid;
         bool loadConfig();
         void saveConfig();
+        bool loadGameConfig();
+        void saveGameConfig();
 
 };
 

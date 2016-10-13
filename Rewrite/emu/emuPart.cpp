@@ -18,7 +18,13 @@ void emuPart::saveConfig(fstream* fs){
     (*fs) << "</" << this->partName().c_str() << ">\n";
 }
 
-void emuPart::saveConfigLine(fstream*fs, string hdr, string value){
+void emuPart::saveGameConfig(fstream* fs){
+    (*fs) << "<" << this->partName().c_str() << ">\n";
+    this->saveGameConfigLines(fs);
+    (*fs) << "</" << this->partName().c_str() << ">\n";
+}
+
+void emuPart::saveConfigLine(fstream*fs, const string& hdr, const string& value){
     (*fs) << "<" << hdr.c_str() << ">" << value.c_str() << "</" << hdr.c_str() << ">\n";
 }
 
@@ -29,7 +35,8 @@ void emuPart::loadConfig(fstream* fs){
     string lineVal;
     string endStr;
     endStr = string("/") + this->partName();
-    while(getline((*fs), line) && !endReached){
+    while(!fs->fail() && !endReached){
+        getline((*fs), line);
         lineHdr = getConfigLineHdr(line);
         if(lineHdr.compare(endStr) == 0){
             endReached = true;
@@ -57,3 +64,23 @@ string emuPart::getConfigLineVal(string configLine){
     return configLine.substr(found + 1, found2 - found - 1);
 }
 
+string emuPart::intToString(int a){
+    ostringstream temp;
+    temp<<a;
+    return temp.str();
+}
+
+int emuPart::stringToInt(const string& str){
+    stringstream ss(str);
+    int num;
+    ss >> num;
+    return num;
+}
+
+string emuPart::getFolderPath(const string& path){
+    return path.substr(0, path.find_last_of("/\\") + 1);
+}
+
+string emuPart::getFileName(const string& path){
+    return path.substr(0, path.find_last_of("."));
+}
