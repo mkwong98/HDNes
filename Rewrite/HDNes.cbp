@@ -59,8 +59,14 @@
 		</Linker>
 		<Unit filename="classList.h" />
 		<Unit filename="common.h" />
+		<Unit filename="core/cart.cpp" />
+		<Unit filename="core/cart.h" />
 		<Unit filename="core/corePart.cpp" />
 		<Unit filename="core/corePart.h" />
+		<Unit filename="core/mapper001.cpp" />
+		<Unit filename="core/mapper001.h" />
+		<Unit filename="core/memBus.cpp" />
+		<Unit filename="core/memBus.h" />
 		<Unit filename="emu/audio.cpp" />
 		<Unit filename="emu/audio.h" />
 		<Unit filename="emu/emuPart.cpp" />
