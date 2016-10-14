@@ -2,7 +2,7 @@
 #define VIDEO_H
 
 #include "../classList.h"
-#include <emuPart.h>
+#include "emuPart.h"
 
 class video : public emuPart
 {

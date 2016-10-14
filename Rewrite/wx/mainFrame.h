@@ -51,6 +51,7 @@ class mainFrame : public wxFrame
 		wxButton* btnStart;
 		wxRadioBox* rbnCurrentSlot;
 		wxCheckBox* chkRotateSlot;
+		wxCheckBox* chkOverwriteBat;
 		wxButton* btnSaveState;
 		wxButton* btnLoadState;
 		wxButton* btnLoadLastState;
@@ -166,6 +167,7 @@ class mainFrame : public wxFrame
 		virtual void startGame( wxCommandEvent& event ) { event.Skip(); }
 		virtual void stateSlotSelected( wxCommandEvent& event ) { event.Skip(); }
 		virtual void rotateSlotSelected( wxCommandEvent& event ) { event.Skip(); }
+		virtual void overwriteBatSelected( wxCommandEvent& event ) { event.Skip(); }
 		virtual void saveStatePressed( wxCommandEvent& event ) { event.Skip(); }
 		virtual void loadStatePressed( wxCommandEvent& event ) { event.Skip(); }
 		virtual void loadLastPressed( wxCommandEvent& event ) { event.Skip(); }
@@ -173,7 +175,7 @@ class mainFrame : public wxFrame
 	
 	public:
 		
-		mainFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("HDNes"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 696,420 ), long style = wxCAPTION|wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		mainFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("HDNes"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 696,450 ), long style = wxCAPTION|wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 		
 		~mainFrame();
 	

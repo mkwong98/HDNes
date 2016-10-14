@@ -46,6 +46,9 @@ mainFrame::mainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	chkRotateSlot = new wxCheckBox( m_panel1, wxID_ANY, wxT("Automatically rotate current slot after each time the game state is saved"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer2->Add( chkRotateSlot, 0, wxALL, 5 );
 	
+	chkOverwriteBat = new wxCheckBox( m_panel1, wxID_ANY, wxT("Load state will overwrite battery backup"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer2->Add( chkOverwriteBat, 0, wxALL, 5 );
+	
 	wxBoxSizer* bSizer4;
 	bSizer4 = new wxBoxSizer( wxHORIZONTAL );
 	
@@ -738,6 +741,7 @@ mainFrame::mainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	btnStart->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::startGame ), NULL, this );
 	rbnCurrentSlot->Connect( wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler( mainFrame::stateSlotSelected ), NULL, this );
 	chkRotateSlot->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( mainFrame::rotateSlotSelected ), NULL, this );
+	chkOverwriteBat->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( mainFrame::overwriteBatSelected ), NULL, this );
 	btnSaveState->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::saveStatePressed ), NULL, this );
 	btnLoadState->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::loadStatePressed ), NULL, this );
 	btnLoadLastState->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::loadLastPressed ), NULL, this );
@@ -750,6 +754,7 @@ mainFrame::~mainFrame()
 	btnStart->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::startGame ), NULL, this );
 	rbnCurrentSlot->Disconnect( wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler( mainFrame::stateSlotSelected ), NULL, this );
 	chkRotateSlot->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( mainFrame::rotateSlotSelected ), NULL, this );
+	chkOverwriteBat->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( mainFrame::overwriteBatSelected ), NULL, this );
 	btnSaveState->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::saveStatePressed ), NULL, this );
 	btnLoadState->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::loadStatePressed ), NULL, this );
 	btnLoadLastState->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::loadLastPressed ), NULL, this );

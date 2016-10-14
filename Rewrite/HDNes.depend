@@ -331,12 +331,12 @@
 1474075856 c:\work\hdnesr\trunk\rewrite\core\core_part.h
 	"../common.h"
 
-1476345408 c:\work\hdnesr\trunk\rewrite\common.h
+1476432110 c:\work\hdnesr\trunk\rewrite\common.h
 	<fstream>
 	<sstream>
 	<string>
 	<iostream>
-	"SDL2\SDL.h"
+	<SDL2\SDL.h>
 
 1412631243 c:\work\include\wx\wx.h
 	"wx/defs.h"
@@ -3272,18 +3272,18 @@
 	"classList.h"
 	"emu\video.h"
 
-1475223273 source:c:\work\hdnesr\trunk\rewrite\mainapp.cpp
+1476438339 source:c:\work\hdnesr\trunk\rewrite\mainapp.cpp
 	"mainApp.h"
 	"gameManager.h"
 
-1474623484 c:\work\hdnesr\trunk\rewrite\mainapp.h
+1476438296 c:\work\hdnesr\trunk\rewrite\mainapp.h
 	"common.h"
-	"wx\wx.h"
+	<wx\wx.h>
 
-1476352468 source:c:\work\hdnesr\trunk\rewrite\wx\mainframe.cpp
+1476437429 source:c:\work\hdnesr\trunk\rewrite\wx\mainframe.cpp
 	"mainFrame.h"
 
-1476352468 c:\work\hdnesr\trunk\rewrite\wx\mainframe.h
+1476437429 c:\work\hdnesr\trunk\rewrite\wx\mainframe.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/string.h>
@@ -3341,10 +3341,9 @@
 	"wx/imaglist.h"
 	"wx/window.h"
 
-1476353421 c:\work\hdnesr\trunk\rewrite\wx\mainframeimp.h
+1476438449 c:\work\hdnesr\trunk\rewrite\wx\mainframeimp.h
 	"../classList.h"
 	"mainFrame.h"
-	"../gameManager.h"
 
 1412631243 c:\work\include\wx\notebook.h
 	"wx/defs.h"
@@ -3407,24 +3406,25 @@
 1412631243 c:\work\include\wx\os2\notebook.h
 	"wx/control.h"
 
-1476353422 source:c:\work\hdnesr\trunk\rewrite\wx\mainframeimp.cpp
+1476438450 source:c:\work\hdnesr\trunk\rewrite\wx\mainframeimp.cpp
 	"mainFrameImp.h"
+	"../gameManager.h"
 
 1474965180 source:c:\work\hdnesr\trunk\rewrite\emu\audio.cpp
 	"audio.h"
 
-1475223273 c:\work\hdnesr\trunk\rewrite\emu\audio.h
-	<emuPart.h>
+1476432110 c:\work\hdnesr\trunk\rewrite\emu\audio.h
+	"emuPart.h"
 
 1476351809 source:c:\work\hdnesr\trunk\rewrite\emu\video.cpp
 	<GL/glew.h>
 	"video.h"
 
-1476351738 c:\work\hdnesr\trunk\rewrite\emu\video.h
+1476432110 c:\work\hdnesr\trunk\rewrite\emu\video.h
 	"../classList.h"
-	<emuPart.h>
+	"emuPart.h"
 
-1476329984 c:\work\hdnesr\trunk\rewrite\classlist.h
+1476430022 c:\work\hdnesr\trunk\rewrite\classlist.h
 
 1474972550 c:\work\include\gl\glew.h
 	<stddef.h>
@@ -3438,10 +3438,11 @@
 1476351915 c:\work\hdnesr\trunk\rewrite\emu\emupart.h
 	"../common.h"
 
-1476350198 c:\work\hdnesr\trunk\rewrite\gamemanager.h
-	"wx\wx.h"
+1476438296 c:\work\hdnesr\trunk\rewrite\gamemanager.h
+	<wx\wx.h>
 	"wx\mainFrameImp.h"
 	"classList.h"
+	"core\cart.h"
 	"emu\video.h"
 	"emu\gameFile.h"
 
@@ -3454,7 +3455,7 @@
 1476351611 source:c:\work\hdnesr\trunk\rewrite\emu\emupart.cpp
 	"emuPart.h"
 
-1476351944 source:c:\work\hdnesr\trunk\rewrite\gamemanager.cpp
+1476437057 source:c:\work\hdnesr\trunk\rewrite\gamemanager.cpp
 	"gameManager.h"
 
 1475250574 source:c:\work\hdnes\trunk\rewrite\core\corepart.cpp
@@ -3655,10 +3656,32 @@
 	"wx/window.h"
 	"wx/containr.h"
 
-1476351809 source:c:\work\hdnesr\trunk\rewrite\emu\gamefile.cpp
+1476437844 source:c:\work\hdnesr\trunk\rewrite\emu\gamefile.cpp
 	"gameFile.h"
 
-1476351738 c:\work\hdnesr\trunk\rewrite\emu\gamefile.h
+1476437099 c:\work\hdnesr\trunk\rewrite\emu\gamefile.h
 	"../classList.h"
-	<emuPart.h>
+	"emuPart.h"
+
+1476436384 source:c:\work\hdnesr\trunk\rewrite\core\cart.cpp
+	"../common.h"
+	"cart.h"
+	"mapper001.h"
+	"../emu/emuPart.h"
+
+1476436350 c:\work\hdnesr\trunk\rewrite\core\cart.h
+	"corePart.h"
+	"../classList.h"
+
+1476432110 c:\work\hdnesr\trunk\rewrite\core\mapper001.h
+	"cart.h"
+
+1476429611 source:c:\work\hdnesr\trunk\rewrite\core\mapper001.cpp
+	"mapper001.h"
+
+1476438033 source:c:\work\hdnesr\trunk\rewrite\core\membus.cpp
+	"memBus.h"
+
+1476438033 c:\work\hdnesr\trunk\rewrite\core\membus.h
+	<corePart.h>
 

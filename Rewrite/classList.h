@@ -2,6 +2,8 @@
 #define CLASSLIST_H_INCLUDED
 
 class corePart;
+class cart;
+class mapper001;
 
 class emuPart;
 class audio;

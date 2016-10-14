@@ -2,7 +2,7 @@
 #define GAMEFILE_H
 
 #include "../classList.h"
-#include <emuPart.h>
+#include "emuPart.h"
 
 
 class gameFile : public emuPart{
@@ -12,6 +12,7 @@ class gameFile : public emuPart{
         int currentStateSlot;
         int lastSavedSlot;
         bool rotateState;
+        bool overwriteBat;
 
         //functions
         gameFile();

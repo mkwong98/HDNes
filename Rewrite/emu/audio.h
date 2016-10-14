@@ -1,7 +1,7 @@
 #ifndef AUDIO_H
 #define AUDIO_H
 
-#include <emuPart.h>
+#include "emuPart.h"
 
 
 class audio : public emuPart

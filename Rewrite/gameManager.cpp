@@ -2,8 +2,9 @@
 
 using namespace std;
 
+gameManager* gameManager::gm;
+
 gameManager::gameManager(){
-    //create core parts
     //create emu parts
     vid = new video();
     romF = new gameFile();
@@ -16,7 +17,6 @@ gameManager::gameManager(){
     loadGameConfig();
     //create gui
     ui = new mainFrameImp(NULL);
-    ui->gm = this;
     ui->updateDisplay();
     ui->Show(true);
 }
@@ -31,13 +31,15 @@ gameManager::~gameManager(){
     //destory emu parts
     delete(vid);
     delete(romF);
-
-    //destory core parts
 }
 
 void gameManager::runGame(){
     //load rom
     //init core parts
+    rom = cart::getCartFromROMFile(romF->romPath);
+    if(!rom) return;
+
+
     //init emu parts
     vid->startGame();
     romF->startGame();
@@ -51,6 +53,9 @@ void gameManager::runGame(){
     //clean up
     vid->endGame();
     romF->endGame();
+
+    //delete core parts
+    delete(rom);
 }
 
 

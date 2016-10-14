@@ -5,6 +5,7 @@ using namespace std;
 gameFile::gameFile(){
     romPath = "";
     rotateState = true;
+    overwriteBat = true;
     initGameConfig();
 }
 
@@ -24,6 +25,7 @@ string gameFile::partName(){
 void gameFile::saveConfigLines(fstream* fs){
     saveConfigLine(fs, string("romPath"), romPath);
     saveConfigLine(fs, string("rotateState"), (rotateState ? string("Y") : string("N")));
+    saveConfigLine(fs, string("overwriteBat"), (overwriteBat ? string("Y") : string("N")));
 }
 
 void gameFile::saveGameConfigLines(fstream* fs){
@@ -36,7 +38,10 @@ void gameFile::loadConfigVal(const string& hdr, const string& value){
         romPath = value;
     }
     else if(hdr.compare("rotateState") == 0){
-        rotateState = (hdr.compare("Y") == 0);
+        rotateState = (value.compare("Y") == 0);
+    }
+    else if(hdr.compare("overwriteBat") == 0){
+        overwriteBat = (value.compare("Y") == 0);
     }
     else if(hdr.compare("currentStateSlot") == 0){
         currentStateSlot = stringToInt(value);

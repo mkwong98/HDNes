@@ -1,6 +1,6 @@
 #pragma once
 #include "common.h"
-#include "wx\wx.h"
+#include <wx\wx.h>
 
 class mainApp : public wxApp{
 public:

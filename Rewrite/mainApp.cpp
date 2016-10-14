@@ -3,8 +3,6 @@
 
 IMPLEMENT_APP(mainApp)
 
-gameManager* gm;
-
 mainApp::mainApp(void){
 
     SDL_SetMainReady();
@@ -18,14 +16,14 @@ mainApp::mainApp(void){
 
 mainApp::~mainApp(void){
     if(initOK){
-        delete(gm);
+        delete(gameManager::gm);
         SDL_Quit();
     }
 }
 
 bool mainApp::OnInit(){
 	if(initOK){
-        gm = new gameManager();
+        gameManager::gm = new gameManager();
 		return true;
 	}
 	else{

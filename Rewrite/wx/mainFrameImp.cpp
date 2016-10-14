@@ -1,4 +1,5 @@
 #include "mainFrameImp.h"
+#include "../gameManager.h"
 
 mainFrameImp::mainFrameImp( wxWindow* parent )
 :
@@ -7,23 +8,28 @@ mainFrame( parent ){
 }
 
 void mainFrameImp::startGame( wxCommandEvent& event ){
-    gm->runGame();
+    gameManager::gm->runGame();
 }
 
 void mainFrameImp::romSelected( wxFileDirPickerEvent& event ){
-    gm->romSelected(event.GetPath().ToStdString());
+    gameManager::gm->romSelected(event.GetPath().ToStdString());
 }
 
 void mainFrameImp::stateSlotSelected( wxCommandEvent& event ){
-    gm->romF->currentStateSlot = event.GetSelection();
+    gameManager::gm->romF->currentStateSlot = event.GetSelection();
 }
 
 void mainFrameImp::rotateSlotSelected( wxCommandEvent& event ){
-    gm->romF->rotateState = event.IsChecked();
+    gameManager::gm->romF->rotateState = event.IsChecked();
+}
+
+void mainFrameImp::overwriteBatSelected( wxCommandEvent& event ){
+    gameManager::gm->romF->overwriteBat = event.IsChecked();
 }
 
 void mainFrameImp::updateDisplay(){
-    this->fslROMPicker->SetPath(wxString(gm->romF->romPath));
-    this->rbnCurrentSlot->SetSelection(gm->romF->currentStateSlot);
-    this->chkRotateSlot->SetValue(gm->romF->rotateState);
+    this->fslROMPicker->SetPath(wxString(gameManager::gm->romF->romPath));
+    this->rbnCurrentSlot->SetSelection(gameManager::gm->romF->currentStateSlot);
+    this->chkRotateSlot->SetValue(gameManager::gm->romF->rotateState);
+    this->chkOverwriteBat->SetValue(gameManager::gm->romF->overwriteBat);
 }
