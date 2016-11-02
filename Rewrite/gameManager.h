@@ -1,13 +1,13 @@
 #ifndef GAME_MANAGER_H
 #define GAME_MANAGER_H
 
+#include <string>
 #include <wx\wx.h>
 #include "wx\mainFrameImp.h"
 
 #include "classList.h"
-#include "core\cart.h"
-#include "emu\video.h"
-#include "emu\gameFile.h"
+
+using namespace std;
 
 class gameManager
 {
@@ -19,10 +19,15 @@ class gameManager
         gameFile* romF;
 
         cart* rom;
+        cpu* cp;
+        ppu* pp;
+        apu* ap;
+        memBus* mb;
 
         gameManager();
         ~gameManager();
 
+        void showUI();
         void runGame();
         void romSelected(const string& romName);
     protected:

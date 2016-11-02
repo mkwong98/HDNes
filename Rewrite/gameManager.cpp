@@ -1,4 +1,13 @@
 #include "gameManager.h"
+#include "core\memBus.h"
+#include "core\cart.h"
+#include "core\cart.h"
+#include "core\cpu.h"
+#include "core\ppu.h"
+#include "core\apu.h"
+#include "emu\video.h"
+#include "emu\gameFile.h"
+
 
 using namespace std;
 
@@ -17,8 +26,6 @@ gameManager::gameManager(){
     loadGameConfig();
     //create gui
     ui = new mainFrameImp(NULL);
-    ui->updateDisplay();
-    ui->Show(true);
 }
 
 gameManager::~gameManager(){
@@ -33,12 +40,20 @@ gameManager::~gameManager(){
     delete(romF);
 }
 
+void gameManager::showUI(){
+    ui->updateDisplay();
+    ui->Show(true);
+}
+
 void gameManager::runGame(){
     //load rom
     //init core parts
     rom = cart::getCartFromROMFile(romF->romPath);
     if(!rom) return;
-
+    cp = new cpu();
+    pp = new ppu();
+    ap = new apu();
+    mb = new memBus();
 
     //init emu parts
     vid->startGame();
@@ -56,6 +71,10 @@ void gameManager::runGame(){
 
     //delete core parts
     delete(rom);
+    delete(cp);
+    delete(pp);
+    delete(ap);
+    delete(mb);
 }
 
 

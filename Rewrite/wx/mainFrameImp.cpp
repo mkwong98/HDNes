@@ -1,5 +1,6 @@
 #include "mainFrameImp.h"
 #include "../gameManager.h"
+#include "../emu/gameFile.h"
 
 mainFrameImp::mainFrameImp( wxWindow* parent )
 :

@@ -1,14 +1,14 @@
-#ifndef MAPPER001_H
-#define MAPPER001_H
+#ifndef CPU_H
+#define CPU_H
 
-#include "cart.h"
+#include <corePart.h>
 
 
-class mapper001 : public cart
+class cpu : public corePart
 {
     public:
-        mapper001();
-        virtual ~mapper001();
+        cpu();
+        virtual ~cpu();
 
         void reset();
         void saveState(fstream* statefile);
@@ -19,4 +19,4 @@ class mapper001 : public cart
     private:
 };
 
-#endif // MAPPER001_H
+#endif // CPU_H

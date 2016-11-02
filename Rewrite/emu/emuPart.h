@@ -9,7 +9,7 @@ class emuPart
 {
     public:
         emuPart();
-        ~emuPart();
+        virtual ~emuPart();
 
         virtual string partName() = 0;
 

@@ -9,7 +9,7 @@ class corePart
 {
     public:
         corePart();
-        ~corePart();
+        virtual ~corePart();
 
         virtual void reset() = 0;
         virtual void saveState(fstream* statefile) = 0;

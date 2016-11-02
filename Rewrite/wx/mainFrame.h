@@ -25,13 +25,15 @@
 #include <wx/bitmap.h>
 #include <wx/image.h>
 #include <wx/icon.h>
-#include <wx/choice.h>
 #include <wx/statline.h>
 #include <wx/spinctrl.h>
 #include <wx/slider.h>
 #include <wx/notebook.h>
 #include <wx/statusbr.h>
 #include <wx/frame.h>
+#include <wx/radiobut.h>
+#include <wx/choice.h>
+#include <wx/dialog.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -60,92 +62,92 @@ class mainFrame : public wxFrame
 		wxStaticText* m_staticText10;
 		wxPanel* m_panel5;
 		wxStaticText* m_staticText2;
-		wxChoice* cboP1Up;
+		wxButton* btnP1Up;
 		wxStaticText* m_staticText3;
-		wxChoice* cboP1Left;
+		wxButton* btnP1Left;
 		wxStaticText* m_staticText4;
-		wxChoice* cboP1Right;
+		wxButton* btnP1Right;
 		wxPanel* m_panel6;
 		wxStaticText* m_staticText9;
-		wxChoice* cboP1Down;
+		wxButton* btnP1Down;
 		wxPanel* m_panel7;
 		wxStaticText* m_staticText5;
-		wxChoice* cboP1Select;
+		wxButton* btnP1Select;
 		wxStaticText* m_staticText6;
-		wxChoice* cboP1Start;
+		wxButton* btnP1Start;
 		wxStaticText* m_staticText7;
-		wxChoice* cboP1B;
+		wxButton* btnP1B;
 		wxStaticText* m_staticText8;
-		wxChoice* cboP1A;
+		wxButton* btnP1A;
 		wxPanel* m_panel81;
 		wxStaticText* m_staticText101;
 		wxPanel* m_panel51;
 		wxStaticText* m_staticText21;
-		wxChoice* cboP2Up;
+		wxButton* btnP2Up;
 		wxStaticText* m_staticText31;
-		wxChoice* cboP2Left;
+		wxButton* btnP2Left;
 		wxStaticText* m_staticText41;
-		wxChoice* cboP2Right;
+		wxButton* btnP2Right;
 		wxPanel* m_panel61;
 		wxStaticText* m_staticText91;
-		wxChoice* cboP2Down;
+		wxButton* btnP2Down;
 		wxPanel* m_panel71;
 		wxStaticText* m_staticText51;
-		wxChoice* cboP2Select;
+		wxButton* btnP2Select;
 		wxStaticText* m_staticText61;
-		wxChoice* cboP2Start;
+		wxButton* btnP2Start;
 		wxStaticText* m_staticText71;
-		wxChoice* cboP2B;
+		wxButton* btnP2B;
 		wxStaticText* m_staticText81;
-		wxChoice* cboP2A;
+		wxButton* btnP2A;
 		wxPanel* m_panel13;
 		wxStaticText* m_staticText24;
-		wxChoice* cboKeyPause;
+		wxButton* btnKeyPause;
 		wxStaticText* m_staticText25;
-		wxChoice* cboKeyAdvanceFrame;
+		wxButton* btnKeyAdvanceFrame;
 		wxStaticText* m_staticText26;
-		wxChoice* cboKeyCapScreen;
+		wxButton* btnKeyCaptureScreen;
 		wxStaticText* m_staticText27;
-		wxChoice* cboKeyToggleContSCap;
+		wxButton* btnKeyToggleContScrCap;
 		wxStaticText* m_staticText411;
-		wxChoice* cboKeyStop;
+		wxButton* btnKeyStop;
 		wxStaticLine* m_staticline1;
 		wxStaticText* m_staticText20;
-		wxChoice* cboKeySaveState;
+		wxButton* btnKeySaveState;
 		wxStaticText* m_staticText211;
-		wxChoice* cboKeyLoadState;
+		wxButton* btnKeyLoadState;
 		wxStaticText* m_staticText22;
-		wxChoice* cboKeyLoadLastState;
+		wxButton* btnKeyLoadLastState;
 		wxStaticText* m_staticText23;
-		wxChoice* cboKeyRotateSlot;
+		wxButton* btnKeyRotateState;
 		wxStaticLine* m_staticline2;
 		wxStaticText* m_staticText28;
-		wxChoice* cboKeySlot1;
+		wxButton* btnKeySlot1;
 		wxStaticText* m_staticText29;
-		wxChoice* cboKeySlot2;
+		wxButton* btnKeySlot2;
 		wxStaticText* m_staticText30;
-		wxChoice* cboKeySlot3;
+		wxButton* btnKeySlot3;
 		wxStaticText* m_staticText311;
-		wxChoice* cboKeySlot4;
+		wxButton* btnKeySlot4;
 		wxStaticText* m_staticText32;
-		wxChoice* cboKeySlot5;
+		wxButton* btnKeySlot5;
 		wxStaticText* m_staticText33;
-		wxChoice* cboKeySlot6;
+		wxButton* btnKeySlot6;
 		wxStaticText* m_staticText34;
-		wxChoice* cboKeySlot7;
+		wxButton* btnKeySlot7;
 		wxStaticText* m_staticText35;
-		wxChoice* cboKeySlot8;
+		wxButton* btnKeySlot8;
 		wxStaticText* m_staticText36;
-		wxChoice* cboKeySlot9;
+		wxButton* btnKeySlot9;
 		wxStaticText* m_staticText37;
-		wxChoice* cboKeySlot10;
+		wxButton* btnKeySlot10;
 		wxStaticLine* m_staticline3;
 		wxStaticText* m_staticText38;
-		wxChoice* cboKeyHDCapFrame;
+		wxButton* btnKeyHDCapFrame;
 		wxStaticText* m_staticText39;
-		wxChoice* cboKeyToggleHDCap;
+		wxButton* btnKeyToogleHDCapFrame;
 		wxStaticText* m_staticText44;
-		wxChoice* cboKeyToggleIgnoreEdge;
+		wxButton* btnKeyToogleIgnoreEdge;
 		wxPanel* m_panel2;
 		wxRadioBox* rbnScreenSize;
 		wxStaticText* m_staticText42;
@@ -153,8 +155,6 @@ class mainFrame : public wxFrame
 		wxStaticText* m_staticText43;
 		wxCheckBox* chkUseHDGraphicsPack;
 		wxCheckBox* chkGenHDData;
-		wxCheckBox* chkGenROM;
-		wxCheckBox* chkGenRAM;
 		wxCheckBox* chkIgnoreEdge;
 		wxPanel* m_panel3;
 		wxStaticText* m_staticText45;
@@ -175,9 +175,33 @@ class mainFrame : public wxFrame
 	
 	public:
 		
-		mainFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("HDNes"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 696,450 ), long style = wxCAPTION|wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		mainFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("HDNes"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 630,468 ), long style = wxCAPTION|wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 		
 		~mainFrame();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class dlgInput
+///////////////////////////////////////////////////////////////////////////////
+class dlgInput : public wxDialog 
+{
+	private:
+	
+	protected:
+		wxRadioButton* m_radioBtn2;
+		wxChoice* m_choice39;
+		wxRadioButton* m_radioBtn3;
+		wxChoice* m_choice40;
+		wxChoice* m_choice41;
+		wxRadioButton* m_radioBtn1;
+		wxButton* m_button5;
+		wxButton* m_button6;
+	
+	public:
+		
+		dlgInput( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Choose input method"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 364,153 ), long style = wxDEFAULT_DIALOG_STYLE|wxSTAY_ON_TOP ); 
+		~dlgInput();
 	
 };
 

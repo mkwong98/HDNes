@@ -24,6 +24,7 @@ mainApp::~mainApp(void){
 bool mainApp::OnInit(){
 	if(initOK){
         gameManager::gm = new gameManager();
+        gameManager::gm->showUI();
 		return true;
 	}
 	else{

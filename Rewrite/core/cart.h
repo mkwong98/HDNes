@@ -27,6 +27,10 @@ class cart : public corePart
         cart();
         virtual ~cart();
 
+        void reset();
+        void saveState(fstream* statefile);
+        void loadState(fstream* statefile);
+
         static cart* getCartFromROMFile(const string& fileName);
         void readROMFile(fstream* fs, Uint8* header, const string& fileName);
         void loadBat();
