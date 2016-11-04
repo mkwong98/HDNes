@@ -17,6 +17,7 @@ class gameManager
         mainFrameImp* ui;
         video* vid;
         gameFile* romF;
+        input* inp;
 
         cart* rom;
         cpu* cp;

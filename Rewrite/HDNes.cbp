@@ -79,6 +79,8 @@
 		<Unit filename="emu/emuPart.h" />
 		<Unit filename="emu/gameFile.cpp" />
 		<Unit filename="emu/gameFile.h" />
+		<Unit filename="emu/input.cpp" />
+		<Unit filename="emu/input.h" />
 		<Unit filename="emu/video.cpp" />
 		<Unit filename="emu/video.h" />
 		<Unit filename="gameManager.cpp" />

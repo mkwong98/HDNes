@@ -7,6 +7,7 @@
 #include "core\apu.h"
 #include "emu\video.h"
 #include "emu\gameFile.h"
+#include "emu\input.h"
 
 
 using namespace std;
@@ -17,6 +18,7 @@ gameManager::gameManager(){
     //create emu parts
     vid = new video();
     romF = new gameFile();
+    inp = new input();
 
     if(!this->loadConfig()){
         //if does not have config file then save the default
@@ -58,6 +60,7 @@ void gameManager::runGame(){
     //init emu parts
     vid->startGame();
     romF->startGame();
+    inp->startGame();
     //while is running
     //  handle input
     //      handle game ui events like save and load state
@@ -68,6 +71,7 @@ void gameManager::runGame(){
     //clean up
     vid->endGame();
     romF->endGame();
+    inp->endGame();
 
     //delete core parts
     delete(rom);
@@ -93,6 +97,9 @@ bool gameManager::loadConfig(){
             if(lineHdr.compare(romF->partName()) == 0){
                 romF->loadConfig(&fs);
             }
+            if(lineHdr.compare(inp->partName()) == 0){
+                inp->loadConfig(&fs);
+            }
         }
         fs.close();
         return true;
@@ -108,6 +115,7 @@ void gameManager::saveConfig(){
     fs.open("config.ini", fstream::out);
     vid->saveConfig(&fs);
     romF->saveConfig(&fs);
+    inp->saveConfig(&fs);
     fs.close();
 }
 
@@ -118,6 +126,7 @@ void gameManager::romSelected(const string& romName){
 
     vid->initGameConfig();
     romF->initGameConfig();
+    inp->initGameConfig();
     //load config for new game
     loadGameConfig();
 }
@@ -138,6 +147,9 @@ bool gameManager::loadGameConfig(){
             if(lineHdr.compare(romF->partName()) == 0){
                 romF->loadConfig(&fs);
             }
+            if(lineHdr.compare(inp->partName()) == 0){
+                inp->loadConfig(&fs);
+            }
         }
         fs.close();
         return true;
@@ -154,5 +166,6 @@ void gameManager::saveGameConfig(){
     fs.open(emuPart::getFileName(romF->romPath) + ".ini", fstream::out);
     vid->saveGameConfig(&fs);
     romF->saveGameConfig(&fs);
+    inp->saveGameConfig(&fs);
     fs.close();
 }

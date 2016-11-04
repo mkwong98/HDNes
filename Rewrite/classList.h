@@ -13,6 +13,7 @@ class emuPart;
 class audio;
 class video;
 class gameFile;
+class input;
 
 class mainFrameImp;
 class gameManager;
