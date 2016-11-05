@@ -68,7 +68,7 @@ mainFrame::mainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	m_panel1->SetSizer( bSizer2 );
 	m_panel1->Layout();
 	bSizer2->Fit( m_panel1 );
-	m_notebook1->AddPage( m_panel1, wxT("Playing"), true );
+	m_notebook1->AddPage( m_panel1, wxT("Playing"), false );
 	m_panel4 = new wxPanel( m_notebook1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer5;
 	bSizer5 = new wxBoxSizer( wxVERTICAL );
@@ -546,8 +546,8 @@ mainFrame::mainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	m_staticText39->Wrap( 100 );
 	fgSizer6->Add( m_staticText39, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	btnKeyToogleHDCapFrame = new wxButton( m_panel13, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer6->Add( btnKeyToogleHDCapFrame, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	btnKeyToogleAutoHDCap = new wxButton( m_panel13, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer6->Add( btnKeyToogleAutoHDCap, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
 	m_staticText44 = new wxStaticText( m_panel13, wxID_ANY, wxT("Toggle ignore graphics near the edge of the screen"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText44->Wrap( 100 );
@@ -563,7 +563,7 @@ mainFrame::mainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	m_panel13->SetSizer( bSizer24 );
 	m_panel13->Layout();
 	bSizer24->Fit( m_panel13 );
-	m_notebook1->AddPage( m_panel13, wxT("Function keys"), false );
+	m_notebook1->AddPage( m_panel13, wxT("Function keys"), true );
 	m_panel2 = new wxPanel( m_notebook1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer26;
 	bSizer26 = new wxBoxSizer( wxVERTICAL );

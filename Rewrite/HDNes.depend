@@ -331,11 +331,12 @@
 1474075856 c:\work\hdnesr\trunk\rewrite\core\core_part.h
 	"../common.h"
 
-1476432110 c:\work\hdnesr\trunk\rewrite\common.h
+1478312373 c:\work\hdnesr\trunk\rewrite\common.h
 	<fstream>
 	<sstream>
 	<string>
 	<iostream>
+	<vector>
 	<SDL2\SDL.h>
 
 1412631243 c:\work\include\wx\wx.h
@@ -3272,7 +3273,7 @@
 	"classList.h"
 	"emu\video.h"
 
-1476438339 source:c:\work\hdnesr\trunk\rewrite\mainapp.cpp
+1478310327 source:c:\work\hdnesr\trunk\rewrite\mainapp.cpp
 	"mainApp.h"
 	"gameManager.h"
 
@@ -3280,10 +3281,10 @@
 	"common.h"
 	<wx\wx.h>
 
-1476437429 source:c:\work\hdnesr\trunk\rewrite\wx\mainframe.cpp
+1478310327 source:c:\work\hdnesr\trunk\rewrite\wx\mainframe.cpp
 	"mainFrame.h"
 
-1476437429 c:\work\hdnesr\trunk\rewrite\wx\mainframe.h
+1478310327 c:\work\hdnesr\trunk\rewrite\wx\mainframe.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/string.h>
@@ -3301,13 +3302,15 @@
 	<wx/bitmap.h>
 	<wx/image.h>
 	<wx/icon.h>
-	<wx/choice.h>
 	<wx/statline.h>
 	<wx/spinctrl.h>
 	<wx/slider.h>
 	<wx/notebook.h>
 	<wx/statusbr.h>
 	<wx/frame.h>
+	<wx/radiobut.h>
+	<wx/choice.h>
+	<wx/dialog.h>
 
 1412631243 c:\work\include\wx\xrc\xmlres.h
 	"wx/defs.h"
@@ -3406,9 +3409,10 @@
 1412631243 c:\work\include\wx\os2\notebook.h
 	"wx/control.h"
 
-1476438450 source:c:\work\hdnesr\trunk\rewrite\wx\mainframeimp.cpp
+1478310327 source:c:\work\hdnesr\trunk\rewrite\wx\mainframeimp.cpp
 	"mainFrameImp.h"
 	"../gameManager.h"
+	"../emu/gameFile.h"
 
 1474965180 source:c:\work\hdnesr\trunk\rewrite\emu\audio.cpp
 	"audio.h"
@@ -3424,9 +3428,9 @@
 	"../classList.h"
 	"emuPart.h"
 
-1476430022 c:\work\hdnesr\trunk\rewrite\classlist.h
+1478310327 c:\work\hdnesr\trunk\rewrite\classlist.h
 
-1475249934 c:\work\include\gl\glew.h
+1474972550 c:\work\include\gl\glew.h
 	<stddef.h>
 	<inttypes.h>
 	<stdint.h>
@@ -3435,28 +3439,35 @@
 	<OpenGL/glu.h>
 	<GL/glu.h>
 
-1476351915 c:\work\hdnesr\trunk\rewrite\emu\emupart.h
+1478310327 c:\work\hdnesr\trunk\rewrite\emu\emupart.h
 	"../common.h"
 
-1476438296 c:\work\hdnesr\trunk\rewrite\gamemanager.h
+1478310327 c:\work\hdnesr\trunk\rewrite\gamemanager.h
+	<string>
 	<wx\wx.h>
 	"wx\mainFrameImp.h"
 	"classList.h"
-	"core\cart.h"
-	"emu\video.h"
-	"emu\gameFile.h"
 
-1475223273 source:c:\work\hdnesr\trunk\rewrite\core\corepart.cpp
+1478310327 source:c:\work\hdnesr\trunk\rewrite\core\corepart.cpp
 	"corePart.h"
 
-1475223273 c:\work\hdnesr\trunk\rewrite\core\corepart.h
+1478310327 c:\work\hdnesr\trunk\rewrite\core\corepart.h
 	"../common.h"
 
 1476351611 source:c:\work\hdnesr\trunk\rewrite\emu\emupart.cpp
 	"emuPart.h"
 
-1476437057 source:c:\work\hdnesr\trunk\rewrite\gamemanager.cpp
+1478310327 source:c:\work\hdnesr\trunk\rewrite\gamemanager.cpp
 	"gameManager.h"
+	"core\memBus.h"
+	"core\cart.h"
+	"core\cart.h"
+	"core\cpu.h"
+	"core\ppu.h"
+	"core\apu.h"
+	"emu\video.h"
+	"emu\gameFile.h"
+	"emu\input.h"
 
 1477753017 source:c:\work\hdnes\trunk\rewrite\core\corepart.cpp
 	"corePart.h"
@@ -3686,26 +3697,32 @@
 	"../classList.h"
 	"emuPart.h"
 
-1476436384 source:c:\work\hdnesr\trunk\rewrite\core\cart.cpp
+1478310327 source:c:\work\hdnesr\trunk\rewrite\core\cart.cpp
 	"../common.h"
 	"cart.h"
 	"mapper001.h"
 	"../emu/emuPart.h"
 
-1476436350 c:\work\hdnesr\trunk\rewrite\core\cart.h
+1478310327 c:\work\hdnesr\trunk\rewrite\core\cart.h
 	"corePart.h"
 	"../classList.h"
 
-1476432110 c:\work\hdnesr\trunk\rewrite\core\mapper001.h
+1478310327 c:\work\hdnesr\trunk\rewrite\core\mapper001.h
 	"cart.h"
 
 1476429611 source:c:\work\hdnesr\trunk\rewrite\core\mapper001.cpp
 	"mapper001.h"
 
-1476438033 source:c:\work\hdnesr\trunk\rewrite\core\membus.cpp
+1478310327 source:c:\work\hdnesr\trunk\rewrite\core\membus.cpp
 	"memBus.h"
+	"../gameManager.h"
+	"cart.h"
+	"cpu.h"
+	"ppu.h"
+	"apu.h"
 
-1476438033 c:\work\hdnesr\trunk\rewrite\core\membus.h
+1478310327 c:\work\hdnesr\trunk\rewrite\core\membus.h
+	"../classList.h"
 	<corePart.h>
 
 1477752747 source:c:\work\hdnes\trunk\rewrite\core\apu.cpp
@@ -3765,6 +3782,28 @@
 	"input.h"
 
 1478146435 c:\work\hdnes\trunk\rewrite\emu\input.h
+	"../classList.h"
+	<emuPart.h>
+
+1478310327 source:c:\work\hdnesr\trunk\rewrite\core\apu.cpp
+	"apu.h"
+
+1478310327 c:\work\hdnesr\trunk\rewrite\core\apu.h
+	<corePart.h>
+
+1478310327 source:c:\work\hdnesr\trunk\rewrite\core\cpu.cpp
+	"cpu.h"
+
+1478310327 c:\work\hdnesr\trunk\rewrite\core\cpu.h
+	<corePart.h>
+
+1478310327 c:\work\hdnesr\trunk\rewrite\core\ppu.h
+	<corePart.h>
+
+1478310327 source:c:\work\hdnesr\trunk\rewrite\core\ppu.cpp
+	"ppu.h"
+
+1478312373 c:\work\hdnesr\trunk\rewrite\emu\input.h
 	"../classList.h"
 	<emuPart.h>
 

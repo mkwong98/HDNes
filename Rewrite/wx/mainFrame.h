@@ -145,7 +145,7 @@ class mainFrame : public wxFrame
 		wxStaticText* m_staticText38;
 		wxButton* btnKeyHDCapFrame;
 		wxStaticText* m_staticText39;
-		wxButton* btnKeyToogleHDCapFrame;
+		wxButton* btnKeyToogleAutoHDCap;
 		wxStaticText* m_staticText44;
 		wxButton* btnKeyToogleIgnoreEdge;
 		wxPanel* m_panel2;
