@@ -13,6 +13,23 @@ input::input(){
             joysticks.push_back(j);
         }
     }
+
+    for(int i = 0; i < KEY_IDX_CNT; i++){
+        keyMaps[i].type = SDL_USEREVENT;
+    }
+
+    //default for player 1
+    changeKeyMapToKeyboard(KEY_IDX_P1_UP, SDLK_UP);
+    changeKeyMapToKeyboard(KEY_IDX_P1_DOWN, SDLK_DOWN);
+    changeKeyMapToKeyboard(KEY_IDX_P1_LEFT, SDLK_LEFT);
+    changeKeyMapToKeyboard(KEY_IDX_P1_RIGHT, SDLK_RIGHT);
+    changeKeyMapToKeyboard(KEY_IDX_P1_SELECT, SDLK_a);
+    changeKeyMapToKeyboard(KEY_IDX_P1_START, SDLK_s);
+    changeKeyMapToKeyboard(KEY_IDX_P1_A, SDLK_z);
+    changeKeyMapToKeyboard(KEY_IDX_P1_B, SDLK_x);
+
+    changeKeyMapToKeyboard(KEY_IDX_F1_RESET, SDLK_F1);
+    changeKeyMapToKeyboard(KEY_IDX_F1_PAUSE, SDLK_PAUSE);
 }
 
 input::~input(){
@@ -49,4 +66,26 @@ void input::startGame(){
 
 void input::endGame(){
 
+}
+
+void input::changeKeyMapToKeyboard(Uint8 keyIdx, SDL_Keycode keyCode){
+    keyMaps[keyIdx].type = SDL_KEYDOWN;
+    keyMaps[keyIdx].keyCode = keyCode;
+}
+
+string input::inputName(keyMap km){
+    string kname;
+    switch(km.type){
+    case SDL_USEREVENT:
+        kname = "------";
+        break;
+    case SDL_KEYDOWN:
+        kname = "Keyboard:" + string(SDL_GetKeyName(km.keyCode)) ;
+        break;
+    }
+    return kname;
+}
+
+string input::inputNameForKeyIdx(int keyIdx){
+    return inputName(keyMaps[keyIdx]);
 }

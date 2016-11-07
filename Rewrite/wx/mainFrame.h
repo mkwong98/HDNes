@@ -31,8 +31,6 @@
 #include <wx/notebook.h>
 #include <wx/statusbr.h>
 #include <wx/frame.h>
-#include <wx/radiobut.h>
-#include <wx/choice.h>
 #include <wx/dialog.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -100,7 +98,9 @@ class mainFrame : public wxFrame
 		wxButton* btnP2B;
 		wxStaticText* m_staticText81;
 		wxButton* btnP2A;
+		wxStaticText* m_staticText47;
 		wxPanel* m_panel13;
+		wxStaticText* m_staticText46;
 		wxStaticText* m_staticText24;
 		wxButton* btnKeyPause;
 		wxStaticText* m_staticText25;
@@ -109,8 +109,8 @@ class mainFrame : public wxFrame
 		wxButton* btnKeyCaptureScreen;
 		wxStaticText* m_staticText27;
 		wxButton* btnKeyToggleContScrCap;
-		wxStaticText* m_staticText411;
-		wxButton* btnKeyStop;
+		wxStaticText* m_staticText451;
+		wxButton* btnKeyReset;
 		wxStaticLine* m_staticline1;
 		wxStaticText* m_staticText20;
 		wxButton* btnKeySaveState;
@@ -171,11 +171,12 @@ class mainFrame : public wxFrame
 		virtual void saveStatePressed( wxCommandEvent& event ) { event.Skip(); }
 		virtual void loadStatePressed( wxCommandEvent& event ) { event.Skip(); }
 		virtual void loadLastPressed( wxCommandEvent& event ) { event.Skip(); }
+		virtual void p1UpClicked( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:
 		
-		mainFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("HDNes"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 630,468 ), long style = wxCAPTION|wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		mainFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("HDNes"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 630,480 ), long style = wxCAPTION|wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 		
 		~mainFrame();
 	
@@ -189,18 +190,15 @@ class dlgInput : public wxDialog
 	private:
 	
 	protected:
-		wxRadioButton* m_radioBtn2;
-		wxChoice* m_choice39;
-		wxRadioButton* m_radioBtn3;
-		wxChoice* m_choice40;
-		wxChoice* m_choice41;
-		wxRadioButton* m_radioBtn1;
-		wxButton* m_button5;
-		wxButton* m_button6;
+		wxStaticText* m_staticText48;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void showInputDialog( wxActivateEvent& event ) { event.Skip(); }
+		
 	
 	public:
 		
-		dlgInput( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Choose input method"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 364,153 ), long style = wxDEFAULT_DIALOG_STYLE|wxSTAY_ON_TOP ); 
+		dlgInput( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Input config"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 263,67 ), long style = wxCAPTION|wxSTAY_ON_TOP ); 
 		~dlgInput();
 	
 };

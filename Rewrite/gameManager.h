@@ -3,7 +3,6 @@
 
 #include <string>
 #include <wx\wx.h>
-#include "wx\mainFrameImp.h"
 
 #include "classList.h"
 
@@ -31,6 +30,7 @@ class gameManager
         void showUI();
         void runGame();
         void romSelected(const string& romName);
+        void setInputForKey(int idx);
     protected:
 
     private:

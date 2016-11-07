@@ -68,7 +68,7 @@ mainFrame::mainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	m_panel1->SetSizer( bSizer2 );
 	m_panel1->Layout();
 	bSizer2->Fit( m_panel1 );
-	m_notebook1->AddPage( m_panel1, wxT("Playing"), false );
+	m_notebook1->AddPage( m_panel1, wxT("Playing"), true );
 	m_panel4 = new wxPanel( m_notebook1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer5;
 	bSizer5 = new wxBoxSizer( wxVERTICAL );
@@ -349,6 +349,10 @@ mainFrame::mainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	bSizer221->Fit( m_panel81 );
 	bSizer5->Add( m_panel81, 0, wxEXPAND | wxALL, 5 );
 	
+	m_staticText47 = new wxStaticText( m_panel4, wxID_ANY, wxT("Click the button you wish to change. Then press a key or use the joystick to map input to the button. Press Esc to cancel."), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText47->Wrap( 580 );
+	bSizer5->Add( m_staticText47, 0, 0, 5 );
+	
 	
 	m_panel4->SetSizer( bSizer5 );
 	m_panel4->Layout();
@@ -360,6 +364,12 @@ mainFrame::mainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	
 	wxBoxSizer* bSizer25;
 	bSizer25 = new wxBoxSizer( wxVERTICAL );
+	
+	m_staticText46 = new wxStaticText( m_panel13, wxID_ANY, wxT("Press Esc key to stop the emulator"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText46->Wrap( -1 );
+	m_staticText46->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), 70, 90, 92, false, wxEmptyString ) );
+	
+	bSizer25->Add( m_staticText46, 0, wxALL, 5 );
 	
 	wxFlexGridSizer* fgSizer3;
 	fgSizer3 = new wxFlexGridSizer( 0, 2, 0, 0 );
@@ -394,12 +404,12 @@ mainFrame::mainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	btnKeyToggleContScrCap = new wxButton( m_panel13, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer3->Add( btnKeyToggleContScrCap, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
-	m_staticText411 = new wxStaticText( m_panel13, wxID_ANY, wxT("Stop emulation"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText411->Wrap( -1 );
-	fgSizer3->Add( m_staticText411, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	m_staticText451 = new wxStaticText( m_panel13, wxID_ANY, wxT("Reset"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText451->Wrap( -1 );
+	fgSizer3->Add( m_staticText451, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
-	btnKeyStop = new wxButton( m_panel13, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer3->Add( btnKeyStop, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	btnKeyReset = new wxButton( m_panel13, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer3->Add( btnKeyReset, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
 	
 	bSizer25->Add( fgSizer3, 0, 0, 5 );
@@ -563,7 +573,7 @@ mainFrame::mainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	m_panel13->SetSizer( bSizer24 );
 	m_panel13->Layout();
 	bSizer24->Fit( m_panel13 );
-	m_notebook1->AddPage( m_panel13, wxT("Function keys"), true );
+	m_notebook1->AddPage( m_panel13, wxT("Function keys"), false );
 	m_panel2 = new wxPanel( m_notebook1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer26;
 	bSizer26 = new wxBoxSizer( wxVERTICAL );
@@ -657,6 +667,7 @@ mainFrame::mainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	btnSaveState->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::saveStatePressed ), NULL, this );
 	btnLoadState->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::loadStatePressed ), NULL, this );
 	btnLoadLastState->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::loadLastPressed ), NULL, this );
+	btnP1Up->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::p1UpClicked ), NULL, this );
 }
 
 mainFrame::~mainFrame()
@@ -670,6 +681,7 @@ mainFrame::~mainFrame()
 	btnSaveState->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::saveStatePressed ), NULL, this );
 	btnLoadState->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::loadStatePressed ), NULL, this );
 	btnLoadLastState->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::loadLastPressed ), NULL, this );
+	btnP1Up->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::p1UpClicked ), NULL, this );
 	
 }
 
@@ -680,69 +692,23 @@ dlgInput::dlgInput( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxBoxSizer* bSizer32;
 	bSizer32 = new wxBoxSizer( wxVERTICAL );
 	
-	wxFlexGridSizer* fgSizer7;
-	fgSizer7 = new wxFlexGridSizer( 2, 2, 0, 0 );
-	fgSizer7->SetFlexibleDirection( wxBOTH );
-	fgSizer7->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-	
-	m_radioBtn2 = new wxRadioButton( this, wxID_ANY, wxT("Keyboard"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer7->Add( m_radioBtn2, 0, wxALL, 5 );
-	
-	wxArrayString m_choice39Choices;
-	m_choice39 = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice39Choices, 0 );
-	m_choice39->SetSelection( 0 );
-	fgSizer7->Add( m_choice39, 0, wxALL, 5 );
-	
-	m_radioBtn3 = new wxRadioButton( this, wxID_ANY, wxT("Joystick"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer7->Add( m_radioBtn3, 0, wxALL, 5 );
-	
-	wxBoxSizer* bSizer35;
-	bSizer35 = new wxBoxSizer( wxHORIZONTAL );
-	
-	wxArrayString m_choice40Choices;
-	m_choice40 = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice40Choices, 0 );
-	m_choice40->SetSelection( 0 );
-	bSizer35->Add( m_choice40, 0, wxALL, 5 );
-	
-	wxArrayString m_choice41Choices;
-	m_choice41 = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice41Choices, 0 );
-	m_choice41->SetSelection( 0 );
-	bSizer35->Add( m_choice41, 0, wxALL, 5 );
-	
-	
-	fgSizer7->Add( bSizer35, 0, wxEXPAND, 5 );
-	
-	m_radioBtn1 = new wxRadioButton( this, wxID_ANY, wxT("None"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer7->Add( m_radioBtn1, 0, wxALL, 5 );
-	
-	
-	bSizer32->Add( fgSizer7, 0, wxEXPAND, 5 );
-	
-	wxBoxSizer* bSizer37;
-	bSizer37 = new wxBoxSizer( wxVERTICAL );
-	
-	wxBoxSizer* bSizer36;
-	bSizer36 = new wxBoxSizer( wxHORIZONTAL );
-	
-	m_button5 = new wxButton( this, wxID_ANY, wxT("OK"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer36->Add( m_button5, 0, wxALIGN_RIGHT|wxALL, 5 );
-	
-	m_button6 = new wxButton( this, wxID_ANY, wxT("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer36->Add( m_button6, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, 5 );
-	
-	
-	bSizer37->Add( bSizer36, 0, wxALIGN_RIGHT, 5 );
-	
-	
-	bSizer32->Add( bSizer37, 0, wxEXPAND, 5 );
+	m_staticText48 = new wxStaticText( this, wxID_ANY, wxT("Waiting for input. Can be a key press or input from joystick. Press Esc to cancel."), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText48->Wrap( 250 );
+	bSizer32->Add( m_staticText48, 0, wxALL, 5 );
 	
 	
 	this->SetSizer( bSizer32 );
 	this->Layout();
 	
 	this->Centre( wxBOTH );
+	
+	// Connect Events
+	this->Connect( wxEVT_ACTIVATE, wxActivateEventHandler( dlgInput::showInputDialog ) );
 }
 
 dlgInput::~dlgInput()
 {
+	// Disconnect Events
+	this->Disconnect( wxEVT_ACTIVATE, wxActivateEventHandler( dlgInput::showInputDialog ) );
+	
 }

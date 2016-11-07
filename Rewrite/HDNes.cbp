@@ -87,6 +87,8 @@
 		<Unit filename="gameManager.h" />
 		<Unit filename="mainApp.cpp" />
 		<Unit filename="mainApp.h" />
+		<Unit filename="wx/dlgInputImp.cpp" />
+		<Unit filename="wx/dlgInputImp.h" />
 		<Unit filename="wx/mainFrame.cpp" />
 		<Unit filename="wx/mainFrame.h" />
 		<Unit filename="wx/mainFrameImp.cpp" />

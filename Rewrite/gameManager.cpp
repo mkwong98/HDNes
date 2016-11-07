@@ -8,6 +8,8 @@
 #include "emu\video.h"
 #include "emu\gameFile.h"
 #include "emu\input.h"
+#include "wx\mainFrameImp.h"
+#include "wx\dlgInputImp.h"
 
 
 using namespace std;
@@ -129,6 +131,15 @@ void gameManager::romSelected(const string& romName){
     inp->initGameConfig();
     //load config for new game
     loadGameConfig();
+}
+
+void gameManager::setInputForKey(int idx){
+    //show dialog box
+    dlgInputImp* i = new dlgInputImp(ui);
+    i->ShowModal();
+
+
+    saveGameConfig();
 }
 
 bool gameManager::loadGameConfig(){

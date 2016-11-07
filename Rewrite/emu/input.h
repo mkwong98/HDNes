@@ -28,7 +28,7 @@
 #define KEY_IDX_F1_ADVANCE_FRAME        17
 #define KEY_IDX_F1_CAPTURE_SCREEN       18
 #define KEY_IDX_F1_TOOGLE_CONT_SCR_CAP  19
-#define KEY_IDX_F1_STOP                 20
+#define KEY_IDX_F1_RESET                20
 
 #define KEY_IDX_F2_SAVE_STATE       21
 #define KEY_IDX_F2_LOAD_STATE       22
@@ -56,25 +56,20 @@ struct keyMap{
     SDL_JoystickID jID;
     union{
         int partID;
-        Uint32 keyCode;
+        SDL_Keycode keyCode;
     };
-    union{
-        Sint16 axis;
-        int ballDX;
-    };
-    int ballDY;
+    Uint8 direction;
 };
 
 class input : public emuPart
 {
     public:
         vector<SDL_Joystick*> joysticks;
-
+        keyMap keyMaps[KEY_IDX_CNT];
 
         input();
         virtual ~input();
         string partName();
-
         void saveConfigLines(fstream* fs);
         void saveGameConfigLines(fstream* fs);
         void loadConfigVal(const string& hdr, const string& value);
@@ -83,9 +78,13 @@ class input : public emuPart
         void startGame();
         void endGame();
 
+        string inputNameForKeyIdx(int keyIdx);
+        static string inputName(keyMap km);
+
     protected:
 
     private:
+        void changeKeyMapToKeyboard(Uint8 keyIdx, SDL_Keycode keyCode);
 };
 
 #endif // INPUT_H

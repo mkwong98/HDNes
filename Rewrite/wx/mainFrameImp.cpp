@@ -1,6 +1,7 @@
 #include "mainFrameImp.h"
 #include "../gameManager.h"
 #include "../emu/gameFile.h"
+#include "../emu/input.h"
 
 mainFrameImp::mainFrameImp( wxWindow* parent )
 :
@@ -28,9 +29,16 @@ void mainFrameImp::overwriteBatSelected( wxCommandEvent& event ){
     gameManager::gm->romF->overwriteBat = event.IsChecked();
 }
 
+void mainFrameImp::p1UpClicked( wxCommandEvent& event ){
+    gameManager::gm->setInputForKey(KEY_IDX_P1_UP);
+    updateDisplay();
+}
+
 void mainFrameImp::updateDisplay(){
-    this->fslROMPicker->SetPath(wxString(gameManager::gm->romF->romPath));
-    this->rbnCurrentSlot->SetSelection(gameManager::gm->romF->currentStateSlot);
-    this->chkRotateSlot->SetValue(gameManager::gm->romF->rotateState);
-    this->chkOverwriteBat->SetValue(gameManager::gm->romF->overwriteBat);
+    fslROMPicker->SetPath(wxString(gameManager::gm->romF->romPath));
+    rbnCurrentSlot->SetSelection(gameManager::gm->romF->currentStateSlot);
+    chkRotateSlot->SetValue(gameManager::gm->romF->rotateState);
+    chkOverwriteBat->SetValue(gameManager::gm->romF->overwriteBat);
+
+    btnP1Up->SetLabel(wxString(gameManager::gm->inp->inputNameForKeyIdx(KEY_IDX_P1_UP)));
 }
