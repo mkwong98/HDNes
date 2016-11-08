@@ -50,6 +50,10 @@
 #define KEY_IDX_F4_TOOGLE_AUTO_HD_CAP   36
 #define KEY_IDX_F4_TOOGLE_IGNORE_EDGE   37
 
+#define KEY_MAP_DIR_AXIS_POSITIVE  0
+#define KEY_MAP_DIR_AXIS_NEGATIVE  1
+#define KEY_MAP_MIN_AXIS_POSITIVE   1000
+#define KEY_MAP_MIN_AXIS_NEGATIVE   -1000
 
 struct keyMap{
     Uint32 type;
@@ -79,12 +83,18 @@ class input : public emuPart
         void endGame();
 
         string inputNameForKeyIdx(int keyIdx);
-        static string inputName(keyMap km);
+        string inputName(keyMap km);
+        string inputMapToConfigStr(keyMap km);
+        string joystickGUIDStrFromID(SDL_JoystickID id);
+        SDL_JoystickID joystickIDFromGUIDStr(const string& guidStr);
+        keyMap inputConfigStrToMap(const string& value);
+        void getKeyMapInput(Uint8 keyIdx);
 
     protected:
 
     private:
         void changeKeyMapToKeyboard(Uint8 keyIdx, SDL_Keycode keyCode);
+
 };
 
 #endif // INPUT_H

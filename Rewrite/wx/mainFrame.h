@@ -31,7 +31,6 @@
 #include <wx/notebook.h>
 #include <wx/statusbr.h>
 #include <wx/frame.h>
-#include <wx/dialog.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -171,35 +170,32 @@ class mainFrame : public wxFrame
 		virtual void saveStatePressed( wxCommandEvent& event ) { event.Skip(); }
 		virtual void loadStatePressed( wxCommandEvent& event ) { event.Skip(); }
 		virtual void loadLastPressed( wxCommandEvent& event ) { event.Skip(); }
-		virtual void p1UpClicked( wxCommandEvent& event ) { event.Skip(); }
+		virtual void configKeyClicked( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:
 		
-		mainFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("HDNes"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 630,480 ), long style = wxCAPTION|wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		mainFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("HDNes"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 648,483 ), long style = wxCAPTION|wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 		
 		~mainFrame();
 	
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-/// Class dlgInput
+/// Class frmWaitInput
 ///////////////////////////////////////////////////////////////////////////////
-class dlgInput : public wxDialog 
+class frmWaitInput : public wxFrame 
 {
 	private:
 	
 	protected:
 		wxStaticText* m_staticText48;
-		
-		// Virtual event handlers, overide them in your derived class
-		virtual void showInputDialog( wxActivateEvent& event ) { event.Skip(); }
-		
 	
 	public:
 		
-		dlgInput( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Input config"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 263,67 ), long style = wxCAPTION|wxSTAY_ON_TOP ); 
-		~dlgInput();
+		frmWaitInput( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 252,51 ), long style = 0|wxTAB_TRAVERSAL );
+		
+		~frmWaitInput();
 	
 };
 

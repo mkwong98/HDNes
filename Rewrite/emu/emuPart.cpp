@@ -84,3 +84,19 @@ string emuPart::getFolderPath(const string& path){
 string emuPart::getFileName(const string& path){
     return path.substr(0, path.find_last_of("."));
 }
+
+void emuPart::split(const string& str, const string& delim, vector<string>& v){
+    v.clear();
+    size_t current;
+    size_t next = -1;
+    do{
+        next = str.find_first_not_of(delim, next + 1);
+        if (next == string::npos) break;
+        next -= 1;
+        current = next + 1;
+        next = str.find_first_of(delim, current );
+        v.push_back(str.substr( current, next - current ) );
+    }
+    while (next != string::npos);
+
+}

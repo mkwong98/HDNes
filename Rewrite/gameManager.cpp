@@ -9,7 +9,7 @@
 #include "emu\gameFile.h"
 #include "emu\input.h"
 #include "wx\mainFrameImp.h"
-#include "wx\dlgInputImp.h"
+#include "wx\frmWaitInputImp.h"
 
 
 using namespace std;
@@ -47,6 +47,7 @@ gameManager::~gameManager(){
 void gameManager::showUI(){
     ui->updateDisplay();
     ui->Show(true);
+
 }
 
 void gameManager::runGame(){
@@ -135,11 +136,31 @@ void gameManager::romSelected(const string& romName){
 
 void gameManager::setInputForKey(int idx){
     //show dialog box
-    dlgInputImp* i = new dlgInputImp(ui);
-    i->ShowModal();
-
-
+    frmWaitInputImp* i = new frmWaitInputImp(ui);
+    i->Show();
+    waitForInput(idx);
+    i->Destroy();
     saveGameConfig();
+}
+
+void gameManager::waitForInput(int idx){
+    int windowX, windowY, windowW, windowH;
+    ui->GetPosition(&windowX, &windowY);
+    ui->GetSize(&windowW, &windowH);
+
+    SDL_Window *window;
+    window = SDL_CreateWindow(
+        "",                                 // window title
+        windowX,           // initial x position
+        windowY,           // initial y position
+        windowW,                               // width, in pixels
+        windowH,                               // height, in pixels
+        SDL_WINDOW_BORDERLESS                  // flags - see below
+    );
+
+    inp->getKeyMapInput(idx);
+    ui->updateDisplay();
+    SDL_DestroyWindow(window);
 }
 
 bool gameManager::loadGameConfig(){

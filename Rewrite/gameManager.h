@@ -31,6 +31,7 @@ class gameManager
         void runGame();
         void romSelected(const string& romName);
         void setInputForKey(int idx);
+        void waitForInput(int idx);
     protected:
 
     private:

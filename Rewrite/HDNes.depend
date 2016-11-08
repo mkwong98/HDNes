@@ -3281,10 +3281,10 @@
 	"common.h"
 	<wx\wx.h>
 
-1478310327 source:c:\work\hdnesr\trunk\rewrite\wx\mainframe.cpp
+1478601045 source:c:\work\hdnesr\trunk\rewrite\wx\mainframe.cpp
 	"mainFrame.h"
 
-1478310327 c:\work\hdnesr\trunk\rewrite\wx\mainframe.h
+1478601045 c:\work\hdnesr\trunk\rewrite\wx\mainframe.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/string.h>
@@ -3308,9 +3308,6 @@
 	<wx/notebook.h>
 	<wx/statusbr.h>
 	<wx/frame.h>
-	<wx/radiobut.h>
-	<wx/choice.h>
-	<wx/dialog.h>
 
 1412631243 c:\work\include\wx\xrc\xmlres.h
 	"wx/defs.h"
@@ -3344,7 +3341,7 @@
 	"wx/imaglist.h"
 	"wx/window.h"
 
-1476438449 c:\work\hdnesr\trunk\rewrite\wx\mainframeimp.h
+1478601121 c:\work\hdnesr\trunk\rewrite\wx\mainframeimp.h
 	"../classList.h"
 	"mainFrame.h"
 
@@ -3409,10 +3406,11 @@
 1412631243 c:\work\include\wx\os2\notebook.h
 	"wx/control.h"
 
-1478310327 source:c:\work\hdnesr\trunk\rewrite\wx\mainframeimp.cpp
+1478601623 source:c:\work\hdnesr\trunk\rewrite\wx\mainframeimp.cpp
 	"mainFrameImp.h"
 	"../gameManager.h"
 	"../emu/gameFile.h"
+	"../emu/input.h"
 
 1474965180 source:c:\work\hdnesr\trunk\rewrite\emu\audio.cpp
 	"audio.h"
@@ -3428,9 +3426,9 @@
 	"../classList.h"
 	"emuPart.h"
 
-1478310327 c:\work\hdnesr\trunk\rewrite\classlist.h
+1478583679 c:\work\hdnesr\trunk\rewrite\classlist.h
 
-1475249934 c:\work\include\gl\glew.h
+1474972550 c:\work\include\gl\glew.h
 	<stddef.h>
 	<inttypes.h>
 	<stdint.h>
@@ -3439,13 +3437,12 @@
 	<OpenGL/glu.h>
 	<GL/glu.h>
 
-1478310327 c:\work\hdnesr\trunk\rewrite\emu\emupart.h
+1478602156 c:\work\hdnesr\trunk\rewrite\emu\emupart.h
 	"../common.h"
 
-1478310327 c:\work\hdnesr\trunk\rewrite\gamemanager.h
+1478584736 c:\work\hdnesr\trunk\rewrite\gamemanager.h
 	<string>
 	<wx\wx.h>
-	"wx\mainFrameImp.h"
 	"classList.h"
 
 1478310327 source:c:\work\hdnesr\trunk\rewrite\core\corepart.cpp
@@ -3454,10 +3451,10 @@
 1478310327 c:\work\hdnesr\trunk\rewrite\core\corepart.h
 	"../common.h"
 
-1476351611 source:c:\work\hdnesr\trunk\rewrite\emu\emupart.cpp
+1478602519 source:c:\work\hdnesr\trunk\rewrite\emu\emupart.cpp
 	"emuPart.h"
 
-1478310327 source:c:\work\hdnesr\trunk\rewrite\gamemanager.cpp
+1478593331 source:c:\work\hdnesr\trunk\rewrite\gamemanager.cpp
 	"gameManager.h"
 	"core\memBus.h"
 	"core\cart.h"
@@ -3468,6 +3465,8 @@
 	"emu\video.h"
 	"emu\gameFile.h"
 	"emu\input.h"
+	"wx\mainFrameImp.h"
+	"wx\frmWaitInputImp.h"
 
 1477753017 source:c:\work\hdnes\trunk\rewrite\core\corepart.cpp
 	"corePart.h"
@@ -3805,7 +3804,7 @@
 1478310327 source:c:\work\hdnesr\trunk\rewrite\core\ppu.cpp
 	"ppu.h"
 
-1478312373 c:\work\hdnesr\trunk\rewrite\emu\input.h
+1478602653 c:\work\hdnesr\trunk\rewrite\emu\input.h
 	"../classList.h"
 	<emuPart.h>
 
@@ -3815,4 +3814,21 @@
 1478559911 source:c:\work\hdnes\trunk\rewrite\wx\dlginputimp.cpp
 	"dlgInputImp.h"
 	"../emu/input.h"
+
+1478603407 source:c:\work\hdnesr\trunk\rewrite\emu\input.cpp
+	"input.h"
+
+1478575405 c:\work\hdnesr\trunk\rewrite\wx\dlginputimp.h
+	"mainFrame.h"
+
+1478581485 source:c:\work\hdnesr\trunk\rewrite\wx\dlginputimp.cpp
+	"dlgInputImp.h"
+	"../emu/input.h"
+	"../gameManager.h"
+
+1478583559 source:c:\work\hdnesr\trunk\rewrite\wx\frmwaitinputimp.cpp
+	"frmWaitInputImp.h"
+
+1478583559 c:\work\hdnesr\trunk\rewrite\wx\frmwaitinputimp.h
+	"mainFrame.h"
 

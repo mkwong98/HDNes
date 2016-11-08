@@ -24,6 +24,7 @@ class emuPart
         static int stringToInt(const string& str);
         static string getFolderPath(const string& path);
         static string getFileName(const string& path);
+        static void split(const string& str, const string& delim, vector<string>& v);
 
         //load config
         void loadConfig(fstream* fs);

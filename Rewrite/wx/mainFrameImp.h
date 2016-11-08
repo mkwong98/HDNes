@@ -21,7 +21,9 @@ class mainFrameImp : public mainFrame
         void stateSlotSelected( wxCommandEvent& event );
         void rotateSlotSelected( wxCommandEvent& event );
         void overwriteBatSelected( wxCommandEvent& event );
-		void p1UpClicked( wxCommandEvent& event );
+		void configKeyClicked( wxCommandEvent& event );
+
+
 	public:
 		/** Constructor */
 		mainFrameImp( wxWindow* parent );

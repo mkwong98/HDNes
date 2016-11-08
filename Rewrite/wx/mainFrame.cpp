@@ -667,7 +667,44 @@ mainFrame::mainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	btnSaveState->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::saveStatePressed ), NULL, this );
 	btnLoadState->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::loadStatePressed ), NULL, this );
 	btnLoadLastState->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::loadLastPressed ), NULL, this );
-	btnP1Up->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::p1UpClicked ), NULL, this );
+	btnP1Up->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnP1Left->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnP1Right->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnP1Down->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnP1Select->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnP1Start->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnP1B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnP1A->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnP2Up->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnP2Left->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnP2Right->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnP2Down->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnP2Select->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnP2Start->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnP2B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnP2A->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeyPause->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeyAdvanceFrame->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeyCaptureScreen->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeyToggleContScrCap->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeyReset->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeySaveState->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeyLoadState->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeyLoadLastState->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeyRotateState->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeySlot1->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeySlot2->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeySlot3->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeySlot4->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeySlot5->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeySlot6->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeySlot7->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeySlot8->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeySlot9->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeySlot10->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeyHDCapFrame->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeyToogleAutoHDCap->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeyToogleIgnoreEdge->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
 }
 
 mainFrame::~mainFrame()
@@ -681,13 +718,51 @@ mainFrame::~mainFrame()
 	btnSaveState->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::saveStatePressed ), NULL, this );
 	btnLoadState->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::loadStatePressed ), NULL, this );
 	btnLoadLastState->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::loadLastPressed ), NULL, this );
-	btnP1Up->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::p1UpClicked ), NULL, this );
+	btnP1Up->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnP1Left->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnP1Right->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnP1Down->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnP1Select->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnP1Start->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnP1B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnP1A->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnP2Up->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnP2Left->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnP2Right->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnP2Down->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnP2Select->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnP2Start->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnP2B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnP2A->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeyPause->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeyAdvanceFrame->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeyCaptureScreen->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeyToggleContScrCap->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeyReset->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeySaveState->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeyLoadState->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeyLoadLastState->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeyRotateState->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeySlot1->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeySlot2->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeySlot3->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeySlot4->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeySlot5->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeySlot6->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeySlot7->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeySlot8->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeySlot9->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeySlot10->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeyHDCapFrame->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeyToogleAutoHDCap->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	btnKeyToogleIgnoreEdge->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
 	
 }
 
-dlgInput::dlgInput( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+frmWaitInput::frmWaitInput( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
 {
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	this->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_BTNFACE ) );
 	
 	wxBoxSizer* bSizer32;
 	bSizer32 = new wxBoxSizer( wxVERTICAL );
@@ -701,14 +776,8 @@ dlgInput::dlgInput( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	this->Layout();
 	
 	this->Centre( wxBOTH );
-	
-	// Connect Events
-	this->Connect( wxEVT_ACTIVATE, wxActivateEventHandler( dlgInput::showInputDialog ) );
 }
 
-dlgInput::~dlgInput()
+frmWaitInput::~frmWaitInput()
 {
-	// Disconnect Events
-	this->Disconnect( wxEVT_ACTIVATE, wxActivateEventHandler( dlgInput::showInputDialog ) );
-	
 }

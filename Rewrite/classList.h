@@ -16,7 +16,7 @@ class gameFile;
 class input;
 
 class mainFrameImp;
-class dlgInputImp;
+class frmWaitInputImp;
 class gameManager;
 
 #endif // CLASSLIST_H_INCLUDED
