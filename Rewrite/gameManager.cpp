@@ -30,6 +30,7 @@ gameManager::gameManager(){
     loadGameConfig();
     //create gui
     ui = new mainFrameImp(NULL);
+    gameState = GAME_STATE_STOPPED;
 }
 
 gameManager::~gameManager(){
@@ -64,6 +65,10 @@ void gameManager::runGame(){
     vid->startGame();
     romF->startGame();
     inp->startGame();
+
+    gameState = GAME_STATE_RUNNING;
+    while(gameState != GAME_STATE_STOPPED){
+        inp->handleUserInput();
     //while is running
     //  handle input
     //      handle game ui events like save and load state
@@ -72,6 +77,10 @@ void gameManager::runGame(){
     //      out put frame
     //      regulate frame rate
     //clean up
+
+
+    }
+
     vid->endGame();
     romF->endGame();
     inp->endGame();
@@ -200,4 +209,12 @@ void gameManager::saveGameConfig(){
     romF->saveGameConfig(&fs);
     inp->saveGameConfig(&fs);
     fs.close();
+}
+
+void gameManager::functionKeyPressed(Uint8 keyIdx){
+    switch(keyIdx){
+    case KEY_IDX_F0_STOP:
+        gameState = GAME_STATE_STOPPED;
+        break;
+    }
 }

@@ -1,4 +1,5 @@
 #include "input.h"
+#include "../gameManager.h"
 
 using namespace std;
 
@@ -212,17 +213,20 @@ keyMap input::inputConfigStrToMap(const string& value){
     }
     else if(elems[0].compare("AXIS") == 0){
         m.type = SDL_JOYAXISMOTION;
-        m.partID = stringToInt(elems[1]);
-        m.direction = stringToInt(elems[2]);
+        m.jID = joystickIDFromGUIDStr(elems[1]);
+        m.partID = stringToInt(elems[2]);
+        m.direction = stringToInt(elems[3]);
     }
     else if(elems[0].compare("HAT") == 0){
         m.type = SDL_JOYHATMOTION;
-        m.partID = stringToInt(elems[1]);
-        m.direction = stringToInt(elems[2]);
+        m.jID = joystickIDFromGUIDStr(elems[1]);
+        m.partID = stringToInt(elems[2]);
+        m.direction = stringToInt(elems[3]);
    }
     else if(elems[0].compare("BUTTON") == 0){
-        m.type = SDL_USEREVENT;
-        m.partID = stringToInt(elems[1]);
+        m.type = SDL_JOYBUTTONDOWN;
+        m.jID = joystickIDFromGUIDStr(elems[1]);
+        m.partID = stringToInt(elems[2]);
     }
     return m;
 }
@@ -246,4 +250,21 @@ SDL_JoystickID input::joystickIDFromGUIDStr(const string& guidStr){
         }
     }
     return 0;
+}
+
+void input::handleUserInput(){
+    SDL_Event e;
+    while (SDL_PollEvent(&e)) {
+        switch(e.type){
+        case SDL_KEYDOWN:
+            if(e.key.keysym.sym == SDLK_ESCAPE){
+                gameManager::gm->functionKeyPressed(KEY_IDX_F0_STOP);
+            }
+            else{
+
+            }
+            break;
+
+        }
+    }
 }

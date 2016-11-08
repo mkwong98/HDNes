@@ -1,10 +1,15 @@
 #ifndef GAME_MANAGER_H
 #define GAME_MANAGER_H
 
-#include <string>
 #include <wx\wx.h>
 
+#include "common.h"
 #include "classList.h"
+
+#define GAME_STATE_STOPPED          0
+#define GAME_STATE_RUNNING          1
+#define GAME_STATE_PAUSED           2
+#define GAME_STATE_ADVANCE_BY_FRAME 3
 
 using namespace std;
 
@@ -24,6 +29,8 @@ class gameManager
         apu* ap;
         memBus* mb;
 
+        int gameState;
+
         gameManager();
         ~gameManager();
 
@@ -32,6 +39,7 @@ class gameManager
         void romSelected(const string& romName);
         void setInputForKey(int idx);
         void waitForInput(int idx);
+        void functionKeyPressed(Uint8 keyIdx);
     protected:
 
     private:

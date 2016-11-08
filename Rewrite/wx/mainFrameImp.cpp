@@ -81,6 +81,76 @@ void mainFrameImp::configKeyClicked( wxCommandEvent& event ){
         keyID = KEY_IDX_P2_A;
     }
 
+    if(event.GetEventObject() == btnKeyPause){
+        keyID = KEY_IDX_F1_PAUSE;
+    }
+    else if(event.GetEventObject() == btnKeyAdvanceFrame){
+        keyID = KEY_IDX_F1_ADVANCE_FRAME;
+    }
+    else if(event.GetEventObject() == btnKeyCaptureScreen){
+        keyID = KEY_IDX_F1_CAPTURE_SCREEN;
+    }
+    else if(event.GetEventObject() == btnKeyToggleContScrCap){
+        keyID = KEY_IDX_F1_TOOGLE_CONT_SCR_CAP;
+    }
+    else if(event.GetEventObject() == btnKeyReset){
+        keyID = KEY_IDX_F1_RESET;
+    }
+
+    if(event.GetEventObject() == btnKeySaveState){
+        keyID = KEY_IDX_F2_SAVE_STATE;
+    }
+    else if(event.GetEventObject() == btnKeyLoadState){
+        keyID = KEY_IDX_F2_LOAD_STATE;
+    }
+    else if(event.GetEventObject() == btnKeyLoadLastState){
+        keyID = KEY_IDX_F2_LOAD_LAST_STATE;
+    }
+    else if(event.GetEventObject() == btnKeyRotateState){
+        keyID = KEY_IDX_F2_ROTATE_STATE;
+    }
+
+    if(event.GetEventObject() == btnKeySlot1){
+        keyID = KEY_IDX_F3_SLOT1;
+    }
+    else if(event.GetEventObject() == btnKeySlot2){
+        keyID = KEY_IDX_F3_SLOT2;
+    }
+    else if(event.GetEventObject() == btnKeySlot3){
+        keyID = KEY_IDX_F3_SLOT3;
+    }
+    else if(event.GetEventObject() == btnKeySlot4){
+        keyID = KEY_IDX_F3_SLOT4;
+    }
+    else if(event.GetEventObject() == btnKeySlot5){
+        keyID = KEY_IDX_F3_SLOT5;
+    }
+    else if(event.GetEventObject() == btnKeySlot6){
+        keyID = KEY_IDX_F3_SLOT6;
+    }
+    else if(event.GetEventObject() == btnKeySlot7){
+        keyID = KEY_IDX_F3_SLOT7;
+    }
+    else if(event.GetEventObject() == btnKeySlot8){
+        keyID = KEY_IDX_F3_SLOT8;
+    }
+    else if(event.GetEventObject() == btnKeySlot9){
+        keyID = KEY_IDX_F3_SLOT9;
+    }
+    else if(event.GetEventObject() == btnKeySlot10){
+        keyID = KEY_IDX_F3_SLOT10;
+    }
+
+    if(event.GetEventObject() == btnKeyHDCapFrame){
+        keyID = KEY_IDX_F4_HD_CAP_FRAME;
+    }
+    else if(event.GetEventObject() == btnKeyToogleAutoHDCap){
+        keyID = KEY_IDX_F4_TOOGLE_AUTO_HD_CAP;
+    }
+    else if(event.GetEventObject() == btnKeyToogleIgnoreEdge){
+        keyID = KEY_IDX_F4_TOOGLE_IGNORE_EDGE;
+    }
+
     gameManager::gm->setInputForKey(keyID);
     updateDisplay();
 }
@@ -109,4 +179,29 @@ void mainFrameImp::updateDisplay(){
     btnP2B->SetLabel(wxString(gameManager::gm->inp->inputNameForKeyIdx(KEY_IDX_P2_B)));
     btnP2A->SetLabel(wxString(gameManager::gm->inp->inputNameForKeyIdx(KEY_IDX_P2_A)));
 
+    btnKeyPause->SetLabel(wxString(gameManager::gm->inp->inputNameForKeyIdx(KEY_IDX_F1_PAUSE)));
+    btnKeyAdvanceFrame->SetLabel(wxString(gameManager::gm->inp->inputNameForKeyIdx(KEY_IDX_F1_ADVANCE_FRAME)));
+    btnKeyCaptureScreen->SetLabel(wxString(gameManager::gm->inp->inputNameForKeyIdx(KEY_IDX_F1_CAPTURE_SCREEN)));
+    btnKeyToggleContScrCap->SetLabel(wxString(gameManager::gm->inp->inputNameForKeyIdx(KEY_IDX_F1_TOOGLE_CONT_SCR_CAP)));
+    btnKeyReset->SetLabel(wxString(gameManager::gm->inp->inputNameForKeyIdx(KEY_IDX_F1_RESET)));
+
+    btnKeySaveState->SetLabel(wxString(gameManager::gm->inp->inputNameForKeyIdx(KEY_IDX_F2_SAVE_STATE)));
+    btnKeyLoadState->SetLabel(wxString(gameManager::gm->inp->inputNameForKeyIdx(KEY_IDX_F2_LOAD_STATE)));
+    btnKeyLoadLastState->SetLabel(wxString(gameManager::gm->inp->inputNameForKeyIdx(KEY_IDX_F2_LOAD_LAST_STATE)));
+    btnKeyRotateState->SetLabel(wxString(gameManager::gm->inp->inputNameForKeyIdx(KEY_IDX_F2_ROTATE_STATE)));
+
+    btnKeySlot1->SetLabel(wxString(gameManager::gm->inp->inputNameForKeyIdx(KEY_IDX_F3_SLOT1)));
+    btnKeySlot2->SetLabel(wxString(gameManager::gm->inp->inputNameForKeyIdx(KEY_IDX_F3_SLOT2)));
+    btnKeySlot3->SetLabel(wxString(gameManager::gm->inp->inputNameForKeyIdx(KEY_IDX_F3_SLOT3)));
+    btnKeySlot4->SetLabel(wxString(gameManager::gm->inp->inputNameForKeyIdx(KEY_IDX_F3_SLOT4)));
+    btnKeySlot5->SetLabel(wxString(gameManager::gm->inp->inputNameForKeyIdx(KEY_IDX_F3_SLOT5)));
+    btnKeySlot6->SetLabel(wxString(gameManager::gm->inp->inputNameForKeyIdx(KEY_IDX_F3_SLOT6)));
+    btnKeySlot7->SetLabel(wxString(gameManager::gm->inp->inputNameForKeyIdx(KEY_IDX_F3_SLOT7)));
+    btnKeySlot8->SetLabel(wxString(gameManager::gm->inp->inputNameForKeyIdx(KEY_IDX_F3_SLOT8)));
+    btnKeySlot9->SetLabel(wxString(gameManager::gm->inp->inputNameForKeyIdx(KEY_IDX_F3_SLOT9)));
+    btnKeySlot10->SetLabel(wxString(gameManager::gm->inp->inputNameForKeyIdx(KEY_IDX_F3_SLOT10)));
+
+    btnKeyHDCapFrame->SetLabel(wxString(gameManager::gm->inp->inputNameForKeyIdx(KEY_IDX_F4_HD_CAP_FRAME)));
+    btnKeyToogleAutoHDCap->SetLabel(wxString(gameManager::gm->inp->inputNameForKeyIdx(KEY_IDX_F4_TOOGLE_AUTO_HD_CAP)));
+    btnKeyToogleIgnoreEdge->SetLabel(wxString(gameManager::gm->inp->inputNameForKeyIdx(KEY_IDX_F4_TOOGLE_IGNORE_EDGE)));
 }
