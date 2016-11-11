@@ -66,7 +66,9 @@ void input::loadConfigVal(const string& hdr, const string& value){
 }
 
 void input::startGame(){
-
+    for(int i = 0; i < KEY_BUTTON_CNT; i++){
+        padState[i] = false;
+    }
 }
 
 void input::endGame(){
@@ -258,13 +260,122 @@ void input::handleUserInput(){
         switch(e.type){
         case SDL_KEYDOWN:
             if(e.key.keysym.sym == SDLK_ESCAPE){
+                //hard coded key
                 gameManager::gm->functionKeyPressed(KEY_IDX_F0_STOP);
             }
             else{
-
+                for(int i = 0; i < KEY_IDX_CNT; i++){
+                    if(keyMaps[i].type == SDL_KEYDOWN){
+                        if(i < KEY_BUTTON_CNT){
+                            //game pad area
+                            padState[i] = true;
+                        }
+                        else{
+                            //function key area
+                            gameManager::gm->functionKeyPressed(i);
+                        }
+                    }
+                }
             }
             break;
-
+        case SDL_KEYUP:
+            //game pad only, don't need to handle keyup for function keys
+            for(int i = 0; i < KEY_BUTTON_CNT; i++){
+                if(keyMaps[i].type == SDL_KEYDOWN){
+                    padState[i] = false;
+                }
+            }
+            break;
+        case SDL_JOYAXISMOTION:
+            if(e.jaxis.value > KEY_MAP_MIN_AXIS_POSITIVE){
+                for(int i = 0; i < KEY_IDX_CNT; i++){
+                    if(keyMaps[i].type == SDL_JOYAXISMOTION
+                        && keyMaps[i].jID == e.jaxis.which
+                        && keyMaps[i].partID == e.jaxis.axis
+                        && keyMaps[i].direction == KEY_MAP_DIR_AXIS_POSITIVE){
+                        if(i < KEY_BUTTON_CNT){
+                            padState[i] = true;
+                        }
+                        else{
+                            gameManager::gm->functionKeyPressed(i);
+                        }
+                    }
+                }
+            }
+            else if(e.jaxis.value < KEY_MAP_MIN_AXIS_NEGATIVE){
+                for(int i = 0; i < KEY_IDX_CNT; i++){
+                    if(keyMaps[i].type == SDL_JOYAXISMOTION
+                        && keyMaps[i].jID == e.jaxis.which
+                        && keyMaps[i].partID == e.jaxis.axis
+                        && keyMaps[i].direction == KEY_MAP_DIR_AXIS_NEGATIVE){
+                        if(i < KEY_BUTTON_CNT){
+                            padState[i] = true;
+                        }
+                        else{
+                            gameManager::gm->functionKeyPressed(i);
+                        }
+                    }
+                }
+            }
+            else{
+                for(int i = 0; i < KEY_BUTTON_CNT; i++){
+                    if(keyMaps[i].type == SDL_JOYAXISMOTION
+                        && keyMaps[i].jID == e.jaxis.which
+                        && keyMaps[i].partID == e.jaxis.axis){
+                        padState[i] = false;
+                    }
+                }
+            }
+            break;
+        case SDL_JOYHATMOTION:
+            if(e.jhat.value != SDL_HAT_CENTERED){
+                for(int i = 0; i < KEY_BUTTON_CNT; i++){
+                    if(keyMaps[i].type == SDL_JOYHATMOTION
+                        && keyMaps[i].jID == e.jhat.which
+                        && keyMaps[i].partID == e.jhat.hat){
+                        padState[i] = false;
+                    }
+                }
+            }
+            else{
+                for(int i = 0; i < KEY_IDX_CNT; i++){
+                    if(keyMaps[i].type == SDL_JOYHATMOTION
+                        && keyMaps[i].jID == e.jhat.which
+                        && keyMaps[i].partID == e.jhat.hat
+                        && keyMaps[i].direction == e.jhat.value){
+                        if(i < KEY_BUTTON_CNT){
+                            padState[i] = true;
+                        }
+                        else{
+                            gameManager::gm->functionKeyPressed(i);
+                        }
+                    }
+                }
+            }
+            break;
+        case SDL_JOYBUTTONDOWN:
+            for(int i = 0; i < KEY_IDX_CNT; i++){
+                if(keyMaps[i].type == SDL_JOYBUTTONDOWN
+                    && keyMaps[i].jID == e.jbutton.which
+                    && keyMaps[i].partID == e.jbutton.button){
+                    if(i < KEY_BUTTON_CNT){
+                        padState[i] = true;
+                    }
+                    else{
+                        gameManager::gm->functionKeyPressed(i);
+                    }
+                }
+            }
+            break;
+        case SDL_JOYBUTTONUP:
+            for(int i = 0; i < KEY_BUTTON_CNT; i++){
+                if(keyMaps[i].type == SDL_JOYBUTTONDOWN
+                    && keyMaps[i].jID == e.jbutton.which
+                    && keyMaps[i].partID == e.jbutton.button){
+                    padState[i] = false;
+                }
+            }
+            break;
         }
     }
 }

@@ -3406,7 +3406,7 @@
 1412631243 c:\work\include\wx\os2\notebook.h
 	"wx/control.h"
 
-1478601623 source:c:\work\hdnesr\trunk\rewrite\wx\mainframeimp.cpp
+1478854256 source:c:\work\hdnesr\trunk\rewrite\wx\mainframeimp.cpp
 	"mainFrameImp.h"
 	"../gameManager.h"
 	"../emu/gameFile.h"
@@ -3418,7 +3418,7 @@
 1476432110 c:\work\hdnesr\trunk\rewrite\emu\audio.h
 	"emuPart.h"
 
-1476351809 source:c:\work\hdnesr\trunk\rewrite\emu\video.cpp
+1478854256 source:c:\work\hdnesr\trunk\rewrite\emu\video.cpp
 	<GL/glew.h>
 	"video.h"
 
@@ -3428,7 +3428,7 @@
 
 1478583679 c:\work\hdnesr\trunk\rewrite\classlist.h
 
-1475249934 c:\work\include\gl\glew.h
+1474972550 c:\work\include\gl\glew.h
 	<stddef.h>
 	<inttypes.h>
 	<stdint.h>
@@ -3440,9 +3440,9 @@
 1478602156 c:\work\hdnesr\trunk\rewrite\emu\emupart.h
 	"../common.h"
 
-1478584736 c:\work\hdnesr\trunk\rewrite\gamemanager.h
-	<string>
+1478854256 c:\work\hdnesr\trunk\rewrite\gamemanager.h
 	<wx\wx.h>
+	"common.h"
 	"classList.h"
 
 1478310327 source:c:\work\hdnesr\trunk\rewrite\core\corepart.cpp
@@ -3454,7 +3454,7 @@
 1478602519 source:c:\work\hdnesr\trunk\rewrite\emu\emupart.cpp
 	"emuPart.h"
 
-1478593331 source:c:\work\hdnesr\trunk\rewrite\gamemanager.cpp
+1478854256 source:c:\work\hdnesr\trunk\rewrite\gamemanager.cpp
 	"gameManager.h"
 	"core\memBus.h"
 	"core\cart.h"
@@ -3804,7 +3804,7 @@
 1478310327 source:c:\work\hdnesr\trunk\rewrite\core\ppu.cpp
 	"ppu.h"
 
-1478602653 c:\work\hdnesr\trunk\rewrite\emu\input.h
+1478856326 c:\work\hdnesr\trunk\rewrite\emu\input.h
 	"../classList.h"
 	<emuPart.h>
 

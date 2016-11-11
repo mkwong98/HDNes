@@ -4,6 +4,7 @@
 #include "../classList.h"
 #include <emuPart.h>
 
+#define KEY_BUTTON_CNT 16
 #define KEY_IDX_CNT 38
 
 #define KEY_IDX_P1_UP    	0
@@ -72,6 +73,7 @@ class input : public emuPart
     public:
         vector<SDL_Joystick*> joysticks;
         keyMap keyMaps[KEY_IDX_CNT];
+        bool padState[16];
 
         input();
         virtual ~input();
