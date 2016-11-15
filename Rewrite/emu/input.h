@@ -66,6 +66,7 @@ struct keyMap{
         SDL_Keycode keyCode;
     };
     Uint8 direction;
+    bool pressed;
 };
 
 class input : public emuPart
@@ -73,7 +74,6 @@ class input : public emuPart
     public:
         vector<SDL_Joystick*> joysticks;
         keyMap keyMaps[KEY_IDX_CNT];
-        bool padState[16];
 
         input();
         virtual ~input();

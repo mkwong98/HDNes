@@ -66,8 +66,8 @@ void input::loadConfigVal(const string& hdr, const string& value){
 }
 
 void input::startGame(){
-    for(int i = 0; i < KEY_BUTTON_CNT; i++){
-        padState[i] = false;
+    for(int i = 0; i < KEY_IDX_CNT; i++){
+        keyMaps[i].pressed = false;
     }
 }
 
@@ -265,12 +265,11 @@ void input::handleUserInput(){
             }
             else{
                 for(int i = 0; i < KEY_IDX_CNT; i++){
-                    if(keyMaps[i].type == SDL_KEYDOWN){
-                        if(i < KEY_BUTTON_CNT){
-                            //game pad area
-                            padState[i] = true;
-                        }
-                        else{
+                    if(keyMaps[i].type == SDL_KEYDOWN
+                       && keyMaps[i].keyCode == e.key.keysym.sym
+                       && !keyMaps[i].pressed){
+                        keyMaps[i].pressed = true;
+                        if(i >= KEY_BUTTON_CNT){
                             //function key area
                             gameManager::gm->functionKeyPressed(i);
                         }
@@ -280,9 +279,11 @@ void input::handleUserInput(){
             break;
         case SDL_KEYUP:
             //game pad only, don't need to handle keyup for function keys
-            for(int i = 0; i < KEY_BUTTON_CNT; i++){
-                if(keyMaps[i].type == SDL_KEYDOWN){
-                    padState[i] = false;
+            for(int i = 0; i < KEY_IDX_CNT; i++){
+                if(keyMaps[i].type == SDL_KEYDOWN
+                    && keyMaps[i].keyCode == e.key.keysym.sym
+                    && keyMaps[i].pressed){
+                    keyMaps[i].pressed = false;
                 }
             }
             break;
@@ -292,11 +293,10 @@ void input::handleUserInput(){
                     if(keyMaps[i].type == SDL_JOYAXISMOTION
                         && keyMaps[i].jID == e.jaxis.which
                         && keyMaps[i].partID == e.jaxis.axis
-                        && keyMaps[i].direction == KEY_MAP_DIR_AXIS_POSITIVE){
-                        if(i < KEY_BUTTON_CNT){
-                            padState[i] = true;
-                        }
-                        else{
+                        && keyMaps[i].direction == KEY_MAP_DIR_AXIS_POSITIVE
+                        && !keyMaps[i].pressed){
+                        keyMaps[i].pressed = true;
+                        if(i >= KEY_BUTTON_CNT){
                             gameManager::gm->functionKeyPressed(i);
                         }
                     }
@@ -307,11 +307,10 @@ void input::handleUserInput(){
                     if(keyMaps[i].type == SDL_JOYAXISMOTION
                         && keyMaps[i].jID == e.jaxis.which
                         && keyMaps[i].partID == e.jaxis.axis
-                        && keyMaps[i].direction == KEY_MAP_DIR_AXIS_NEGATIVE){
-                        if(i < KEY_BUTTON_CNT){
-                            padState[i] = true;
-                        }
-                        else{
+                        && keyMaps[i].direction == KEY_MAP_DIR_AXIS_NEGATIVE
+                        && !keyMaps[i].pressed){
+                        keyMaps[i].pressed = true;
+                        if(i >= KEY_BUTTON_CNT){
                             gameManager::gm->functionKeyPressed(i);
                         }
                     }
@@ -321,19 +320,21 @@ void input::handleUserInput(){
                 for(int i = 0; i < KEY_BUTTON_CNT; i++){
                     if(keyMaps[i].type == SDL_JOYAXISMOTION
                         && keyMaps[i].jID == e.jaxis.which
-                        && keyMaps[i].partID == e.jaxis.axis){
-                        padState[i] = false;
+                        && keyMaps[i].partID == e.jaxis.axis
+                        && keyMaps[i].pressed){
+                        keyMaps[i].pressed = false;
                     }
                 }
             }
             break;
         case SDL_JOYHATMOTION:
-            if(e.jhat.value != SDL_HAT_CENTERED){
+            if(e.jhat.value == SDL_HAT_CENTERED){
                 for(int i = 0; i < KEY_BUTTON_CNT; i++){
                     if(keyMaps[i].type == SDL_JOYHATMOTION
                         && keyMaps[i].jID == e.jhat.which
-                        && keyMaps[i].partID == e.jhat.hat){
-                        padState[i] = false;
+                        && keyMaps[i].partID == e.jhat.hat
+                        && keyMaps[i].pressed){
+                        keyMaps[i].pressed = false;
                     }
                 }
             }
@@ -342,11 +343,10 @@ void input::handleUserInput(){
                     if(keyMaps[i].type == SDL_JOYHATMOTION
                         && keyMaps[i].jID == e.jhat.which
                         && keyMaps[i].partID == e.jhat.hat
-                        && keyMaps[i].direction == e.jhat.value){
-                        if(i < KEY_BUTTON_CNT){
-                            padState[i] = true;
-                        }
-                        else{
+                        && keyMaps[i].direction == e.jhat.value
+                        && !keyMaps[i].pressed){
+                        keyMaps[i].pressed = true;
+                        if(i >= KEY_BUTTON_CNT){
                             gameManager::gm->functionKeyPressed(i);
                         }
                     }
@@ -357,11 +357,10 @@ void input::handleUserInput(){
             for(int i = 0; i < KEY_IDX_CNT; i++){
                 if(keyMaps[i].type == SDL_JOYBUTTONDOWN
                     && keyMaps[i].jID == e.jbutton.which
-                    && keyMaps[i].partID == e.jbutton.button){
-                    if(i < KEY_BUTTON_CNT){
-                        padState[i] = true;
-                    }
-                    else{
+                    && keyMaps[i].partID == e.jbutton.button
+                    && !keyMaps[i].pressed){
+                    keyMaps[i].pressed = true;
+                    if(i >= KEY_BUTTON_CNT){
                         gameManager::gm->functionKeyPressed(i);
                     }
                 }
@@ -371,8 +370,9 @@ void input::handleUserInput(){
             for(int i = 0; i < KEY_BUTTON_CNT; i++){
                 if(keyMaps[i].type == SDL_JOYBUTTONDOWN
                     && keyMaps[i].jID == e.jbutton.which
-                    && keyMaps[i].partID == e.jbutton.button){
-                    padState[i] = false;
+                    && keyMaps[i].partID == e.jbutton.button
+                    && keyMaps[i].pressed){
+                    keyMaps[i].pressed = false;
                 }
             }
             break;
