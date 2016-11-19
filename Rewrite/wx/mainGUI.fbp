@@ -9408,7 +9408,7 @@
                                                     <event name="OnMouseEvents"></event>
                                                     <event name="OnMouseWheel"></event>
                                                     <event name="OnPaint"></event>
-                                                    <event name="OnRadioBox"></event>
+                                                    <event name="OnRadioBox">screenSizeSelected</event>
                                                     <event name="OnRightDClick"></event>
                                                     <event name="OnRightDown"></event>
                                                     <event name="OnRightUp"></event>
@@ -9593,7 +9593,7 @@
                                                     <event name="OnRightUp"></event>
                                                     <event name="OnSetFocus"></event>
                                                     <event name="OnSize"></event>
-                                                    <event name="OnSpinCtrl"></event>
+                                                    <event name="OnSpinCtrl">contCapRateSelected</event>
                                                     <event name="OnSpinCtrlText"></event>
                                                     <event name="OnTextEnter"></event>
                                                     <event name="OnUpdateUI"></event>
@@ -9747,7 +9747,7 @@
                                             <property name="window_name"></property>
                                             <property name="window_style"></property>
                                             <event name="OnChar"></event>
-                                            <event name="OnCheckBox"></event>
+                                            <event name="OnCheckBox">useGPackSelected</event>
                                             <event name="OnEnterWindow"></event>
                                             <event name="OnEraseBackground"></event>
                                             <event name="OnKeyDown"></event>
@@ -9835,7 +9835,7 @@
                                             <property name="window_name"></property>
                                             <property name="window_style"></property>
                                             <event name="OnChar"></event>
-                                            <event name="OnCheckBox"></event>
+                                            <event name="OnCheckBox">autoCaptureForHDSelected</event>
                                             <event name="OnEnterWindow"></event>
                                             <event name="OnEraseBackground"></event>
                                             <event name="OnKeyDown"></event>
@@ -9923,7 +9923,7 @@
                                             <property name="window_name"></property>
                                             <property name="window_style"></property>
                                             <event name="OnChar"></event>
-                                            <event name="OnCheckBox"></event>
+                                            <event name="OnCheckBox">ignoreEdgeSelected</event>
                                             <event name="OnEnterWindow"></event>
                                             <event name="OnEraseBackground"></event>
                                             <event name="OnKeyDown"></event>

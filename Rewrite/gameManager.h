@@ -35,8 +35,13 @@ class gameManager
         ~gameManager();
 
         void showUI();
+
         void runGame();
+        void changeSaveStateSlot(int slot);
+        void changeUseRotateState(bool use);
+        void changeOverwriteBat(bool overwrite);
         void romSelected(const string& romName);
+
         void setInputForKey(int idx);
         void waitForInput(int idx);
         void functionKeyPressed(Uint8 keyIdx);

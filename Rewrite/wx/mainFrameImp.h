@@ -22,6 +22,11 @@ class mainFrameImp : public mainFrame
         void rotateSlotSelected( wxCommandEvent& event );
         void overwriteBatSelected( wxCommandEvent& event );
 		void configKeyClicked( wxCommandEvent& event );
+		void screenSizeSelected( wxCommandEvent& event );
+		void contCapRateSelected( wxSpinEvent& event );
+		void useGPackSelected( wxCommandEvent& event );
+		void autoCaptureForHDSelected( wxCommandEvent& event );
+		void IgnoreEdgeSelected( wxCommandEvent& event );
 
 
 	public:

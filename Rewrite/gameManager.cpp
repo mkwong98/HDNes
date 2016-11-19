@@ -218,3 +218,16 @@ void gameManager::functionKeyPressed(Uint8 keyIdx){
         break;
     }
 }
+
+void gameManager::changeSaveStateSlot(int slot){
+    romF->currentStateSlot = slot;
+}
+
+void gameManager::changeUseRotateState(bool use){
+    romF->rotateState = use;
+}
+
+void gameManager::changeOverwriteBat(bool overwrite){
+    romF->overwriteBat = overwrite;
+}
+

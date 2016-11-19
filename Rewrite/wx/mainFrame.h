@@ -171,6 +171,11 @@ class mainFrame : public wxFrame
 		virtual void loadStatePressed( wxCommandEvent& event ) { event.Skip(); }
 		virtual void loadLastPressed( wxCommandEvent& event ) { event.Skip(); }
 		virtual void configKeyClicked( wxCommandEvent& event ) { event.Skip(); }
+		virtual void screenSizeSelected( wxCommandEvent& event ) { event.Skip(); }
+		virtual void contCapRateSelected( wxSpinEvent& event ) { event.Skip(); }
+		virtual void useGPackSelected( wxCommandEvent& event ) { event.Skip(); }
+		virtual void autoCaptureForHDSelected( wxCommandEvent& event ) { event.Skip(); }
+		virtual void ignoreEdgeSelected( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:

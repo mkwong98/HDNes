@@ -705,6 +705,11 @@ mainFrame::mainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	btnKeyHDCapFrame->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
 	btnKeyToogleAutoHDCap->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
 	btnKeyToogleIgnoreEdge->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	rbnScreenSize->Connect( wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler( mainFrame::screenSizeSelected ), NULL, this );
+	spnContCapRate->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainFrame::contCapRateSelected ), NULL, this );
+	chkUseHDGraphicsPack->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( mainFrame::useGPackSelected ), NULL, this );
+	chkGenHDData->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( mainFrame::autoCaptureForHDSelected ), NULL, this );
+	chkIgnoreEdge->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( mainFrame::ignoreEdgeSelected ), NULL, this );
 }
 
 mainFrame::~mainFrame()
@@ -756,6 +761,11 @@ mainFrame::~mainFrame()
 	btnKeyHDCapFrame->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
 	btnKeyToogleAutoHDCap->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
 	btnKeyToogleIgnoreEdge->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainFrame::configKeyClicked ), NULL, this );
+	rbnScreenSize->Disconnect( wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler( mainFrame::screenSizeSelected ), NULL, this );
+	spnContCapRate->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainFrame::contCapRateSelected ), NULL, this );
+	chkUseHDGraphicsPack->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( mainFrame::useGPackSelected ), NULL, this );
+	chkGenHDData->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( mainFrame::autoCaptureForHDSelected ), NULL, this );
+	chkIgnoreEdge->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( mainFrame::ignoreEdgeSelected ), NULL, this );
 	
 }
 

@@ -18,15 +18,15 @@ void mainFrameImp::romSelected( wxFileDirPickerEvent& event ){
 }
 
 void mainFrameImp::stateSlotSelected( wxCommandEvent& event ){
-    gameManager::gm->romF->currentStateSlot = event.GetSelection();
+    gameManager::gm->changeSaveStateSlot(event.GetSelection());
 }
 
 void mainFrameImp::rotateSlotSelected( wxCommandEvent& event ){
-    gameManager::gm->romF->rotateState = event.IsChecked();
+    gameManager::gm->changeUseRotateState(event.IsChecked());
 }
 
 void mainFrameImp::overwriteBatSelected( wxCommandEvent& event ){
-    gameManager::gm->romF->overwriteBat = event.IsChecked();
+    gameManager::gm->changeOverwriteBat(event.IsChecked());
 }
 
 void mainFrameImp::configKeyClicked( wxCommandEvent& event ){
@@ -204,4 +204,16 @@ void mainFrameImp::updateDisplay(){
     btnKeyHDCapFrame->SetLabel(wxString(gameManager::gm->inp->inputNameForKeyIdx(KEY_IDX_F4_HD_CAP_FRAME)));
     btnKeyToogleAutoHDCap->SetLabel(wxString(gameManager::gm->inp->inputNameForKeyIdx(KEY_IDX_F4_TOOGLE_AUTO_HD_CAP)));
     btnKeyToogleIgnoreEdge->SetLabel(wxString(gameManager::gm->inp->inputNameForKeyIdx(KEY_IDX_F4_TOOGLE_IGNORE_EDGE)));
+}
+
+void contCapRateSelected( wxSpinEvent& event ){
+}
+
+void useGPackSelected( wxCommandEvent& event ){
+}
+
+void autoCaptureForHDSelected( wxCommandEvent& event ){
+}
+
+void ignoreEdgeSelected( wxCommandEvent& event ){
 }

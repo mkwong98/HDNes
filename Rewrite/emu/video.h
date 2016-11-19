@@ -7,6 +7,12 @@
 class video : public emuPart
 {
     public:
+        Uint8 screenSize;
+        Uint8 conCapRate;
+        bool useHDPack;
+        bool autoCaptureForHD;
+        bool ignoreEdge;
+
         video();
         virtual ~video();
         string partName();
