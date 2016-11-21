@@ -1,9 +1,15 @@
 #include <GL/glew.h>
 #include "video.h"
+#include "../gameManager.h"
 
 using namespace std;
 
 video::video(){
+    screenSize = 0;
+    conCapRate = 15;
+    useHDPack = true;
+    autoCaptureForHD = false;
+    ignoreEdge = false;
 }
 
 video::~video(){
@@ -20,16 +26,49 @@ string video::partName(){
 
 
 void video::saveConfigLines(fstream* fs){
+    saveConfigLine(fs, "screenSize", intToString(screenSize));
+    saveConfigLine(fs, "conCapRate", intToString(conCapRate));
+    saveConfigLine(fs, "useHDPack", (useHDPack ? "Y" : "N"));
+    saveConfigLine(fs, "genHDData", (autoCaptureForHD ? "Y" : "N"));
+    saveConfigLine(fs, "ignoreEdge", (ignoreEdge ? "Y" : "N"));
 }
 
 void video::saveGameConfigLines(fstream* fs){
 }
 
 void video::loadConfigVal(const string& hdr, const string& value){
+    if(hdr.compare("screenSize") == 0){
+        screenSize = stringToInt(value);
+    }
+    else if(hdr.compare("conCapRate") == 0){
+        conCapRate = stringToInt(value);
+    }
+    else if(hdr.compare("useHDPack") == 0){
+        useHDPack = (value.compare("Y") == 0);
+    }
+    else if(hdr.compare("genHDData") == 0){
+        autoCaptureForHD = (value.compare("Y") == 0);
+    }
+    else if(hdr.compare("ignoreEdge") == 0){
+        ignoreEdge = (value.compare("Y") == 0);
+    }
 }
 
 void video::startGame(){
-    if((displayWindow = SDL_CreateWindow("HDNes", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_BORDERLESS | SDL_WINDOW_OPENGL)) == NULL) {
+    int screenScale;
+    switch(screenSize){
+    case 0:
+        screenScale = 1;
+        break;
+    case 1:
+        screenScale = 2;
+        break;
+    case 2:
+        screenScale = 4;
+        break;
+    }
+
+    if((displayWindow = SDL_CreateWindow("HDNes", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screenScale * 256, screenScale * 240, SDL_WINDOW_BORDERLESS | SDL_WINDOW_OPENGL)) == NULL) {
         return;
     }
     glcontext = SDL_GL_CreateContext(displayWindow);
@@ -51,3 +90,30 @@ void video::endGame(){
     SDL_DestroyWindow(displayWindow);
 
 }
+
+void video::setScreenSize(Uint8 sizeIdx){
+    screenSize = sizeIdx;
+    if(gameManager::gm->gameState != GAME_STATE_STOPPED){
+        endGame();
+        startGame();
+    }
+}
+
+void video::setconCapRate(Uint16 rate){
+    conCapRate = rate;
+}
+
+void video::setUseHDPack(bool use){
+    useHDPack = use;
+}
+
+void video::setGenHDData(bool use){
+    autoCaptureForHD = use;
+}
+
+void video::setIgnoreEdge(bool use){
+    ignoreEdge = use;
+}
+
+
+

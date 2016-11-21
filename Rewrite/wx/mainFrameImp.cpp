@@ -2,6 +2,7 @@
 #include "../gameManager.h"
 #include "../emu/gameFile.h"
 #include "../emu/input.h"
+#include "../emu/video.h"
 
 mainFrameImp::mainFrameImp( wxWindow* parent )
 :
@@ -161,6 +162,12 @@ void mainFrameImp::updateDisplay(){
     chkRotateSlot->SetValue(gameManager::gm->romF->rotateState);
     chkOverwriteBat->SetValue(gameManager::gm->romF->overwriteBat);
 
+    rbnScreenSize->SetSelection(gameManager::gm->vid->screenSize);
+    spnContCapRate->SetValue(gameManager::gm->vid->conCapRate);
+    chkUseHDGraphicsPack->SetValue(gameManager::gm->vid->useHDPack);
+    chkGenHDData->SetValue(gameManager::gm->vid->autoCaptureForHD);
+    chkIgnoreEdge->SetValue(gameManager::gm->vid->ignoreEdge);
+
     btnP1Up->SetLabel(wxString(gameManager::gm->inp->inputNameForKeyIdx(KEY_IDX_P1_UP)));
     btnP1Left->SetLabel(wxString(gameManager::gm->inp->inputNameForKeyIdx(KEY_IDX_P1_LEFT)));
     btnP1Right->SetLabel(wxString(gameManager::gm->inp->inputNameForKeyIdx(KEY_IDX_P1_RIGHT)));
@@ -206,14 +213,22 @@ void mainFrameImp::updateDisplay(){
     btnKeyToogleIgnoreEdge->SetLabel(wxString(gameManager::gm->inp->inputNameForKeyIdx(KEY_IDX_F4_TOOGLE_IGNORE_EDGE)));
 }
 
-void contCapRateSelected( wxSpinEvent& event ){
+void mainFrameImp::screenSizeSelected( wxCommandEvent& event ){
+    gameManager::gm->setScreenSize(event.GetSelection());
 }
 
-void useGPackSelected( wxCommandEvent& event ){
+void mainFrameImp::contCapRateSelected( wxSpinEvent& event ){
+    gameManager::gm->setconCapRate(event.GetValue());
 }
 
-void autoCaptureForHDSelected( wxCommandEvent& event ){
+void mainFrameImp::useGPackSelected( wxCommandEvent& event ){
+    gameManager::gm->setUseHDPack(event.IsChecked());
 }
 
-void ignoreEdgeSelected( wxCommandEvent& event ){
+void mainFrameImp::autoCaptureForHDSelected( wxCommandEvent& event ){
+    gameManager::gm->setGenHDData(event.IsChecked());
+}
+
+void mainFrameImp::ignoreEdgeSelected( wxCommandEvent& event ){
+    gameManager::gm->setIgnoreEdge(event.IsChecked());
 }

@@ -26,7 +26,7 @@ class mainFrameImp : public mainFrame
 		void contCapRateSelected( wxSpinEvent& event );
 		void useGPackSelected( wxCommandEvent& event );
 		void autoCaptureForHDSelected( wxCommandEvent& event );
-		void IgnoreEdgeSelected( wxCommandEvent& event );
+		void ignoreEdgeSelected( wxCommandEvent& event );
 
 
 	public:

@@ -3428,7 +3428,7 @@
 
 1478583679 c:\work\hdnesr\trunk\rewrite\classlist.h
 
-1474972550 c:\work\include\gl\glew.h
+1475249934 c:\work\include\gl\glew.h
 	<stddef.h>
 	<inttypes.h>
 	<stdint.h>
@@ -3499,18 +3499,18 @@
 	"common.h"
 	<wx\wx.h>
 
-1478618932 c:\work\hdnes\trunk\rewrite\gamemanager.h
+1479746496 c:\work\hdnes\trunk\rewrite\gamemanager.h
 	<wx\wx.h>
 	"common.h"
 	"classList.h"
 
-1478613590 c:\work\hdnes\trunk\rewrite\wx\mainframeimp.h
+1479573944 c:\work\hdnes\trunk\rewrite\wx\mainframeimp.h
 	"../classList.h"
 	"mainFrame.h"
 
 1478613589 c:\work\hdnes\trunk\rewrite\classlist.h
 
-1478613590 c:\work\hdnes\trunk\rewrite\wx\mainframe.h
+1479547649 c:\work\hdnes\trunk\rewrite\wx\mainframe.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/string.h>
@@ -3535,27 +3535,29 @@
 	<wx/statusbr.h>
 	<wx/frame.h>
 
-1476466153 c:\work\hdnes\trunk\rewrite\emu\video.h
+1479746511 c:\work\hdnes\trunk\rewrite\emu\video.h
 	"../classList.h"
 	"emuPart.h"
 
-1478613590 source:c:\work\hdnes\trunk\rewrite\wx\mainframe.cpp
+1479547649 source:c:\work\hdnes\trunk\rewrite\wx\mainframe.cpp
 	"mainFrame.h"
 
-1478616134 source:c:\work\hdnes\trunk\rewrite\wx\mainframeimp.cpp
+1479575781 source:c:\work\hdnes\trunk\rewrite\wx\mainframeimp.cpp
 	"mainFrameImp.h"
 	"../gameManager.h"
 	"../emu/gameFile.h"
 	"../emu/input.h"
+	"../emu/video.h"
 
 1478613589 source:c:\work\hdnes\trunk\rewrite\emu\emupart.cpp
 	"emuPart.h"
 
-1478618663 source:c:\work\hdnes\trunk\rewrite\emu\video.cpp
+1479746677 source:c:\work\hdnes\trunk\rewrite\emu\video.cpp
 	<GL/glew.h>
 	"video.h"
+	"../gameManager.h"
 
-1478613589 source:c:\work\hdnes\trunk\rewrite\gamemanager.cpp
+1479746631 source:c:\work\hdnes\trunk\rewrite\gamemanager.cpp
 	"gameManager.h"
 	"core\memBus.h"
 	"core\cart.h"
@@ -3778,11 +3780,11 @@
 	"../classList.h"
 	"emuPart.h"
 
-1478618856 source:c:\work\hdnes\trunk\rewrite\emu\input.cpp
+1479547649 source:c:\work\hdnes\trunk\rewrite\emu\input.cpp
 	"input.h"
 	"../gameManager.h"
 
-1478618611 c:\work\hdnes\trunk\rewrite\emu\input.h
+1479547649 c:\work\hdnes\trunk\rewrite\emu\input.h
 	"../classList.h"
 	<emuPart.h>
 

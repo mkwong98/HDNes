@@ -45,12 +45,19 @@ class gameManager
         void setInputForKey(int idx);
         void waitForInput(int idx);
         void functionKeyPressed(Uint8 keyIdx);
+
+        void setScreenSize(Uint8 sizeIdx);
+        void setconCapRate(Uint16 rate);
+        void setUseHDPack(bool use);
+        void setGenHDData(bool use);
+        void setIgnoreEdge(bool use);
+
     protected:
 
     private:
-        bool loadConfig();
+        void loadConfig();
         void saveConfig();
-        bool loadGameConfig();
+        void loadGameConfig();
         void saveGameConfig();
 
 };

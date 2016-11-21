@@ -22,10 +22,7 @@ gameManager::gameManager(){
     romF = new gameFile();
     inp = new input();
 
-    if(!this->loadConfig()){
-        //if does not have config file then save the default
-        this->saveConfig();
-    }
+    loadConfig();
     //load game specific config
     loadGameConfig();
     //create gui
@@ -94,7 +91,7 @@ void gameManager::runGame(){
 }
 
 
-bool gameManager::loadConfig(){
+void gameManager::loadConfig(){
     //if has config file then open file and have each emu part read it
     fstream fs;
     string line;
@@ -114,11 +111,11 @@ bool gameManager::loadConfig(){
             }
         }
         fs.close();
-        return true;
     }
     else{
         fs.clear();
-        return false;
+        //if does not have config file then save the default
+        saveConfig();
     }
 }
 
@@ -149,7 +146,6 @@ void gameManager::setInputForKey(int idx){
     i->Show();
     waitForInput(idx);
     i->Destroy();
-    saveGameConfig();
 }
 
 void gameManager::waitForInput(int idx){
@@ -172,12 +168,12 @@ void gameManager::waitForInput(int idx){
     SDL_DestroyWindow(window);
 }
 
-bool gameManager::loadGameConfig(){
+void gameManager::loadGameConfig(){
     //if has config file then open file and have each emu part read it
     fstream fs;
     string line;
     string lineHdr;
-    if(romF->romPath.compare("") == 0) return false;
+    if(romF->romPath.compare("") == 0) return;
     fs.open(emuPart::getFileName(romF->romPath) + ".ini", fstream::in);
     if(fs.is_open()){
         while(getline(fs, line)){
@@ -193,11 +189,10 @@ bool gameManager::loadGameConfig(){
             }
         }
         fs.close();
-        return true;
     }
     else{
         fs.clear();
-        return false;
+        saveGameConfig();
     }
 }
 
@@ -230,4 +225,26 @@ void gameManager::changeUseRotateState(bool use){
 void gameManager::changeOverwriteBat(bool overwrite){
     romF->overwriteBat = overwrite;
 }
+
+void gameManager::setScreenSize(Uint8 sizeIdx){
+    vid->setScreenSize(sizeIdx);
+}
+
+void gameManager::setconCapRate(Uint16 rate){
+    vid->setconCapRate(rate);
+}
+
+void gameManager::setUseHDPack(bool use){
+    vid->setUseHDPack(use);
+}
+
+void gameManager::setGenHDData(bool use){
+    vid->setGenHDData(use);
+}
+
+void gameManager::setIgnoreEdge(bool use){
+    vid->setIgnoreEdge(use);
+}
+
+
 

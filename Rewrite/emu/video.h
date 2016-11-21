@@ -8,7 +8,7 @@ class video : public emuPart
 {
     public:
         Uint8 screenSize;
-        Uint8 conCapRate;
+        Uint16 conCapRate;
         bool useHDPack;
         bool autoCaptureForHD;
         bool ignoreEdge;
@@ -24,6 +24,12 @@ class video : public emuPart
 
         void startGame();
         void endGame();
+
+        void setScreenSize(Uint8 sizeIdx);
+        void setconCapRate(Uint16 rate);
+        void setUseHDPack(bool use);
+        void setGenHDData(bool use);
+        void setIgnoreEdge(bool use);
     protected:
 
     private:
