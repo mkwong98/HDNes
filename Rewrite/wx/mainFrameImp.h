@@ -27,6 +27,9 @@ class mainFrameImp : public mainFrame
 		void useGPackSelected( wxCommandEvent& event );
 		void autoCaptureForHDSelected( wxCommandEvent& event );
 		void ignoreEdgeSelected( wxCommandEvent& event );
+        void volumeChanged( wxScrollEvent& event );
+        void useMPackSelected( wxCommandEvent& event );
+
 
 
 	public:

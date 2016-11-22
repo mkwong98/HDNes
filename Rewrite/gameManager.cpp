@@ -6,6 +6,7 @@
 #include "core\ppu.h"
 #include "core\apu.h"
 #include "emu\video.h"
+#include "emu\audio.h"
 #include "emu\gameFile.h"
 #include "emu\input.h"
 #include "wx\mainFrameImp.h"
@@ -21,6 +22,7 @@ gameManager::gameManager(){
     vid = new video();
     romF = new gameFile();
     inp = new input();
+    aud = new audio();
 
     loadConfig();
     //load game specific config
@@ -40,6 +42,8 @@ gameManager::~gameManager(){
     //destory emu parts
     delete(vid);
     delete(romF);
+    delete(aud);
+    delete(inp);
 }
 
 void gameManager::showUI(){
@@ -60,6 +64,7 @@ void gameManager::runGame(){
 
     //init emu parts
     vid->startGame();
+    aud->startGame();
     romF->startGame();
     inp->startGame();
 
@@ -79,6 +84,7 @@ void gameManager::runGame(){
     }
 
     vid->endGame();
+    aud->endGame();
     romF->endGame();
     inp->endGame();
 
@@ -103,11 +109,14 @@ void gameManager::loadConfig(){
             if(lineHdr.compare(vid->partName()) == 0){
                 vid->loadConfig(&fs);
             }
-            if(lineHdr.compare(romF->partName()) == 0){
+            else if(lineHdr.compare(romF->partName()) == 0){
                 romF->loadConfig(&fs);
             }
-            if(lineHdr.compare(inp->partName()) == 0){
+            else if(lineHdr.compare(inp->partName()) == 0){
                 inp->loadConfig(&fs);
+            }
+            else if(lineHdr.compare(aud->partName()) == 0){
+                aud->loadConfig(&fs);
             }
         }
         fs.close();
@@ -125,6 +134,7 @@ void gameManager::saveConfig(){
     vid->saveConfig(&fs);
     romF->saveConfig(&fs);
     inp->saveConfig(&fs);
+    aud->saveConfig(&fs);
     fs.close();
 }
 
@@ -136,6 +146,7 @@ void gameManager::romSelected(const string& romName){
     vid->initGameConfig();
     romF->initGameConfig();
     inp->initGameConfig();
+    aud->initGameConfig();
     //load config for new game
     loadGameConfig();
 }
@@ -181,11 +192,14 @@ void gameManager::loadGameConfig(){
             if(lineHdr.compare(vid->partName()) == 0){
                 vid->loadConfig(&fs);
             }
-            if(lineHdr.compare(romF->partName()) == 0){
+            else if(lineHdr.compare(romF->partName()) == 0){
                 romF->loadConfig(&fs);
             }
-            if(lineHdr.compare(inp->partName()) == 0){
+            else if(lineHdr.compare(inp->partName()) == 0){
                 inp->loadConfig(&fs);
+            }
+            else if(lineHdr.compare(aud->partName()) == 0){
+                aud->loadConfig(&fs);
             }
         }
         fs.close();
@@ -203,6 +217,7 @@ void gameManager::saveGameConfig(){
     vid->saveGameConfig(&fs);
     romF->saveGameConfig(&fs);
     inp->saveGameConfig(&fs);
+    aud->saveGameConfig(&fs);
     fs.close();
 }
 
@@ -244,6 +259,14 @@ void gameManager::setGenHDData(bool use){
 
 void gameManager::setIgnoreEdge(bool use){
     vid->setIgnoreEdge(use);
+}
+
+void gameManager::setUseMusicHDPack(bool use){
+    aud->setUseHDPack(use);
+}
+
+void gameManager::setVolume(int vol){
+    aud->setVolume(vol);
 }
 
 

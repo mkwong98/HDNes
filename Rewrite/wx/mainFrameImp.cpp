@@ -3,6 +3,7 @@
 #include "../emu/gameFile.h"
 #include "../emu/input.h"
 #include "../emu/video.h"
+#include "../emu/audio.h"
 
 mainFrameImp::mainFrameImp( wxWindow* parent )
 :
@@ -168,6 +169,9 @@ void mainFrameImp::updateDisplay(){
     chkGenHDData->SetValue(gameManager::gm->vid->autoCaptureForHD);
     chkIgnoreEdge->SetValue(gameManager::gm->vid->ignoreEdge);
 
+    sldVolume->SetValue(gameManager::gm->aud->volume);
+    chkUseHDMusicPack->SetValue(gameManager::gm->aud->useHDPack);
+
     btnP1Up->SetLabel(wxString(gameManager::gm->inp->inputNameForKeyIdx(KEY_IDX_P1_UP)));
     btnP1Left->SetLabel(wxString(gameManager::gm->inp->inputNameForKeyIdx(KEY_IDX_P1_LEFT)));
     btnP1Right->SetLabel(wxString(gameManager::gm->inp->inputNameForKeyIdx(KEY_IDX_P1_RIGHT)));
@@ -232,3 +236,12 @@ void mainFrameImp::autoCaptureForHDSelected( wxCommandEvent& event ){
 void mainFrameImp::ignoreEdgeSelected( wxCommandEvent& event ){
     gameManager::gm->setIgnoreEdge(event.IsChecked());
 }
+
+void mainFrameImp::volumeChanged( wxScrollEvent& event ){
+    gameManager::gm->setVolume(event.GetInt());
+}
+
+void mainFrameImp::useMPackSelected( wxCommandEvent& event ){
+    gameManager::gm->setUseMusicHDPack(event.IsChecked());
+}
+

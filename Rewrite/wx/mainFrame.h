@@ -176,6 +176,8 @@ class mainFrame : public wxFrame
 		virtual void useGPackSelected( wxCommandEvent& event ) { event.Skip(); }
 		virtual void autoCaptureForHDSelected( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ignoreEdgeSelected( wxCommandEvent& event ) { event.Skip(); }
+		virtual void volumeChanged( wxScrollEvent& event ) { event.Skip(); }
+		virtual void useMPackSelected( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:

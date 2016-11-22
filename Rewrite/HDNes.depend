@@ -3281,10 +3281,10 @@
 	"common.h"
 	<wx\wx.h>
 
-1478601045 source:c:\work\hdnesr\trunk\rewrite\wx\mainframe.cpp
+1479806181 source:c:\work\hdnesr\trunk\rewrite\wx\mainframe.cpp
 	"mainFrame.h"
 
-1479525171 c:\work\hdnesr\trunk\rewrite\wx\mainframe.h
+1479806181 c:\work\hdnesr\trunk\rewrite\wx\mainframe.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/string.h>
@@ -3341,7 +3341,7 @@
 	"wx/imaglist.h"
 	"wx/window.h"
 
-1479525101 c:\work\hdnesr\trunk\rewrite\wx\mainframeimp.h
+1479808936 c:\work\hdnesr\trunk\rewrite\wx\mainframeimp.h
 	"../classList.h"
 	"mainFrame.h"
 
@@ -3412,23 +3412,25 @@
 	"../emu/gameFile.h"
 	"../emu/input.h"
 
-1474965180 source:c:\work\hdnesr\trunk\rewrite\emu\audio.cpp
+1479807588 source:c:\work\hdnesr\trunk\rewrite\emu\audio.cpp
 	"audio.h"
+	"../gameManager.h"
 
-1476432110 c:\work\hdnesr\trunk\rewrite\emu\audio.h
+1479807381 c:\work\hdnesr\trunk\rewrite\emu\audio.h
 	"emuPart.h"
 
-1478854256 source:c:\work\hdnesr\trunk\rewrite\emu\video.cpp
+1479804745 source:c:\work\hdnesr\trunk\rewrite\emu\video.cpp
 	<GL/glew.h>
 	"video.h"
+	"../gameManager.h"
 
-1476432110 c:\work\hdnesr\trunk\rewrite\emu\video.h
+1479804745 c:\work\hdnesr\trunk\rewrite\emu\video.h
 	"../classList.h"
 	"emuPart.h"
 
 1478583679 c:\work\hdnesr\trunk\rewrite\classlist.h
 
-1475249934 c:\work\include\gl\glew.h
+1474972550 c:\work\include\gl\glew.h
 	<stddef.h>
 	<inttypes.h>
 	<stdint.h>
@@ -3440,7 +3442,7 @@
 1478602156 c:\work\hdnesr\trunk\rewrite\emu\emupart.h
 	"../common.h"
 
-1479524031 c:\work\hdnesr\trunk\rewrite\gamemanager.h
+1479806715 c:\work\hdnesr\trunk\rewrite\gamemanager.h
 	<wx\wx.h>
 	"common.h"
 	"classList.h"
@@ -3454,7 +3456,7 @@
 1478602519 source:c:\work\hdnesr\trunk\rewrite\emu\emupart.cpp
 	"emuPart.h"
 
-1479524091 source:c:\work\hdnesr\trunk\rewrite\gamemanager.cpp
+1479807381 source:c:\work\hdnesr\trunk\rewrite\gamemanager.cpp
 	"gameManager.h"
 	"core\memBus.h"
 	"core\cart.h"
@@ -3463,6 +3465,7 @@
 	"core\ppu.h"
 	"core\apu.h"
 	"emu\video.h"
+	"emu\audio.h"
 	"emu\gameFile.h"
 	"emu\input.h"
 	"wx\mainFrameImp.h"

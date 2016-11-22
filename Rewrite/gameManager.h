@@ -22,6 +22,7 @@ class gameManager
         video* vid;
         gameFile* romF;
         input* inp;
+        audio* aud;
 
         cart* rom;
         cpu* cp;
@@ -52,6 +53,8 @@ class gameManager
         void setGenHDData(bool use);
         void setIgnoreEdge(bool use);
 
+        void setUseMusicHDPack(bool use);
+        void setVolume(int vol);
     protected:
 
     private:

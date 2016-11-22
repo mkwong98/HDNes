@@ -710,6 +710,16 @@ mainFrame::mainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	chkUseHDGraphicsPack->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( mainFrame::useGPackSelected ), NULL, this );
 	chkGenHDData->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( mainFrame::autoCaptureForHDSelected ), NULL, this );
 	chkIgnoreEdge->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( mainFrame::ignoreEdgeSelected ), NULL, this );
+	sldVolume->Connect( wxEVT_SCROLL_TOP, wxScrollEventHandler( mainFrame::volumeChanged ), NULL, this );
+	sldVolume->Connect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( mainFrame::volumeChanged ), NULL, this );
+	sldVolume->Connect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( mainFrame::volumeChanged ), NULL, this );
+	sldVolume->Connect( wxEVT_SCROLL_LINEDOWN, wxScrollEventHandler( mainFrame::volumeChanged ), NULL, this );
+	sldVolume->Connect( wxEVT_SCROLL_PAGEUP, wxScrollEventHandler( mainFrame::volumeChanged ), NULL, this );
+	sldVolume->Connect( wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler( mainFrame::volumeChanged ), NULL, this );
+	sldVolume->Connect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( mainFrame::volumeChanged ), NULL, this );
+	sldVolume->Connect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( mainFrame::volumeChanged ), NULL, this );
+	sldVolume->Connect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( mainFrame::volumeChanged ), NULL, this );
+	chkUseHDMusicPack->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( mainFrame::useMPackSelected ), NULL, this );
 }
 
 mainFrame::~mainFrame()
@@ -766,6 +776,16 @@ mainFrame::~mainFrame()
 	chkUseHDGraphicsPack->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( mainFrame::useGPackSelected ), NULL, this );
 	chkGenHDData->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( mainFrame::autoCaptureForHDSelected ), NULL, this );
 	chkIgnoreEdge->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( mainFrame::ignoreEdgeSelected ), NULL, this );
+	sldVolume->Disconnect( wxEVT_SCROLL_TOP, wxScrollEventHandler( mainFrame::volumeChanged ), NULL, this );
+	sldVolume->Disconnect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( mainFrame::volumeChanged ), NULL, this );
+	sldVolume->Disconnect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( mainFrame::volumeChanged ), NULL, this );
+	sldVolume->Disconnect( wxEVT_SCROLL_LINEDOWN, wxScrollEventHandler( mainFrame::volumeChanged ), NULL, this );
+	sldVolume->Disconnect( wxEVT_SCROLL_PAGEUP, wxScrollEventHandler( mainFrame::volumeChanged ), NULL, this );
+	sldVolume->Disconnect( wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler( mainFrame::volumeChanged ), NULL, this );
+	sldVolume->Disconnect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( mainFrame::volumeChanged ), NULL, this );
+	sldVolume->Disconnect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( mainFrame::volumeChanged ), NULL, this );
+	sldVolume->Disconnect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( mainFrame::volumeChanged ), NULL, this );
+	chkUseHDMusicPack->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( mainFrame::useMPackSelected ), NULL, this );
 	
 }
 
