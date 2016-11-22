@@ -71,6 +71,11 @@ void gameManager::runGame(){
     gameState = GAME_STATE_RUNNING;
     while(gameState != GAME_STATE_STOPPED){
         inp->handleUserInput();
+        if(gameState != GAME_STATE_PAUSED){
+
+
+        }
+
     //while is running
     //  handle input
     //      handle game ui events like save and load state

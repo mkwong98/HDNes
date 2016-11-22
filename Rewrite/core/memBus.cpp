@@ -29,10 +29,13 @@ Uint8 memBus::memRead(Uint16 address){
         return ap->readReg(address & 0x0013);
     }
     else if(address == 0x4014){
-        return ap->readReg(address & 0x0013);
+        return pp->read4014();
     }
     else if(address == 0x4015){
-        return ap->readReg(address & 0x0013);
+        return ap->read4015();
+    }
+    else if(address == 0x4015){
+        return ap->read4015();
     }
 }
 
