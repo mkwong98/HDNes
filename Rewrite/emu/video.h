@@ -4,6 +4,14 @@
 #include "../classList.h"
 #include "emuPart.h"
 
+#define TICKS_PER_FRAME_NTSC    16
+#define TICKS_PER_FRAME_PAL    	20
+#define TICKS_REMAIN_NTSC       3
+#define TICKS_REMAIN_PAL        1
+#define TICKS_FRACTION_NTSC     2
+#define TICKS_FRACTION_PAL      0
+
+
 class video : public emuPart
 {
     public:

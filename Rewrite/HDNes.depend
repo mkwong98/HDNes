@@ -3406,29 +3406,31 @@
 1412631243 c:\work\include\wx\os2\notebook.h
 	"wx/control.h"
 
-1479479589 source:c:\work\hdnesr\trunk\rewrite\wx\mainframeimp.cpp
+1479809256 source:c:\work\hdnesr\trunk\rewrite\wx\mainframeimp.cpp
 	"mainFrameImp.h"
 	"../gameManager.h"
 	"../emu/gameFile.h"
 	"../emu/input.h"
+	"../emu/video.h"
+	"../emu/audio.h"
 
-1479807588 source:c:\work\hdnesr\trunk\rewrite\emu\audio.cpp
+1480069012 source:c:\work\hdnesr\trunk\rewrite\emu\audio.cpp
 	"audio.h"
 	"../gameManager.h"
 
-1479807381 c:\work\hdnesr\trunk\rewrite\emu\audio.h
+1480069012 c:\work\hdnesr\trunk\rewrite\emu\audio.h
 	"emuPart.h"
 
-1479804745 source:c:\work\hdnesr\trunk\rewrite\emu\video.cpp
+1480069099 source:c:\work\hdnesr\trunk\rewrite\emu\video.cpp
 	<GL/glew.h>
 	"video.h"
 	"../gameManager.h"
 
-1479804745 c:\work\hdnesr\trunk\rewrite\emu\video.h
+1480069099 c:\work\hdnesr\trunk\rewrite\emu\video.h
 	"../classList.h"
 	"emuPart.h"
 
-1478583679 c:\work\hdnesr\trunk\rewrite\classlist.h
+1480056573 c:\work\hdnesr\trunk\rewrite\classlist.h
 
 1474972550 c:\work\include\gl\glew.h
 	<stddef.h>
@@ -3442,7 +3444,7 @@
 1478602156 c:\work\hdnesr\trunk\rewrite\emu\emupart.h
 	"../common.h"
 
-1479806715 c:\work\hdnesr\trunk\rewrite\gamemanager.h
+1480061170 c:\work\hdnesr\trunk\rewrite\gamemanager.h
 	<wx\wx.h>
 	"common.h"
 	"classList.h"
@@ -3450,13 +3452,13 @@
 1478310327 source:c:\work\hdnesr\trunk\rewrite\core\corepart.cpp
 	"corePart.h"
 
-1478310327 c:\work\hdnesr\trunk\rewrite\core\corepart.h
+1480071930 c:\work\hdnesr\trunk\rewrite\core\corepart.h
 	"../common.h"
 
 1478602519 source:c:\work\hdnesr\trunk\rewrite\emu\emupart.cpp
 	"emuPart.h"
 
-1479807381 source:c:\work\hdnesr\trunk\rewrite\gamemanager.cpp
+1480069179 source:c:\work\hdnesr\trunk\rewrite\gamemanager.cpp
 	"gameManager.h"
 	"core\memBus.h"
 	"core\cart.h"
@@ -3464,6 +3466,7 @@
 	"core\cpu.h"
 	"core\ppu.h"
 	"core\apu.h"
+	"core\gamepad.h"
 	"emu\video.h"
 	"emu\audio.h"
 	"emu\gameFile.h"
@@ -3702,31 +3705,32 @@
 	"../classList.h"
 	"emuPart.h"
 
-1478310327 source:c:\work\hdnesr\trunk\rewrite\core\cart.cpp
+1480072054 source:c:\work\hdnesr\trunk\rewrite\core\cart.cpp
 	"../common.h"
 	"cart.h"
 	"mapper001.h"
 	"../emu/emuPart.h"
 
-1478310327 c:\work\hdnesr\trunk\rewrite\core\cart.h
+1480072003 c:\work\hdnesr\trunk\rewrite\core\cart.h
 	"corePart.h"
 	"../classList.h"
 
-1478310327 c:\work\hdnesr\trunk\rewrite\core\mapper001.h
+1480072003 c:\work\hdnesr\trunk\rewrite\core\mapper001.h
 	"cart.h"
 
-1476429611 source:c:\work\hdnesr\trunk\rewrite\core\mapper001.cpp
+1480072088 source:c:\work\hdnesr\trunk\rewrite\core\mapper001.cpp
 	"mapper001.h"
 
-1478310327 source:c:\work\hdnesr\trunk\rewrite\core\membus.cpp
+1480072139 source:c:\work\hdnesr\trunk\rewrite\core\membus.cpp
 	"memBus.h"
 	"../gameManager.h"
 	"cart.h"
 	"cpu.h"
 	"ppu.h"
 	"apu.h"
+	"gamepad.h"
 
-1478310327 c:\work\hdnesr\trunk\rewrite\core\membus.h
+1480072003 c:\work\hdnesr\trunk\rewrite\core\membus.h
 	"../classList.h"
 	<corePart.h>
 
@@ -3791,22 +3795,23 @@
 	"../classList.h"
 	<emuPart.h>
 
-1478310327 source:c:\work\hdnesr\trunk\rewrite\core\apu.cpp
+1480072041 source:c:\work\hdnesr\trunk\rewrite\core\apu.cpp
 	"apu.h"
 
-1478310327 c:\work\hdnesr\trunk\rewrite\core\apu.h
+1480071957 c:\work\hdnesr\trunk\rewrite\core\apu.h
 	<corePart.h>
 
-1478310327 source:c:\work\hdnesr\trunk\rewrite\core\cpu.cpp
+1480063415 source:c:\work\hdnesr\trunk\rewrite\core\cpu.cpp
 	"cpu.h"
 
-1478310327 c:\work\hdnesr\trunk\rewrite\core\cpu.h
+1480072003 c:\work\hdnesr\trunk\rewrite\core\cpu.h
+	"../classList.h"
 	<corePart.h>
 
-1478310327 c:\work\hdnesr\trunk\rewrite\core\ppu.h
+1480072003 c:\work\hdnesr\trunk\rewrite\core\ppu.h
 	<corePart.h>
 
-1478310327 source:c:\work\hdnesr\trunk\rewrite\core\ppu.cpp
+1480072120 source:c:\work\hdnesr\trunk\rewrite\core\ppu.cpp
 	"ppu.h"
 
 1478948230 c:\work\hdnesr\trunk\rewrite\emu\input.h
@@ -3843,4 +3848,10 @@
 
 1478613590 source:c:\work\hdnes\trunk\rewrite\wx\frmwaitinputimp.cpp
 	"frmWaitInputImp.h"
+
+1480072088 source:c:\work\hdnesr\trunk\rewrite\core\gamepad.cpp
+	"gamepad.h"
+
+1480072003 c:\work\hdnesr\trunk\rewrite\core\gamepad.h
+	<corePart.h>
 

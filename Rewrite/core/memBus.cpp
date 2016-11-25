@@ -4,13 +4,11 @@
 #include "cpu.h"
 #include "ppu.h"
 #include "apu.h"
+#include "gamepad.h"
+
 
 memBus::memBus()
 {
-    rom = gameManager::gm->rom;
-    cp = gameManager::gm->cp;
-    pp = gameManager::gm->pp;
-    ap = gameManager::gm->ap;
 }
 
 memBus::~memBus()
@@ -34,8 +32,14 @@ Uint8 memBus::memRead(Uint16 address){
     else if(address == 0x4015){
         return ap->read4015();
     }
-    else if(address == 0x4015){
-        return ap->read4015();
+    else if(address == 0x4016){
+        return gp->read4016();
+    }
+    else if(address == 0x4017){
+        return gp->read4017();
+    }
+    else if(address >= 0x4020){
+        return rom->readData(address);
     }
 }
 
@@ -48,4 +52,14 @@ void memBus::saveState(fstream* statefile){
 void memBus::loadState(fstream* statefile){
 }
 
+void memBus::init(){
+    rom = gameManager::gm->rom;
+    cp = gameManager::gm->cp;
+    pp = gameManager::gm->pp;
+    ap = gameManager::gm->ap;
+    gp = gameManager::gm->gp;
 
+    for(int i = 0; i < 0x800; ++i){
+        internalRAM[i] = rand() % 0x100;
+    }
+}

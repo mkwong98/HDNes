@@ -13,6 +13,7 @@ class mapper001 : public cart
         void reset();
         void saveState(fstream* statefile);
         void loadState(fstream* statefile);
+        void init();
 
     protected:
 

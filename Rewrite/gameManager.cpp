@@ -5,6 +5,7 @@
 #include "core\cpu.h"
 #include "core\ppu.h"
 #include "core\apu.h"
+#include "core\gamepad.h"
 #include "emu\video.h"
 #include "emu\audio.h"
 #include "emu\gameFile.h"
@@ -53,6 +54,11 @@ void gameManager::showUI(){
 }
 
 void gameManager::runGame(){
+    Uint32 frameTicks;
+    Uint8 ticksRemain;
+    Uint8 instructLen;
+    Uint8 cyclesToRun;
+
     //load rom
     //init core parts
     rom = cart::getCartFromROMFile(romF->romPath);
@@ -60,6 +66,7 @@ void gameManager::runGame(){
     cp = new cpu();
     pp = new ppu();
     ap = new apu();
+    gp = new gamepad();
     mb = new memBus();
 
     //init emu parts
@@ -69,12 +76,36 @@ void gameManager::runGame(){
     inp->startGame();
 
     gameState = GAME_STATE_RUNNING;
+    frameTicks = SDL_GetTicks();
+    ticksRemain = 0;
     while(gameState != GAME_STATE_STOPPED){
         inp->handleUserInput();
         if(gameState != GAME_STATE_PAUSED){
+            if(!pp->frameReady){
+                cyclesToRun = cp->getNextInstructionLength();
+                for(Uint8 i = 0; i < cyclesToRun; ++i){
+                    ap->runCycle();
+                    pp->runCycle();
+                    pp->runCycle();
+                    pp->runCycle();
+                }
+                cp->runInstruction();
+            }
 
+            if(pp->frameReady && (frameTicks < SDL_GetTicks())){
+                //output frame
 
+                //calculate the time of next frame
+                frameTicks += TICKS_PER_FRAME_NTSC;
+                //add one tick for fractional part of ticks per frame
+                if(ticksRemain >= TICKS_REMAIN_NTSC){
+                    ++frameTicks;
+                    ticksRemain -= TICKS_REMAIN_NTSC;
+                }
+                ticksRemain += TICKS_FRACTION_NTSC;
+            }
         }
+
 
     //while is running
     //  handle input
@@ -98,6 +129,7 @@ void gameManager::runGame(){
     delete(cp);
     delete(pp);
     delete(ap);
+    delete(gp);
     delete(mb);
 }
 

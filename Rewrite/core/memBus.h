@@ -15,6 +15,7 @@ class memBus : public corePart
         cpu* cp;
         ppu* pp;
         apu* ap;
+        gamepad* gp;
 
         memBus();
         virtual ~memBus();
@@ -22,6 +23,7 @@ class memBus : public corePart
         void reset();
         void saveState(fstream* statefile);
         void loadState(fstream* statefile);
+        void init();
 
         Uint8 readByte();
         Uint8 memRead(Uint16 address);

@@ -14,6 +14,8 @@ class corePart
         virtual void reset() = 0;
         virtual void saveState(fstream* statefile) = 0;
         virtual void loadState(fstream* statefile) = 0;
+        virtual void init() = 0;
+
 
     protected:
 

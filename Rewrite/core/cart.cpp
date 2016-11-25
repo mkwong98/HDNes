@@ -84,6 +84,8 @@ void cart::readROMFile(fstream* fs, Uint8* header, const string& fileName){
     loadBat();
 }
 
+
+
 void cart::loadBat(){
 	fstream romfile;
     string filename = emuPart::getConfigLineVal(romFileName) + ".sav";
@@ -108,11 +110,3 @@ void cart::saveBat(){
     }
 }
 
-void cart::reset(){
-}
-
-void cart::saveState(fstream* statefile){
-}
-
-void cart::loadState(fstream* statefile){
-}

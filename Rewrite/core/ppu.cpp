@@ -1,8 +1,7 @@
 #include "ppu.h"
 
-ppu::ppu()
-{
-    //ctor
+ppu::ppu(){
+    frameReady = false;
 }
 
 ppu::~ppu()
@@ -18,6 +17,17 @@ void ppu::writeReg(Uint8 idx, Uint8 value){
     registers[idx] = value;
 }
 
+Uint8 ppu::read4014(){
+}
+
+void ppu::write4014(Uint8 value){
+}
+
+void ppu::runCycle(){
+}
+
+
+
 void ppu::reset(){
 }
 
@@ -27,3 +37,5 @@ void ppu::saveState(fstream* statefile){
 void ppu::loadState(fstream* statefile){
 }
 
+void ppu::init(){
+}

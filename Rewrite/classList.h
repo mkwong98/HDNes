@@ -8,6 +8,7 @@ class cpu;
 class ppu;
 class apu;
 class memBus;
+class gamepad;
 
 class emuPart;
 class audio;

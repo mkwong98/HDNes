@@ -29,6 +29,7 @@ class gameManager
         ppu* pp;
         apu* ap;
         memBus* mb;
+        gamepad* gp;
 
         int gameState;
 

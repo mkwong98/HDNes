@@ -16,11 +16,15 @@ class apu : public corePart
         void reset();
         void saveState(fstream* statefile);
         void loadState(fstream* statefile);
+        void init();
 
         Uint8 readReg(Uint8 idx);
         void writeReg(Uint8 idx, Uint8 value);
-        Uint8 read4015(Uint8 idx);
-        void write4015(Uint8 idx, Uint8 value);
+        Uint8 read4015();
+        void write4015(Uint8 value);
+
+        void runCycle();
+
     protected:
 
     private:

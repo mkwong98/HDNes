@@ -25,7 +25,6 @@ class audio : public emuPart
         void setVolume(int vol);
         void setUseHDPack(bool use);
 
-
     protected:
 
     private:
