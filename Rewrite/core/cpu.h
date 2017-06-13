@@ -15,6 +15,10 @@ class cpu : public corePart
         Uint8 stackPointer;
         Uint8 statusRegister;
 
+        Uint8 nextInstruction[3];
+        Uint8 instructionLen[8];
+        bool extraCycleReq;
+
         memBus* mb;
 
         cpu();
@@ -27,7 +31,7 @@ class cpu : public corePart
 
         Uint8 getNextInstructionLength();
         void runInstruction();
-
+        bool hasExtraCycle();
     protected:
 
     private:

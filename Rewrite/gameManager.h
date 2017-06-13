@@ -39,6 +39,7 @@ class gameManager
         void showUI();
 
         void runGame();
+        void runSingleCycle();
         void changeSaveStateSlot(int slot);
         void changeUseRotateState(bool use);
         void changeOverwriteBat(bool overwrite);

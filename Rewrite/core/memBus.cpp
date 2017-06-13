@@ -39,7 +39,7 @@ Uint8 memBus::memRead(Uint16 address){
         return gp->read4017();
     }
     else if(address >= 0x4020){
-        return rom->readData(address);
+        return rom->readPRGData(address);
     }
 }
 

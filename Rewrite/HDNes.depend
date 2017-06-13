@@ -3273,11 +3273,11 @@
 	"classList.h"
 	"emu\video.h"
 
-1478310327 source:c:\work\hdnesr\trunk\rewrite\mainapp.cpp
+1496988266 source:c:\work\hdnesr\trunk\rewrite\mainapp.cpp
 	"mainApp.h"
 	"gameManager.h"
 
-1476438296 c:\work\hdnesr\trunk\rewrite\mainapp.h
+1496993182 c:\work\hdnesr\trunk\rewrite\mainapp.h
 	"common.h"
 	<wx\wx.h>
 
@@ -3444,21 +3444,21 @@
 1478602156 c:\work\hdnesr\trunk\rewrite\emu\emupart.h
 	"../common.h"
 
-1480061170 c:\work\hdnesr\trunk\rewrite\gamemanager.h
+1485401374 c:\work\hdnesr\trunk\rewrite\gamemanager.h
 	<wx\wx.h>
 	"common.h"
 	"classList.h"
 
-1478310327 source:c:\work\hdnesr\trunk\rewrite\core\corepart.cpp
+1496997033 source:c:\work\hdnesr\trunk\rewrite\core\corepart.cpp
 	"corePart.h"
 
-1480071930 c:\work\hdnesr\trunk\rewrite\core\corepart.h
+1496996384 c:\work\hdnesr\trunk\rewrite\core\corepart.h
 	"../common.h"
 
 1478602519 source:c:\work\hdnesr\trunk\rewrite\emu\emupart.cpp
 	"emuPart.h"
 
-1480069179 source:c:\work\hdnesr\trunk\rewrite\gamemanager.cpp
+1496997566 source:c:\work\hdnesr\trunk\rewrite\gamemanager.cpp
 	"gameManager.h"
 	"core\memBus.h"
 	"core\cart.h"
@@ -3705,23 +3705,23 @@
 	"../classList.h"
 	"emuPart.h"
 
-1480072054 source:c:\work\hdnesr\trunk\rewrite\core\cart.cpp
+1496993236 source:c:\work\hdnesr\trunk\rewrite\core\cart.cpp
 	"../common.h"
 	"cart.h"
 	"mapper001.h"
 	"../emu/emuPart.h"
 
-1480072003 c:\work\hdnesr\trunk\rewrite\core\cart.h
+1480073349 c:\work\hdnesr\trunk\rewrite\core\cart.h
 	"corePart.h"
 	"../classList.h"
 
-1480072003 c:\work\hdnesr\trunk\rewrite\core\mapper001.h
+1496994333 c:\work\hdnesr\trunk\rewrite\core\mapper001.h
 	"cart.h"
 
-1480072088 source:c:\work\hdnesr\trunk\rewrite\core\mapper001.cpp
+1496994230 source:c:\work\hdnesr\trunk\rewrite\core\mapper001.cpp
 	"mapper001.h"
 
-1480072139 source:c:\work\hdnesr\trunk\rewrite\core\membus.cpp
+1496997702 source:c:\work\hdnesr\trunk\rewrite\core\membus.cpp
 	"memBus.h"
 	"../gameManager.h"
 	"cart.h"
@@ -3801,10 +3801,12 @@
 1480071957 c:\work\hdnesr\trunk\rewrite\core\apu.h
 	<corePart.h>
 
-1480063415 source:c:\work\hdnesr\trunk\rewrite\core\cpu.cpp
+1490346835 source:c:\work\hdnesr\trunk\rewrite\core\cpu.cpp
 	"cpu.h"
+	"memBus.h"
+	"../gameManager.h"
 
-1480072003 c:\work\hdnesr\trunk\rewrite\core\cpu.h
+1490340330 c:\work\hdnesr\trunk\rewrite\core\cpu.h
 	"../classList.h"
 	<corePart.h>
 

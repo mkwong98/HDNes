@@ -110,3 +110,15 @@ void cart::saveBat(){
     }
 }
 
+void cart::init(){
+}
+
+void cart::reset(){
+}
+
+void cart::saveState(fstream* statefile){
+}
+
+void cart::loadState(fstream* statefile){
+}
+

@@ -4,7 +4,7 @@
 
 class mainApp : public wxApp{
 public:
-	bool initOK;
+	Uint8 initState;
 	mainApp(void);
 	~mainApp(void);
 	bool OnInit();

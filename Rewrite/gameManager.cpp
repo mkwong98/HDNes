@@ -53,6 +53,14 @@ void gameManager::showUI(){
 
 }
 
+void gameManager::runSingleCycle(){
+    ap->runCycle();
+    pp->runCycle();
+    pp->runCycle();
+    pp->runCycle();
+}
+
+
 void gameManager::runGame(){
     Uint32 frameTicks;
     Uint8 ticksRemain;
@@ -68,6 +76,11 @@ void gameManager::runGame(){
     ap = new apu();
     gp = new gamepad();
     mb = new memBus();
+    cp->init();
+    pp->init();
+    ap->init();
+    gp->init();
+    mb->init();
 
     //init emu parts
     vid->startGame();
@@ -84,12 +97,12 @@ void gameManager::runGame(){
             if(!pp->frameReady){
                 cyclesToRun = cp->getNextInstructionLength();
                 for(Uint8 i = 0; i < cyclesToRun; ++i){
-                    ap->runCycle();
-                    pp->runCycle();
-                    pp->runCycle();
-                    pp->runCycle();
+                    runSingleCycle();
                 }
                 cp->runInstruction();
+                if(cp->hasExtraCycle()){
+                    runSingleCycle();
+                }
             }
 
             if(pp->frameReady && (frameTicks < SDL_GetTicks())){
@@ -103,6 +116,12 @@ void gameManager::runGame(){
                     ticksRemain -= TICKS_REMAIN_NTSC;
                 }
                 ticksRemain += TICKS_FRACTION_NTSC;
+
+                //handle user actions
+
+                //check save state is requested
+
+                //check load state is requested
             }
         }
 
