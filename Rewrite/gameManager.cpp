@@ -21,9 +21,15 @@ gameManager* gameManager::gm;
 gameManager::gameManager(){
     //create emu parts
     vid = new video();
-    romF = new gameFile();
-    inp = new input();
     aud = new audio();
+    inp = new input();
+    romF = new gameFile();
+
+    emu[0] = vid;
+    emu[1] = aud;
+    emu[2] = inp;
+    emu[3] = romF;
+
 
     loadConfig();
     //load game specific config
@@ -41,10 +47,9 @@ gameManager::~gameManager(){
     //gui is destory already
 
     //destory emu parts
-    delete(vid);
-    delete(romF);
-    delete(aud);
-    delete(inp);
+    for(int i = 0; i < EMU_PART_COUNT; ++i){
+        delete(emu[i]);
+    }
 }
 
 void gameManager::showUI(){
@@ -83,10 +88,9 @@ void gameManager::runGame(){
     mb->init();
 
     //init emu parts
-    vid->startGame();
-    aud->startGame();
-    romF->startGame();
-    inp->startGame();
+    for(int i = 0; i < EMU_PART_COUNT; ++i){
+        emu[i]->startGame();
+    }
 
     gameState = GAME_STATE_RUNNING;
     frameTicks = SDL_GetTicks();
@@ -138,10 +142,9 @@ void gameManager::runGame(){
 
     }
 
-    vid->endGame();
-    aud->endGame();
-    romF->endGame();
-    inp->endGame();
+    for(int i = 0; i < EMU_PART_COUNT; ++i){
+        emu[i]->endGame();
+    }
 
     //delete core parts
     delete(rom);
@@ -162,17 +165,10 @@ void gameManager::loadConfig(){
     if(fs.is_open()){
         while(getline(fs, line)){
             lineHdr = emuPart::getConfigLineHdr(line);
-            if(lineHdr.compare(vid->partName()) == 0){
-                vid->loadConfig(&fs);
-            }
-            else if(lineHdr.compare(romF->partName()) == 0){
-                romF->loadConfig(&fs);
-            }
-            else if(lineHdr.compare(inp->partName()) == 0){
-                inp->loadConfig(&fs);
-            }
-            else if(lineHdr.compare(aud->partName()) == 0){
-                aud->loadConfig(&fs);
+            for(int i = 0; i < EMU_PART_COUNT; ++i){
+                 if(lineHdr.compare(emu[i]->partName()) == 0){
+                    emu[i]->loadConfig(&fs);
+                }
             }
         }
         fs.close();
@@ -187,10 +183,9 @@ void gameManager::loadConfig(){
 void gameManager::saveConfig(){
     fstream fs;
     fs.open("config.ini", fstream::out);
-    vid->saveConfig(&fs);
-    romF->saveConfig(&fs);
-    inp->saveConfig(&fs);
-    aud->saveConfig(&fs);
+    for(int i = 0; i < EMU_PART_COUNT; ++i){
+        emu[i]->saveConfig(&fs);
+    }
     fs.close();
 }
 
@@ -199,10 +194,9 @@ void gameManager::romSelected(const string& romName){
     saveGameConfig();
     romF->romPath = romName;
 
-    vid->initGameConfig();
-    romF->initGameConfig();
-    inp->initGameConfig();
-    aud->initGameConfig();
+    for(int i = 0; i < EMU_PART_COUNT; ++i){
+        emu[i]->initGameConfig();
+    }
     //load config for new game
     loadGameConfig();
 }
@@ -245,17 +239,10 @@ void gameManager::loadGameConfig(){
     if(fs.is_open()){
         while(getline(fs, line)){
             lineHdr = emuPart::getConfigLineHdr(line);
-            if(lineHdr.compare(vid->partName()) == 0){
-                vid->loadConfig(&fs);
-            }
-            else if(lineHdr.compare(romF->partName()) == 0){
-                romF->loadConfig(&fs);
-            }
-            else if(lineHdr.compare(inp->partName()) == 0){
-                inp->loadConfig(&fs);
-            }
-            else if(lineHdr.compare(aud->partName()) == 0){
-                aud->loadConfig(&fs);
+            for(int i = 0; i < EMU_PART_COUNT; ++i){
+                if(lineHdr.compare(emu[i]->partName()) == 0){
+                    emu[i]->loadConfig(&fs);
+                }
             }
         }
         fs.close();
@@ -270,10 +257,9 @@ void gameManager::saveGameConfig(){
     if(romF->romPath.compare("") == 0) return;
     fstream fs;
     fs.open(emuPart::getFileName(romF->romPath) + ".ini", fstream::out);
-    vid->saveGameConfig(&fs);
-    romF->saveGameConfig(&fs);
-    inp->saveGameConfig(&fs);
-    aud->saveGameConfig(&fs);
+    for(int i = 0; i < EMU_PART_COUNT; ++i){
+        emu[i]->saveGameConfig(&fs);
+    }
     fs.close();
 }
 

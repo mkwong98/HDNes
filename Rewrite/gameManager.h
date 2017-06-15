@@ -11,6 +11,8 @@
 #define GAME_STATE_PAUSED           2
 #define GAME_STATE_ADVANCE_BY_FRAME 3
 
+#define EMU_PART_COUNT 4
+
 using namespace std;
 
 class gameManager
@@ -23,6 +25,7 @@ class gameManager
         gameFile* romF;
         input* inp;
         audio* aud;
+        emuPart* emu[EMU_PART_COUNT];
 
         cart* rom;
         cpu* cp;
@@ -30,6 +33,8 @@ class gameManager
         apu* ap;
         memBus* mb;
         gamepad* gp;
+        corePart* cor[6];
+
 
         int gameState;
 
