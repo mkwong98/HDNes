@@ -12,6 +12,7 @@
 #define GAME_STATE_ADVANCE_BY_FRAME 3
 
 #define EMU_PART_COUNT 4
+#define CORE_PART_COUNT 6
 
 using namespace std;
 
@@ -33,7 +34,7 @@ class gameManager
         apu* ap;
         memBus* mb;
         gamepad* gp;
-        corePart* cor[6];
+        corePart* core[CORE_PART_COUNT];
 
 
         int gameState;

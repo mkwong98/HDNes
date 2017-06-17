@@ -24,6 +24,7 @@ class memBus : public corePart
         void saveState(fstream* statefile);
         void loadState(fstream* statefile);
         void init();
+        void init2();
 
         Uint8 readByte();
         Uint8 memRead(Uint16 address);

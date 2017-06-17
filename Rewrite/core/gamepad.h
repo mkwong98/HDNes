@@ -14,6 +14,7 @@ class gamepad : public corePart
         void saveState(fstream* statefile);
         void loadState(fstream* statefile);
         void init();
+        void init2();
 
         Uint8 read4016();
         void write4016(Uint8 value);

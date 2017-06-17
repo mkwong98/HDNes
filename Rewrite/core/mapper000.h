@@ -1,14 +1,14 @@
-#ifndef MAPPER001_H
-#define MAPPER001_H
+#ifndef MAPPER000_H
+#define MAPPER000_H
 
-#include "cart.h"
+#include <cart.h>
 
 
-class mapper001 : public cart
+class mapper000 : public cart
 {
     public:
-        mapper001();
-        virtual ~mapper001();
+        mapper000();
+        virtual ~mapper000();
 
         void reset();
         void saveState(fstream* statefile);
@@ -21,10 +21,9 @@ class mapper001 : public cart
         Uint8 readCHRData(Uint16 address);
         void writeCHRData(Uint16 address, Uint8 value);
 
-
     protected:
 
     private:
 };
 
-#endif // MAPPER001_H
+#endif // MAPPER000_H

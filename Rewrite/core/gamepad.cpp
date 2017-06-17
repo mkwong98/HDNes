@@ -33,3 +33,6 @@ void gamepad::loadState(fstream* statefile){
 
 void gamepad::init(){
 }
+
+void gamepad::init2(){
+}

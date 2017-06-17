@@ -81,11 +81,19 @@ void gameManager::runGame(){
     ap = new apu();
     gp = new gamepad();
     mb = new memBus();
-    cp->init();
-    pp->init();
-    ap->init();
-    gp->init();
-    mb->init();
+    core[0] = rom;
+    core[1] = cp;
+    core[2] = pp;
+    core[3] = ap;
+    core[4] = gp;
+    core[5] = mb;
+
+    for(int i = 0; i < CORE_PART_COUNT; ++i){
+        core[i]->init();
+    }
+    for(int i = 0; i < CORE_PART_COUNT; ++i){
+        core[i]->init2();
+    }
 
     //init emu parts
     for(int i = 0; i < EMU_PART_COUNT; ++i){
@@ -99,14 +107,12 @@ void gameManager::runGame(){
         inp->handleUserInput();
         if(gameState != GAME_STATE_PAUSED){
             if(!pp->frameReady){
+                cp->processInstruction();
                 cyclesToRun = cp->getNextInstructionLength();
                 for(Uint8 i = 0; i < cyclesToRun; ++i){
                     runSingleCycle();
                 }
                 cp->runInstruction();
-                if(cp->hasExtraCycle()){
-                    runSingleCycle();
-                }
             }
 
             if(pp->frameReady && (frameTicks < SDL_GetTicks())){
@@ -147,12 +153,9 @@ void gameManager::runGame(){
     }
 
     //delete core parts
-    delete(rom);
-    delete(cp);
-    delete(pp);
-    delete(ap);
-    delete(gp);
-    delete(mb);
+    for(int i = 0; i < CORE_PART_COUNT; ++i){
+        delete(core[i]);
+    }
 }
 
 

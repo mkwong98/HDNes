@@ -1,5 +1,6 @@
 #include "../common.h"
 #include "cart.h"
+#include "mapper000.h"
 #include "mapper001.h"
 #include "../emu/emuPart.h"
 
@@ -38,6 +39,9 @@ cart* cart::getCartFromROMFile(const string& fileName){
 
 		    switch(mapperID){
                 case 0:
+                    rs = new mapper000();
+                    break;
+                case 1:
                     rs = new mapper001();
                     break;
                 default:
@@ -111,6 +115,9 @@ void cart::saveBat(){
 }
 
 void cart::init(){
+}
+
+void cart::init2(){
 }
 
 void cart::reset(){

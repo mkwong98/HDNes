@@ -39,4 +39,7 @@ void apu::loadState(fstream* statefile){
 void apu::init(){
 }
 
+void apu::init2(){
+}
+
 

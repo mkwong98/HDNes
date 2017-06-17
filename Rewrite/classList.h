@@ -3,6 +3,7 @@
 
 class corePart;
 class cart;
+class mapper000;
 class mapper001;
 class cpu;
 class ppu;

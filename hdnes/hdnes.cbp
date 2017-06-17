@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="hdnes" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug Win32">
+				<Option output="hdnes" prefix_auto="1" extension_auto="1" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-DWIN32" />
+					<Add option="-D_DEBUG" />
+					<Add option="-D_WINDOWS" />
+					<Add option="-D__WINDOWS__" />
+					<Add option="-D__WXMSW__" />
+					<Add option="-D__WXDEBUG__" />
+					<Add option="-DWXDEBUG=1" />
+					<Add option="-D__WIN95__" />
+					<Add option="-D__WIN32__" />
+					<Add option="-DWINVER=0x0400" />
+					<Add option="-DSTRICT" />
+					<Add directory="C:/Users/mkwong98/Documents/Visual Studio 2010/common include" />
+					<Add directory="$(IncludePath)" />
+					<Add directory="C:/SourceCode/Libraries/wxWidgets2.8/lib/vc_lib/mswud" />
+					<Add directory="C:/SourceCode/Libraries/wxWidgets2.8/contrib/include" />
+					<Add directory="C:/SourceCode/Libraries/wxWidgets2.8/include" />
+				</Compiler>
+				<Linker>
+					<Add library="sdl2.lib" />
+					<Add library="sdl2main.lib" />
+					<Add library="opengl32.lib" />
+					<Add library="glew32.lib" />
+					<Add library="glu32.lib" />
+					<Add library="kernel32.lib" />
+					<Add library="user32.lib" />
+					<Add library="gdi32.lib" />
+					<Add library="winspool.lib" />
+					<Add library="comdlg32.lib" />
+					<Add library="advapi32.lib" />
+					<Add library="shell32.lib" />
+					<Add library="ole32.lib" />
+					<Add library="oleaut32.lib" />
+					<Add library="uuid.lib" />
+					<Add library="odbc32.lib" />
+					<Add library="odbccp32.lib" />
+					<Add library="comctl32.lib" />
+					<Add library="rpcrt4.lib" />
+					<Add library="wsock32.lib" />
+					<Add library="winmm.lib" />
+					<Add library="wxmsw28ud_core.lib" />
+					<Add library="wxbase28ud.lib" />
+					<Add library="Shlwapi.lib" />
+					<Add library="SDL2_image.lib" />
+					<Add library="wxpngd.lib" />
+					<Add library="wxtiffd.lib" />
+					<Add library="wxzlibd.lib" />
+					<Add library="wxjpegd.lib" />
+					<Add library="SDL2_mixer.lib" />
+					<Add directory="C:/Users/mkwong98/Documents/Visual Studio 2010/glew-1.6.0/lib" />
+					<Add directory="C:/SourceCode/Libraries/wxWidgets2.8/lib/vc_lib" />
+					<Add directory="C:/Users/mkwong98/Documents/Visual Studio 2010/SDL2_image-2.0.0/lib/x86" />
+					<Add directory="C:/Users/mkwong98/Documents/Visual Studio 2010/SDL2_mixer-2.0.0/lib/x86" />
+					<Add directory="C:/Users/mkwong98/Documents/Visual Studio 2010/SDL2-2.0.3/lib/x86" />
+					<Add directory="$(LibraryPath)" />
+					<Add directory="C:/SourceCode/Libraries/wxWidgets2.8/contrib/lib" />
+					<Add directory="C:/SourceCode/Libraries/wxWidgets2.8/lib" />
+				</Linker>
+			</Target>
+			<Target title="Release Win32">
+				<Option output="hdnes" prefix_auto="1" extension_auto="1" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-DNDEBUG" />
+					<Add option="-DWIN32" />
+					<Add option="-D_WINDOWS" />
+					<Add option="-D__WINDOWS__" />
+					<Add option="-D__WXMSW__" />
+					<Add option="-D__WIN95__" />
+					<Add option="-D__WIN32__" />
+					<Add option="-DWINVER=0x0400" />
+					<Add option="-DSTRICT" />
+					<Add directory="C:/Users/mkwong98/Documents/Visual Studio 2010/common include" />
+					<Add directory="$(IncludePath)" />
+					<Add directory="C:/SourceCode/Libraries/wxWidgets2.8/lib/vc_lib/mswu" />
+					<Add directory="C:/SourceCode/Libraries/wxWidgets2.8/contrib/include" />
+					<Add directory="C:/SourceCode/Libraries/wxWidgets2.8/include" />
+				</Compiler>
+				<Linker>
+					<Add library="sdl2.lib" />
+					<Add library="sdl2main.lib" />
+					<Add library="opengl32.lib" />
+					<Add library="glew32.lib" />
+					<Add library="glu32.lib" />
+					<Add library="kernel32.lib" />
+					<Add library="user32.lib" />
+					<Add library="gdi32.lib" />
+					<Add library="winspool.lib" />
+					<Add library="comdlg32.lib" />
+					<Add library="advapi32.lib" />
+					<Add library="shell32.lib" />
+					<Add library="ole32.lib" />
+					<Add library="oleaut32.lib" />
+					<Add library="uuid.lib" />
+					<Add library="odbc32.lib" />
+					<Add library="odbccp32.lib" />
+					<Add library="comctl32.lib" />
+					<Add library="rpcrt4.lib" />
+					<Add library="wsock32.lib" />
+					<Add library="winmm.lib" />
+					<Add library="wxmsw28u_core.lib" />
+					<Add library="wxbase28u.lib" />
+					<Add library="Shlwapi.lib" />
+					<Add library="SDL2_image.lib" />
+					<Add library="wxpngd.lib" />
+					<Add library="wxtiffd.lib" />
+					<Add library="wxzlibd.lib" />
+					<Add library="wxjpegd.lib" />
+					<Add library="SDL2_mixer.lib" />
+					<Add directory="C:/Users/mkwong98/Documents/Visual Studio 2010/glew-1.6.0/lib" />
+					<Add directory="C:/SourceCode/Libraries/wxWidgets2.8/lib/vc_lib" />
+					<Add directory="C:/Users/mkwong98/Documents/Visual Studio 2010/SDL2_image-2.0.0/lib/x86" />
+					<Add directory="C:/Users/mkwong98/Documents/Visual Studio 2010/SDL2_mixer-2.0.0/lib/x86" />
+					<Add directory="C:/Users/mkwong98/Documents/Visual Studio 2010/SDL2-2.0.3/lib/x86" />
+					<Add directory="$(LibraryPath)" />
+					<Add directory="C:/SourceCode/Libraries/wxWidgets2.8/contrib/lib" />
+					<Add directory="C:/SourceCode/Libraries/wxWidgets2.8/lib" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="../wxwidget/formHDNes.cpp" />
+		<Unit filename="../wxwidget/formHDNes.h" />
+		<Unit filename="ReadMe.txt" />
+		<Unit filename="apu.cpp" />
+		<Unit filename="apu.h" />
+		<Unit filename="audio.cpp" />
+		<Unit filename="audio.h" />
+		<Unit filename="batchMapImp.cpp" />
+		<Unit filename="batchMapImp.h" />
+		<Unit filename="cart.cpp" />
+		<Unit filename="cart.h" />
+		<Unit filename="commonUtil.cpp" />
+		<Unit filename="commonUtil.h" />
+		<Unit filename="cpu.cpp" />
+		<Unit filename="cpu.h" />
+		<Unit filename="fraHDNesImp.cpp" />
+		<Unit filename="fraHDNesImp.h" />
+		<Unit filename="gameManager.cpp" />
+		<Unit filename="gameManager.h" />
+		<Unit filename="globalConst.h" />
+		<Unit filename="input.cpp" />
+		<Unit filename="input.h" />
+		<Unit filename="mainApp.cpp" />
+		<Unit filename="mainApp.h" />
+		<Unit filename="mapper.cpp" />
+		<Unit filename="mapper.h" />
+		<Unit filename="mapper0.cpp" />
+		<Unit filename="mapper0.h" />
+		<Unit filename="mapper1.cpp" />
+		<Unit filename="mapper1.h" />
+		<Unit filename="mapper10.cpp" />
+		<Unit filename="mapper10.h" />
+		<Unit filename="mapper16.cpp" />
+		<Unit filename="mapper16.h" />
+		<Unit filename="mapper2.cpp" />
+		<Unit filename="mapper2.h" />
+		<Unit filename="mapper3.cpp" />
+		<Unit filename="mapper3.h" />
+		<Unit filename="mapper4.cpp" />
+		<Unit filename="mapper4.h" />
+		<Unit filename="mapper7.cpp" />
+		<Unit filename="mapper7.h" />
+		<Unit filename="mapper9.cpp" />
+		<Unit filename="mapper9.h" />
+		<Unit filename="mapperList.h" />
+		<Unit filename="memory.cpp" />
+		<Unit filename="memory.h" />
+		<Unit filename="paletteDialogImp.cpp" />
+		<Unit filename="paletteDialogImp.h" />
+		<Unit filename="ppu.cpp" />
+		<Unit filename="ppu.h" />
+		<Unit filename="stdafx.cpp" />
+		<Unit filename="stdafx.h" />
+		<Unit filename="sysSetting.cpp" />
+		<Unit filename="sysSetting.h" />
+		<Unit filename="sysState.cpp" />
+		<Unit filename="sysState.h" />
+		<Unit filename="targetver.h" />
+		<Unit filename="video.cpp" />
+		<Unit filename="video.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

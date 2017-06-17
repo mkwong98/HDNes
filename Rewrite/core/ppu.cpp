@@ -39,3 +39,6 @@ void ppu::loadState(fstream* statefile){
 
 void ppu::init(){
 }
+
+void ppu::init2(){
+}

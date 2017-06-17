@@ -69,6 +69,8 @@
 		<Unit filename="core/cpu.h" />
 		<Unit filename="core/gamepad.cpp" />
 		<Unit filename="core/gamepad.h" />
+		<Unit filename="core/mapper000.cpp" />
+		<Unit filename="core/mapper000.h" />
 		<Unit filename="core/mapper001.cpp" />
 		<Unit filename="core/mapper001.h" />
 		<Unit filename="core/memBus.cpp" />

@@ -58,7 +58,9 @@ void memBus::init(){
     pp = gameManager::gm->pp;
     ap = gameManager::gm->ap;
     gp = gameManager::gm->gp;
+}
 
+void memBus::init2(){
     for(int i = 0; i < 0x800; ++i){
         internalRAM[i] = rand() % 0x100;
     }

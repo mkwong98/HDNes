@@ -20,35 +20,52 @@ cpu::~cpu()
 }
 
 Uint8 cpu::getNextInstructionLength(){
-    nextInstruction[0] = mb->memRead(programCounter);
-    ++programCounter;
-    nextInstruction[1] = mb->memRead(programCounter);
-    ++programCounter;
-
+    return instructionTicks;
+    /*
     if(nextInstruction[0] & 0x03 == 0x01){
         Uint8 pattern = (nextInstruction[0] >> 3) & 0x07;
-        return instructionLen[pattern] + (hasExtraCycle() ? 1 : 0);
+        return instructionLen[pattern] + extraCycleReq;
     }
     else if(nextInstruction[0] & 0x1F == 0x10){
-        return 2;
+        return 2 + extraCycleReq;
     }
     else{
 
     }
+    */
+}
+
+void cpu::processInstruction(){
+    newState = state;
+    nextInstruction[0] = mb->memRead(state.programCounter);
+    if(nextInstruction[0] & 0x07 == 0x07){
+        ++newState.programCounter;
+        instructionType = OP_TYPE_NOP;
+        instructionTicks = 2;
+    }
+    else if(nextInstruction[0] & 0x03 == 0x01){
+        ++newState.programCounter;
+        instructionType = OP_TYPE_CPU;
+        Uint8 addressMode = (nextInstruction[0] >> 3) & 0x07;
+        instructionTicks = instructionLen[addressMode];
+
+    }
+
 }
 
 void cpu::runInstruction(){
-    extraCycleReq = false;
+    switch(instructionType){
+    case OP_TYPE_NOP:
+        state = newState;
+        break;
+    }
 }
 
-bool cpu::hasExtraCycle(){
-    return extraCycleReq;
-}
 
 void cpu::reset(){
-    stackPointer -= 3;
-    statusRegister |= 0x04;
-    programCounter = ((mb->memRead(0xFFFD) << 8) | mb->memRead(0xFFFC));
+    state.stackPointer -= 3;
+    state.statusRegister |= 0x04;
+    state.programCounter = ((mb->memRead(0xFFFD) << 8) | mb->memRead(0xFFFC));
 }
 
 void cpu::saveState(fstream* statefile){
@@ -59,12 +76,13 @@ void cpu::loadState(fstream* statefile){
 
 void cpu::init(){
     mb = gameManager::gm->mb;
-    statusRegister = 0x34;
-    accumulator = 0;
-    indexX = 0;
-    indexY = 0;
-    stackPointer = 0xFD;
-    programCounter = ((mb->memRead(0xFFFD) << 8) | mb->memRead(0xFFFC));
-
 }
 
+void cpu::init2(){
+    state.statusRegister = 0x34;
+    state.accumulator = 0;
+    state.indexX = 0;
+    state.indexY = 0;
+    state.stackPointer = 0xFD;
+    state.programCounter = ((mb->memRead(0xFFFD) << 8) | mb->memRead(0xFFFC));
+}

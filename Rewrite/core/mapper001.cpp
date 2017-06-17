@@ -34,3 +34,6 @@ void mapper001::loadState(fstream* statefile){
 
 void mapper001::init(){
 }
+
+void mapper001::init2(){
+}

@@ -17,6 +17,7 @@ class apu : public corePart
         void saveState(fstream* statefile);
         void loadState(fstream* statefile);
         void init();
+        void init2();
 
         Uint8 readReg(Uint8 idx);
         void writeReg(Uint8 idx, Uint8 value);
