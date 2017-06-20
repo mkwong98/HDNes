@@ -107,6 +107,7 @@ void cpu::processInstruction(){
     }
     else if((nextInstruction[0] & 0x07) == 0x06){
         bool pageCrossed;
+        Uint8 opValue;
         //PPPAA110
         Uint8 addressMode = (nextInstruction[0] >> 2) & 0x07;
         instructionTicks = instructionLen[addressMode];
@@ -117,37 +118,62 @@ void cpu::processInstruction(){
             outValue = newState.indexX;
             outAddress = resolveAddress((addressMode == 5 ? 8 : addressMode), pageCrossed);
         }
-        else{
+        else if(operation == 5){
+            //LDX
             instructionType = OP_TYPE_CPU;
-            Uint8 opValue;
-            if(operation == 5){
-                //LDX
-                if(addressMode < 5){
-                    opValue = getValue(addressMode, pageCrossed);
-                }
-                else if(addressMode == 5){
-                    opValue = getValue(8, pageCrossed);
-                }
-                else if(addressMode == 7){
-                    opValue = getValue(9, pageCrossed);
-                    if(pageCrossed) ++instructionTicks;
-                }
-                newState.indexX = opValue;
-            }
-            else{
-                instructionTicks += 2;
-                if(addressMode == 7) ++instructionTicks;
+            if(addressMode < 5){
                 opValue = getValue(addressMode, pageCrossed);
-
-                switch(operation){
-                case 0:
-                    //ASL
-                    newState.accumulator = newState.accumulator | opValue;
-                    break;
-                }
             }
+            else if(addressMode == 5){
+                opValue = getValue(8, pageCrossed);
+            }
+            else if(addressMode == 7){
+                opValue = getValue(9, pageCrossed);
+                if(pageCrossed) ++instructionTicks;
+            }
+            newState.indexX = opValue;
             updateFlag(FLAG_Z, !newState.indexX);
             updateFlag(FLAG_N, newState.indexX & 0x80);
+        }
+        else{
+            instructionType = OP_TYPE_OUT;
+            instructionTicks += 2;
+            if(addressMode == 7) ++instructionTicks;
+            outAddress = resolveAddress((addressMode == 5 ? 8 : addressMode), pageCrossed);
+            opValue = getValue(addressMode, pageCrossed);
+
+            switch(operation){
+            case 0:
+                //ASL
+                outValue = (opValue << 1) & 0xFE;
+                updateFlag(FLAG_C, opValue & 0x80);
+                break;
+            case 1:
+                //ROL
+                outValue = ((opValue << 1) & 0xFE) | (checkFlag(FLAG_C) ? 0x01 : 0x00);
+                updateFlag(FLAG_C, opValue & 0x80);
+                break;
+            case 2:
+                //LSR
+                outValue = (opValue >> 1) & 0x7F;
+                updateFlag(FLAG_C, opValue & 0x01);
+                break;
+            case 3:
+                //ROR
+                outValue = ((opValue >> 1) & 0x7F) | (checkFlag(FLAG_C) ? 0x80 : 0x00);
+                updateFlag(FLAG_C, opValue & 0x01);
+                break;
+            case 6:
+                //DEC
+                outValue = (opValue ? opValue - 1 : 0xFF);
+                break;
+            case 7:
+                //INC
+                outValue = (opValue > 0xFF ? opValue + 1 : 0);
+                break;
+            }
+            updateFlag(FLAG_Z, !outValue);
+            updateFlag(FLAG_N, outValue & 0x80);
         }
     }
 }
@@ -222,6 +248,16 @@ Uint16 cpu::resolveAddress(Uint8 addressMode, bool& hasCrossPage){
     case 8:
         //d,y
         return (nextInstruction[1] + state.indexY) & 0x00FF;
+        break;
+    case 9:
+        //a,y
+        nextInstruction[2] = mb->memRead(newState.programCounter);
+        ++newState.programCounter;
+        tmpAddress = nextInstruction[1] + newState.indexY;
+        if(tmpAddress > 0x00FF){
+            hasCrossPage = true;
+        }
+        return tmpAddress + mb->memRead(nextInstruction[2] << 8);
         break;
     }
     return 0;
