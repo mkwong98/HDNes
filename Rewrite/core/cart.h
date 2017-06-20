@@ -9,6 +9,8 @@
 #define CHR_RAM_SIZE	0x4000
 #define BATTERY_SIZE	0x2000
 
+
+
 class cart : public corePart
 {
     public:

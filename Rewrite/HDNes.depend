@@ -3716,7 +3716,7 @@
 	"mapper001.h"
 	"../emu/emuPart.h"
 
-1497585507 c:\work\hdnesr\trunk\rewrite\core\cart.h
+1497960223 c:\work\hdnesr\trunk\rewrite\core\cart.h
 	"corePart.h"
 	"../classList.h"
 
@@ -3815,7 +3815,7 @@
 	"memBus.h"
 	"../gameManager.h"
 
-1497605989 c:\work\hdnesr\trunk\rewrite\core\cpu.h
+1497960223 c:\work\hdnesr\trunk\rewrite\core\cpu.h
 	"../classList.h"
 	<corePart.h>
 
