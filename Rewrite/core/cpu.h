@@ -4,10 +4,8 @@
 #include "../classList.h"
 #include <corePart.h>
 
-#define OP_TYPE_NOP	0x00
-#define OP_TYPE_CPU	0x01
-#define OP_TYPE_OUT	0x02
-#define OP_TYPE_PSH	0x03
+#define OP_TYPE_CPU	0x00
+#define OP_TYPE_OUT	0x01
 
 #define FLAG_C  0
 #define FLAG_Z  1
@@ -57,8 +55,13 @@ class cpu : public corePart
         void processInstruction();
         void runInstruction();
         Uint8 getNextInstructionLength();
+
         Uint8 getValue(Uint8 addressMode, bool& hasCrossPage);
         Uint16 resolveAddress(Uint8 addressMode, bool& hasCrossPage);
+
+        void pushStack(Uint8 value);
+        Uint8 pullStack();
+
         void updateFlag(Uint8 flag, bool value);
         void setFlag(Uint8 flag);
         void clearFlag(Uint8 flag);

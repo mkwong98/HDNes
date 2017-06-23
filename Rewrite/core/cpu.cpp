@@ -43,7 +43,7 @@ void cpu::processInstruction(){
     bool pageCrossed;
 
     if(nextInstruction[0] == 0xEA){ //NOP
-        instructionType = OP_TYPE_NOP;
+        instructionType = OP_TYPE_CPU;
         instructionTicks = 2;
     }
     else if((nextInstruction[0] & 0x1F) == 0x10){ //branching
@@ -86,129 +86,87 @@ void cpu::processInstruction(){
             if(pcPage != (newState.programCounter & 0xFF00)) ++instructionTicks;
         }
     }
-    else if((nextInstruction[0] & 0x0F) == 0x08){ //single byte op
+    else if((nextInstruction[0] & 0x9F) == 0x08){ //stack
         switch(nextInstruction[0]){
         case 0x08:
             //PHP
-            instructionTicks = 3;
-            instructionType = OP_TYPE_PSH;
-            outValue = newState.statusRegister;
-            --newState.stackPointer;
-            break;
-        case 0x18:
-            //CLC
-            instructionTicks = 2;
-            instructionType = OP_TYPE_CPU;
-            clearFlag(FLAG_C);
-            break;
-        case 0x28:
-            //PLP
-            instructionTicks = 4;
-            instructionType = OP_TYPE_CPU;
-            ++newState.stackPointer;
-            newState.statusRegister = mb->memRead(0x0100 + newState.stackPointer);
-            break;
-        case 0x38:
-            //SEC
-            instructionTicks = 2;
-            instructionType = OP_TYPE_CPU;
-            setFlag(FLAG_C);
+            pushStack(newState.statusRegister);
             break;
         case 0x48:
             //PHA
-            instructionTicks = 3;
-            instructionType = OP_TYPE_PSH;
-            outValue = newState.accumulator;
-            --newState.stackPointer;
+            pushStack(newState.accumulator);
             break;
-        case 0x58:
-            //CLI
-            instructionTicks = 2;
-            instructionType = OP_TYPE_CPU;
-            clearFlag(FLAG_I);
+        case 0x28:
+            //PLP
+            newState.statusRegister = pullStack();
             break;
         case 0x68:
             //PLA
-            instructionTicks = 4;
-            instructionType = OP_TYPE_CPU;
-            ++newState.stackPointer;
-            newState.accumulator = mb->memRead(0x0100 + newState.stackPointer);
+            newState.accumulator = pullStack();
             break;
+        }
+    }
+    else if((nextInstruction[0] & 0x0F) == 0x08){ //single byte op
+        instructionTicks = 2;
+        instructionType = OP_TYPE_CPU;
+        switch(nextInstruction[0]){
+        case 0x18:
+            //CLC
+            clearFlag(FLAG_C);
+            break;
+
+        case 0x38:
+            //SEC
+            setFlag(FLAG_C);
+            break;
+
+        case 0x58:
+            //CLI
+            clearFlag(FLAG_I);
+            break;
+
         case 0x78:
             //SEI
-            instructionTicks = 2;
-            instructionType = OP_TYPE_CPU;
             setFlag(FLAG_I);
             break;
         case 0x88:
             //DEY
-            instructionTicks = 2;
-            instructionType = OP_TYPE_CPU;
-            if(newState.indexY){
-                --newState.indexY
-            }
-            else{
-                newState.indexY = 0xFF;
-            }
+            newState.indexY = (newState.indexY ? opValue - 1 : 0xFF);
             updateFlag(FLAG_Z, !newState.indexY);
             updateFlag(FLAG_N, newState.indexY & 0x80);
             break;
         case 0x98:
             //TYA
-            instructionTicks = 2;
-            instructionType = OP_TYPE_CPU;
             newState.accumulator = newState.indexY;
             updateFlag(FLAG_Z, !newState.accumulator);
             updateFlag(FLAG_N, newState.accumulator & 0x80);
         case 0xA8:
             //TAY
-            instructionTicks = 2;
-            instructionType = OP_TYPE_CPU;
             newState.indexY = newState.accumulator;
             updateFlag(FLAG_Z, !newState.indexY);
             updateFlag(FLAG_N, newState.indexY & 0x80);
         case 0xB8:
             //CLV
-            instructionTicks = 2;
-            instructionType = OP_TYPE_CPU;
             clearFlag(FLAG_V);
             break;
         case 0xC8:
             //INY
-            instructionTicks = 2;
-            instructionType = OP_TYPE_CPU;
-            if(newState.indexY == 0xFF){
-                newState.indexY = 0;
-            }
-            else{
-                ++newState.indexY;
-            }
+            newState.indexY = (newState.indexY < 0xFF ? newState.indexY + 1 : 0);
             updateFlag(FLAG_Z, !newState.indexY);
             updateFlag(FLAG_N, newState.indexY & 0x80);
             break;
         case 0xD8:
             //CLD
-            instructionTicks = 2;
-            instructionType = OP_TYPE_CPU;
             clearFlag(FLAG_D);
             break;
         case 0xE8:
             //INX
-            instructionTicks = 2;
-            instructionType = OP_TYPE_CPU;
-            if(newState.indexX == 0xFF){
-                newState.indexX = 0;
-            }
-            else{
-                ++newState.indexX;
-            }
+            newState.indexX = (newState.indexX < 0xFF ? newState.indexX + 1 : 0);
             updateFlag(FLAG_Z, !newState.indexX);
             updateFlag(FLAG_N, newState.indexX & 0x80);
             break;
         case 0xF8:
             //SED
-            instructionTicks = 2;
-            instructionType = OP_TYPE_CPU;
             setFlag(FLAG_D);
             break;
         }
@@ -359,7 +317,7 @@ void cpu::processInstruction(){
                     break;
                 case 7:
                     //INC
-                    outValue = (opValue > 0xFF ? opValue + 1 : 0);
+                    outValue = (opValue < 0xFF ? opValue + 1 : 0);
                     break;
                 }
                 updateFlag(FLAG_Z, !outValue);
@@ -374,6 +332,21 @@ void cpu::processInstruction(){
             if(pageCrossed) ++instructionTicks;
         }
     }
+}
+
+void cpu::pushStack(Uint8 value){
+    instructionTicks = 3;
+    instructionType = OP_TYPE_OUT;
+    outValue = value;
+    outAddress = 0x0100 + newState.stackPointer;
+    --newState.stackPointer;
+}
+
+Uint8 cpu::pullStack(){
+    instructionTicks = 4;
+    instructionType = OP_TYPE_CPU;
+    ++newState.stackPointer;
+    return mb->memRead(0x0100 + newState.stackPointer);
 }
 
 Uint8 cpu::getValue(Uint8 addressMode, bool& hasCrossPage){
