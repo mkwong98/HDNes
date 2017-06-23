@@ -7,6 +7,7 @@
 #define OP_TYPE_NOP	0x00
 #define OP_TYPE_CPU	0x01
 #define OP_TYPE_OUT	0x02
+#define OP_TYPE_PSH	0x03
 
 #define FLAG_C  0
 #define FLAG_Z  1

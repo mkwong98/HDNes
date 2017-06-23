@@ -36,150 +36,347 @@ void cpu::processInstruction(){
     newState = state;
     nextInstruction[0] = mb->memRead(newState.programCounter);
     ++newState.programCounter;
-    if((nextInstruction[0] & 0x07) == 0x07){
+
+    Uint8 addressMode = (nextInstruction[0] >> 2) & 0x07;
+    Uint8 operation = (nextInstruction[0] >> 5) & 0x07;
+    Uint8 opValue;
+    bool pageCrossed;
+
+    if(nextInstruction[0] == 0xEA){ //NOP
         instructionType = OP_TYPE_NOP;
         instructionTicks = 2;
     }
-    else if((nextInstruction[0] & 0x03) == 0x01){
-        bool pageCrossed;
-        //PPPAAA01 accumulator ops
-        Uint8 addressMode = (nextInstruction[0] >> 2) & 0x07;
-        instructionTicks = instructionLen[addressMode];
-        Uint8 operation = (nextInstruction[0] >> 5) & 0x07;
-
-        if(operation == 4){
-            //STA
-            instructionType = OP_TYPE_OUT;
-            outValue = newState.accumulator;
-            outAddress = resolveAddress(addressMode, pageCrossed);
-            if(addressMode == 4 || addressMode == 6 || addressMode == 7) ++instructionTicks;
+    else if((nextInstruction[0] & 0x1F) == 0x10){ //branching
+        instructionType = OP_TYPE_CPU;
+        instructionTicks = 2;
+        nextInstruction[1] = mb->memRead(newState.programCounter);
+        ++newState.programCounter;
+        bool branchResult;
+        switch(operation){
+        case 0:
+            branchResult = !checkFlag(FLAG_N);
+            break;
+        case 1:
+            branchResult = checkFlag(FLAG_N);
+            break;
+        case 2:
+            branchResult = !checkFlag(FLAG_V);
+            break;
+        case 3:
+            branchResult = checkFlag(FLAG_V);
+            break;
+        case 4:
+            branchResult = !checkFlag(FLAG_C);
+            break;
+        case 5:
+            branchResult = checkFlag(FLAG_C);
+            break;
+        case 6:
+            branchResult = !checkFlag(FLAG_Z);
+            break;
+        case 7:
+            branchResult = checkFlag(FLAG_Z);
+            break;
         }
-        else{
-            instructionType = OP_TYPE_CPU;
-            Uint8 opValue;
-            opValue = getValue(addressMode, pageCrossed);
-            if(pageCrossed) ++instructionTicks;
-            if(operation == 6){
-                //CMP
-                updateFlag(FLAG_C, newState.accumulator >= opValue);
-                updateFlag(FLAG_Z, newState.accumulator == opValue);
-                updateFlag(FLAG_N, ((newState.accumulator - opValue) & 0x80) != 0);
-            }
-            else{
-                Uint16 tmpValue;
-                switch(operation){
-                case 0:
-                    //ORA
-                    newState.accumulator = newState.accumulator | opValue;
-                    break;
-                case 1:
-                    //AND
-                    newState.accumulator = newState.accumulator & opValue;
-                    break;
-                case 2:
-                    //EOR
-                    newState.accumulator = newState.accumulator ^ opValue;
-                    break;
-                case 3:
-                    //ADC
-                    tmpValue = newState.accumulator + opValue + (checkFlag(FLAG_C) ? 1 : 0);
-                    newState.accumulator = tmpValue & 0x00FF;
-                    updateFlag(FLAG_C, tmpValue > 0x00FF);
-                    updateFlag(FLAG_V, (((newState.accumulator ^ opValue) & (newState.accumulator ^ state.accumulator) & 0x80) != 0));
-                    break;
-                case 5:
-                    //LDA
-                    newState.accumulator = opValue;
-                    break;
-                case 7:
-                    //SBC
-                    tmpValue = newState.accumulator;
-                    tmpValue = tmpValue - opValue;
-                    if(checkFlag(FLAG_C)) --tmpValue;
-                    newState.accumulator = tmpValue & 0x00FF;
-                    updateFlag(FLAG_C, tmpValue < 0x100);
-                    updateFlag(FLAG_V, ((newState.accumulator ^ (opValue ^ 0xFF)) & (newState.accumulator ^ state.accumulator) & 0x80) != 0);
-                }
-                updateFlag(FLAG_Z, !newState.accumulator);
-                updateFlag(FLAG_N, newState.accumulator & 0x80);
-            }
+        if(branchResult){
+            ++instructionTicks;
+            Uint16 pcPage;
+            pcPage = newState.programCounter & 0xFF00;
+            newState.programCounter += (nextInstruction[1] & 0x80 ? -(nextInstruction[1] & 0x7F) - 1 : nextInstruction[1]);
+            if(pcPage != (newState.programCounter & 0xFF00)) ++instructionTicks;
         }
     }
-    else if((nextInstruction[0] & 0x07) == 0x06){
-        bool pageCrossed;
-        Uint8 opValue;
-        //PPPAA110
-        Uint8 addressMode = (nextInstruction[0] >> 2) & 0x07;
-        instructionTicks = instructionLen[addressMode];
-        Uint8 operation = (nextInstruction[0] >> 5) & 0x07;
-        if(operation == 4){
-            //STX
-            instructionType = OP_TYPE_OUT;
-            outValue = newState.indexX;
-            outAddress = resolveAddress((addressMode == 5 ? 8 : addressMode), pageCrossed);
-        }
-        else if(operation == 5){
-            //LDX
+    else if((nextInstruction[0] & 0x0F) == 0x08){ //single byte op
+        switch(nextInstruction[0]){
+        case 0x08:
+            //PHP
+            instructionTicks = 3;
+            instructionType = OP_TYPE_PSH;
+            outValue = newState.statusRegister;
+            --newState.stackPointer;
+            break;
+        case 0x18:
+            //CLC
+            instructionTicks = 2;
             instructionType = OP_TYPE_CPU;
-            if(addressMode < 5){
-                opValue = getValue(addressMode, pageCrossed);
+            clearFlag(FLAG_C);
+            break;
+        case 0x28:
+            //PLP
+            instructionTicks = 4;
+            instructionType = OP_TYPE_CPU;
+            ++newState.stackPointer;
+            newState.statusRegister = mb->memRead(0x0100 + newState.stackPointer);
+            break;
+        case 0x38:
+            //SEC
+            instructionTicks = 2;
+            instructionType = OP_TYPE_CPU;
+            setFlag(FLAG_C);
+            break;
+        case 0x48:
+            //PHA
+            instructionTicks = 3;
+            instructionType = OP_TYPE_PSH;
+            outValue = newState.accumulator;
+            --newState.stackPointer;
+            break;
+        case 0x58:
+            //CLI
+            instructionTicks = 2;
+            instructionType = OP_TYPE_CPU;
+            clearFlag(FLAG_I);
+            break;
+        case 0x68:
+            //PLA
+            instructionTicks = 4;
+            instructionType = OP_TYPE_CPU;
+            ++newState.stackPointer;
+            newState.accumulator = mb->memRead(0x0100 + newState.stackPointer);
+            break;
+        case 0x78:
+            //SEI
+            instructionTicks = 2;
+            instructionType = OP_TYPE_CPU;
+            setFlag(FLAG_I);
+            break;
+        case 0x88:
+            //DEY
+            instructionTicks = 2;
+            instructionType = OP_TYPE_CPU;
+            if(newState.indexY){
+                --newState.indexY
             }
-            else if(addressMode == 5){
-                opValue = getValue(8, pageCrossed);
+            else{
+                newState.indexY = 0xFF;
             }
-            else if(addressMode == 7){
-                opValue = getValue(9, pageCrossed);
-                if(pageCrossed) ++instructionTicks;
+            updateFlag(FLAG_Z, !newState.indexY);
+            updateFlag(FLAG_N, newState.indexY & 0x80);
+            break;
+        case 0x98:
+            //TYA
+            instructionTicks = 2;
+            instructionType = OP_TYPE_CPU;
+            newState.accumulator = newState.indexY;
+            updateFlag(FLAG_Z, !newState.accumulator);
+            updateFlag(FLAG_N, newState.accumulator & 0x80);
+        case 0xA8:
+            //TAY
+            instructionTicks = 2;
+            instructionType = OP_TYPE_CPU;
+            newState.indexY = newState.accumulator;
+            updateFlag(FLAG_Z, !newState.indexY);
+            updateFlag(FLAG_N, newState.indexY & 0x80);
+        case 0xB8:
+            //CLV
+            instructionTicks = 2;
+            instructionType = OP_TYPE_CPU;
+            clearFlag(FLAG_V);
+            break;
+        case 0xC8:
+            //INY
+            instructionTicks = 2;
+            instructionType = OP_TYPE_CPU;
+            if(newState.indexY == 0xFF){
+                newState.indexY = 0;
             }
-            newState.indexX = opValue;
+            else{
+                ++newState.indexY;
+            }
+            updateFlag(FLAG_Z, !newState.indexY);
+            updateFlag(FLAG_N, newState.indexY & 0x80);
+            break;
+        case 0xD8:
+            //CLD
+            instructionTicks = 2;
+            instructionType = OP_TYPE_CPU;
+            clearFlag(FLAG_D);
+            break;
+        case 0xE8:
+            //INX
+            instructionTicks = 2;
+            instructionType = OP_TYPE_CPU;
+            if(newState.indexX == 0xFF){
+                newState.indexX = 0;
+            }
+            else{
+                ++newState.indexX;
+            }
             updateFlag(FLAG_Z, !newState.indexX);
             updateFlag(FLAG_N, newState.indexX & 0x80);
+            break;
+        case 0xF8:
+            //SED
+            instructionTicks = 2;
+            instructionType = OP_TYPE_CPU;
+            setFlag(FLAG_D);
+            break;
         }
-        else{
-            instructionType = OP_TYPE_OUT;
-            instructionTicks += 2;
-            if(addressMode == 7) ++instructionTicks;
-            outAddress = resolveAddress((addressMode == 5 ? 8 : addressMode), pageCrossed);
-            opValue = getValue(addressMode, pageCrossed);
-
-            switch(operation){
-            case 0:
-                //ASL
-                outValue = (opValue << 1) & 0xFE;
-                updateFlag(FLAG_C, opValue & 0x80);
-                break;
-            case 1:
-                //ROL
-                outValue = ((opValue << 1) & 0xFE) | (checkFlag(FLAG_C) ? 0x01 : 0x00);
-                updateFlag(FLAG_C, opValue & 0x80);
-                break;
-            case 2:
-                //LSR
-                outValue = (opValue >> 1) & 0x7F;
-                updateFlag(FLAG_C, opValue & 0x01);
-                break;
-            case 3:
-                //ROR
-                outValue = ((opValue >> 1) & 0x7F) | (checkFlag(FLAG_C) ? 0x80 : 0x00);
-                updateFlag(FLAG_C, opValue & 0x01);
-                break;
-            case 6:
-                //DEC
-                outValue = (opValue ? opValue - 1 : 0xFF);
-                break;
-            case 7:
-                //INC
-                outValue = (opValue > 0xFF ? opValue + 1 : 0);
-                break;
+    }
+    else if((nextInstruction[0] & 0x9F) == 0x0A){ //0xx01010 address mode A ASL, LSR, ROL, ROR
+        instructionTicks = 2;
+        instructionType = OP_TYPE_CPU;
+        switch(operation){
+        case 0:
+            //ASL
+            newState.accumulator = (newState.accumulator << 1) & 0xFE;
+            updateFlag(FLAG_C, state.accumulator & 0x80);
+            break;
+        case 1:
+            //ROL
+            newState.accumulator = ((newState.accumulator << 1) & 0xFE) | (checkFlag(FLAG_C) ? 0x01 : 0x00);
+            updateFlag(FLAG_C, state.accumulator & 0x80);
+            break;
+        case 2:
+            //LSR
+            newState.accumulator = (newState.accumulator >> 1) & 0x7F;
+            updateFlag(FLAG_C, state.accumulator & 0x01);
+            break;
+        case 3:
+            //ROR
+            newState.accumulator = ((newState.accumulator >> 1) & 0x7F) | (checkFlag(FLAG_C) ? 0x80 : 0x00);
+            updateFlag(FLAG_C, state.accumulator & 0x01);
+            break;
+        }
+        updateFlag(FLAG_Z, !newState.accumulator);
+        updateFlag(FLAG_N, newState.accumulator & 0x80);
+    }
+    else{
+        instructionTicks = instructionLen[addressMode];
+        if((nextInstruction[0] & 0x03) == 0x01){ //PPPAAA01 accumulator ops
+            if(operation == 4){
+                //STA
+                instructionType = OP_TYPE_OUT;
+                outValue = newState.accumulator;
+                outAddress = resolveAddress(addressMode, pageCrossed);
+                if(addressMode == 4 || addressMode == 6 || addressMode == 7) ++instructionTicks;
             }
-            updateFlag(FLAG_Z, !outValue);
-            updateFlag(FLAG_N, outValue & 0x80);
+            else{
+                instructionType = OP_TYPE_CPU;
+                opValue = getValue(addressMode, pageCrossed);
+                if(pageCrossed) ++instructionTicks;
+                if(operation == 6){
+                    //CMP
+                    updateFlag(FLAG_C, newState.accumulator >= opValue);
+                    updateFlag(FLAG_Z, newState.accumulator == opValue);
+                    updateFlag(FLAG_N, ((newState.accumulator - opValue) & 0x80) != 0);
+                }
+                else{
+                    Uint16 tmpValue;
+                    switch(operation){
+                    case 0:
+                        //ORA
+                        newState.accumulator = newState.accumulator | opValue;
+                        break;
+                    case 1:
+                        //AND
+                        newState.accumulator = newState.accumulator & opValue;
+                        break;
+                    case 2:
+                        //EOR
+                        newState.accumulator = newState.accumulator ^ opValue;
+                        break;
+                    case 3:
+                        //ADC
+                        tmpValue = newState.accumulator + opValue + (checkFlag(FLAG_C) ? 1 : 0);
+                        newState.accumulator = tmpValue & 0x00FF;
+                        updateFlag(FLAG_C, tmpValue > 0x00FF);
+                        updateFlag(FLAG_V, (((newState.accumulator ^ opValue) & (newState.accumulator ^ state.accumulator) & 0x80) != 0));
+                        break;
+                    case 5:
+                        //LDA
+                        newState.accumulator = opValue;
+                        break;
+                    case 7:
+                        //SBC
+                        tmpValue = newState.accumulator;
+                        tmpValue = tmpValue - opValue;
+                        if(checkFlag(FLAG_C)) --tmpValue;
+                        newState.accumulator = tmpValue & 0x00FF;
+                        updateFlag(FLAG_C, tmpValue < 0x100);
+                        updateFlag(FLAG_V, ((newState.accumulator ^ (opValue ^ 0xFF)) & (newState.accumulator ^ state.accumulator) & 0x80) != 0);
+                    }
+                    updateFlag(FLAG_Z, !newState.accumulator);
+                    updateFlag(FLAG_N, newState.accumulator & 0x80);
+                }
+            }
+        }
+        else if((nextInstruction[0] & 0x07) == 0x06){ //PPPAA110
+            if(operation == 4){
+                //STX
+                instructionType = OP_TYPE_OUT;
+                outValue = newState.indexX;
+                outAddress = resolveAddress((addressMode == 5 ? 8 : addressMode), pageCrossed);
+            }
+            else if(operation == 5){
+                //LDX
+                instructionType = OP_TYPE_CPU;
+                if(addressMode < 5){
+                    opValue = getValue(addressMode, pageCrossed);
+                }
+                else if(addressMode == 5){
+                    opValue = getValue(8, pageCrossed);
+                }
+                else if(addressMode == 7){
+                    opValue = getValue(9, pageCrossed);
+                    if(pageCrossed) ++instructionTicks;
+                }
+                newState.indexX = opValue;
+                updateFlag(FLAG_Z, !newState.indexX);
+                updateFlag(FLAG_N, newState.indexX & 0x80);
+            }
+            else{
+                instructionType = OP_TYPE_OUT;
+                instructionTicks += 2;
+                if(addressMode == 7) ++instructionTicks;
+                outAddress = resolveAddress((addressMode == 5 ? 8 : addressMode), pageCrossed);
+                opValue = getValue(addressMode, pageCrossed);
+
+                switch(operation){
+                case 0:
+                    //ASL
+                    outValue = (opValue << 1) & 0xFE;
+                    updateFlag(FLAG_C, opValue & 0x80);
+                    break;
+                case 1:
+                    //ROL
+                    outValue = ((opValue << 1) & 0xFE) | (checkFlag(FLAG_C) ? 0x01 : 0x00);
+                    updateFlag(FLAG_C, opValue & 0x80);
+                    break;
+                case 2:
+                    //LSR
+                    outValue = (opValue >> 1) & 0x7F;
+                    updateFlag(FLAG_C, opValue & 0x01);
+                    break;
+                case 3:
+                    //ROR
+                    outValue = ((opValue >> 1) & 0x7F) | (checkFlag(FLAG_C) ? 0x80 : 0x00);
+                    updateFlag(FLAG_C, opValue & 0x01);
+                    break;
+                case 6:
+                    //DEC
+                    outValue = (opValue ? opValue - 1 : 0xFF);
+                    break;
+                case 7:
+                    //INC
+                    outValue = (opValue > 0xFF ? opValue + 1 : 0);
+                    break;
+                }
+                updateFlag(FLAG_Z, !outValue);
+                updateFlag(FLAG_N, outValue & 0x80);
+            }
+        }
+        else if((nextInstruction[0] & 0xE7) == 0xA8){ //101xx100 LDY
+            instructionType = OP_TYPE_CPU;
+            newState.indexY = getValue(addressMode, pageCrossed);
+            updateFlag(FLAG_Z, !newState.indexY);
+            updateFlag(FLAG_N, newState.indexY & 0x80);
+            if(pageCrossed) ++instructionTicks;
         }
     }
 }
 
 Uint8 cpu::getValue(Uint8 addressMode, bool& hasCrossPage){
-
     if(addressMode == 2){
         //#v
         nextInstruction[1] = mb->memRead(newState.programCounter);
