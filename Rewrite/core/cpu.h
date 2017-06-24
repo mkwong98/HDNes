@@ -26,6 +26,8 @@ struct cpu_state{
 };
 
 typedef void(cpu::*opcodeHandler)();
+typedef Uint16(cpu::*addressHandler)(bool& hasCrossPage);
+
 
 class cpu : public corePart
 {
@@ -34,7 +36,7 @@ class cpu : public corePart
         cpu_state newState;
 
         opcodeHandler opHdl[4];
-
+        addressHandler adHdl[10];
 
         Uint8 nextInstruction[3];
         Uint8 instructionType;
@@ -66,6 +68,16 @@ class cpu : public corePart
 
         Uint8 getValue(Uint8 addressMode, bool& hasCrossPage);
         Uint16 resolveAddress(Uint8 addressMode, bool& hasCrossPage);
+        Uint16 resolveAddress0(bool& hasCrossPage);
+        Uint16 resolveAddress1(bool& hasCrossPage);
+        Uint16 resolveAddress2(bool& hasCrossPage);
+        Uint16 resolveAddress3(bool& hasCrossPage);
+        Uint16 resolveAddress4(bool& hasCrossPage);
+        Uint16 resolveAddress5(bool& hasCrossPage);
+        Uint16 resolveAddress6(bool& hasCrossPage);
+        Uint16 resolveAddress7(bool& hasCrossPage);
+        Uint16 resolveAddress8(bool& hasCrossPage);
+        Uint16 resolveAddress9(bool& hasCrossPage);
 
         void pushStack(Uint8 value);
         Uint8 pullStack();

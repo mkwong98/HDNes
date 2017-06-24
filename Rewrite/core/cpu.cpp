@@ -26,6 +26,18 @@ cpu::cpu()
     opHdl[1] = &cpu::opcodeHandler1;
     opHdl[2] = &cpu::opcodeHandler2;
     opHdl[3] = &cpu::opcodeHandler3;
+
+    adHdl[0] = &cpu::resolveAddress0;
+    adHdl[1] = &cpu::resolveAddress1;
+    adHdl[2] = &cpu::resolveAddress2;
+    adHdl[3] = &cpu::resolveAddress3;
+    adHdl[4] = &cpu::resolveAddress4;
+    adHdl[5] = &cpu::resolveAddress5;
+    adHdl[6] = &cpu::resolveAddress6;
+    adHdl[7] = &cpu::resolveAddress7;
+    adHdl[8] = &cpu::resolveAddress8;
+    adHdl[9] = &cpu::resolveAddress9;
+
 }
 
 cpu::~cpu()
@@ -183,6 +195,8 @@ void cpu::processInstruction(){
 }
 
 void cpu::opcodeHandler0(){ //xxxxxx00
+
+
 }
 
 void cpu::opcodeHandler1(){ //PPPAAA01
@@ -407,70 +421,75 @@ Uint16 cpu::resolveAddress(Uint8 addressMode, bool& hasCrossPage){
     nextInstruction[1] = mb->memRead(newState.programCounter);
     ++newState.programCounter;
     hasCrossPage = false;
+    return (this->*adHdl[addressMode])(hasCrossPage);
+}
 
-    switch(addressMode){
-    case 0:
-        //(d,x)
-        return mb->memRead((nextInstruction[1] + state.indexX) & 0x00FF) + (mb->memRead((nextInstruction[1] + state.indexX + 1) & 0x00FF) << 8);
-        break;
-    case 1:
-        //d
-        return nextInstruction[1];
-        break;
-    case 3:
-        //a
-        nextInstruction[2] = mb->memRead(newState.programCounter);
-        ++newState.programCounter;
-        return (nextInstruction[2] >> 8) + nextInstruction[1];
-        break;
-    case 4:
-        //(d),y
-        tmpAddress = mb->memRead((nextInstruction[1]) + newState.indexY);
-        if(tmpAddress > 0x00FF){
-            hasCrossPage = true;
-        }
-        return tmpAddress + (mb->memRead((nextInstruction[1] + state.indexX + 1) & 0x00FF) << 8);
-        break;
-    case 5:
-        //d,x
-        return (nextInstruction[1] + state.indexX) & 0x00FF;
-        break;
-    case 6:
-        //a,y
-        nextInstruction[2] = mb->memRead(newState.programCounter);
-        ++newState.programCounter;
-        tmpAddress = nextInstruction[1] + newState.indexY;
-        if(tmpAddress > 0x00FF){
-            hasCrossPage = true;
-        }
-        return tmpAddress + mb->memRead(nextInstruction[2] << 8);
-        break;
-    case 7:
-        //a,x
-        nextInstruction[2] = mb->memRead(newState.programCounter);
-        ++newState.programCounter;
-        tmpAddress = nextInstruction[1] + newState.indexX;
-        if(tmpAddress > 0x00FF){
-            hasCrossPage = true;
-        }
-        return tmpAddress + mb->memRead(nextInstruction[2] << 8);
-        break;
-    case 8:
-        //d,y
-        return (nextInstruction[1] + state.indexY) & 0x00FF;
-        break;
-    case 9:
-        //a,y
-        nextInstruction[2] = mb->memRead(newState.programCounter);
-        ++newState.programCounter;
-        tmpAddress = nextInstruction[1] + newState.indexY;
-        if(tmpAddress > 0x00FF){
-            hasCrossPage = true;
-        }
-        return tmpAddress + mb->memRead(nextInstruction[2] << 8);
-        break;
-    }
+Uint16 cpu::resolveAddress0(bool& hasCrossPage){ //(d,x)
+    return mb->memRead((nextInstruction[1] + state.indexX) & 0x00FF) + (mb->memRead((nextInstruction[1] + state.indexX + 1) & 0x00FF) << 8);
+}
+
+Uint16 cpu::resolveAddress1(bool& hasCrossPage){ //d
+    return nextInstruction[1];
+}
+
+Uint16 cpu::resolveAddress2(bool& hasCrossPage){ //#v
     return 0;
+}
+
+Uint16 cpu::resolveAddress3(bool& hasCrossPage){ //a
+    nextInstruction[2] = mb->memRead(newState.programCounter);
+    ++newState.programCounter;
+    return (nextInstruction[2] >> 8) + nextInstruction[1];
+}
+
+Uint16 cpu::resolveAddress4(bool& hasCrossPage){ //(d),y
+    Uint16 tmpAddress;
+    tmpAddress = mb->memRead((nextInstruction[1]) + newState.indexY);
+    if(tmpAddress > 0x00FF){
+        hasCrossPage = true;
+    }
+    return tmpAddress + (mb->memRead((nextInstruction[1] + state.indexX + 1) & 0x00FF) << 8);
+}
+
+Uint16 cpu::resolveAddress5(bool& hasCrossPage){ //d,x
+    return (nextInstruction[1] + state.indexX) & 0x00FF;
+}
+
+Uint16 cpu::resolveAddress6(bool& hasCrossPage){ //a,y
+    Uint16 tmpAddress;
+    nextInstruction[2] = mb->memRead(newState.programCounter);
+    ++newState.programCounter;
+    tmpAddress = nextInstruction[1] + newState.indexY;
+    if(tmpAddress > 0x00FF){
+        hasCrossPage = true;
+    }
+    return tmpAddress + mb->memRead(nextInstruction[2] << 8);
+}
+
+Uint16 cpu::resolveAddress7(bool& hasCrossPage){ //a,x
+    Uint16 tmpAddress;
+    nextInstruction[2] = mb->memRead(newState.programCounter);
+    ++newState.programCounter;
+    tmpAddress = nextInstruction[1] + newState.indexX;
+    if(tmpAddress > 0x00FF){
+        hasCrossPage = true;
+    }
+    return tmpAddress + mb->memRead(nextInstruction[2] << 8);
+}
+
+Uint16 cpu::resolveAddress8(bool& hasCrossPage){ //d,y
+    return (nextInstruction[1] + state.indexY) & 0x00FF;
+}
+
+Uint16 cpu::resolveAddress9(bool& hasCrossPage){ //a,y
+    Uint16 tmpAddress;
+    nextInstruction[2] = mb->memRead(newState.programCounter);
+    ++newState.programCounter;
+    tmpAddress = nextInstruction[1] + newState.indexY;
+    if(tmpAddress > 0x00FF){
+        hasCrossPage = true;
+    }
+    return tmpAddress + mb->memRead(nextInstruction[2] << 8);
 }
 
 void cpu::updateFlag(Uint8 flag, bool value){

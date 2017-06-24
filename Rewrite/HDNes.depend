@@ -3726,7 +3726,7 @@
 1497585713 source:c:\work\hdnesr\trunk\rewrite\core\mapper001.cpp
 	"mapper001.h"
 
-1497585713 source:c:\work\hdnesr\trunk\rewrite\core\membus.cpp
+1498274558 source:c:\work\hdnesr\trunk\rewrite\core\membus.cpp
 	"memBus.h"
 	"../gameManager.h"
 	"cart.h"
@@ -3815,7 +3815,7 @@
 	"memBus.h"
 	"../gameManager.h"
 
-1498273169 c:\work\hdnesr\trunk\rewrite\core\cpu.h
+1498307757 c:\work\hdnesr\trunk\rewrite\core\cpu.h
 	"../classList.h"
 	<corePart.h>
 
