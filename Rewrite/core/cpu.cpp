@@ -22,6 +22,11 @@ cpu::cpu()
     flagMask[6] = 0x40;
     flagMask[7] = 0x80;
 
+    branchFlag[0] = FLAG_N;
+    branchFlag[1] = FLAG_V;
+    branchFlag[2] = FLAG_C;
+    branchFlag[3] = FLAG_Z;
+
     opHdl[0] = &cpu::opcodeHandler0;
     opHdl[1] = &cpu::opcodeHandler1;
     opHdl[2] = &cpu::opcodeHandler2;
@@ -36,7 +41,6 @@ cpu::cpu()
     adHdl[6] = &cpu::resolveAddress6;
     adHdl[7] = &cpu::resolveAddress7;
     adHdl[8] = &cpu::resolveAddress8;
-    adHdl[9] = &cpu::resolveAddress9;
 
 }
 
@@ -55,38 +59,23 @@ void cpu::processInstruction(){
     ++newState.programCounter;
 
     (this->*opHdl[nextInstruction[0] & 0x03])();
+}
 
-    if((nextInstruction[0] & 0x1F) == 0x10){ //branching xxx10000
+void cpu::opcodeHandler0(){ //xxxxxx00
+    Uint8 addressMode = (nextInstruction[0] >> 2) & 0x07;
+    Uint8 operation = (nextInstruction[0] >> 5) & 0x07;
+
+    if(addressMode == 4){ //branch xxx10000
         instructionType = OP_TYPE_CPU;
         instructionTicks = 2;
         nextInstruction[1] = mb->memRead(newState.programCounter);
         ++newState.programCounter;
         bool branchResult;
-        switch(operation){
-        case 0:
-            branchResult = !checkFlag(FLAG_N);
-            break;
-        case 1:
-            branchResult = checkFlag(FLAG_N);
-            break;
-        case 2:
-            branchResult = !checkFlag(FLAG_V);
-            break;
-        case 3:
-            branchResult = checkFlag(FLAG_V);
-            break;
-        case 4:
-            branchResult = !checkFlag(FLAG_C);
-            break;
-        case 5:
-            branchResult = checkFlag(FLAG_C);
-            break;
-        case 6:
-            branchResult = !checkFlag(FLAG_Z);
-            break;
-        case 7:
-            branchResult = checkFlag(FLAG_Z);
-            break;
+        if(operation & 0x01){
+            branchResult = checkFlag(branchFlag[(operation >> 1) & 0x03]);
+        }
+        else{
+            branchResult = !checkFlag(branchFlag[(operation >> 1) & 0x03]);
         }
         if(branchResult){
             ++instructionTicks;
@@ -192,10 +181,6 @@ void cpu::processInstruction(){
             if(pageCrossed) ++instructionTicks;
         }
     }
-}
-
-void cpu::opcodeHandler0(){ //xxxxxx00
-
 
 }
 
@@ -269,41 +254,36 @@ void cpu::opcodeHandler2(){ //xxxxxx10
     instructionType = OP_TYPE_CPU;
 
     //handle special case first
-    switch(nextInstruction[0]){
-    case 0xA2: //LDX
-        nextInstruction[1] = mb->memRead(newState.programCounter);
-        ++newState.programCounter;
-
-        newState.indexX = nextInstruction[1];
-        updateFlag(FLAG_Z, !newState.indexX);
-        updateFlag(FLAG_N, newState.indexX & 0x80);
-        break;
-    case 0x8A: //TXA
-        newState.accumulator = newState.indexX;
-        updateFlag(FLAG_Z, !newState.accumulator);
-        updateFlag(FLAG_N, newState.accumulator & 0x80);
-        break;
-    case 0xCA: //DEX
-        newState.indexX = (newState.indexX ? newState.indexX - 1 : 0xFF);
-        updateFlag(FLAG_Z, !newState.indexX);
-        updateFlag(FLAG_N, newState.indexX & 0x80);
-        break;
-    case 0xAA: //TAX
-        newState.indexX = newState.accumulator;
-        updateFlag(FLAG_Z, !newState.indexX);
-        updateFlag(FLAG_N, newState.indexX & 0x80);
-        break;
-    case 0xEA: //NOP
-        break;
-    case 0x9A: //TXS
-        newState.stackPointer = newState.indexX;
-        break;
-    case 0xBA: //TSX
-        newState.indexX = newState.stackPointer;
-        updateFlag(FLAG_Z, !newState.indexX);
-        updateFlag(FLAG_N, newState.indexX & 0x80);
-        break;
-    default:
+    if((nextInstruction[0] & 0x8F) == 0x8A){ //1xxx1010
+        switch(nextInstruction[0]){
+        case 0x8A: //TXA
+            newState.accumulator = newState.indexX;
+            updateFlag(FLAG_Z, !newState.accumulator);
+            updateFlag(FLAG_N, newState.accumulator & 0x80);
+            break;
+        case 0x9A: //TXS
+            newState.stackPointer = newState.indexX;
+            break;
+        case 0xAA: //TAX
+            newState.indexX = newState.accumulator;
+            updateFlag(FLAG_Z, !newState.indexX);
+            updateFlag(FLAG_N, newState.indexX & 0x80);
+            break;
+        case 0xBA: //TSX
+            newState.indexX = newState.stackPointer;
+            updateFlag(FLAG_Z, !newState.indexX);
+            updateFlag(FLAG_N, newState.indexX & 0x80);
+            break;
+        case 0xCA: //DEX
+            newState.indexX = (newState.indexX ? newState.indexX - 1 : 0xFF);
+            updateFlag(FLAG_Z, !newState.indexX);
+            updateFlag(FLAG_N, newState.indexX & 0x80);
+            break;
+        case 0xEA: //NOP
+            break;
+        }
+    }
+    else{
         //handle general case
         Uint8 addressMode = (nextInstruction[0] >> 2) & 0x07;
         Uint8 operation = (nextInstruction[0] >> 5) & 0x07;
@@ -318,14 +298,17 @@ void cpu::opcodeHandler2(){ //xxxxxx10
         else if(operation == 5){
             //LDX
             instructionType = OP_TYPE_CPU;
-            if(addressMode < 5){
+            if(addressMode == 0){
+                opValue = getValue(2, pageCrossed);
+            }
+            else if(addressMode < 5){
                 opValue = getValue(addressMode, pageCrossed);
             }
             else if(addressMode == 5){
                 opValue = getValue(8, pageCrossed);
             }
             else if(addressMode == 7){
-                opValue = getValue(9, pageCrossed);
+                opValue = getValue(6, pageCrossed);
                 if(pageCrossed) ++instructionTicks;
             }
             newState.indexX = opValue;
@@ -481,16 +464,6 @@ Uint16 cpu::resolveAddress8(bool& hasCrossPage){ //d,y
     return (nextInstruction[1] + state.indexY) & 0x00FF;
 }
 
-Uint16 cpu::resolveAddress9(bool& hasCrossPage){ //a,y
-    Uint16 tmpAddress;
-    nextInstruction[2] = mb->memRead(newState.programCounter);
-    ++newState.programCounter;
-    tmpAddress = nextInstruction[1] + newState.indexY;
-    if(tmpAddress > 0x00FF){
-        hasCrossPage = true;
-    }
-    return tmpAddress + mb->memRead(nextInstruction[2] << 8);
-}
 
 void cpu::updateFlag(Uint8 flag, bool value){
     if(value){

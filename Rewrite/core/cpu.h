@@ -35,8 +35,11 @@ class cpu : public corePart
         cpu_state state;
         cpu_state newState;
 
+        Uint8 instructionLen[8];
+        Uint8 flagMask[8];
+        Uint8 branchFlag[4];
         opcodeHandler opHdl[4];
-        addressHandler adHdl[10];
+        addressHandler adHdl[9];
 
         Uint8 nextInstruction[3];
         Uint8 instructionType;
@@ -44,8 +47,7 @@ class cpu : public corePart
         Uint8 outValue;
         Uint16 outAddress;
 
-        Uint8 instructionLen[8];
-        Uint8 flagMask[8];
+
 
         memBus* mb;
 
@@ -77,7 +79,6 @@ class cpu : public corePart
         Uint16 resolveAddress6(bool& hasCrossPage);
         Uint16 resolveAddress7(bool& hasCrossPage);
         Uint16 resolveAddress8(bool& hasCrossPage);
-        Uint16 resolveAddress9(bool& hasCrossPage);
 
         void pushStack(Uint8 value);
         Uint8 pullStack();

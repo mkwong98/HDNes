@@ -3474,13 +3474,13 @@
 	"wx\mainFrameImp.h"
 	"wx\frmWaitInputImp.h"
 
-1477753017 source:c:\work\hdnes\trunk\rewrite\core\corepart.cpp
+1497740738 source:c:\work\hdnes\trunk\rewrite\core\corepart.cpp
 	"corePart.h"
 
-1497359660 c:\work\hdnes\trunk\rewrite\core\corepart.h
+1497740738 c:\work\hdnes\trunk\rewrite\core\corepart.h
 	"../common.h"
 
-1478331258 c:\work\hdnes\trunk\rewrite\common.h
+1497740738 c:\work\hdnes\trunk\rewrite\common.h
 	<fstream>
 	<sstream>
 	<string>
@@ -3495,7 +3495,7 @@
 1497359660 c:\work\hdnes\trunk\rewrite\emu\audio.h
 	"emuPart.h"
 
-1497366275 c:\work\hdnes\trunk\rewrite\emu\emupart.h
+1497740739 c:\work\hdnes\trunk\rewrite\emu\emupart.h
 	"../common.h"
 
 1497359661 source:c:\work\hdnes\trunk\rewrite\mainapp.cpp
@@ -3515,7 +3515,7 @@
 	"../classList.h"
 	"mainFrame.h"
 
-1497359660 c:\work\hdnes\trunk\rewrite\classlist.h
+1497740738 c:\work\hdnes\trunk\rewrite\classlist.h
 
 1479823255 c:\work\hdnes\trunk\rewrite\wx\mainframe.h
 	<wx/artprov.h>
@@ -3739,23 +3739,24 @@
 	"../classList.h"
 	<corePart.h>
 
-1497359660 source:c:\work\hdnes\trunk\rewrite\core\apu.cpp
+1497740738 source:c:\work\hdnes\trunk\rewrite\core\apu.cpp
 	"apu.h"
 
-1497359660 c:\work\hdnes\trunk\rewrite\core\apu.h
+1497740738 c:\work\hdnes\trunk\rewrite\core\apu.h
 	<corePart.h>
 
-1497359660 source:c:\work\hdnes\trunk\rewrite\core\cart.cpp
+1497740738 source:c:\work\hdnes\trunk\rewrite\core\cart.cpp
 	"../common.h"
 	"cart.h"
+	"mapper000.h"
 	"mapper001.h"
 	"../emu/emuPart.h"
 
-1497359660 c:\work\hdnes\trunk\rewrite\core\cart.h
+1497969812 c:\work\hdnes\trunk\rewrite\core\cart.h
 	"corePart.h"
 	"../classList.h"
 
-1497359660 c:\work\hdnes\trunk\rewrite\core\mapper001.h
+1497740739 c:\work\hdnes\trunk\rewrite\core\mapper001.h
 	"cart.h"
 
 1497359660 source:c:\work\hdnes\trunk\rewrite\core\cpu.cpp
@@ -3877,4 +3878,7 @@
 
 1497600113 source:c:\work\hdnesr\trunk\rewrite\core\mapper000.cpp
 	"mapper000.h"
+
+1497740739 c:\work\hdnes\trunk\rewrite\core\mapper000.h
+	<cart.h>
 
