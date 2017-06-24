@@ -21,6 +21,11 @@ cpu::cpu()
     flagMask[5] = 0x20;
     flagMask[6] = 0x40;
     flagMask[7] = 0x80;
+
+    opHdl[0] = &cpu::opcodeHandler0;
+    opHdl[1] = &cpu::opcodeHandler1;
+    opHdl[2] = &cpu::opcodeHandler2;
+    opHdl[3] = &cpu::opcodeHandler3;
 }
 
 cpu::~cpu()
@@ -37,16 +42,9 @@ void cpu::processInstruction(){
     nextInstruction[0] = mb->memRead(newState.programCounter);
     ++newState.programCounter;
 
-    Uint8 addressMode = (nextInstruction[0] >> 2) & 0x07;
-    Uint8 operation = (nextInstruction[0] >> 5) & 0x07;
-    Uint8 opValue;
-    bool pageCrossed;
+    (this->*opHdl[nextInstruction[0] & 0x03])();
 
-    if(nextInstruction[0] == 0xEA){ //NOP
-        instructionType = OP_TYPE_CPU;
-        instructionTicks = 2;
-    }
-    else if((nextInstruction[0] & 0x1F) == 0x10){ //branching
+    if((nextInstruction[0] & 0x1F) == 0x10){ //branching xxx10000
         instructionType = OP_TYPE_CPU;
         instructionTicks = 2;
         nextInstruction[1] = mb->memRead(newState.programCounter);
@@ -86,7 +84,7 @@ void cpu::processInstruction(){
             if(pcPage != (newState.programCounter & 0xFF00)) ++instructionTicks;
         }
     }
-    else if((nextInstruction[0] & 0x9F) == 0x08){ //stack
+    else if((nextInstruction[0] & 0x9F) == 0x08){ //stack 0xx01000
         switch(nextInstruction[0]){
         case 0x08:
             //PHP
@@ -106,7 +104,7 @@ void cpu::processInstruction(){
             break;
         }
     }
-    else if((nextInstruction[0] & 0x0F) == 0x08){ //single byte op
+    else if((nextInstruction[0] & 0x0F) == 0x08){ //single byte op xxxx1000
         instructionTicks = 2;
         instructionType = OP_TYPE_CPU;
         switch(nextInstruction[0]){
@@ -131,7 +129,7 @@ void cpu::processInstruction(){
             break;
         case 0x88:
             //DEY
-            newState.indexY = (newState.indexY ? opValue - 1 : 0xFF);
+            newState.indexY = (newState.indexY ? newState.indexY - 1 : 0xFF);
             updateFlag(FLAG_Z, !newState.indexY);
             updateFlag(FLAG_N, newState.indexY & 0x80);
             break;
@@ -171,160 +169,10 @@ void cpu::processInstruction(){
             break;
         }
     }
-    else if((nextInstruction[0] & 0x9F) == 0x0A){ //0xx01010 address mode A ASL, LSR, ROL, ROR
-        instructionTicks = 2;
-        instructionType = OP_TYPE_CPU;
-        switch(operation){
-        case 0:
-            //ASL
-            newState.accumulator = (newState.accumulator << 1) & 0xFE;
-            updateFlag(FLAG_C, state.accumulator & 0x80);
-            break;
-        case 1:
-            //ROL
-            newState.accumulator = ((newState.accumulator << 1) & 0xFE) | (checkFlag(FLAG_C) ? 0x01 : 0x00);
-            updateFlag(FLAG_C, state.accumulator & 0x80);
-            break;
-        case 2:
-            //LSR
-            newState.accumulator = (newState.accumulator >> 1) & 0x7F;
-            updateFlag(FLAG_C, state.accumulator & 0x01);
-            break;
-        case 3:
-            //ROR
-            newState.accumulator = ((newState.accumulator >> 1) & 0x7F) | (checkFlag(FLAG_C) ? 0x80 : 0x00);
-            updateFlag(FLAG_C, state.accumulator & 0x01);
-            break;
-        }
-        updateFlag(FLAG_Z, !newState.accumulator);
-        updateFlag(FLAG_N, newState.accumulator & 0x80);
-    }
     else{
-        instructionTicks = instructionLen[addressMode];
-        if((nextInstruction[0] & 0x03) == 0x01){ //PPPAAA01 accumulator ops
-            if(operation == 4){
-                //STA
-                instructionType = OP_TYPE_OUT;
-                outValue = newState.accumulator;
-                outAddress = resolveAddress(addressMode, pageCrossed);
-                if(addressMode == 4 || addressMode == 6 || addressMode == 7) ++instructionTicks;
-            }
-            else{
-                instructionType = OP_TYPE_CPU;
-                opValue = getValue(addressMode, pageCrossed);
-                if(pageCrossed) ++instructionTicks;
-                if(operation == 6){
-                    //CMP
-                    updateFlag(FLAG_C, newState.accumulator >= opValue);
-                    updateFlag(FLAG_Z, newState.accumulator == opValue);
-                    updateFlag(FLAG_N, ((newState.accumulator - opValue) & 0x80) != 0);
-                }
-                else{
-                    Uint16 tmpValue;
-                    switch(operation){
-                    case 0:
-                        //ORA
-                        newState.accumulator = newState.accumulator | opValue;
-                        break;
-                    case 1:
-                        //AND
-                        newState.accumulator = newState.accumulator & opValue;
-                        break;
-                    case 2:
-                        //EOR
-                        newState.accumulator = newState.accumulator ^ opValue;
-                        break;
-                    case 3:
-                        //ADC
-                        tmpValue = newState.accumulator + opValue + (checkFlag(FLAG_C) ? 1 : 0);
-                        newState.accumulator = tmpValue & 0x00FF;
-                        updateFlag(FLAG_C, tmpValue > 0x00FF);
-                        updateFlag(FLAG_V, (((newState.accumulator ^ opValue) & (newState.accumulator ^ state.accumulator) & 0x80) != 0));
-                        break;
-                    case 5:
-                        //LDA
-                        newState.accumulator = opValue;
-                        break;
-                    case 7:
-                        //SBC
-                        tmpValue = newState.accumulator;
-                        tmpValue = tmpValue - opValue;
-                        if(checkFlag(FLAG_C)) --tmpValue;
-                        newState.accumulator = tmpValue & 0x00FF;
-                        updateFlag(FLAG_C, tmpValue < 0x100);
-                        updateFlag(FLAG_V, ((newState.accumulator ^ (opValue ^ 0xFF)) & (newState.accumulator ^ state.accumulator) & 0x80) != 0);
-                    }
-                    updateFlag(FLAG_Z, !newState.accumulator);
-                    updateFlag(FLAG_N, newState.accumulator & 0x80);
-                }
-            }
-        }
-        else if((nextInstruction[0] & 0x07) == 0x06){ //PPPAA110
-            if(operation == 4){
-                //STX
-                instructionType = OP_TYPE_OUT;
-                outValue = newState.indexX;
-                outAddress = resolveAddress((addressMode == 5 ? 8 : addressMode), pageCrossed);
-            }
-            else if(operation == 5){
-                //LDX
-                instructionType = OP_TYPE_CPU;
-                if(addressMode < 5){
-                    opValue = getValue(addressMode, pageCrossed);
-                }
-                else if(addressMode == 5){
-                    opValue = getValue(8, pageCrossed);
-                }
-                else if(addressMode == 7){
-                    opValue = getValue(9, pageCrossed);
-                    if(pageCrossed) ++instructionTicks;
-                }
-                newState.indexX = opValue;
-                updateFlag(FLAG_Z, !newState.indexX);
-                updateFlag(FLAG_N, newState.indexX & 0x80);
-            }
-            else{
-                instructionType = OP_TYPE_OUT;
-                instructionTicks += 2;
-                if(addressMode == 7) ++instructionTicks;
-                outAddress = resolveAddress((addressMode == 5 ? 8 : addressMode), pageCrossed);
-                opValue = getValue(addressMode, pageCrossed);
-
-                switch(operation){
-                case 0:
-                    //ASL
-                    outValue = (opValue << 1) & 0xFE;
-                    updateFlag(FLAG_C, opValue & 0x80);
-                    break;
-                case 1:
-                    //ROL
-                    outValue = ((opValue << 1) & 0xFE) | (checkFlag(FLAG_C) ? 0x01 : 0x00);
-                    updateFlag(FLAG_C, opValue & 0x80);
-                    break;
-                case 2:
-                    //LSR
-                    outValue = (opValue >> 1) & 0x7F;
-                    updateFlag(FLAG_C, opValue & 0x01);
-                    break;
-                case 3:
-                    //ROR
-                    outValue = ((opValue >> 1) & 0x7F) | (checkFlag(FLAG_C) ? 0x80 : 0x00);
-                    updateFlag(FLAG_C, opValue & 0x01);
-                    break;
-                case 6:
-                    //DEC
-                    outValue = (opValue ? opValue - 1 : 0xFF);
-                    break;
-                case 7:
-                    //INC
-                    outValue = (opValue < 0xFF ? opValue + 1 : 0);
-                    break;
-                }
-                updateFlag(FLAG_Z, !outValue);
-                updateFlag(FLAG_N, outValue & 0x80);
-            }
-        }
-        else if((nextInstruction[0] & 0xE7) == 0xA8){ //101xx100 LDY
+        Uint8 addressMode = (nextInstruction[0] >> 2) & 0x07;
+        bool pageCrossed;
+        if((nextInstruction[0] & 0xE7) == 0xA8){ //101xx100 LDY
             instructionType = OP_TYPE_CPU;
             newState.indexY = getValue(addressMode, pageCrossed);
             updateFlag(FLAG_Z, !newState.indexY);
@@ -332,6 +180,198 @@ void cpu::processInstruction(){
             if(pageCrossed) ++instructionTicks;
         }
     }
+}
+
+void cpu::opcodeHandler0(){ //xxxxxx00
+}
+
+void cpu::opcodeHandler1(){ //PPPAAA01
+    Uint8 addressMode = (nextInstruction[0] >> 2) & 0x07;
+    Uint8 operation = (nextInstruction[0] >> 5) & 0x07;
+    Uint8 opValue;
+    bool pageCrossed;
+
+    instructionTicks = instructionLen[addressMode];
+    if(operation == 4){
+        //STA
+        instructionType = OP_TYPE_OUT;
+        outValue = newState.accumulator;
+        outAddress = resolveAddress(addressMode, pageCrossed);
+        if(addressMode == 4 || addressMode == 6 || addressMode == 7) ++instructionTicks;
+    }
+    else{
+        instructionType = OP_TYPE_CPU;
+        opValue = getValue(addressMode, pageCrossed);
+        if(pageCrossed) ++instructionTicks;
+        if(operation == 6){
+            //CMP
+            updateFlag(FLAG_C, newState.accumulator >= opValue);
+            updateFlag(FLAG_Z, newState.accumulator == opValue);
+            updateFlag(FLAG_N, ((newState.accumulator - opValue) & 0x80) != 0);
+        }
+        else{
+            Uint16 tmpValue;
+            switch(operation){
+            case 0:
+                //ORA
+                newState.accumulator = newState.accumulator | opValue;
+                break;
+            case 1:
+                //AND
+                newState.accumulator = newState.accumulator & opValue;
+                break;
+            case 2:
+                //EOR
+                newState.accumulator = newState.accumulator ^ opValue;
+                break;
+            case 3:
+                //ADC
+                tmpValue = newState.accumulator + opValue + (checkFlag(FLAG_C) ? 1 : 0);
+                newState.accumulator = tmpValue & 0x00FF;
+                updateFlag(FLAG_C, tmpValue > 0x00FF);
+                updateFlag(FLAG_V, (((newState.accumulator ^ opValue) & (newState.accumulator ^ state.accumulator) & 0x80) != 0));
+                break;
+            case 5:
+                //LDA
+                newState.accumulator = opValue;
+                break;
+            case 7:
+                //SBC
+                tmpValue = newState.accumulator;
+                tmpValue = tmpValue - opValue;
+                if(checkFlag(FLAG_C)) --tmpValue;
+                newState.accumulator = tmpValue & 0x00FF;
+                updateFlag(FLAG_C, tmpValue < 0x100);
+                updateFlag(FLAG_V, ((newState.accumulator ^ (opValue ^ 0xFF)) & (newState.accumulator ^ state.accumulator) & 0x80) != 0);
+            }
+            updateFlag(FLAG_Z, !newState.accumulator);
+            updateFlag(FLAG_N, newState.accumulator & 0x80);
+        }
+    }
+}
+
+void cpu::opcodeHandler2(){ //xxxxxx10
+    instructionTicks = 2;
+    instructionType = OP_TYPE_CPU;
+
+    //handle special case first
+    switch(nextInstruction[0]){
+    case 0xA2: //LDX
+        nextInstruction[1] = mb->memRead(newState.programCounter);
+        ++newState.programCounter;
+
+        newState.indexX = nextInstruction[1];
+        updateFlag(FLAG_Z, !newState.indexX);
+        updateFlag(FLAG_N, newState.indexX & 0x80);
+        break;
+    case 0x8A: //TXA
+        newState.accumulator = newState.indexX;
+        updateFlag(FLAG_Z, !newState.accumulator);
+        updateFlag(FLAG_N, newState.accumulator & 0x80);
+        break;
+    case 0xCA: //DEX
+        newState.indexX = (newState.indexX ? newState.indexX - 1 : 0xFF);
+        updateFlag(FLAG_Z, !newState.indexX);
+        updateFlag(FLAG_N, newState.indexX & 0x80);
+        break;
+    case 0xAA: //TAX
+        newState.indexX = newState.accumulator;
+        updateFlag(FLAG_Z, !newState.indexX);
+        updateFlag(FLAG_N, newState.indexX & 0x80);
+        break;
+    case 0xEA: //NOP
+        break;
+    case 0x9A: //TXS
+        newState.stackPointer = newState.indexX;
+        break;
+    case 0xBA: //TSX
+        newState.indexX = newState.stackPointer;
+        updateFlag(FLAG_Z, !newState.indexX);
+        updateFlag(FLAG_N, newState.indexX & 0x80);
+        break;
+    default:
+        //handle general case
+        Uint8 addressMode = (nextInstruction[0] >> 2) & 0x07;
+        Uint8 operation = (nextInstruction[0] >> 5) & 0x07;
+        Uint8 opValue;
+        bool pageCrossed;
+        if(operation == 4){
+            //STX
+            instructionType = OP_TYPE_OUT;
+            outValue = newState.indexX;
+            outAddress = resolveAddress((addressMode == 5 ? 8 : addressMode), pageCrossed);
+        }
+        else if(operation == 5){
+            //LDX
+            instructionType = OP_TYPE_CPU;
+            if(addressMode < 5){
+                opValue = getValue(addressMode, pageCrossed);
+            }
+            else if(addressMode == 5){
+                opValue = getValue(8, pageCrossed);
+            }
+            else if(addressMode == 7){
+                opValue = getValue(9, pageCrossed);
+                if(pageCrossed) ++instructionTicks;
+            }
+            newState.indexX = opValue;
+            updateFlag(FLAG_Z, !newState.indexX);
+            updateFlag(FLAG_N, newState.indexX & 0x80);
+        }
+        else{
+            if(addressMode == 2){
+                opValue = newState.accumulator;
+            }
+            else{
+                instructionType = OP_TYPE_OUT;
+                instructionTicks += 2;
+                if(addressMode == 7) ++instructionTicks;
+                outAddress = resolveAddress(addressMode, pageCrossed);
+                opValue = mb->memRead(outAddress);
+            }
+            switch(operation){
+            case 0:
+                //ASL
+                outValue = (opValue << 1) & 0xFE;
+                updateFlag(FLAG_C, opValue & 0x80);
+                break;
+            case 1:
+                //ROL
+                outValue = ((opValue << 1) & 0xFE) | (checkFlag(FLAG_C) ? 0x01 : 0x00);
+                updateFlag(FLAG_C, opValue & 0x80);
+                break;
+            case 2:
+                //LSR
+                outValue = (opValue >> 1) & 0x7F;
+                updateFlag(FLAG_C, opValue & 0x01);
+                break;
+            case 3:
+                //ROR
+                outValue = ((opValue >> 1) & 0x7F) | (checkFlag(FLAG_C) ? 0x80 : 0x00);
+                updateFlag(FLAG_C, opValue & 0x01);
+                break;
+            case 6:
+                //DEC
+                outValue = (opValue ? opValue - 1 : 0xFF);
+                break;
+            case 7:
+                //INC
+                outValue = (opValue < 0xFF ? opValue + 1 : 0);
+                break;
+            }
+            updateFlag(FLAG_Z, !outValue);
+            updateFlag(FLAG_N, outValue & 0x80);
+            if(addressMode == 2){
+                newState.accumulator = outValue;
+            }
+        }
+    }
+}
+
+void cpu::opcodeHandler3(){ //xxxxxx11
+    //unsupported op
+    instructionType = OP_TYPE_CPU;
+    instructionTicks = 2;
 }
 
 void cpu::pushStack(Uint8 value){
@@ -455,11 +495,10 @@ bool cpu::checkFlag(Uint8 flag){
 }
 
 void cpu::runInstruction(){
-    switch(instructionType){
-    case OP_TYPE_NOP:
-        state = newState;
-        break;
+    if(instructionType == OP_TYPE_OUT){
+        mb->memWrite(outAddress, outValue);
     }
+    state = newState;
 }
 
 

@@ -26,8 +26,8 @@ class memBus : public corePart
         void init();
         void init2();
 
-        Uint8 readByte();
         Uint8 memRead(Uint16 address);
+        void memWrite(Uint16 address, Uint8 value);
 
     protected:
 

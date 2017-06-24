@@ -43,6 +43,9 @@ Uint8 memBus::memRead(Uint16 address){
     }
 }
 
+void memBus::memWrite(Uint16 address, Uint8 value){
+}
+
 void memBus::reset(){
 }
 

@@ -25,12 +25,16 @@ struct cpu_state{
     Uint8 statusRegister;
 };
 
+typedef void(cpu::*opcodeHandler)();
 
 class cpu : public corePart
 {
     public:
         cpu_state state;
         cpu_state newState;
+
+        opcodeHandler opHdl[4];
+
 
         Uint8 nextInstruction[3];
         Uint8 instructionType;
@@ -53,6 +57,10 @@ class cpu : public corePart
         void init2();
 
         void processInstruction();
+        void opcodeHandler0();
+        void opcodeHandler1();
+        void opcodeHandler2();
+        void opcodeHandler3();
         void runInstruction();
         Uint8 getNextInstructionLength();
 
