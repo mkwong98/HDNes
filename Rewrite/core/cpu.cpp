@@ -85,103 +85,156 @@ void cpu::opcodeHandler0(){ //xxxxxx00
             if(pcPage != (newState.programCounter & 0xFF00)) ++instructionTicks;
         }
     }
-    else if((nextInstruction[0] & 0x9F) == 0x08){ //stack 0xx01000
-        switch(nextInstruction[0]){
-        case 0x08:
-            //PHP
-            pushStack(newState.statusRegister);
-            break;
-        case 0x48:
-            //PHA
-            pushStack(newState.accumulator);
-            break;
-        case 0x28:
-            //PLP
-            newState.statusRegister = pullStack();
-            break;
-        case 0x68:
-            //PLA
-            newState.accumulator = pullStack();
-            break;
+    else if((nextInstruction[0] & 0x0F) == 0x08){ //single byte op 0xx11000
+        if((nextInstruction[0] & 0x9F) == 0x08){ //stack 0xx01000
+            switch(nextInstruction[0]){
+            case 0x08:
+                //PHP
+                pushStack(newState.statusRegister);
+                break;
+            case 0x48:
+                //PHA
+                pushStack(newState.accumulator);
+                break;
+            case 0x28:
+                //PLP
+                newState.statusRegister = pullStack();
+                break;
+            case 0x68:
+                //PLA
+                newState.accumulator = pullStack();
+                break;
+            }
+        }
+        else if((nextInstruction[0] & 0x9F) == 0x18){ //single byte op 0xx11000
+            instructionTicks = 2;
+            instructionType = OP_TYPE_CPU;
+            switch(nextInstruction[0]){
+            case 0x18:
+                //CLC
+                clearFlag(FLAG_C);
+                break;
+            case 0x38:
+                //SEC
+                setFlag(FLAG_C);
+                break;
+            case 0x58:
+                //CLI
+                clearFlag(FLAG_I);
+                break;
+            case 0x78:
+                //SEI
+                setFlag(FLAG_I);
+                break;
+            }
+        }
+        else if((nextInstruction[0] & 0x9F) == 0x88){ //single byte op 1xx01000
+            instructionTicks = 2;
+            instructionType = OP_TYPE_CPU;
+            switch(nextInstruction[0]){
+            case 0x88:
+                //DEY
+                newState.indexY = (newState.indexY ? newState.indexY - 1 : 0xFF);
+                updateFlag(FLAG_Z, !newState.indexY);
+                updateFlag(FLAG_N, newState.indexY & 0x80);
+                break;
+            case 0xA8:
+                //TAY
+                newState.indexY = newState.accumulator;
+                updateFlag(FLAG_Z, !newState.indexY);
+                updateFlag(FLAG_N, newState.indexY & 0x80);
+            case 0xC8:
+                //INY
+                newState.indexY = (newState.indexY < 0xFF ? newState.indexY + 1 : 0);
+                updateFlag(FLAG_Z, !newState.indexY);
+                updateFlag(FLAG_N, newState.indexY & 0x80);
+                break;
+            case 0xE8:
+                //INX
+                newState.indexX = (newState.indexX < 0xFF ? newState.indexX + 1 : 0);
+                updateFlag(FLAG_Z, !newState.indexX);
+                updateFlag(FLAG_N, newState.indexX & 0x80);
+                break;
+            }
+        }
+        else if((nextInstruction[0] & 0x9F) == 0x98){ //single byte op 1xx11000
+            instructionTicks = 2;
+            instructionType = OP_TYPE_CPU;
+            switch(nextInstruction[0]){
+            case 0x98:
+                //TYA
+                newState.accumulator = newState.indexY;
+                updateFlag(FLAG_Z, !newState.accumulator);
+                updateFlag(FLAG_N, newState.accumulator & 0x80);
+            case 0xB8:
+                //CLV
+                clearFlag(FLAG_V);
+                break;
+            case 0xD8:
+                //CLD
+                clearFlag(FLAG_D);
+                break;
+            case 0xF8:
+                //SED
+                setFlag(FLAG_D);
+                break;
+            }
         }
     }
-    else if((nextInstruction[0] & 0x0F) == 0x08){ //single byte op xxxx1000
-        instructionTicks = 2;
-        instructionType = OP_TYPE_CPU;
-        switch(nextInstruction[0]){
-        case 0x18:
-            //CLC
-            clearFlag(FLAG_C);
-            break;
-
-        case 0x38:
-            //SEC
-            setFlag(FLAG_C);
-            break;
-
-        case 0x58:
-            //CLI
-            clearFlag(FLAG_I);
-            break;
-
-        case 0x78:
-            //SEI
-            setFlag(FLAG_I);
-            break;
-        case 0x88:
-            //DEY
-            newState.indexY = (newState.indexY ? newState.indexY - 1 : 0xFF);
-            updateFlag(FLAG_Z, !newState.indexY);
-            updateFlag(FLAG_N, newState.indexY & 0x80);
-            break;
-        case 0x98:
-            //TYA
-            newState.accumulator = newState.indexY;
-            updateFlag(FLAG_Z, !newState.accumulator);
-            updateFlag(FLAG_N, newState.accumulator & 0x80);
-        case 0xA8:
-            //TAY
-            newState.indexY = newState.accumulator;
-            updateFlag(FLAG_Z, !newState.indexY);
-            updateFlag(FLAG_N, newState.indexY & 0x80);
-        case 0xB8:
-            //CLV
-            clearFlag(FLAG_V);
-            break;
-        case 0xC8:
-            //INY
-            newState.indexY = (newState.indexY < 0xFF ? newState.indexY + 1 : 0);
-            updateFlag(FLAG_Z, !newState.indexY);
-            updateFlag(FLAG_N, newState.indexY & 0x80);
-            break;
-        case 0xD8:
-            //CLD
-            clearFlag(FLAG_D);
-            break;
-        case 0xE8:
-            //INX
-            newState.indexX = (newState.indexX < 0xFF ? newState.indexX + 1 : 0);
-            updateFlag(FLAG_Z, !newState.indexX);
-            updateFlag(FLAG_N, newState.indexX & 0x80);
-            break;
-        case 0xF8:
-            //SED
-            setFlag(FLAG_D);
-            break;
-        }
-    }
-    else{
-        Uint8 addressMode = (nextInstruction[0] >> 2) & 0x07;
+    else if((nextInstruction[0] & 0x80) == 0x80){ //1xxxxx00
         bool pageCrossed;
-        if((nextInstruction[0] & 0xE7) == 0xA8){ //101xx100 LDY
+        Uint8 opValue;
+        if(operation == 4){ //STY
+            ++addressMode;
+            instructionTicks = instructionLen[addressMode];
+            instructionType = OP_TYPE_OUT;
+            outValue = newState.indexY;
+            outAddress = resolveAddress(addressMode, pageCrossed);
+        }
+        else if(operation == 5){ //LDY
+            if(addressMode == 0) addressMode = 2;
+            instructionTicks = instructionLen[addressMode];
             instructionType = OP_TYPE_CPU;
             newState.indexY = getValue(addressMode, pageCrossed);
             updateFlag(FLAG_Z, !newState.indexY);
             updateFlag(FLAG_N, newState.indexY & 0x80);
             if(pageCrossed) ++instructionTicks;
         }
+        else if(operation == 6){ //CPY
+            if(addressMode == 0) addressMode = 2;
+            instructionTicks = instructionLen[addressMode];
+            instructionType = OP_TYPE_CPU;
+            opValue = getValue(addressMode, pageCrossed);
+            compare(newState.indexY, opValue);
+        }
+        else if(operation == 7){ //CPX
+            if(addressMode == 0) addressMode = 2;
+            instructionTicks = instructionLen[addressMode];
+            instructionType = OP_TYPE_CPU;
+            opValue = getValue(addressMode, pageCrossed);
+            compare(newState.indexX, opValue);
+        }
     }
-
+    else{
+        switch(nextInstruction[0]){
+        case 0x00: //BRK
+            break;
+        case 0x20: //JSR
+            break;
+        case 0x24: //BIT
+            break;
+        case 0x2C: //BIT
+            break;
+        case 0x40: //RTI
+            break;
+        case 0x4C: //JMP
+            break;
+        case 0x60: //RTS
+            break;
+        case 0x6C: //JMP
+            break;
+        }
+    }
 }
 
 void cpu::opcodeHandler1(){ //PPPAAA01
@@ -202,11 +255,8 @@ void cpu::opcodeHandler1(){ //PPPAAA01
         instructionType = OP_TYPE_CPU;
         opValue = getValue(addressMode, pageCrossed);
         if(pageCrossed) ++instructionTicks;
-        if(operation == 6){
-            //CMP
-            updateFlag(FLAG_C, newState.accumulator >= opValue);
-            updateFlag(FLAG_Z, newState.accumulator == opValue);
-            updateFlag(FLAG_N, ((newState.accumulator - opValue) & 0x80) != 0);
+        if(operation == 6){//CMP
+            compare(newState.accumulator, opValue);
         }
         else{
             Uint16 tmpValue;
@@ -385,6 +435,13 @@ Uint8 cpu::pullStack(){
     ++newState.stackPointer;
     return mb->memRead(0x0100 + newState.stackPointer);
 }
+
+void cpu::compare(Uint8 regValue, Uint8 opValue){
+    updateFlag(FLAG_C, regValue >= opValue);
+    updateFlag(FLAG_Z, regValue == opValue);
+    updateFlag(FLAG_N, ((regValue - opValue) & 0x80) != 0);
+}
+
 
 Uint8 cpu::getValue(Uint8 addressMode, bool& hasCrossPage){
     if(addressMode == 2){

@@ -2,6 +2,7 @@
 
 using namespace std;
 
+typedef void(cpu::*opcode)();
 
 class cpu
 {
@@ -317,12 +318,12 @@ public:
 	void runDMA();
 	unsigned int getCodeRunCycle();
 	void resetCycleCount();
-	
+
 	bool runLog;
 	ofstream myfile;
 
 	void DecodeInstruction (Uint16 Addr, char *str1);
-    
+
     void saveState(fstream* statefile);
     void loadState(fstream* statefile);
 

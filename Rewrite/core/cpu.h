@@ -82,6 +82,7 @@ class cpu : public corePart
 
         void pushStack(Uint8 value);
         Uint8 pullStack();
+        void compare(Uint8 regValue, Uint8 opValue);
 
         void updateFlag(Uint8 flag, bool value);
         void setFlag(Uint8 flag);
