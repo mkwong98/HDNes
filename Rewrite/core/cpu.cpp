@@ -65,7 +65,42 @@ void cpu::opcodeHandler0(){ //xxxxxx00
     Uint8 addressMode = (nextInstruction[0] >> 2) & 0x07;
     Uint8 operation = (nextInstruction[0] >> 5) & 0x07;
 
-    if(addressMode == 4){ //branch xxx10000
+    if((nextInstruction[0] & 0x3F) == 0x00){ //xx000000
+        switch(nextInstruction[0]){
+        case 0x00: //BRK
+            instructionTicks = 7;
+            instructionType = OP_TYPE_BRK;
+            setFlag(FLAG_I);
+            break;
+        case 0x20: //JSR
+            instructionTicks = 6;
+            instructionType = OP_TYPE_JSR;
+            nextInstruction[1] = mb->memRead(newState.programCounter);
+            ++newState.programCounter;
+            nextInstruction[2] = mb->memRead(newState.programCounter);
+            break;
+        case 0x40: //RTI
+            instructionTicks = 6;
+            instructionType = OP_TYPE_CPU;
+            ++newState.stackPointer;
+            newState.statusRegister = (mb->memRead(0x0100 + newState.stackPointer) & 0xCF) | (newState.statusRegister & 0x30); //ignore bit 4 and 5
+            ++newState.stackPointer;
+            newState.programCounter = (mb->memRead(0x0100 + newState.stackPointer) & 0x00FF);
+            ++newState.stackPointer;
+            newState.programCounter += (mb->memRead(0x0100 + newState.stackPointer) << 8) ;
+            break;
+        case 0x60: //RTS
+            instructionTicks = 6;
+            instructionType = OP_TYPE_CPU;
+            ++newState.stackPointer;
+            newState.programCounter = (mb->memRead(0x0100 + newState.stackPointer) & 0x00FF);
+            ++newState.stackPointer;
+            newState.programCounter += (mb->memRead(0x0100 + newState.stackPointer) << 8) ;
+            ++newState.programCounter;
+            break;
+        }
+    }
+    else if(addressMode == 4){ //branch xxx10000
         instructionType = OP_TYPE_CPU;
         instructionTicks = 2;
         nextInstruction[1] = mb->memRead(newState.programCounter);
@@ -85,20 +120,20 @@ void cpu::opcodeHandler0(){ //xxxxxx00
             if(pcPage != (newState.programCounter & 0xFF00)) ++instructionTicks;
         }
     }
-    else if((nextInstruction[0] & 0x0F) == 0x08){ //single byte op 0xx11000
+    else if((nextInstruction[0] & 0x0F) == 0x08){ //single byte op xxxx1000
         if((nextInstruction[0] & 0x9F) == 0x08){ //stack 0xx01000
             switch(nextInstruction[0]){
             case 0x08:
-                //PHP
-                pushStack(newState.statusRegister);
+                //PHP, bit 4 and 5 are always 1 in stack
+                pushStack(newState.statusRegister | 0x30);
                 break;
             case 0x48:
                 //PHA
                 pushStack(newState.accumulator);
                 break;
             case 0x28:
-                //PLP
-                newState.statusRegister = pullStack();
+                //PLP , ignore bit 4 and 5
+                newState.statusRegister = (pullStack() & 0xCF) | (newState.statusRegister & 0x30);
                 break;
             case 0x68:
                 //PLA
@@ -216,23 +251,28 @@ void cpu::opcodeHandler0(){ //xxxxxx00
         }
     }
     else{
-        switch(nextInstruction[0]){
-        case 0x00: //BRK
-            break;
-        case 0x20: //JSR
-            break;
-        case 0x24: //BIT
-            break;
-        case 0x2C: //BIT
-            break;
-        case 0x40: //RTI
-            break;
-        case 0x4C: //JMP
-            break;
-        case 0x60: //RTS
-            break;
-        case 0x6C: //JMP
-            break;
+        bool pageCrossed;
+        if((nextInstruction[0] & 0xF0) == 0x20){ //BIT
+            Uint8 opValue;
+            instructionType = OP_TYPE_CPU;
+            instructionTicks = (nextInstruction[0] == 0x24 ? 3 : 4);
+            opValue = getValue((nextInstruction[0] == 0x24 ? 1 : 3), pageCrossed);
+            outValue = opValue & newState.accumulator;
+            updateFlag(FLAG_Z, !outValue);
+            updateFlag(FLAG_V, opValue & 0x40);
+            updateFlag(FLAG_N, opValue & 0x80);
+        }
+        else{ //JMP
+            instructionType = OP_TYPE_CPU;
+            outAddress = resolveAddress(3, pageCrossed);
+            if(nextInstruction[0] == 0x4C){
+                instructionTicks = 3;
+                newState.programCounter = outAddress;
+            }
+            else{
+                instructionTicks = 5;
+                newState.programCounter = (mb->memRead(outAddress + 1) << 8) + mb->memRead(outAddress);
+            }
         }
     }
 }
@@ -442,7 +482,6 @@ void cpu::compare(Uint8 regValue, Uint8 opValue){
     updateFlag(FLAG_N, ((regValue - opValue) & 0x80) != 0);
 }
 
-
 Uint8 cpu::getValue(Uint8 addressMode, bool& hasCrossPage){
     if(addressMode == 2){
         //#v
@@ -521,7 +560,6 @@ Uint16 cpu::resolveAddress8(bool& hasCrossPage){ //d,y
     return (nextInstruction[1] + state.indexY) & 0x00FF;
 }
 
-
 void cpu::updateFlag(Uint8 flag, bool value){
     if(value){
         setFlag(flag);
@@ -547,9 +585,24 @@ void cpu::runInstruction(){
     if(instructionType == OP_TYPE_OUT){
         mb->memWrite(outAddress, outValue);
     }
+    else if(instructionType == OP_TYPE_BRK){
+        mb->memWrite(0x0100 + newState.stackPointer, newState.programCounter >> 8);
+        --newState.stackPointer;
+        mb->memWrite(0x0100 + newState.stackPointer, newState.programCounter);
+        --newState.stackPointer;
+        mb->memWrite(0x0100 + newState.stackPointer, newState.statusRegister | 0x30);
+        --newState.stackPointer;
+        newState.programCounter = ((mb->memRead(0xFFFF) << 8) | mb->memRead(0xFFFE));
+    }
+    else if(instructionType == OP_TYPE_JSR){
+        mb->memWrite(0x0100 + newState.stackPointer, newState.programCounter >> 8);
+        --newState.stackPointer;
+        mb->memWrite(0x0100 + newState.stackPointer, newState.programCounter);
+        --newState.stackPointer;
+        newState.programCounter = ((nextInstruction[2] << 8) | nextInstruction[1]);
+    }
     state = newState;
 }
-
 
 void cpu::reset(){
     state.stackPointer -= 3;
