@@ -37,6 +37,9 @@ class cpu : public corePart
         cpu_state state;
         cpu_state newState;
 
+        bool lineNMI;
+        bool lineIRQ;
+
         Uint8 instructionLen[8];
         Uint8 flagMask[8];
         Uint8 branchFlag[4];
