@@ -3432,7 +3432,7 @@
 
 1497584977 c:\work\hdnesr\trunk\rewrite\classlist.h
 
-1474972550 c:\work\include\gl\glew.h
+1475249934 c:\work\include\gl\glew.h
 	<stddef.h>
 	<inttypes.h>
 	<stdint.h>
@@ -3488,36 +3488,36 @@
 	<vector>
 	<SDL2\SDL.h>
 
-1497359660 source:c:\work\hdnes\trunk\rewrite\emu\audio.cpp
+1497740739 source:c:\work\hdnes\trunk\rewrite\emu\audio.cpp
 	"audio.h"
 	"../gameManager.h"
 
-1497359660 c:\work\hdnes\trunk\rewrite\emu\audio.h
+1497740739 c:\work\hdnes\trunk\rewrite\emu\audio.h
 	"emuPart.h"
 
 1497740739 c:\work\hdnes\trunk\rewrite\emu\emupart.h
 	"../common.h"
 
-1497359661 source:c:\work\hdnes\trunk\rewrite\mainapp.cpp
+1497740739 source:c:\work\hdnes\trunk\rewrite\mainapp.cpp
 	"mainApp.h"
 	"gameManager.h"
 
-1497359661 c:\work\hdnes\trunk\rewrite\mainapp.h
+1497740739 c:\work\hdnes\trunk\rewrite\mainapp.h
 	"common.h"
 	<wx\wx.h>
 
-1497366275 c:\work\hdnes\trunk\rewrite\gamemanager.h
+1497740739 c:\work\hdnes\trunk\rewrite\gamemanager.h
 	<wx\wx.h>
 	"common.h"
 	"classList.h"
 
-1479823255 c:\work\hdnes\trunk\rewrite\wx\mainframeimp.h
+1497740739 c:\work\hdnes\trunk\rewrite\wx\mainframeimp.h
 	"../classList.h"
 	"mainFrame.h"
 
 1497740738 c:\work\hdnes\trunk\rewrite\classlist.h
 
-1479823255 c:\work\hdnes\trunk\rewrite\wx\mainframe.h
+1497740739 c:\work\hdnes\trunk\rewrite\wx\mainframe.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/string.h>
@@ -3542,14 +3542,14 @@
 	<wx/statusbr.h>
 	<wx/frame.h>
 
-1497359660 c:\work\hdnes\trunk\rewrite\emu\video.h
+1497740739 c:\work\hdnes\trunk\rewrite\emu\video.h
 	"../classList.h"
 	"emuPart.h"
 
-1479823255 source:c:\work\hdnes\trunk\rewrite\wx\mainframe.cpp
+1497740739 source:c:\work\hdnes\trunk\rewrite\wx\mainframe.cpp
 	"mainFrame.h"
 
-1479823255 source:c:\work\hdnes\trunk\rewrite\wx\mainframeimp.cpp
+1497740739 source:c:\work\hdnes\trunk\rewrite\wx\mainframeimp.cpp
 	"mainFrameImp.h"
 	"../gameManager.h"
 	"../emu/gameFile.h"
@@ -3557,15 +3557,15 @@
 	"../emu/video.h"
 	"../emu/audio.h"
 
-1478613589 source:c:\work\hdnes\trunk\rewrite\emu\emupart.cpp
+1497740739 source:c:\work\hdnes\trunk\rewrite\emu\emupart.cpp
 	"emuPart.h"
 
-1497359660 source:c:\work\hdnes\trunk\rewrite\emu\video.cpp
+1497740739 source:c:\work\hdnes\trunk\rewrite\emu\video.cpp
 	<GL/glew.h>
 	"video.h"
 	"../gameManager.h"
 
-1497368374 source:c:\work\hdnes\trunk\rewrite\gamemanager.cpp
+1497740739 source:c:\work\hdnes\trunk\rewrite\gamemanager.cpp
 	"gameManager.h"
 	"core\memBus.h"
 	"core\cart.h"
@@ -3764,14 +3764,14 @@
 	"memBus.h"
 	"../gameManager.h"
 
-1497359660 c:\work\hdnes\trunk\rewrite\core\cpu.h
+1499264204 c:\work\hdnes\trunk\rewrite\core\cpu.h
 	"../classList.h"
 	<corePart.h>
 
-1497359660 source:c:\work\hdnes\trunk\rewrite\core\mapper001.cpp
+1497740739 source:c:\work\hdnes\trunk\rewrite\core\mapper001.cpp
 	"mapper001.h"
 
-1497359660 source:c:\work\hdnes\trunk\rewrite\core\membus.cpp
+1498311371 source:c:\work\hdnes\trunk\rewrite\core\membus.cpp
 	"memBus.h"
 	"../gameManager.h"
 	"cart.h"
@@ -3780,28 +3780,28 @@
 	"apu.h"
 	"gamepad.h"
 
-1497359660 c:\work\hdnes\trunk\rewrite\core\membus.h
+1498311371 c:\work\hdnes\trunk\rewrite\core\membus.h
 	"../classList.h"
 	<corePart.h>
 
-1497359660 c:\work\hdnes\trunk\rewrite\core\ppu.h
+1497740739 c:\work\hdnes\trunk\rewrite\core\ppu.h
 	<corePart.h>
 
-1497359660 source:c:\work\hdnes\trunk\rewrite\core\ppu.cpp
+1497740739 source:c:\work\hdnes\trunk\rewrite\core\ppu.cpp
 	"ppu.h"
 
-1476466153 source:c:\work\hdnes\trunk\rewrite\emu\gamefile.cpp
+1497740739 source:c:\work\hdnes\trunk\rewrite\emu\gamefile.cpp
 	"gameFile.h"
 
-1476466153 c:\work\hdnes\trunk\rewrite\emu\gamefile.h
+1497740739 c:\work\hdnes\trunk\rewrite\emu\gamefile.h
 	"../classList.h"
 	"emuPart.h"
 
-1479547649 source:c:\work\hdnes\trunk\rewrite\emu\input.cpp
+1497740739 source:c:\work\hdnes\trunk\rewrite\emu\input.cpp
 	"input.h"
 	"../gameManager.h"
 
-1479547649 c:\work\hdnes\trunk\rewrite\emu\input.h
+1497740739 c:\work\hdnes\trunk\rewrite\emu\input.h
 	"../classList.h"
 	<emuPart.h>
 
@@ -3855,10 +3855,10 @@
 1478583559 c:\work\hdnesr\trunk\rewrite\wx\frmwaitinputimp.h
 	"mainFrame.h"
 
-1478613590 c:\work\hdnes\trunk\rewrite\wx\frmwaitinputimp.h
+1497740739 c:\work\hdnes\trunk\rewrite\wx\frmwaitinputimp.h
 	"mainFrame.h"
 
-1478613590 source:c:\work\hdnes\trunk\rewrite\wx\frmwaitinputimp.cpp
+1497740739 source:c:\work\hdnes\trunk\rewrite\wx\frmwaitinputimp.cpp
 	"frmWaitInputImp.h"
 
 1497585713 source:c:\work\hdnesr\trunk\rewrite\core\gamepad.cpp
@@ -3867,10 +3867,10 @@
 1497585507 c:\work\hdnesr\trunk\rewrite\core\gamepad.h
 	<corePart.h>
 
-1497359660 source:c:\work\hdnes\trunk\rewrite\core\gamepad.cpp
+1497740739 source:c:\work\hdnes\trunk\rewrite\core\gamepad.cpp
 	"gamepad.h"
 
-1497359660 c:\work\hdnes\trunk\rewrite\core\gamepad.h
+1497740739 c:\work\hdnes\trunk\rewrite\core\gamepad.h
 	<corePart.h>
 
 1497585507 c:\work\hdnesr\trunk\rewrite\core\mapper000.h
@@ -3881,4 +3881,7 @@
 
 1497740739 c:\work\hdnes\trunk\rewrite\core\mapper000.h
 	<cart.h>
+
+1497740739 source:c:\work\hdnes\trunk\rewrite\core\mapper000.cpp
+	"mapper000.h"
 

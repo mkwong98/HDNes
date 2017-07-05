@@ -18,13 +18,15 @@
 #define FLAG_V  6
 #define FLAG_N  7
 
+#define REG_INDEX_Y     0
+#define REG_ACCUMULATOR 1
+#define REG_INDEX_X     2
+#define REG_STACK_PTR   3
+#define REG_STATUS      4
+
 struct cpu_state{
-    Uint8 accumulator;
-    Uint8 indexX;
-    Uint8 indexY;
+    Uint8 reg[5];
     Uint16 programCounter;
-    Uint8 stackPointer;
-    Uint8 statusRegister;
 };
 
 typedef void(cpu::*opcodeHandler)();
@@ -58,8 +60,6 @@ class cpu : public corePart
         Uint8 outValue;
         Uint16 outAddress;
 
-
-
         memBus* mb;
 
         cpu();
@@ -75,8 +75,10 @@ class cpu : public corePart
         void opcodeBranch();
         void opcodeFlag();
         void opcodeCtrl();
-        void opcodeMis0();
-        void opcodeMis2();
+        void opcodeMisA();
+        void opcodeMisB();
+        void opcodeST();
+        void opcodeLD();
 
         void opcodeHandler0();
         void opcodeHandler1();
