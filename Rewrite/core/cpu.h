@@ -47,6 +47,12 @@ class cpu : public corePart
         addressHandler adHdl[9];
 
         Uint8 nextInstruction[3];
+        Uint8 addressMode;
+        Uint8 operation;
+        Uint8 opGroup;
+        bool pageCrossed;
+        Uint8 opValue;
+
         Uint8 instructionType;
         Uint8 instructionTicks;
         Uint8 outValue;
@@ -66,6 +72,12 @@ class cpu : public corePart
         void init2();
 
         void processInstruction();
+        void opcodeBranch();
+        void opcodeFlag();
+        void opcodeCtrl();
+        void opcodeMis0();
+        void opcodeMis2();
+
         void opcodeHandler0();
         void opcodeHandler1();
         void opcodeHandler2();
