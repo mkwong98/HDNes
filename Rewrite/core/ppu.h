@@ -9,7 +9,11 @@ class ppu : public corePart
     public:
         Uint8 registers[8];
         Uint8 reg4014;
+        Uint8 busValue;
         bool frameReady;
+
+        Uint8 tableValues[0x4000];
+        Uint8 oam[256];
 
         ppu();
         virtual ~ppu();

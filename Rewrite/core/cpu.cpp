@@ -584,7 +584,7 @@ void cpu::runInstruction(){
 
 void cpu::reset(){
     state.reg[REG_STACK_PTR] -= 3;
-    state.reg[REG_STATUS] |= 0x04;
+    state.reg[REG_STATUS] = state.reg[REG_STATUS] | flagMask[FLAG_I];
     state.programCounter = ((mb->memRead(0xFFFD) << 8) | mb->memRead(0xFFFC));
 }
 
