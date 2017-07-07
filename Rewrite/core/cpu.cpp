@@ -27,10 +27,44 @@ cpu::cpu()
     branchFlag[2] = FLAG_C;
     branchFlag[3] = FLAG_Z;
 
-    opHdl[0] = &cpu::opcodeHandler0;
-    opHdl[1] = &cpu::opcodeHandler1;
-    opHdl[2] = &cpu::opcodeHandler2;
-    opHdl[3] = &cpu::opcodeHandler3;
+    for(Uint8 i = 0; i < 256; ++i){
+        addressMode = (i >> 2) & 0x07;
+        operation = (i >> 5) & 0x07;
+        opGroup = i & 0x03;
+        if(addressMode == 4 && opGroup == 0){ //branch xxx10000
+            opHdl[i] = &cpu::opcodeBranch;
+        }
+        else if(addressMode == 6 && opGroup == 0){ //flag xxx11000
+            opHdl[i] = &cpu::opcodeFlag;
+        }
+        else if(addressMode > 4 && operation > 4 && opGroup == 0){ //0xx0xx00
+            opHdl[i] = &cpu::opcodeCtrl;
+        }
+        else if((nextInstruction[0] & 0x8F) == 0x8A){ //1xxx1010
+            opHdl[i] = &cpu::opcodeMisB;
+        }
+        else if((nextInstruction[0] & 0x9F) == 0x88){ //1xx01000
+            opHdl[i] = &cpu::opcodeMisA;
+        }
+        else if(operation == 4){
+            opHdl[i] = &cpu::opcodeST;
+        }
+        else if(operation == 5){
+            opHdl[i] = &cpu::opcodeLD;
+        }
+        else if(opGroup == 0){
+            opHdl[i] = &cpu::opcodeHandler0;
+        }
+        else if(opGroup == 1){
+            opHdl[i] = &cpu::opcodeHandler1;
+        }
+        else if(opGroup == 2){
+            opHdl[i] = &cpu::opcodeHandler2;
+        }
+        else if(opGroup == 3){
+            opHdl[i] = &cpu::opcodeHandler3;
+        }
+    }
 
     adHdl[0] = &cpu::resolveAddress0;
     adHdl[1] = &cpu::resolveAddress1;
@@ -41,7 +75,6 @@ cpu::cpu()
     adHdl[6] = &cpu::resolveAddress6;
     adHdl[7] = &cpu::resolveAddress7;
     adHdl[8] = &cpu::resolveAddress8;
-
 }
 
 cpu::~cpu()
@@ -60,40 +93,7 @@ void cpu::processInstruction(){
     addressMode = (nextInstruction[0] >> 2) & 0x07;
     operation = (nextInstruction[0] >> 5) & 0x07;
     opGroup = nextInstruction[0] & 0x03;
-
-    if(addressMode == 4 && opGroup == 0){ //branch xxx10000
-        opcodeBranch();
-    }
-    else if(addressMode == 6 && opGroup == 0){ //flag xxx11000
-        instructionTicks = 2;
-        instructionType = OP_TYPE_CPU;
-        if(nextInstruction[0] == 0x98){ //TYA
-            newState.reg[REG_INDEX_Y] = newState.reg[REG_ACCUMULATOR];
-            updateFlag(FLAG_Z, !newState.reg[REG_INDEX_Y]);
-            updateFlag(FLAG_N, newState.reg[REG_INDEX_Y] & 0x80);
-        }
-        else{
-            opcodeFlag();
-        }
-    }
-    else if(addressMode > 4 && operation > 4 && opGroup == 0){ //0xx0xx00
-        opcodeCtrl();
-    }
-    else if((nextInstruction[0] & 0x8F) == 0x8A){ //1xxx1010
-        opcodeMisB();
-    }
-    else if((nextInstruction[0] & 0x9F) == 0x88){ //1xx01000
-        opcodeMisA();
-    }
-    else if(operation == 4){
-        opcodeST();
-    }
-    else if(operation == 5){
-        opcodeLD();
-    }
-    else{
-        (this->*opHdl[nextInstruction[0] & 0x03])();
-    }
+    (this->*opHdl[nextInstruction[0]])();
 }
 
 void cpu::opcodeBranch(){
@@ -118,26 +118,35 @@ void cpu::opcodeBranch(){
 }
 
 void cpu::opcodeFlag(){
-    Uint8 flagID;
-    switch(operation & 0x06){
-    case 0:
-        flagID = FLAG_C;
-        break;
-    case 2:
-        flagID = FLAG_I;
-        break;
-    case 4:
-        flagID = FLAG_V;
-        break;
-    case 6:
-        flagID = FLAG_D;
-        break;
-    }
-    if((operation & 0x01) && (operation != 0x05)){
-        setFlag(flagID);
+    instructionTicks = 2;
+    instructionType = OP_TYPE_CPU;
+    if(nextInstruction[0] == 0x98){ //TYA
+        newState.reg[REG_INDEX_Y] = newState.reg[REG_ACCUMULATOR];
+        updateFlag(FLAG_Z, !newState.reg[REG_INDEX_Y]);
+        updateFlag(FLAG_N, newState.reg[REG_INDEX_Y] & 0x80);
     }
     else{
-        clearFlag(flagID);
+        Uint8 flagID;
+        switch(operation & 0x06){
+        case 0:
+            flagID = FLAG_C;
+            break;
+        case 2:
+            flagID = FLAG_I;
+            break;
+        case 4:
+            flagID = FLAG_V;
+            break;
+        case 6:
+            flagID = FLAG_D;
+            break;
+        }
+        if((operation & 0x01) && (operation != 0x05)){
+            setFlag(flagID);
+        }
+        else{
+            clearFlag(flagID);
+        }
     }
 }
 
@@ -161,6 +170,8 @@ void cpu::opcodeCtrl(){
             instructionType = OP_TYPE_CPU;
             ++(newState.reg[REG_STACK_PTR]);
             newState.reg[REG_STATUS] = (mb->memRead(0x0100 + newState.reg[REG_STACK_PTR]) & 0xCF) | (newState.reg[REG_STATUS] & 0x30); //ignore bit 4 and 5
+            //immediately effective
+            state.reg[REG_STATUS] = newState.reg[REG_STATUS];
             ++(newState.reg[REG_STACK_PTR]);
             newState.programCounter = (mb->memRead(0x0100 + newState.reg[REG_STACK_PTR]) & 0x00FF);
             ++(newState.reg[REG_STACK_PTR]);
@@ -550,7 +561,7 @@ void cpu::clearFlag(Uint8 flag){
 }
 
 bool cpu::checkFlag(Uint8 flag){
-    return newState.reg[REG_STATUS] & flagMask[flag];
+    return state.reg[REG_STATUS] & flagMask[flag];
 }
 
 void cpu::runInstruction(){
@@ -558,13 +569,7 @@ void cpu::runInstruction(){
         mb->memWrite(outAddress, outValue);
     }
     else if(instructionType == OP_TYPE_BRK){
-        mb->memWrite(0x0100 + newState.reg[REG_STACK_PTR], newState.programCounter >> 8);
-        --(newState.reg[REG_STACK_PTR]);
-        mb->memWrite(0x0100 + newState.reg[REG_STACK_PTR], newState.programCounter);
-        --(newState.reg[REG_STACK_PTR]);
-        mb->memWrite(0x0100 + newState.reg[REG_STACK_PTR], newState.reg[REG_STATUS] | 0x30);
-        --(newState.reg[REG_STACK_PTR]);
-        newState.programCounter = ((mb->memRead(0xFFFF) << 8) | mb->memRead(0xFFFE));
+        interruptJump(0xFFFE, 0xFFFF);
     }
     else if(instructionType == OP_TYPE_JSR){
         mb->memWrite(0x0100 + newState.reg[REG_STACK_PTR], newState.programCounter >> 8);
@@ -574,6 +579,7 @@ void cpu::runInstruction(){
         newState.programCounter = ((nextInstruction[2] << 8) | nextInstruction[1]);
     }
     state = newState;
+    serviceInterrupt();
 }
 
 void cpu::reset(){
@@ -599,4 +605,54 @@ void cpu::init2(){
     state.reg[REG_INDEX_Y] = 0;
     state.reg[REG_STACK_PTR] = 0xFD;
     state.programCounter = ((mb->memRead(0xFFFD) << 8) | mb->memRead(0xFFFC));
+
+    for(Uint8 i = 0; i < 3; ++i){
+        flagNMI[i] = false;
+        flagIRQ[i] = false;
+    }
 }
+
+void cpu::pullNMILow(){
+    flagNMI[INTERRUPT_FLAG_IS_LOW_NEW] = true;
+}
+
+void cpu::pullIRQLow(){
+    flagIRQ[INTERRUPT_FLAG_IS_LOW_NEW] = true;
+}
+
+void cpu::runInterruptDetector(){
+    //NMI raises when becomes low or is raised already
+    flagNMI[INTERRUPT_FLAG_DETECTOR_OUTPUT] = ((flagNMI[INTERRUPT_FLAG_IS_LOW_NEW] && !flagNMI[INTERRUPT_FLAG_IS_LOW_OLD]) || flagNMI[INTERRUPT_FLAG_DETECTOR_OUTPUT]);
+
+    //IRQ raises when low
+    flagIRQ[INTERRUPT_FLAG_DETECTOR_OUTPUT] = flagIRQ[INTERRUPT_FLAG_IS_LOW_NEW];
+}
+
+void cpu::updateOldInterruptFlag(){
+    flagNMI[INTERRUPT_FLAG_IS_LOW_OLD] = flagNMI[INTERRUPT_FLAG_IS_LOW_NEW];
+    flagIRQ[INTERRUPT_FLAG_IS_LOW_OLD] = flagIRQ[INTERRUPT_FLAG_IS_LOW_NEW];
+}
+
+void cpu::serviceInterrupt(){
+    if(flagNMI[INTERRUPT_FLAG_DETECTOR_OUTPUT]){
+        flagNMI[INTERRUPT_FLAG_DETECTOR_OUTPUT] = false;
+        interruptJump(0xFFFA, 0xFFFB);
+        state = newState;
+    }
+    else if(flagIRQ[INTERRUPT_FLAG_DETECTOR_OUTPUT] && !checkFlag(FLAG_I)){
+        interruptJump(0xFFFE, 0xFFFF);
+        state = newState;
+    }
+}
+
+void cpu::interruptJump(Uint16 vectorL, Uint16 vectorH){
+    mb->memWrite(0x0100 + newState.reg[REG_STACK_PTR], newState.programCounter >> 8);
+    --(newState.reg[REG_STACK_PTR]);
+    mb->memWrite(0x0100 + newState.reg[REG_STACK_PTR], newState.programCounter);
+    --(newState.reg[REG_STACK_PTR]);
+    mb->memWrite(0x0100 + newState.reg[REG_STACK_PTR], newState.reg[REG_STATUS] | 0x30);
+    --(newState.reg[REG_STACK_PTR]);
+    newState.programCounter = ((mb->memRead(vectorH) << 8) | mb->memRead(vectorL));
+    setFlag(FLAG_I);
+}
+

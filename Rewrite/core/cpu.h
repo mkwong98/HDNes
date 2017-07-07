@@ -24,6 +24,10 @@
 #define REG_STACK_PTR   3
 #define REG_STATUS      4
 
+#define INTERRUPT_FLAG_IS_LOW_OLD       0
+#define INTERRUPT_FLAG_IS_LOW_NEW       1
+#define INTERRUPT_FLAG_DETECTOR_OUTPUT  2
+
 struct cpu_state{
     Uint8 reg[5];
     Uint16 programCounter;
@@ -39,15 +43,17 @@ class cpu : public corePart
         cpu_state state;
         cpu_state newState;
 
-        bool lineNMI;
-        bool lineIRQ;
+        bool flagNMI[3];
+        bool flagIRQ[3];
 
+        //const array reference
         Uint8 instructionLen[8];
         Uint8 flagMask[8];
         Uint8 branchFlag[4];
-        opcodeHandler opHdl[4];
+        opcodeHandler opHdl[256];
         addressHandler adHdl[9];
 
+        //temp values
         Uint8 nextInstruction[3];
         Uint8 addressMode;
         Uint8 operation;
@@ -107,6 +113,13 @@ class cpu : public corePart
         void setFlag(Uint8 flag);
         void clearFlag(Uint8 flag);
         bool checkFlag(Uint8 flag);
+
+        void pullNMILow();
+        void pullIRQLow();
+        void runInterruptDetector();
+        void updateOldInterruptFlag();
+        void serviceInterrupt();
+        void interruptJump(Uint16 vectorL, Uint16 vectorH);
 
     protected:
 

@@ -59,10 +59,12 @@ void gameManager::showUI(){
 }
 
 void gameManager::runSingleCycle(){
+    cp->updateOldInterruptFlag();
     ap->runCycle();
     pp->runCycle();
     pp->runCycle();
     pp->runCycle();
+    cp->runInterruptDetector();
 }
 
 
