@@ -3458,7 +3458,7 @@
 1478602519 source:c:\work\hdnesr\trunk\rewrite\emu\emupart.cpp
 	"emuPart.h"
 
-1497602883 source:c:\work\hdnesr\trunk\rewrite\gamemanager.cpp
+1499416367 source:c:\work\hdnesr\trunk\rewrite\gamemanager.cpp
 	"gameManager.h"
 	"core\memBus.h"
 	"core\cart.h"
@@ -3709,24 +3709,24 @@
 	"../classList.h"
 	"emuPart.h"
 
-1497585713 source:c:\work\hdnesr\trunk\rewrite\core\cart.cpp
+1501733292 source:c:\work\hdnesr\trunk\rewrite\core\cart.cpp
 	"../common.h"
 	"cart.h"
 	"mapper000.h"
 	"mapper001.h"
 	"../emu/emuPart.h"
 
-1497960223 c:\work\hdnesr\trunk\rewrite\core\cart.h
+1501733117 c:\work\hdnesr\trunk\rewrite\core\cart.h
 	"corePart.h"
 	"../classList.h"
 
-1497585507 c:\work\hdnesr\trunk\rewrite\core\mapper001.h
+1501727968 c:\work\hdnesr\trunk\rewrite\core\mapper001.h
 	"cart.h"
 
-1497585713 source:c:\work\hdnesr\trunk\rewrite\core\mapper001.cpp
+1501727994 source:c:\work\hdnesr\trunk\rewrite\core\mapper001.cpp
 	"mapper001.h"
 
-1498274558 source:c:\work\hdnesr\trunk\rewrite\core\membus.cpp
+1501727538 source:c:\work\hdnesr\trunk\rewrite\core\membus.cpp
 	"memBus.h"
 	"../gameManager.h"
 	"cart.h"
@@ -3735,7 +3735,7 @@
 	"apu.h"
 	"gamepad.h"
 
-1498274600 c:\work\hdnesr\trunk\rewrite\core\membus.h
+1501729135 c:\work\hdnesr\trunk\rewrite\core\membus.h
 	"../classList.h"
 	<corePart.h>
 
@@ -3811,20 +3811,23 @@
 1497585507 c:\work\hdnesr\trunk\rewrite\core\apu.h
 	<corePart.h>
 
-1499400417 source:c:\work\hdnesr\trunk\rewrite\core\cpu.cpp
+1499751690 source:c:\work\hdnesr\trunk\rewrite\core\cpu.cpp
 	"cpu.h"
 	"memBus.h"
 	"../gameManager.h"
 
-1499418292 c:\work\hdnesr\trunk\rewrite\core\cpu.h
+1499418348 c:\work\hdnesr\trunk\rewrite\core\cpu.h
 	"../classList.h"
 	<corePart.h>
 
-1497585507 c:\work\hdnesr\trunk\rewrite\core\ppu.h
+1501733745 c:\work\hdnesr\trunk\rewrite\core\ppu.h
+	"../classList.h"
 	<corePart.h>
 
-1497585714 source:c:\work\hdnesr\trunk\rewrite\core\ppu.cpp
+1501728762 source:c:\work\hdnesr\trunk\rewrite\core\ppu.cpp
 	"ppu.h"
+	"cpu.h"
+	"../gameManager.h"
 
 1478948230 c:\work\hdnesr\trunk\rewrite\emu\input.h
 	"../classList.h"
@@ -3873,10 +3876,10 @@
 1497740739 c:\work\hdnes\trunk\rewrite\core\gamepad.h
 	<corePart.h>
 
-1497585507 c:\work\hdnesr\trunk\rewrite\core\mapper000.h
+1501727968 c:\work\hdnesr\trunk\rewrite\core\mapper000.h
 	<cart.h>
 
-1497600113 source:c:\work\hdnesr\trunk\rewrite\core\mapper000.cpp
+1501727994 source:c:\work\hdnesr\trunk\rewrite\core\mapper000.cpp
 	"mapper000.h"
 
 1497740739 c:\work\hdnes\trunk\rewrite\core\mapper000.h

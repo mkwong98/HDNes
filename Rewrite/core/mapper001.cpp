@@ -10,16 +10,16 @@ mapper001::~mapper001()
     //dtor
 }
 
-Uint8 mapper001::readPRGData(Uint16 address){
+Uint8 mapper001::readMapperPRGData(Uint16 address){
 }
 
-void mapper001::writePRGData(Uint16 address, Uint8 value){
+void mapper001::writeMapperPRGData(Uint16 address, Uint8 value){
 }
 
-Uint8 mapper001::readCHRData(Uint16 address){
+Uint8 mapper001::readMapperCHRData(Uint16 address){
 }
 
-void mapper001::writeCHRData(Uint16 address, Uint8 value){
+void mapper001::writeMapperCHRData(Uint16 address, Uint8 value){
 }
 
 

@@ -46,6 +46,22 @@ Uint8 memBus::memRead(Uint16 address){
 void memBus::memWrite(Uint16 address, Uint8 value){
 }
 
+Uint8 memBus::ppuRead(Uint16 address){
+	if(address < 0x2000){
+		return rom->readCHRData(address);
+	}
+    else if(address < 0x3F00){
+        return rom->readNameTable(address);
+    }
+    else{
+        return pp->paletteTable[address & 0x001F];
+    }
+}
+
+void memBus::ppuWrite(Uint16 address, Uint8 value){
+}
+
+
 void memBus::reset(){
 }
 

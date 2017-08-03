@@ -10,7 +10,7 @@ mapper000::~mapper000()
     //dtor
 }
 
-Uint8 mapper000::readPRGData(Uint16 address){
+Uint8 mapper000::readMapperPRGData(Uint16 address){
     if(address & 0x8000){
         if(prgPageCount == 1){
             return prgROM[address & 0x3FFF];
@@ -24,13 +24,13 @@ Uint8 mapper000::readPRGData(Uint16 address){
     }
 }
 
-void mapper000::writePRGData(Uint16 address, Uint8 value){
+void mapper000::writeMapperPRGData(Uint16 address, Uint8 value){
 }
 
-Uint8 mapper000::readCHRData(Uint16 address){
+Uint8 mapper000::readMapperCHRData(Uint16 address){
 }
 
-void mapper000::writeCHRData(Uint16 address, Uint8 value){
+void mapper000::writeMapperCHRData(Uint16 address, Uint8 value){
 }
 
 

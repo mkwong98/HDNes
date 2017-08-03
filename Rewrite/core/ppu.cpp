@@ -1,7 +1,11 @@
 #include "ppu.h"
+#include "cpu.h"
+#include "../gameManager.h"
+
 
 ppu::ppu(){
     frameReady = false;
+    isRendering = false;
 }
 
 ppu::~ppu()
@@ -10,14 +14,29 @@ ppu::~ppu()
 }
 
 Uint8 ppu::readReg(Uint8 idx){
-    return registers[idx];
+    if(idx == REG_PPUSTATUS){
+        //only read bit 5-7
+        busValue = (busValue & 0x1F) | (registers[idx] & 0xE0);
+        //clear flag 7
+        registers[idx] = registers[idx] & 0x7F;
+    }
+    else if(idx == REG_OAMDATA || idx == REG_PPUDATA){
+        busValue = registers[idx];
+    }
+    return busValue;
 }
 
 void ppu::writeReg(Uint8 idx, Uint8 value){
     //skip for certain reg when not ready
     if(bootUpCycles && idx == REG_PPUCTRL) return;
-
-    registers[idx] = value;
+    busValue = value;
+    if(idx == REG_PPUCTRL || idx == REG_PPUMASK || idx == REG_OAMADDR || idx == REG_PPUSCROLL || idx == REG_PPUADDR || idx == REG_PPUDATA){
+        registers[idx] = value;
+    }
+    else if(idx == REG_OAMDATA){
+        oam[registers[REG_OAMADDR]] = busValue;
+        ++(registers[REG_OAMADDR]);
+    }
 }
 
 Uint8 ppu::read4014(){
@@ -29,8 +48,23 @@ void ppu::write4014(Uint8 value){
 void ppu::runCycle(){
     if(bootUpCycles) --bootUpCycles;
 
-    if(renderingY == 241 && renderingX == 1 && (registers[REG_PPUCTRL] & 0x80){
-        cp->pullNMILow();
+
+
+
+    //rendering
+    if(renderingY < 240){
+        //pre render scan line
+    }
+    else if(renderingY == 241){
+        if(renderingX == 1 && (registers[REG_PPUCTRL] & 0x80)){
+            cp->pullNMILow();
+        }
+    }
+    else if(renderingY == 261){
+        if(renderingX == 1){
+            //clear top 3 bits
+            registers[REG_PPUSTATUS] = registers[REG_PPUSTATUS] & 0x1F;
+        }
     }
 
     //update x and y at the end of cycle

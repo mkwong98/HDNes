@@ -16,10 +16,10 @@ class mapper000 : public cart
         void init();
         void init2();
 
-        Uint8 readPRGData(Uint16 address);
-        void writePRGData(Uint16 address, Uint8 value);
-        Uint8 readCHRData(Uint16 address);
-        void writeCHRData(Uint16 address, Uint8 value);
+        Uint8 readMapperPRGData(Uint16 address);
+        void writeMapperPRGData(Uint16 address, Uint8 value);
+        Uint8 readMapperCHRData(Uint16 address);
+        void writeMapperCHRData(Uint16 address, Uint8 value);
 
     protected:
 

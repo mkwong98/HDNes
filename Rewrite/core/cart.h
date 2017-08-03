@@ -6,7 +6,7 @@
 
 #define CHR_PAGE_SIZE	0x2000
 #define PRG_PAGE_SIZE	0x4000
-#define CHR_RAM_SIZE	0x4000
+#define CHR_RAM_SIZE	0x2000
 #define BATTERY_SIZE	0x2000
 
 
@@ -18,6 +18,7 @@ class cart : public corePart
         Uint8 prgPageCount;
         bool mirrorV;
         bool scr4x;
+        Uint8* mirrorPtr[4];
         Uint8* prgROM;
         Uint8* chrROM;
         Uint8* chrRAM;
@@ -40,10 +41,17 @@ class cart : public corePart
         void loadBat();
         void saveBat();
 
-        virtual Uint8 readPRGData(Uint16 address) = 0;
-        virtual void writePRGData(Uint16 address, Uint8 value) = 0;
-        virtual Uint8 readCHRData(Uint16 address) = 0;
-        virtual void writeCHRData(Uint16 address, Uint8 value) = 0;
+        Uint8 readPRGData(Uint16 address);
+        void writePRGData(Uint16 address, Uint8 value);
+        Uint8 readCHRData(Uint16 address);
+        void writeCHRData(Uint16 address, Uint8 value);
+        Uint8 readNameTable(Uint16 address);
+        void writeNameTable(Uint16 address, Uint8 value);
+
+        virtual Uint8 readMapperPRGData(Uint16 address) = 0;
+        virtual void writeMapperPRGData(Uint16 address, Uint8 value) = 0;
+        virtual Uint8 readMapperCHRData(Uint16 address) = 0;
+        virtual void writeMapperCHRData(Uint16 address, Uint8 value) = 0;
 
 
     protected:

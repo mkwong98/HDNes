@@ -28,6 +28,8 @@ class memBus : public corePart
 
         Uint8 memRead(Uint16 address);
         void memWrite(Uint16 address, Uint8 value);
+        Uint8 ppuRead(Uint16 address);
+        void ppuWrite(Uint16 address, Uint8 value);
 
     protected:
 

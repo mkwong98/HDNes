@@ -19,6 +19,35 @@ cart::~cart(){
     }
 }
 
+Uint8 cart::readPRGData(Uint16 address){
+}
+
+void cart::writePRGData(Uint16 address, Uint8 value){
+}
+
+Uint8 cart::readCHRData(Uint16 address){
+    if(chrPageCount > 0){
+        return readMapperCHRData(address);
+    }
+    else{
+        return chrRAM[address];
+    }
+}
+
+void cart::writeCHRData(Uint16 address, Uint8 value){
+}
+
+Uint8 cart::readNameTable(Uint16 address){
+    return (mirrorPtr[(address & 0x0C00) >> 10])[address & 0x03FF];
+}
+
+void cart::writeNameTable(Uint16 address, Uint8 value){
+
+}
+
+
+
+
 cart* cart::getCartFromROMFile(const string& fileName){
     fstream romfile;
 	Uint8 fileType[4];
