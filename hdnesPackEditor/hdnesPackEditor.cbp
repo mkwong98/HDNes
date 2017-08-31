@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="hdnesPackEditor" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/hdnesPackEditor" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/hdnesPackEditor" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-std=c++11" />
+			<Add option="-fexceptions" />
+			<Add directory="../../../include" />
+		</Compiler>
+		<Linker>
+			<Add library="../../../lib/SDL2.lib" />
+			<Add library="../../../lib/libwxmsw30u_gl.a" />
+			<Add library="../../../lib/libwxmsw30u.a" />
+			<Add library="../../../lib/libwxscintilla.a" />
+			<Add library="../../../lib/libwxexpat.a" />
+			<Add library="../../../lib/libwxtiff.a" />
+			<Add library="../../../lib/libwxjpeg.a" />
+			<Add library="../../../lib/libwxpng.a" />
+			<Add library="../../../lib/libwxzlib.a" />
+			<Add library="../../../lib/libwxregexu.a" />
+			<Add directory="../../../lib" />
+			<Add directory="C:/Program Files (x86)/CodeBlocks/MinGW/lib" />
+		</Linker>
+		<Unit filename="coreData.cpp" />
+		<Unit filename="coreData.h" />
+		<Unit filename="hdnesPackEditormainForm.cpp" />
+		<Unit filename="hdnesPackEditormainForm.h" />
+		<Unit filename="main.cpp" />
+		<Unit filename="main.h" />
+		<Unit filename="mainForm.cpp" />
+		<Unit filename="mainForm.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
