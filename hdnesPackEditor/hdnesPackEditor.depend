@@ -1,13 +1,13 @@
 # depslib dependency file v1.0
-1504168063 source:c:\work\hdnesr\trunk\hdnespackeditor\main.cpp
+1504236965 source:c:\work\hdnesr\trunk\hdnespackeditor\main.cpp
 	<SDL2\SDL.h>
 	"hdnesPackEditormainForm.h"
 	"main.h"
 
-1504167803 source:c:\work\hdnesr\trunk\hdnespackeditor\mainform.cpp
+1504240170 source:c:\work\hdnesr\trunk\hdnespackeditor\mainform.cpp
 	"mainForm.h"
 
-1504169416 c:\work\hdnesr\trunk\hdnespackeditor\mainform.h
+1504240170 c:\work\hdnesr\trunk\hdnespackeditor\mainform.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/string.h>
@@ -21,6 +21,11 @@
 	<wx/settings.h>
 	<wx/statusbr.h>
 	<wx/frame.h>
+	<wx/stattext.h>
+	<wx/filepicker.h>
+	<wx/sizer.h>
+	<wx/button.h>
+	<wx/dialog.h>
 
 1412631242 c:\work\include\wx\artprov.h
 	"wx/string.h"
@@ -2114,13 +2119,16 @@
 	"begin_code.h"
 	"close_code.h"
 
-1504167863 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.cpp
+1504237594 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.cpp
 	"hdnesPackEditormainForm.h"
+	"hdnesPackEditornewProjectDialog.h"
+	"coreData.h"
 
-1504171313 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.h
+1504237225 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.h
 	"mainForm.h"
 
-1504167636 c:\work\hdnesr\trunk\hdnespackeditor\main.h
+1504236874 c:\work\hdnesr\trunk\hdnespackeditor\main.h
+	"common.h"
 	<wx\wx.h>
 
 1412631243 c:\work\include\wx\wx.h
@@ -3396,4 +3404,41 @@
 
 1504196566 c:\work\hdnes\trunk\hdnespackeditor\image.h
 	"common.h"
+
+1504235169 source:c:\work\hdnesr\trunk\hdnespackeditor\condition.cpp
+	"condition.h"
+
+1504235169 c:\work\hdnesr\trunk\hdnespackeditor\condition.h
+
+1504237137 source:c:\work\hdnesr\trunk\hdnespackeditor\coredata.cpp
+	"coreData.h"
+
+1504234372 c:\work\hdnesr\trunk\hdnespackeditor\coredata.h
+	"common.h"
+	"classList.h"
+
+1504235332 c:\work\hdnesr\trunk\hdnespackeditor\common.h
+	<fstream>
+	<sstream>
+	<string>
+	<iostream>
+	<vector>
+	<SDL2\SDL.h>
+
+1504236824 c:\work\hdnesr\trunk\hdnespackeditor\classlist.h
+
+1504234372 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditornewprojectdialog.h
+	"mainForm.h"
+
+1504235350 source:c:\work\hdnesr\trunk\hdnespackeditor\image.cpp
+	"image.h"
+
+1504235350 c:\work\hdnesr\trunk\hdnespackeditor\image.h
+
+1504240290 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditornewprojectdialog.cpp
+	<wx/msgdlg.h>
+	"hdnesPackEditornewProjectDialog.h"
+	"hdnesPackEditormainForm.h"
+	"coreData.h"
+	"main.h"
 

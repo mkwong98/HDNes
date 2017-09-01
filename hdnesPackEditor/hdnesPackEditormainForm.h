@@ -26,16 +26,7 @@ class hdnesPackEditormainForm : public mainForm
 		hdnesPackEditormainForm( wxWindow* parent );
 	//// end generated class members
 
-
-
-
-
-
-
-
-
-
-
+        void refreshCoreDataDisplay();
 };
 
 #endif // __hdnesPackEditormainForm__

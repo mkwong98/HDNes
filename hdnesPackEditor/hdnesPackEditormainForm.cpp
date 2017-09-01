@@ -44,10 +44,8 @@ void hdnesPackEditormainForm::MenuFileExit( wxCommandEvent& event )
 // TODO: Implement MenuFileExit
 }
 
-
-
-
-
+void hdnesPackEditormainForm::refreshCoreDataDisplay(){
+}
 
 
 

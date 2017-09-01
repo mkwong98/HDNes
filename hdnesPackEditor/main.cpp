@@ -6,6 +6,8 @@
 using namespace std;
 IMPLEMENT_APP(main)
 
+hdnesPackEditormainForm* main::mForm;
+
 main::main(void){
     SDL_SetMainReady();
 	SDL_Init(0);
@@ -16,7 +18,7 @@ main::~main(void){
 }
 
 bool main::OnInit(){
-	hdnesPackEditormainForm* ui = new hdnesPackEditormainForm(NULL);
-	ui->Show(true);
+	mForm = new hdnesPackEditormainForm(NULL);
+	mForm->Show(true);
 	return true;
 }

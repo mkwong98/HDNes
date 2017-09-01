@@ -5,8 +5,12 @@
 #include "common.h"
 #include <wx\wx.h>
 
+
+
 class main : public wxApp{
 public:
+    static hdnesPackEditormainForm* mForm;
+
 	main(void);
 	~main(void);
     bool OnInit();
