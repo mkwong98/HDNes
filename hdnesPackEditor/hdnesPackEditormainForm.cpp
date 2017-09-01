@@ -1,4 +1,6 @@
 #include "hdnesPackEditormainForm.h"
+#include "hdnesPackEditornewProjectDialog.h"
+#include "coreData.h"
 
 hdnesPackEditormainForm::hdnesPackEditormainForm( wxWindow* parent )
 :
@@ -9,7 +11,12 @@ mainForm( parent )
 
 void hdnesPackEditormainForm::MenuFileNew( wxCommandEvent& event )
 {
-// TODO: Implement MenuFileNew
+    if(coreData::cData){
+        delete(coreData::cData);
+    }
+    coreData::cData = new coreData();
+    hdnesPackEditornewProjectDialog* fp = new hdnesPackEditornewProjectDialog(this);
+    fp->Show(true);
 }
 
 void hdnesPackEditormainForm::MenuFileOpen( wxCommandEvent& event )
@@ -36,6 +43,7 @@ void hdnesPackEditormainForm::MenuFileExit( wxCommandEvent& event )
 {
 // TODO: Implement MenuFileExit
 }
+
 
 
 

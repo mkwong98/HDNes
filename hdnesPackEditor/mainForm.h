@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Dec 21 2016)
+// C++ code generated with wxFormBuilder (version Jun 17 2015)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -22,9 +22,9 @@
 #include <wx/statusbr.h>
 #include <wx/frame.h>
 #include <wx/stattext.h>
-#include <wx/textctrl.h>
-#include <wx/button.h>
+#include <wx/filepicker.h>
 #include <wx/sizer.h>
+#include <wx/button.h>
 #include <wx/dialog.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -68,13 +68,15 @@ class newProjectDialog : public wxDialog
 	
 	protected:
 		wxStaticText* m_staticText3;
-		wxTextCtrl* txtRom;
-		wxButton* btnFindRom;
+		wxFilePickerCtrl* filePickRom;
 		wxStaticText* m_staticText4;
-		wxTextCtrl* txtPackDir;
-		wxButton* btnFindPack;
+		wxDirPickerCtrl* dirPickPack;
 		wxStaticText* m_staticText5;
 		wxButton* btnNewProjectOK;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void fileSelected( wxCommandEvent& event ) { event.Skip(); }
+		
 	
 	public:
 		

@@ -18,4 +18,5 @@ main::~main(void){
 bool main::OnInit(){
 	hdnesPackEditormainForm* ui = new hdnesPackEditormainForm(NULL);
 	ui->Show(true);
+	return true;
 }

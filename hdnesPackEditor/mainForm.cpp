@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Dec 21 2016)
+// C++ code generated with wxFormBuilder (version Jun 17 2015)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -96,11 +96,8 @@ newProjectDialog::newProjectDialog( wxWindow* parent, wxWindowID id, const wxStr
 	m_staticText3->Wrap( -1 );
 	bSizer2->Add( m_staticText3, 0, wxALL, 5 );
 	
-	txtRom = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer2->Add( txtRom, 1, wxALL, 5 );
-	
-	btnFindRom = new wxButton( this, wxID_ANY, wxT("..."), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer2->Add( btnFindRom, 0, wxALL, 5 );
+	filePickRom = new wxFilePickerCtrl( this, wxID_ANY, wxEmptyString, wxT("Select a file"), wxT("*.nes"), wxDefaultPosition, wxDefaultSize, wxFLP_DEFAULT_STYLE );
+	bSizer2->Add( filePickRom, 1, wxALL, 5 );
 	
 	
 	bSizer1->Add( bSizer2, 1, wxEXPAND, 5 );
@@ -112,11 +109,8 @@ newProjectDialog::newProjectDialog( wxWindow* parent, wxWindowID id, const wxStr
 	m_staticText4->Wrap( -1 );
 	bSizer3->Add( m_staticText4, 0, wxALL, 5 );
 	
-	txtPackDir = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer3->Add( txtPackDir, 1, wxALL, 5 );
-	
-	btnFindPack = new wxButton( this, wxID_ANY, wxT("..."), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer3->Add( btnFindPack, 0, wxALL, 5 );
+	dirPickPack = new wxDirPickerCtrl( this, wxID_ANY, wxEmptyString, wxT("Select a folder"), wxDefaultPosition, wxDefaultSize, wxDIRP_DEFAULT_STYLE );
+	bSizer3->Add( dirPickPack, 1, wxALL, 5 );
 	
 	
 	bSizer1->Add( bSizer3, 1, wxEXPAND, 5 );
@@ -139,8 +133,14 @@ newProjectDialog::newProjectDialog( wxWindow* parent, wxWindowID id, const wxStr
 	this->Layout();
 	
 	this->Centre( wxBOTH );
+	
+	// Connect Events
+	btnNewProjectOK->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( newProjectDialog::fileSelected ), NULL, this );
 }
 
 newProjectDialog::~newProjectDialog()
 {
+	// Disconnect Events
+	btnNewProjectOK->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( newProjectDialog::fileSelected ), NULL, this );
+	
 }

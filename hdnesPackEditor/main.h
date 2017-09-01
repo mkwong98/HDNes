@@ -1,10 +1,8 @@
 #ifndef MAIN_H_INCLUDED
 #define MAIN_H_INCLUDED
 
-
-
-#endif // MAIN_H_INCLUDED
-
+#pragma once
+#include "common.h"
 #include <wx\wx.h>
 
 class main : public wxApp{
@@ -13,3 +11,7 @@ public:
 	~main(void);
     bool OnInit();
 };
+
+#endif // MAIN_H_INCLUDED
+
+

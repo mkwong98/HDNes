@@ -48,10 +48,18 @@
 			<Add directory="../../../lib" />
 			<Add directory="C:/Program Files (x86)/CodeBlocks/MinGW/lib" />
 		</Linker>
+		<Unit filename="classList.h" />
+		<Unit filename="common.h" />
+		<Unit filename="condition.cpp" />
+		<Unit filename="condition.h" />
 		<Unit filename="coreData.cpp" />
 		<Unit filename="coreData.h" />
 		<Unit filename="hdnesPackEditormainForm.cpp" />
 		<Unit filename="hdnesPackEditormainForm.h" />
+		<Unit filename="hdnesPackEditornewProjectDialog.cpp" />
+		<Unit filename="hdnesPackEditornewProjectDialog.h" />
+		<Unit filename="image.cpp" />
+		<Unit filename="image.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="main.h" />
 		<Unit filename="mainForm.cpp" />
