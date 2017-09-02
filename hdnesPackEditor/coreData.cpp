@@ -1,5 +1,6 @@
 #include "common.h"
 #include "coreData.h"
+#include "image.h"
 
 coreData* coreData::cData;
 
@@ -15,6 +16,45 @@ coreData::~coreData()
 }
 
 void coreData::loadPackData(){
+    string hiresPath;
+    hiresPath = packPath + string("\\hires.txt");
+
+    fstream fs;
+    string line;
+    string lineHdr;
+    string lineTail;
+    fs.open(hiresPath, fstream::in);
+    if(fs.is_open()){
+        while(getline(fs, line)){
+            size_t found = line.find_first_of(">");
+            if(found!=string::npos){
+                lineHdr = line.substr(0, found + 1);
+                lineTail = line.substr(found + 1);
+                cout << lineHdr;
+                if(lineHdr == "<scale>"){
+                    scale = atoi(lineTail.c_str());
+                }
+                else if(lineHdr == "<img>" ){
+                    //load image and add to list
+                    image* i = new image();
+                    i->load(lineTail);
+                    images.push_back(i);
+                }
+                else if(lineHdr == "condition"){
+
+                }
+                else if(lineHdr == "<tile>" ){
+
+                }
+                else{
+                    //put all other lines away at the moment
+                    otherLines.push_back(line);
+                }
+            }
+        }
+        fs.close();
+    }
+
 }
 
 void coreData::loadRom(){

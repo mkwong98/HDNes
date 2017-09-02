@@ -5,6 +5,7 @@ class hdnesPackEditormainForm;
 
 class coreData;
 class image;
-class condtion;
+class condition;
+class tile;
 
 #endif // CLASSLIST_H_INCLUDED

@@ -1,6 +1,6 @@
 # depslib dependency file v1.0
-1504236965 source:c:\work\hdnesr\trunk\hdnespackeditor\main.cpp
-	<SDL2\SDL.h>
+1504255845 source:c:\work\hdnesr\trunk\hdnespackeditor\main.cpp
+	"common.h"
 	"hdnesPackEditormainForm.h"
 	"main.h"
 
@@ -3410,22 +3410,25 @@
 
 1504235169 c:\work\hdnesr\trunk\hdnespackeditor\condition.h
 
-1504237137 source:c:\work\hdnesr\trunk\hdnespackeditor\coredata.cpp
+1504256682 source:c:\work\hdnesr\trunk\hdnespackeditor\coredata.cpp
+	"common.h"
 	"coreData.h"
+	"image.h"
 
-1504234372 c:\work\hdnesr\trunk\hdnespackeditor\coredata.h
+1504254417 c:\work\hdnesr\trunk\hdnespackeditor\coredata.h
 	"common.h"
 	"classList.h"
 
-1504235332 c:\work\hdnesr\trunk\hdnespackeditor\common.h
+1504255301 c:\work\hdnesr\trunk\hdnespackeditor\common.h
 	<fstream>
 	<sstream>
 	<string>
 	<iostream>
 	<vector>
+	<wx/image.h>
 	<SDL2\SDL.h>
 
-1504236824 c:\work\hdnesr\trunk\hdnespackeditor\classlist.h
+1504255888 c:\work\hdnesr\trunk\hdnespackeditor\classlist.h
 
 1504234372 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditornewprojectdialog.h
 	"mainForm.h"
@@ -3433,7 +3436,8 @@
 1504235350 source:c:\work\hdnesr\trunk\hdnespackeditor\image.cpp
 	"image.h"
 
-1504235350 c:\work\hdnesr\trunk\hdnespackeditor\image.h
+1504255405 c:\work\hdnesr\trunk\hdnespackeditor\image.h
+	"common.h"
 
 1504240290 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditornewprojectdialog.cpp
 	<wx/msgdlg.h>

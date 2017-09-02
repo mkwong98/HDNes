@@ -7,6 +7,8 @@
 #include <iostream>
 #include <vector>
 
+#include <wx/image.h>
+
 #define SDL_MAIN_HANDLED
 #include <SDL2\SDL.h>
 

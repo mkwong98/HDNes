@@ -22,8 +22,12 @@ class coreData
         Uint8* chrROM;
 
         //pack data
+        Uint8 scale;
         vector<image*> images;
+        vector<condition*> conditions;
+        vector<tile*> tiles;
         vector<string> otherLines;
+        Uint32 palette[64];
 
         //project data
 

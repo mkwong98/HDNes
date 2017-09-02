@@ -1,5 +1,5 @@
 #define SDL_MAIN_HANDLED
-#include <SDL2\SDL.h>
+#include "common.h"
 #include "hdnesPackEditormainForm.h"
 #include "main.h"
 
@@ -9,12 +9,10 @@ IMPLEMENT_APP(main)
 hdnesPackEditormainForm* main::mForm;
 
 main::main(void){
-    SDL_SetMainReady();
-	SDL_Init(0);
+    wxInitAllImageHandlers();
 }
 
 main::~main(void){
-    SDL_Quit();
 }
 
 bool main::OnInit(){
