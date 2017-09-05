@@ -3314,19 +3314,22 @@
 1412631242 c:\work\include\wx\cocoa\mdi.h
 	"wx/frame.h"
 
-1504195130 source:c:\work\hdnes\trunk\hdnespackeditor\coredata.cpp
+1504621029 source:c:\work\hdnes\trunk\hdnespackeditor\coredata.cpp
+	"common.h"
 	"coreData.h"
+	"image.h"
 
-1504197228 c:\work\hdnes\trunk\hdnespackeditor\coredata.h
+1504621029 c:\work\hdnes\trunk\hdnespackeditor\coredata.h
 	"common.h"
 	"classList.h"
 
-1504197186 c:\work\hdnes\trunk\hdnespackeditor\common.h
+1504631310 c:\work\hdnes\trunk\hdnespackeditor\common.h
 	<fstream>
 	<sstream>
 	<string>
 	<iostream>
 	<vector>
+	<wx/image.h>
 	<SDL2\SDL.h>
 
 1504195260 source:c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.cpp
@@ -3334,10 +3337,10 @@
 	"hdnesPackEditornewProjectDialog.h"
 	"coreData.h"
 
-1504194058 c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.h
+1504630160 c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.h
 	"mainForm.h"
 
-1504194062 c:\work\hdnes\trunk\hdnespackeditor\mainform.h
+1504630557 c:\work\hdnes\trunk\hdnespackeditor\mainform.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/string.h>
@@ -3350,11 +3353,15 @@
 	<wx/colour.h>
 	<wx/settings.h>
 	<wx/statusbr.h>
-	<wx/frame.h>
 	<wx/stattext.h>
-	<wx/filepicker.h>
-	<wx/sizer.h>
+	<wx/spinctrl.h>
 	<wx/button.h>
+	<wx/sizer.h>
+	<wx/panel.h>
+	<wx/scrolbar.h>
+	<wx/notebook.h>
+	<wx/frame.h>
+	<wx/filepicker.h>
 	<wx/dialog.h>
 
 1412631242 c:\work\include\wx\filepicker.h
@@ -3377,23 +3384,26 @@
 	"wx/filedlg.h"
 	"wx/dirdlg.h"
 
-1504194058 c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditornewprojectdialog.h
+1504621029 c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditornewprojectdialog.h
 	"mainForm.h"
 
-1504195420 source:c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditornewprojectdialog.cpp
+1504621029 source:c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditornewprojectdialog.cpp
+	<wx/wx.h>
 	"hdnesPackEditornewProjectDialog.h"
+	"hdnesPackEditormainForm.h"
+	"main.h"
 	"coreData.h"
 
-1504186575 source:c:\work\hdnes\trunk\hdnespackeditor\main.cpp
-	<SDL2\SDL.h>
+1504348070 source:c:\work\hdnes\trunk\hdnespackeditor\main.cpp
+	"common.h"
 	"hdnesPackEditormainForm.h"
 	"main.h"
 
-1504193614 c:\work\hdnes\trunk\hdnespackeditor\main.h
+1504621029 c:\work\hdnes\trunk\hdnespackeditor\main.h
 	"common.h"
 	<wx\wx.h>
 
-1504194062 source:c:\work\hdnes\trunk\hdnespackeditor\mainform.cpp
+1504630557 source:c:\work\hdnes\trunk\hdnespackeditor\mainform.cpp
 	"mainForm.h"
 
 1504196542 source:c:\work\hdnes\trunk\hdnespackeditor\condition.cpp
@@ -3402,12 +3412,13 @@
 1504196566 c:\work\hdnes\trunk\hdnespackeditor\condition.h
 	"common.h"
 
-1504197012 c:\work\hdnes\trunk\hdnespackeditor\classlist.h
+1504631328 c:\work\hdnes\trunk\hdnespackeditor\classlist.h
 
-1504196525 source:c:\work\hdnes\trunk\hdnespackeditor\image.cpp
+1504631215 source:c:\work\hdnes\trunk\hdnespackeditor\image.cpp
 	"image.h"
+	"coreData.h"
 
-1504196566 c:\work\hdnes\trunk\hdnespackeditor\image.h
+1504631231 c:\work\hdnes\trunk\hdnespackeditor\image.h
 	"common.h"
 
 1504235169 source:c:\work\hdnesr\trunk\hdnespackeditor\condition.cpp

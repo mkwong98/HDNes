@@ -91,17 +91,17 @@ void hdnesPackEditormainForm::refreshCoreDataDisplay(){
 
 void hdnesPackEditormainForm::refreshROMView()
 {
-    Uint32 tileCnt = (cData->romSize - spnSkipBytes->GetValue()) / 16;
+    Uint32 tileCnt = (coreData::cData->romSize - spnSkipBytes->GetValue()) / 16;
     //display 32 tiles across
     Uint32 displayWidth = 32 * 8 * zoomRom->GetValue();
-
-    Uint32 displayHeight = coreData::(tileCnt / 32) * 8  * zoomRom->GetValue();
+    Uint32 displayHeight = (tileCnt / 32) * 8  * zoomRom->GetValue();
 
     Uint32 curH = romHScroll->GetThumbPosition() * romHScroll->GetThumbSize();
     Uint32 curV = romVScroll->GetThumbPosition() * romVScroll->GetThumbSize();
 
     romHScroll->SetRange(displayWidth);
-
+    romVScroll->SetRange(displayHeight);
+    romHScroll->SetThumbSize(pnlRom->getWidth());
 }
 
 
