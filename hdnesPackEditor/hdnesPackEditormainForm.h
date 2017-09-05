@@ -21,12 +21,21 @@ class hdnesPackEditormainForm : public mainForm
 		void MenuFileSaveAs( wxCommandEvent& event );
 		void MenuFileGen( wxCommandEvent& event );
 		void MenuFileExit( wxCommandEvent& event );
+		void skipBytesChanged( wxSpinEvent& event );
+		void zoomRomChanged( wxSpinEvent& event );
+		void romBGColour( wxCommandEvent& event );
+		void romColour1( wxCommandEvent& event );
+		void romColour2( wxCommandEvent& event );
+		void romColour3( wxCommandEvent& event );
+        void romViewVScrolled( wxScrollEvent& event );
+        void romViewHScrolled( wxScrollEvent& event );
 	public:
 		/** Constructor */
 		hdnesPackEditormainForm( wxWindow* parent );
 	//// end generated class members
 
         void refreshCoreDataDisplay();
+        void refreshROMView();
 };
 
 #endif // __hdnesPackEditormainForm__

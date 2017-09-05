@@ -20,11 +20,15 @@
 #include <wx/colour.h>
 #include <wx/settings.h>
 #include <wx/statusbr.h>
-#include <wx/frame.h>
 #include <wx/stattext.h>
-#include <wx/filepicker.h>
-#include <wx/sizer.h>
+#include <wx/spinctrl.h>
 #include <wx/button.h>
+#include <wx/sizer.h>
+#include <wx/panel.h>
+#include <wx/scrolbar.h>
+#include <wx/notebook.h>
+#include <wx/frame.h>
+#include <wx/filepicker.h>
 #include <wx/dialog.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -41,6 +45,23 @@ class mainForm : public wxFrame
 		wxMenuBar* m_menubar;
 		wxMenu* m_menu3;
 		wxStatusBar* m_statusBar;
+		wxNotebook* m_notebook1;
+		wxPanel* m_panel1;
+		wxStaticText* m_staticText4;
+		wxSpinCtrl* spnSkipBytes;
+		wxStaticText* m_staticText5;
+		wxStaticText* m_staticText6;
+		wxSpinCtrl* zoomRom;
+		wxStaticText* m_staticText7;
+		wxStaticText* m_staticText9;
+		wxStaticText* m_staticText10;
+		wxButton* m_button2;
+		wxButton* m_button3;
+		wxButton* m_button4;
+		wxButton* m_button5;
+		wxPanel* pnlRom;
+		wxScrollBar* romVScroll;
+		wxScrollBar* romHScroll;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void MenuFileNew( wxCommandEvent& event ) { event.Skip(); }
@@ -49,11 +70,20 @@ class mainForm : public wxFrame
 		virtual void MenuFileSaveAs( wxCommandEvent& event ) { event.Skip(); }
 		virtual void MenuFileGen( wxCommandEvent& event ) { event.Skip(); }
 		virtual void MenuFileExit( wxCommandEvent& event ) { event.Skip(); }
+		virtual void skipBytesChanged( wxSpinEvent& event ) { event.Skip(); }
+		virtual void zoomRomChanged( wxSpinEvent& event ) { event.Skip(); }
+		virtual void romBGColour( wxCommandEvent& event ) { event.Skip(); }
+		virtual void romColour1( wxCommandEvent& event ) { event.Skip(); }
+		virtual void romColour2( wxCommandEvent& event ) { event.Skip(); }
+		virtual void romColour3( wxCommandEvent& event ) { event.Skip(); }
+		virtual void rowViewSizeChanged( wxSizeEvent& event ) { event.Skip(); }
+		virtual void romViewVScrolled( wxScrollEvent& event ) { event.Skip(); }
+		virtual void romViewHScrolled( wxScrollEvent& event ) { event.Skip(); }
 		
 	
 	public:
 		
-		mainForm( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("HDNes Graphics Pack Editor"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 746,460 ), long style = wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER|wxTAB_TRAVERSAL );
+		mainForm( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("HDNes Graphics Pack Editor"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 800,471 ), long style = wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER|wxTAB_TRAVERSAL );
 		
 		~mainForm();
 	

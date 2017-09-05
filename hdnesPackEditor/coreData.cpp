@@ -8,11 +8,12 @@ coreData::coreData()
 {
     romPath = "";
     romSize = 0;
+    isCHRROM = true;
 }
 
 coreData::~coreData()
 {
-    if(romSize > 0) free(chrROM);
+    if(romSize > 0) free(romData);
 }
 
 void coreData::loadPackData(){
@@ -62,7 +63,7 @@ void coreData::loadRom(){
 	Uint8 fileType[4];
 	Uint8 header[12];
 
-	if(romSize > 0) free(chrROM);
+	if(romSize > 0) free(romData);
 
     romfile.open(romPath, ios::in | ios::binary);
 	if (romfile.is_open()){
@@ -75,16 +76,21 @@ void coreData::loadRom(){
 			romfile.read((char*)header, 12);
             Uint8 prgPageCount = header[0];
             Uint8 chrPageCount = header[1];
+            //skip trainer
+            if((header[2] & 0x04) == 0x04) romfile.seekg(528);
             if(chrPageCount > 0){
-                //skip trainer
-                if((header[2] & 0x04) == 0x04) romfile.seekg(528);
                 //skip prg
                 if(prgPageCount > 0) romfile.seekg(prgPageCount * 0x4000);
-                chrROM = (Uint8*) malloc(chrPageCount * 0x2000);
-                romfile.read((char*)(chrROM), chrPageCount * 0x2000);
+                romSize = chrPageCount * 0x2000;
+                romData = (Uint8*) malloc(romSize);
+                romfile.read((char*)(romData), romSize);
+                isCHRROM = true;
             }
             else{
-                romSize = 0;
+                romSize = prgPageCount * 0x4000;
+                romData = (Uint8*) malloc(romSize);
+                romfile.read((char*)(romData), romSize);
+                isCHRROM = false;
             }
 		}
 	}

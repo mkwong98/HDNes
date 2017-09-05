@@ -4,10 +4,10 @@
 	"hdnesPackEditormainForm.h"
 	"main.h"
 
-1504240170 source:c:\work\hdnesr\trunk\hdnespackeditor\mainform.cpp
+1504600171 source:c:\work\hdnesr\trunk\hdnespackeditor\mainform.cpp
 	"mainForm.h"
 
-1504240170 c:\work\hdnesr\trunk\hdnespackeditor\mainform.h
+1504600171 c:\work\hdnesr\trunk\hdnespackeditor\mainform.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/string.h>
@@ -20,11 +20,15 @@
 	<wx/colour.h>
 	<wx/settings.h>
 	<wx/statusbr.h>
-	<wx/frame.h>
 	<wx/stattext.h>
-	<wx/filepicker.h>
-	<wx/sizer.h>
+	<wx/spinctrl.h>
 	<wx/button.h>
+	<wx/sizer.h>
+	<wx/scrolwin.h>
+	<wx/panel.h>
+	<wx/notebook.h>
+	<wx/frame.h>
+	<wx/filepicker.h>
 	<wx/dialog.h>
 
 1412631242 c:\work\include\wx\artprov.h
@@ -2119,15 +2123,16 @@
 	"begin_code.h"
 	"close_code.h"
 
-1504237594 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.cpp
+1504600533 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.cpp
 	"hdnesPackEditormainForm.h"
 	"hdnesPackEditornewProjectDialog.h"
 	"coreData.h"
+	<wx/wx.h>
 
-1504237225 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.h
+1504599815 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.h
 	"mainForm.h"
 
-1504236874 c:\work\hdnesr\trunk\hdnespackeditor\main.h
+1504598090 c:\work\hdnesr\trunk\hdnespackeditor\main.h
 	"common.h"
 	<wx\wx.h>
 
@@ -3410,12 +3415,12 @@
 
 1504235169 c:\work\hdnesr\trunk\hdnespackeditor\condition.h
 
-1504256682 source:c:\work\hdnesr\trunk\hdnespackeditor\coredata.cpp
+1504597777 source:c:\work\hdnesr\trunk\hdnespackeditor\coredata.cpp
 	"common.h"
 	"coreData.h"
 	"image.h"
 
-1504254417 c:\work\hdnesr\trunk\hdnespackeditor\coredata.h
+1504596974 c:\work\hdnesr\trunk\hdnespackeditor\coredata.h
 	"common.h"
 	"classList.h"
 
@@ -3430,19 +3435,152 @@
 
 1504255888 c:\work\hdnesr\trunk\hdnespackeditor\classlist.h
 
-1504234372 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditornewprojectdialog.h
+1504597737 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditornewprojectdialog.h
 	"mainForm.h"
 
-1504235350 source:c:\work\hdnesr\trunk\hdnespackeditor\image.cpp
+1504256824 source:c:\work\hdnesr\trunk\hdnespackeditor\image.cpp
 	"image.h"
+	"coreData.h"
 
 1504255405 c:\work\hdnesr\trunk\hdnespackeditor\image.h
 	"common.h"
 
-1504240290 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditornewprojectdialog.cpp
-	<wx/msgdlg.h>
+1504598117 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditornewprojectdialog.cpp
+	<wx/wx.h>
 	"hdnesPackEditornewProjectDialog.h"
 	"hdnesPackEditormainForm.h"
-	"coreData.h"
 	"main.h"
+	"coreData.h"
+
+1412631243 c:\work\include\wx\spinctrl.h
+	"wx/defs.h"
+	"wx/spinbutt.h"
+	"wx/msw/spinctrl.h"
+	"wx/os2/spinctrl.h"
+	"wx/gtk/spinctrl.h"
+	"wx/gtk1/spinctrl.h"
+	"wx/generic/spinctlg.h"
+
+1412631243 c:\work\include\wx\spinbutt.h
+	"wx/defs.h"
+	"wx/control.h"
+	"wx/event.h"
+	"wx/range.h"
+	"wx/univ/spinbutt.h"
+	"wx/msw/spinbutt.h"
+	"wx/motif/spinbutt.h"
+	"wx/gtk/spinbutt.h"
+	"wx/gtk1/spinbutt.h"
+	"wx/osx/spinbutt.h"
+	"wx/cocoa/spinbutt.h"
+	"wx/os2/spinbutt.h"
+
+1412631243 c:\work\include\wx\range.h
+	"wx/defs.h"
+
+1412631243 c:\work\include\wx\univ\spinbutt.h
+	"wx/univ/scrarrow.h"
+
+1412631243 c:\work\include\wx\msw\spinbutt.h
+	"wx/control.h"
+	"wx/event.h"
+
+1412631243 c:\work\include\wx\motif\spinbutt.h
+
+1412631242 c:\work\include\wx\gtk\spinbutt.h
+
+1412631242 c:\work\include\wx\gtk1\spinbutt.h
+
+1412631243 c:\work\include\wx\osx\spinbutt.h
+	"wx/control.h"
+	"wx/event.h"
+
+1412631242 c:\work\include\wx\cocoa\spinbutt.h
+
+1412631243 c:\work\include\wx\os2\spinbutt.h
+	"wx/control.h"
+	"wx/event.h"
+
+1412631243 c:\work\include\wx\msw\spinctrl.h
+	"wx/spinbutt.h"
+	"wx/dynarray.h"
+
+1412631243 c:\work\include\wx\os2\spinctrl.h
+	"wx/spinbutt.h"
+	"wx/dynarray.h"
+
+1412631242 c:\work\include\wx\gtk\spinctrl.h
+
+1412631242 c:\work\include\wx\gtk1\spinctrl.h
+	"wx/defs.h"
+	"wx/control.h"
+
+1412631242 c:\work\include\wx\generic\spinctlg.h
+	"wx/compositewin.h"
+	"wx/textctrl.h"
+
+1412631242 c:\work\include\wx\compositewin.h
+	"wx/window.h"
+	"wx/containr.h"
+
+1412631243 c:\work\include\wx\notebook.h
+	"wx/defs.h"
+	"wx/bookctrl.h"
+	"wx/univ/notebook.h"
+	"wx/msw/notebook.h"
+	"wx/generic/notebook.h"
+	"wx/gtk/notebook.h"
+	"wx/gtk1/notebook.h"
+	"wx/osx/notebook.h"
+	"wx/cocoa/notebook.h"
+	"wx/os2/notebook.h"
+
+1412631242 c:\work\include\wx\bookctrl.h
+	"wx/defs.h"
+	"wx/control.h"
+	"wx/dynarray.h"
+	"wx/withimages.h"
+	"wx/notebook.h"
+	"wx/choicebk.h"
+
+1412631243 c:\work\include\wx\withimages.h
+	"wx/defs.h"
+	"wx/icon.h"
+	"wx/imaglist.h"
+
+1412631242 c:\work\include\wx\choicebk.h
+	"wx/defs.h"
+	"wx/bookctrl.h"
+	"wx/choice.h"
+	"wx/containr.h"
+
+1412631243 c:\work\include\wx\univ\notebook.h
+	"wx/arrstr.h"
+
+1412631243 c:\work\include\wx\msw\notebook.h
+	"wx/control.h"
+
+1412631242 c:\work\include\wx\generic\notebook.h
+	"wx/event.h"
+	"wx/control.h"
+
+1412631242 c:\work\include\wx\gtk\notebook.h
+	"wx/list.h"
+
+1412631242 c:\work\include\wx\gtk1\notebook.h
+	"wx/list.h"
+
+1412631243 c:\work\include\wx\osx\notebook.h
+	"wx/event.h"
+
+1412631242 c:\work\include\wx\cocoa\notebook.h
+	"wx/cocoa/NSTabView.h"
+
+1412631242 c:\work\include\wx\cocoa\nstabview.h
+	"wx/hashmap.h"
+	"wx/cocoa/ObjcAssociate.h"
+	"wx/cocoa/ObjcRef.h"
+
+1412631243 c:\work\include\wx\os2\notebook.h
+	"wx/control.h"
 

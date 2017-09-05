@@ -22,6 +22,7 @@ class hdnesPackEditornewProjectDialog : public newProjectDialog
 	//// end generated class members
 
 
+
 };
 
 #endif // __hdnesPackEditornewProjectDialog__

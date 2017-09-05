@@ -18,8 +18,9 @@ class coreData
         string projectPath;
 
         //rom data
+        bool isCHRROM;
         Uint16 romSize;
-        Uint8* chrROM;
+        Uint8* romData;
 
         //pack data
         Uint8 scale;

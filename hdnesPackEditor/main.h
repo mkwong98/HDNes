@@ -5,7 +5,7 @@
 #include "common.h"
 #include <wx\wx.h>
 
-
+class hdnesPackEditormainForm;
 
 class main : public wxApp{
 public:
