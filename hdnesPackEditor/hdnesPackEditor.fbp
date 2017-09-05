@@ -854,15 +854,15 @@
                                                     <property name="gripper">0</property>
                                                     <property name="hidden">0</property>
                                                     <property name="id">wxID_ANY</property>
-                                                    <property name="initial">100</property>
-                                                    <property name="max">999</property>
+                                                    <property name="initial">1</property>
+                                                    <property name="max">10</property>
                                                     <property name="max_size"></property>
                                                     <property name="maximize_button">0</property>
                                                     <property name="maximum_size"></property>
                                                     <property name="min">1</property>
                                                     <property name="min_size"></property>
                                                     <property name="minimize_button">0</property>
-                                                    <property name="minimum_size">80,-1</property>
+                                                    <property name="minimum_size">50,-1</property>
                                                     <property name="moveable">1</property>
                                                     <property name="name">zoomRom</property>
                                                     <property name="pane_border">1</property>
@@ -942,7 +942,7 @@
                                                     <property name="gripper">0</property>
                                                     <property name="hidden">0</property>
                                                     <property name="id">wxID_ANY</property>
-                                                    <property name="label">%</property>
+                                                    <property name="label">X</property>
                                                     <property name="max_size"></property>
                                                     <property name="maximize_button">0</property>
                                                     <property name="maximum_size"></property>

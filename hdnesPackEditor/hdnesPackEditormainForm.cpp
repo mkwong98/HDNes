@@ -72,6 +72,10 @@ void hdnesPackEditormainForm::romColour3( wxCommandEvent& event ){
     refreshROMView();
 }
 
+void hdnesPackEditormainForm::rowViewSizeChanged( wxSizeEvent& event ){
+    refreshROMView();
+}
+
 void hdnesPackEditormainForm::romViewVScrolled( wxScrollEvent& event ){
     refreshROMView();
 }
@@ -87,10 +91,14 @@ void hdnesPackEditormainForm::refreshCoreDataDisplay(){
 
 void hdnesPackEditormainForm::refreshROMView()
 {
-    Uint16 displayWidth = 32 * 8 * zoomRom->GetValue() / 100;
-    Uint16 displayHeight = coreData::((cData->romSize - spnSkipBytes->GetValue()) / (32 * 16)) * 8  * zoomRom->GetValue() / 100;
-    Uint16 curH = romHScroll->GetThumbPosition() * romHScroll->GetThumbSize();
-    Uint16 curV = romVScroll->GetThumbPosition() * romVScroll->GetThumbSize();
+    Uint32 tileCnt = (cData->romSize - spnSkipBytes->GetValue()) / 16;
+    //display 32 tiles across
+    Uint32 displayWidth = 32 * 8 * zoomRom->GetValue();
+
+    Uint32 displayHeight = coreData::(tileCnt / 32) * 8  * zoomRom->GetValue();
+
+    Uint32 curH = romHScroll->GetThumbPosition() * romHScroll->GetThumbSize();
+    Uint32 curV = romVScroll->GetThumbPosition() * romVScroll->GetThumbSize();
 
     romHScroll->SetRange(displayWidth);
 

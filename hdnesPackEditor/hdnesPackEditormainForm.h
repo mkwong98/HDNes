@@ -27,6 +27,7 @@ class hdnesPackEditormainForm : public mainForm
 		void romColour1( wxCommandEvent& event );
 		void romColour2( wxCommandEvent& event );
 		void romColour3( wxCommandEvent& event );
+		void rowViewSizeChanged( wxSizeEvent& event );
         void romViewVScrolled( wxScrollEvent& event );
         void romViewHScrolled( wxScrollEvent& event );
 	public:
