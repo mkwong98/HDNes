@@ -1,5 +1,6 @@
 #include "hdnesPackEditormainForm.h"
 #include "hdnesPackEditornewProjectDialog.h"
+#include "hdnesPackEditorcolourSelectDialog.h"
 #include "coreData.h"
 #include <wx/wx.h>
 
@@ -7,7 +8,10 @@ hdnesPackEditormainForm::hdnesPackEditormainForm( wxWindow* parent )
 :
 mainForm( parent )
 {
-
+    romViewColours[0] = 13;
+    romViewColours[1] = 18;
+    romViewColours[2] = 22;
+    romViewColours[3] = 26;
 }
 
 void hdnesPackEditormainForm::MenuFileNew( wxCommandEvent& event )
@@ -45,11 +49,6 @@ void hdnesPackEditormainForm::MenuFileExit( wxCommandEvent& event )
 // TODO: Implement MenuFileExit
 }
 
-void hdnesPackEditormainForm::skipBytesChanged( wxSpinEvent& event )
-{
-    refreshROMView();
-}
-
 void hdnesPackEditormainForm::zoomRomChanged( wxSpinEvent& event )
 {
     refreshROMView();
@@ -57,19 +56,23 @@ void hdnesPackEditormainForm::zoomRomChanged( wxSpinEvent& event )
 
 void hdnesPackEditormainForm::romBGColour( wxCommandEvent& event )
 {
-    refreshROMView();
+    if(coreData::cData){
+        hdnesPackEditorcolourSelectDialog* fp = new hdnesPackEditorcolourSelectDialog(this);
+        fp->setSelectedCell(romViewColours[0]);
+        fp->Show(true);
+    }
 }
 
 void hdnesPackEditormainForm::romColour1( wxCommandEvent& event ){
-    refreshROMView();
+    drawROMView();
 }
 
 void hdnesPackEditormainForm::romColour2( wxCommandEvent& event ){
-    refreshROMView();
+    drawROMView();
 }
 
 void hdnesPackEditormainForm::romColour3( wxCommandEvent& event ){
-    refreshROMView();
+    drawROMView();
 }
 
 void hdnesPackEditormainForm::rowViewSizeChanged( wxSizeEvent& event ){
@@ -77,12 +80,11 @@ void hdnesPackEditormainForm::rowViewSizeChanged( wxSizeEvent& event ){
 }
 
 void hdnesPackEditormainForm::romViewVScrolled( wxScrollEvent& event ){
-    refreshROMView();
+    drawROMView();
 }
 
-
 void hdnesPackEditormainForm::romViewHScrolled( wxScrollEvent& event ){
-    refreshROMView();
+    drawROMView();
 }
 
 void hdnesPackEditormainForm::refreshCoreDataDisplay(){
@@ -91,17 +93,58 @@ void hdnesPackEditormainForm::refreshCoreDataDisplay(){
 
 void hdnesPackEditormainForm::refreshROMView()
 {
-    Uint32 tileCnt = (coreData::cData->romSize - spnSkipBytes->GetValue()) / 16;
+
+    btnRomViewBGColour->SetBackgroundColour(coreData::cData->palette[romViewColours[0]]);
+    if(coreData::cData->palette[romViewColours[0]].Red() + coreData::cData->palette[romViewColours[0]].Green() + coreData::cData->palette[romViewColours[0]].Blue() > 128){
+        btnRomViewBGColour->SetForegroundColour(wxColour(0,0,0));
+    }
+    else{
+        btnRomViewBGColour->SetForegroundColour(wxColour(255,255,255));
+    }
+
+    btnRomViewColour1->SetBackgroundColour(coreData::cData->palette[romViewColours[1]]);
+    if(coreData::cData->palette[romViewColours[1]].Red() + coreData::cData->palette[romViewColours[1]].Green() + coreData::cData->palette[romViewColours[1]].Blue() > 128){
+        btnRomViewColour1->SetForegroundColour(wxColour(0,0,0));
+    }
+    else{
+        btnRomViewColour1->SetForegroundColour(wxColour(255,255,255));
+    }
+
+    btnRomViewColour2->SetBackgroundColour(coreData::cData->palette[romViewColours[2]]);
+    if(coreData::cData->palette[romViewColours[2]].Red() + coreData::cData->palette[romViewColours[2]].Green() + coreData::cData->palette[romViewColours[2]].Blue() > 128){
+        btnRomViewColour2->SetForegroundColour(wxColour(0,0,0));
+    }
+    else{
+        btnRomViewColour2->SetForegroundColour(wxColour(255,255,255));
+    }
+
+    btnRomViewColour3->SetBackgroundColour(coreData::cData->palette[romViewColours[3]]);
+    if(coreData::cData->palette[romViewColours[3]].Red() + coreData::cData->palette[romViewColours[3]].Green() + coreData::cData->palette[romViewColours[3]].Blue() > 128){
+        btnRomViewColour3->SetForegroundColour(wxColour(0,0,0));
+    }
+    else{
+        btnRomViewColour3->SetForegroundColour(wxColour(255,255,255));
+    }
+
+    Uint32 tileCnt = coreData::cData->romSize / 16;
+    Uint32 tileSize = 8 * zoomRom->GetValue();
     //display 32 tiles across
-    Uint32 displayWidth = 32 * 8 * zoomRom->GetValue();
-    Uint32 displayHeight = (tileCnt / 32) * 8  * zoomRom->GetValue();
+    Uint32 displayWidth = 32;
+    Uint32 displayHeight = ((tileCnt / 32) + 1);
 
     Uint32 curH = romHScroll->GetThumbPosition() * romHScroll->GetThumbSize();
     Uint32 curV = romVScroll->GetThumbPosition() * romVScroll->GetThumbSize();
 
     romHScroll->SetRange(displayWidth);
     romVScroll->SetRange(displayHeight);
-    romHScroll->SetThumbSize(pnlRom->getWidth());
+    romHScroll->SetThumbSize(pnlRom->GetSize().GetWidth() / tileSize);
+    romVScroll->SetThumbSize(pnlRom->GetSize().GetHeight() / tileSize);
+
+    drawROMView();
+}
+
+void hdnesPackEditormainForm::drawROMView(){
+
 }
 
 

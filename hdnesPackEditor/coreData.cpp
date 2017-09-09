@@ -1,6 +1,7 @@
 #include "common.h"
 #include "coreData.h"
 #include "image.h"
+#include "main.h"
 
 coreData* coreData::cData;
 
@@ -19,6 +20,10 @@ coreData::~coreData()
 void coreData::loadPackData(){
     string hiresPath;
     hiresPath = packPath + string("\\hires.txt");
+
+    string palettePath;
+    palettePath = packPath + string("\\palette.dat");
+
 
     fstream fs;
     string line;
@@ -55,6 +60,22 @@ void coreData::loadPackData(){
         }
         fs.close();
     }
+
+    fstream palettefile;
+    char rawPalette[192];
+    palettefile.open(palettePath, ios::in | ios::binary);
+    if (!palettefile.is_open()){
+        palettefile.open(main::exeDir + string("\\default.pal"), ios::in | ios::binary);
+    }
+    if (palettefile.is_open()){
+        palettefile.read(rawPalette, 192);
+        palettefile.close();
+
+        for(int i = 0; i < 64; i++){
+            palette[i] = wxColour(rawPalette[i * 3], rawPalette[i * 3 + 1], rawPalette[i * 3 + 2]);
+        }
+    }
+
 
 }
 

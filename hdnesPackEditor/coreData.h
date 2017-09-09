@@ -3,7 +3,7 @@
 
 #include "common.h"
 #include "classList.h"
-
+#include <wx/wx.h>
 
 class coreData
 {
@@ -28,10 +28,9 @@ class coreData
         vector<condition*> conditions;
         vector<tile*> tiles;
         vector<string> otherLines;
-        Uint32 palette[64];
+        wxColour palette[64];
 
         //project data
-
 
         void load(string path);
         void save();

@@ -10,6 +10,7 @@ class hdnesPackEditormainForm;
 class main : public wxApp{
 public:
     static hdnesPackEditormainForm* mForm;
+    static string exeDir;
 
 	main(void);
 	~main(void);

@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Jun 17 2015)
+// C++ code generated with wxFormBuilder (version Dec 21 2016)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -30,6 +30,7 @@
 #include <wx/frame.h>
 #include <wx/filepicker.h>
 #include <wx/dialog.h>
+#include <wx/grid.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -47,18 +48,15 @@ class mainForm : public wxFrame
 		wxStatusBar* m_statusBar;
 		wxNotebook* m_notebook1;
 		wxPanel* m_panel1;
-		wxStaticText* m_staticText4;
-		wxSpinCtrl* spnSkipBytes;
-		wxStaticText* m_staticText5;
 		wxStaticText* m_staticText6;
 		wxSpinCtrl* zoomRom;
 		wxStaticText* m_staticText7;
 		wxStaticText* m_staticText9;
 		wxStaticText* m_staticText10;
-		wxButton* m_button2;
-		wxButton* m_button3;
-		wxButton* m_button4;
-		wxButton* m_button5;
+		wxButton* btnRomViewBGColour;
+		wxButton* btnRomViewColour1;
+		wxButton* btnRomViewColour2;
+		wxButton* btnRomViewColour3;
 		wxPanel* pnlRom;
 		wxScrollBar* romVScroll;
 		wxScrollBar* romHScroll;
@@ -70,7 +68,6 @@ class mainForm : public wxFrame
 		virtual void MenuFileSaveAs( wxCommandEvent& event ) { event.Skip(); }
 		virtual void MenuFileGen( wxCommandEvent& event ) { event.Skip(); }
 		virtual void MenuFileExit( wxCommandEvent& event ) { event.Skip(); }
-		virtual void skipBytesChanged( wxSpinEvent& event ) { event.Skip(); }
 		virtual void zoomRomChanged( wxSpinEvent& event ) { event.Skip(); }
 		virtual void romBGColour( wxCommandEvent& event ) { event.Skip(); }
 		virtual void romColour1( wxCommandEvent& event ) { event.Skip(); }
@@ -110,8 +107,31 @@ class newProjectDialog : public wxDialog
 	
 	public:
 		
-		newProjectDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 517,149 ), long style = wxDEFAULT_DIALOG_STYLE ); 
+		newProjectDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Project config"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 517,149 ), long style = wxDEFAULT_DIALOG_STYLE ); 
 		~newProjectDialog();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class colourSelectDialog
+///////////////////////////////////////////////////////////////////////////////
+class colourSelectDialog : public wxDialog 
+{
+	private:
+	
+	protected:
+		wxGrid* grdColour;
+		wxButton* m_button6;
+		wxButton* m_button7;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void colourSelectInit( wxInitDialogEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		
+		colourSelectDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Choose a colour"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 774,288 ), long style = wxDEFAULT_DIALOG_STYLE ); 
+		~colourSelectDialog();
 	
 };
 

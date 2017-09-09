@@ -28,5 +28,4 @@ void hdnesPackEditornewProjectDialog::fileSelected( wxCommandEvent& event )
         main::mForm->refreshCoreDataDisplay();
         Show(false);
     }
-
 }

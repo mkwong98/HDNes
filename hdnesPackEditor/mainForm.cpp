@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Jun 17 2015)
+// C++ code generated with wxFormBuilder (version Dec 21 2016)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -67,19 +67,6 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxBoxSizer* bSizer7;
 	bSizer7 = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_staticText4 = new wxStaticText( m_panel1, wxID_ANY, wxT("Skip bytes:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText4->Wrap( -1 );
-	bSizer7->Add( m_staticText4, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
-	
-	spnSkipBytes = new wxSpinCtrl( m_panel1, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 0, 15, 0 );
-	spnSkipBytes->SetMinSize( wxSize( 50,-1 ) );
-	
-	bSizer7->Add( spnSkipBytes, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
-	
-	m_staticText5 = new wxStaticText( m_panel1, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText5->Wrap( -1 );
-	bSizer7->Add( m_staticText5, 0, wxALL, 5 );
-	
 	m_staticText6 = new wxStaticText( m_panel1, wxID_ANY, wxT("Zoom:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText6->Wrap( -1 );
 	bSizer7->Add( m_staticText6, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
@@ -101,17 +88,17 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	m_staticText10->Wrap( -1 );
 	bSizer7->Add( m_staticText10, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	m_button2 = new wxButton( m_panel1, wxID_ANY, wxT("Back ground"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer7->Add( m_button2, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	btnRomViewBGColour = new wxButton( m_panel1, wxID_ANY, wxT("Background"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer7->Add( btnRomViewBGColour, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	m_button3 = new wxButton( m_panel1, wxID_ANY, wxT("1"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer7->Add( m_button3, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	btnRomViewColour1 = new wxButton( m_panel1, wxID_ANY, wxT("1"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer7->Add( btnRomViewColour1, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	m_button4 = new wxButton( m_panel1, wxID_ANY, wxT("2"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer7->Add( m_button4, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	btnRomViewColour2 = new wxButton( m_panel1, wxID_ANY, wxT("2"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer7->Add( btnRomViewColour2, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	m_button5 = new wxButton( m_panel1, wxID_ANY, wxT("3"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer7->Add( m_button5, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	btnRomViewColour3 = new wxButton( m_panel1, wxID_ANY, wxT("3"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer7->Add( btnRomViewColour3, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	
 	bSizer6->Add( bSizer7, 0, wxEXPAND, 5 );
@@ -169,12 +156,11 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	this->Connect( m_menuItemGen->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( mainForm::MenuFileGen ) );
 	this->Connect( m_menuClose->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( mainForm::MenuFileGen ) );
 	this->Connect( m_menuExit->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( mainForm::MenuFileExit ) );
-	spnSkipBytes->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainForm::skipBytesChanged ), NULL, this );
 	zoomRom->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainForm::zoomRomChanged ), NULL, this );
-	m_button2->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romBGColour ), NULL, this );
-	m_button3->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romColour1 ), NULL, this );
-	m_button4->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romColour2 ), NULL, this );
-	m_button5->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romColour3 ), NULL, this );
+	btnRomViewBGColour->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romBGColour ), NULL, this );
+	btnRomViewColour1->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romColour1 ), NULL, this );
+	btnRomViewColour2->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romColour2 ), NULL, this );
+	btnRomViewColour3->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romColour3 ), NULL, this );
 	pnlRom->Connect( wxEVT_SIZE, wxSizeEventHandler( mainForm::rowViewSizeChanged ), NULL, this );
 	romVScroll->Connect( wxEVT_SCROLL_TOP, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
 	romVScroll->Connect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
@@ -206,12 +192,11 @@ mainForm::~mainForm()
 	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( mainForm::MenuFileGen ) );
 	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( mainForm::MenuFileGen ) );
 	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( mainForm::MenuFileExit ) );
-	spnSkipBytes->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainForm::skipBytesChanged ), NULL, this );
 	zoomRom->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainForm::zoomRomChanged ), NULL, this );
-	m_button2->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romBGColour ), NULL, this );
-	m_button3->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romColour1 ), NULL, this );
-	m_button4->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romColour2 ), NULL, this );
-	m_button5->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romColour3 ), NULL, this );
+	btnRomViewBGColour->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romBGColour ), NULL, this );
+	btnRomViewColour1->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romColour1 ), NULL, this );
+	btnRomViewColour2->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romColour2 ), NULL, this );
+	btnRomViewColour3->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romColour3 ), NULL, this );
 	pnlRom->Disconnect( wxEVT_SIZE, wxSizeEventHandler( mainForm::rowViewSizeChanged ), NULL, this );
 	romVScroll->Disconnect( wxEVT_SCROLL_TOP, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
 	romVScroll->Disconnect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
@@ -294,5 +279,67 @@ newProjectDialog::~newProjectDialog()
 {
 	// Disconnect Events
 	btnNewProjectOK->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( newProjectDialog::fileSelected ), NULL, this );
+	
+}
+
+colourSelectDialog::colourSelectDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	wxBoxSizer* bSizer10;
+	bSizer10 = new wxBoxSizer( wxVERTICAL );
+	
+	grdColour = new wxGrid( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
+	
+	// Grid
+	grdColour->CreateGrid( 4, 16 );
+	grdColour->EnableEditing( false );
+	grdColour->EnableGridLines( true );
+	grdColour->EnableDragGridSize( false );
+	grdColour->SetMargins( 0, 0 );
+	
+	// Columns
+	grdColour->EnableDragColMove( false );
+	grdColour->EnableDragColSize( false );
+	grdColour->SetColLabelSize( 30 );
+	grdColour->SetColLabelAlignment( wxALIGN_CENTRE, wxALIGN_TOP );
+	
+	// Rows
+	grdColour->EnableDragRowSize( true );
+	grdColour->SetRowLabelSize( 50 );
+	grdColour->SetRowLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
+	
+	// Label Appearance
+	
+	// Cell Defaults
+	grdColour->SetDefaultCellAlignment( wxALIGN_LEFT, wxALIGN_TOP );
+	bSizer10->Add( grdColour, 1, wxALL|wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer11;
+	bSizer11 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_button6 = new wxButton( this, wxID_ANY, wxT("MyButton"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer11->Add( m_button6, 0, wxALL, 5 );
+	
+	m_button7 = new wxButton( this, wxID_ANY, wxT("MyButton"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer11->Add( m_button7, 0, wxALL, 5 );
+	
+	
+	bSizer10->Add( bSizer11, 0, wxALIGN_RIGHT, 5 );
+	
+	
+	this->SetSizer( bSizer10 );
+	this->Layout();
+	
+	this->Centre( wxBOTH );
+	
+	// Connect Events
+	this->Connect( wxEVT_INIT_DIALOG, wxInitDialogEventHandler( colourSelectDialog::colourSelectInit ) );
+}
+
+colourSelectDialog::~colourSelectDialog()
+{
+	// Disconnect Events
+	this->Disconnect( wxEVT_INIT_DIALOG, wxInitDialogEventHandler( colourSelectDialog::colourSelectInit ) );
 	
 }
