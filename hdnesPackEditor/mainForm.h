@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Dec 21 2016)
+// C++ code generated with wxFormBuilder (version Jun 17 2015)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -30,7 +30,6 @@
 #include <wx/frame.h>
 #include <wx/filepicker.h>
 #include <wx/dialog.h>
-#include <wx/grid.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -120,7 +119,70 @@ class colourSelectDialog : public wxDialog
 	private:
 	
 	protected:
-		wxGrid* grdColour;
+		wxPanel* pnlColour00;
+		wxPanel* pnlColour01;
+		wxPanel* pnlColour02;
+		wxPanel* pnlColour03;
+		wxPanel* pnlColour04;
+		wxPanel* pnlColour05;
+		wxPanel* pnlColour06;
+		wxPanel* pnlColour07;
+		wxPanel* pnlColour08;
+		wxPanel* pnlColour09;
+		wxPanel* pnlColour0A;
+		wxPanel* pnlColour0B;
+		wxPanel* pnlColour0C;
+		wxPanel* pnlColour0D;
+		wxPanel* pnlColour0E;
+		wxPanel* pnlColour0F;
+		wxPanel* pnlColour10;
+		wxPanel* pnlColour11;
+		wxPanel* pnlColour12;
+		wxPanel* pnlColour13;
+		wxPanel* pnlColour14;
+		wxPanel* pnlColour15;
+		wxPanel* pnlColour16;
+		wxPanel* pnlColour17;
+		wxPanel* pnlColour18;
+		wxPanel* pnlColour19;
+		wxPanel* pnlColour1A;
+		wxPanel* pnlColour1B;
+		wxPanel* pnlColour1C;
+		wxPanel* pnlColour1D;
+		wxPanel* pnlColour1E;
+		wxPanel* pnlColour1F;
+		wxPanel* pnlColour20;
+		wxPanel* pnlColour21;
+		wxPanel* pnlColour22;
+		wxPanel* pnlColour23;
+		wxPanel* pnlColour24;
+		wxPanel* pnlColour25;
+		wxPanel* pnlColour26;
+		wxPanel* pnlColour27;
+		wxPanel* pnlColour28;
+		wxPanel* pnlColour29;
+		wxPanel* pnlColour2A;
+		wxPanel* pnlColour2B;
+		wxPanel* pnlColour2C;
+		wxPanel* pnlColour2D;
+		wxPanel* pnlColour2E;
+		wxPanel* pnlColour2F;
+		wxPanel* pnlColour30;
+		wxPanel* pnlColour31;
+		wxPanel* pnlColour32;
+		wxPanel* pnlColour33;
+		wxPanel* pnlColour34;
+		wxPanel* pnlColour35;
+		wxPanel* pnlColour36;
+		wxPanel* pnlColour37;
+		wxPanel* pnlColour38;
+		wxPanel* pnlColour39;
+		wxPanel* pnlColour3A;
+		wxPanel* pnlColour3B;
+		wxPanel* pnlColour3C;
+		wxPanel* pnlColour3D;
+		wxPanel* pnlColour3E;
+		wxPanel* pnlColour3F;
 		wxButton* m_button6;
 		wxButton* m_button7;
 		

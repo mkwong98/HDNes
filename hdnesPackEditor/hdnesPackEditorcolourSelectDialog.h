@@ -20,7 +20,7 @@ class hdnesPackEditorcolourSelectDialog : public colourSelectDialog
 		/** Constructor */
 		hdnesPackEditorcolourSelectDialog( wxWindow* parent );
 	//// end generated class members
-
+        wxPanel* colourPanels[64];
         void setSelectedCell(Uint8 index);
 };
 

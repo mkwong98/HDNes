@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Dec 21 2016)
+// C++ code generated with wxFormBuilder (version Jun 17 2015)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -289,31 +289,203 @@ colourSelectDialog::colourSelectDialog( wxWindow* parent, wxWindowID id, const w
 	wxBoxSizer* bSizer10;
 	bSizer10 = new wxBoxSizer( wxVERTICAL );
 	
-	grdColour = new wxGrid( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
+	wxGridSizer* gSizer1;
+	gSizer1 = new wxGridSizer( 4, 16, 0, 0 );
 	
-	// Grid
-	grdColour->CreateGrid( 4, 16 );
-	grdColour->EnableEditing( false );
-	grdColour->EnableGridLines( true );
-	grdColour->EnableDragGridSize( false );
-	grdColour->SetMargins( 0, 0 );
+	pnlColour00 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour00, 1, wxEXPAND | wxALL, 5 );
 	
-	// Columns
-	grdColour->EnableDragColMove( false );
-	grdColour->EnableDragColSize( false );
-	grdColour->SetColLabelSize( 30 );
-	grdColour->SetColLabelAlignment( wxALIGN_CENTRE, wxALIGN_TOP );
+	pnlColour01 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour01, 1, wxEXPAND | wxALL, 5 );
 	
-	// Rows
-	grdColour->EnableDragRowSize( true );
-	grdColour->SetRowLabelSize( 50 );
-	grdColour->SetRowLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
+	pnlColour02 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour02, 1, wxEXPAND | wxALL, 5 );
 	
-	// Label Appearance
+	pnlColour03 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour03, 1, wxEXPAND | wxALL, 5 );
 	
-	// Cell Defaults
-	grdColour->SetDefaultCellAlignment( wxALIGN_LEFT, wxALIGN_TOP );
-	bSizer10->Add( grdColour, 1, wxALL|wxEXPAND, 5 );
+	pnlColour04 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour04, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour05 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour05, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour06 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour06, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour07 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour07, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour08 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour08, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour09 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour09, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour0A = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour0A, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour0B = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour0B, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour0C = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour0C, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour0D = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour0D, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour0E = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour0E, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour0F = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour0F, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour10 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour10, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour11 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour11, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour12 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour12, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour13 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour13, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour14 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour14, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour15 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour15, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour16 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour16, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour17 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour17, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour18 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour18, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour19 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour19, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour1A = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour1A, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour1B = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour1B, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour1C = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour1C, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour1D = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour1D, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour1E = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour1E, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour1F = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour1F, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour20 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour20, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour21 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour21, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour22 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour22, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour23 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour23, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour24 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour24, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour25 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour25, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour26 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour26, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour27 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour27, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour28 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour28, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour29 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour29, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour2A = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour2A, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour2B = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour2B, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour2C = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour2C, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour2D = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour2D, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour2E = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour2E, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour2F = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour2F, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour30 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour30, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour31 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour31, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour32 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour32, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour33 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour33, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour34 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour34, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour35 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour35, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour36 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour36, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour37 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour37, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour38 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour38, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour39 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour39, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour3A = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour3A, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour3B = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour3B, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour3C = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour3C, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour3D = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour3D, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour3E = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour3E, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlColour3F = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	gSizer1->Add( pnlColour3F, 1, wxEXPAND | wxALL, 5 );
+	
+	
+	bSizer10->Add( gSizer1, 1, wxEXPAND, 5 );
 	
 	wxBoxSizer* bSizer11;
 	bSizer11 = new wxBoxSizer( wxHORIZONTAL );
