@@ -146,17 +146,17 @@ void hdnesPackEditormainForm::refreshROMView()
         btnRomViewColour3->SetForegroundColour(wxColour(255,255,255));
     }
 
-    Uint32 tileCnt = coreData::cData->romSize / 16;
+    tileCnt = coreData::cData->romSize / 16;
     Uint32 tileSize = 8 * zoomRom->GetValue();
     //display 32 tiles across
-    Uint32 displayWidth = 32;
-    Uint32 displayHeight = ((tileCnt / 32) + 1);
+    romViewDisplayWidth = 16;
+    romViewDisplayHeight = ((tileCnt / 16) + 1);
 
     Uint32 curH = romHScroll->GetThumbPosition() * romHScroll->GetThumbSize();
     Uint32 curV = romVScroll->GetThumbPosition() * romVScroll->GetThumbSize();
 
-    romHScroll->SetRange(displayWidth);
-    romVScroll->SetRange(displayHeight);
+    romHScroll->SetRange(romViewDisplayWidth);
+    romVScroll->SetRange(romViewDisplayHeight);
     romHScroll->SetThumbSize(pnlRom->GetSize().GetWidth() / tileSize);
     romVScroll->SetThumbSize(pnlRom->GetSize().GetHeight() / tileSize);
 
@@ -164,23 +164,29 @@ void hdnesPackEditormainForm::refreshROMView()
 }
 
 void hdnesPackEditormainForm::drawROMView(){
-    wxImage img = wxImage(romHScroll->GetThumbSize() * 8, romVScroll->GetThumbSize() * 8, true);
+    Uint16 visibleCols = min(romViewDisplayWidth, romHScroll->GetThumbSize());
+    Uint16 visibleRows = min(romViewDisplayHeight, romVScroll->GetThumbSize());
+    wxImage img = wxImage(visibleCols * 8, visibleRows * 8, true);
 
     Uint32 memAddress;
     Uint16 drawX;
     Uint16 drawY;
-    for(Uint16 j = 0; j < romVScroll->GetThumbSize(); ++j){
-        for(Uint16 i = 0; i < romHScroll->GetThumbSize(); ++i){
-            memAddress = ((romVScroll->GetThumbPosition() + j) * 32 + romHScroll->GetThumbPosition() + i) * 16;
+    for(Uint16 j = 0; j < visibleRows; ++j){
+        for(Uint16 i = 0; i < visibleCols; ++i){
+            memAddress = ((romVScroll->GetThumbPosition() + j) * 16 + romHScroll->GetThumbPosition() + i) * 16;
             if(memAddress < coreData::cData->romSize){
                 drawX = i * 8;
                 drawY = j * 8;
-                paintTile(img, coreData::cData->romData + memAddress, drawX, drawY, coreData::cData->palette[romViewColours[0]], coreData::cData->palette[romViewColours[1]], coreData::cData->palette[romViewColours[2]], coreData::cData->palette[romViewColours[3]]);
+                paintTile(img, coreData::cData->romData + memAddress, drawX, drawY,
+                          coreData::cData->palette[romViewColours[0]],
+                          coreData::cData->palette[romViewColours[1]],
+                          coreData::cData->palette[romViewColours[2]],
+                          coreData::cData->palette[romViewColours[3]]);
             }
         }
     }
 
-    wxBitmap bmp = wxBitmap(img);
+    wxBitmap bmp = wxBitmap(img.Scale(visibleCols * 8 * zoomRom->GetValue(), visibleRows * 8 * zoomRom->GetValue()));
 	if(bmp.IsOk()){
 		pnlRom->ClearBackground();
 		wxClientDC* objDC;
@@ -209,11 +215,11 @@ void hdnesPackEditormainForm::paintTile(wxImage &img, Uint8* tileData, Uint16 x,
     Uint8 decodeByte2;
     Uint8 decodedVal;
     for(Uint8 dy = 0; dy < 8; ++dy){
-        decodeByte1 = tileData[dy * 2];
-        decodeByte2 = tileData[dy * 2 + 1];
+        decodeByte1 = tileData[dy];
+        decodeByte2 = tileData[dy + 16];
         for(Uint8 dx = 0; dx < 8; ++dx){
             decodedVal = ((decodeByte1 >> dx) & 0x01) | (((decodeByte2 >> dx) << 1) & 0x02);
-            img.SetRGB(x + dx, y + dy, useColour[decodedVal].Red(), useColour[decodedVal].Green(), useColour[decodedVal].Blue());
+            img.SetRGB(x + 7 - dx, y + dy, useColour[decodedVal].Red(), useColour[decodedVal].Green(), useColour[decodedVal].Blue());
         }
     }
 }

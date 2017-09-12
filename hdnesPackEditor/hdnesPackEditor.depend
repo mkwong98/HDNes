@@ -3344,11 +3344,12 @@
 	"coreData.h"
 	<wx/wx.h>
 
-1504959509 c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.h
+1505232310 c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.h
 	"common.h"
 	"mainForm.h"
+	"colourDialogClient.h"
 
-1504975616 c:\work\hdnes\trunk\hdnespackeditor\mainform.h
+1505225760 c:\work\hdnes\trunk\hdnespackeditor\mainform.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/string.h>
@@ -3411,7 +3412,7 @@
 	"common.h"
 	<wx\wx.h>
 
-1504975616 source:c:\work\hdnes\trunk\hdnespackeditor\mainform.cpp
+1505225760 source:c:\work\hdnes\trunk\hdnespackeditor\mainform.cpp
 	"mainForm.h"
 
 1504196542 source:c:\work\hdnes\trunk\hdnespackeditor\condition.cpp
@@ -3635,13 +3636,16 @@
 	"mainForm.h"
 	"colourDialogClient.h"
 
-1504976626 source:c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditorcolourselectdialog.cpp
+1505225760 source:c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditorcolourselectdialog.cpp
 	"common.h"
 	"hdnesPackEditorcolourSelectDialog.h"
 	"coreData.h"
+	"colourDialogClient.h"
+	<wx/colordlg.h>
 
-1504975763 c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditorcolourselectdialog.h
+1505225760 c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditorcolourselectdialog.h
 	"mainForm.h"
+	"colourDialogClient.h"
 
 1505195745 c:\work\hdnesr\trunk\hdnespackeditor\colourdialogclient.h
 
@@ -3668,4 +3672,6 @@
 1412631242 c:\work\include\wx\generic\colrdlgg.h
 	"wx/gdicmn.h"
 	"wx/dialog.h"
+
+1505225760 c:\work\hdnes\trunk\hdnespackeditor\colourdialogclient.h
 

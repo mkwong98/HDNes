@@ -42,8 +42,12 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
 	//// end generated class members
 
 
-        Uint8 romViewColours[4];
         Uint16 colourSelectSource;
+        Uint32 tileCnt;
+
+        Uint8 romViewColours[4];
+        int romViewDisplayWidth;
+        int romViewDisplayHeight;
 
         void refreshCoreDataDisplay();
         void refreshROMView();
