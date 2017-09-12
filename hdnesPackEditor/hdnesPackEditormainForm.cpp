@@ -56,23 +56,43 @@ void hdnesPackEditormainForm::zoomRomChanged( wxSpinEvent& event )
 
 void hdnesPackEditormainForm::romBGColour( wxCommandEvent& event )
 {
-    if(coreData::cData){
-        hdnesPackEditorcolourSelectDialog* fp = new hdnesPackEditorcolourSelectDialog(this);
-        fp->setSelectedCell(romViewColours[0]);
-        fp->Show(true);
+    openColourDialog(COLOUR_CLIENT_ROM_VIEW_BG);
+}
+
+void hdnesPackEditormainForm::colourSelected(Uint8 selectedColour){
+    switch(colourSelectSource){
+    case COLOUR_CLIENT_ROM_VIEW_BG:
+        romViewColours[0] = selectedColour;
+        refreshROMView();
+        break;
+    case COLOUR_CLIENT_ROM_VIEW_1:
+        romViewColours[1] = selectedColour;
+        refreshROMView();
+        break;
+    case COLOUR_CLIENT_ROM_VIEW_2:
+        romViewColours[2] = selectedColour;
+        refreshROMView();
+        break;
+    case COLOUR_CLIENT_ROM_VIEW_3:
+        romViewColours[3] = selectedColour;
+        refreshROMView();
+        break;
     }
+
 }
 
 void hdnesPackEditormainForm::romColour1( wxCommandEvent& event ){
-    drawROMView();
+    openColourDialog(COLOUR_CLIENT_ROM_VIEW_1);
+
 }
 
 void hdnesPackEditormainForm::romColour2( wxCommandEvent& event ){
-    drawROMView();
+    openColourDialog(COLOUR_CLIENT_ROM_VIEW_2);
+
 }
 
 void hdnesPackEditormainForm::romColour3( wxCommandEvent& event ){
-    drawROMView();
+    openColourDialog(COLOUR_CLIENT_ROM_VIEW_3);
 }
 
 void hdnesPackEditormainForm::rowViewSizeChanged( wxSizeEvent& event ){
@@ -144,8 +164,57 @@ void hdnesPackEditormainForm::refreshROMView()
 }
 
 void hdnesPackEditormainForm::drawROMView(){
+    wxImage img = wxImage(romHScroll->GetThumbSize() * 8, romVScroll->GetThumbSize() * 8, true);
 
+    Uint32 memAddress;
+    Uint16 drawX;
+    Uint16 drawY;
+    for(Uint16 j = 0; j < romVScroll->GetThumbSize(); ++j){
+        for(Uint16 i = 0; i < romHScroll->GetThumbSize(); ++i){
+            memAddress = ((romVScroll->GetThumbPosition() + j) * 32 + romHScroll->GetThumbPosition() + i) * 16;
+            if(memAddress < coreData::cData->romSize){
+                drawX = i * 8;
+                drawY = j * 8;
+                paintTile(img, coreData::cData->romData + memAddress, drawX, drawY, coreData::cData->palette[romViewColours[0]], coreData::cData->palette[romViewColours[1]], coreData::cData->palette[romViewColours[2]], coreData::cData->palette[romViewColours[3]]);
+            }
+        }
+    }
+
+    wxBitmap bmp = wxBitmap(img);
+	if(bmp.IsOk()){
+		pnlRom->ClearBackground();
+		wxClientDC* objDC;
+		objDC = new wxClientDC(pnlRom);
+		objDC->DrawBitmap(bmp, 0, 0);
+		delete objDC;
+	}
 }
 
+void hdnesPackEditormainForm::openColourDialog(Uint16 clientID){
+    if(coreData::cData){
+        colourSelectSource = clientID;
+        hdnesPackEditorcolourSelectDialog* fp = new hdnesPackEditorcolourSelectDialog(this);
+        fp->setClientObj(this);
+        fp->Show(true);
+    }
+}
 
+void hdnesPackEditormainForm::paintTile(wxImage &img, Uint8* tileData, Uint16 x, Uint16 y, wxColour cBG, wxColour c1, wxColour c2, wxColour c3){
+    wxColour useColour[4];
+    useColour[0] = cBG;
+    useColour[1] = c1;
+    useColour[2] = c2;
+    useColour[3] = c3;
+    Uint8 decodeByte1;
+    Uint8 decodeByte2;
+    Uint8 decodedVal;
+    for(Uint8 dy = 0; dy < 8; ++dy){
+        decodeByte1 = tileData[dy * 2];
+        decodeByte2 = tileData[dy * 2 + 1];
+        for(Uint8 dx = 0; dx < 8; ++dx){
+            decodedVal = ((decodeByte1 >> dx) & 0x01) | (((decodeByte2 >> dx) << 1) & 0x02);
+            img.SetRGB(x + dx, y + dy, useColour[decodedVal].Red(), useColour[decodedVal].Green(), useColour[decodedVal].Blue());
+        }
+    }
+}
 

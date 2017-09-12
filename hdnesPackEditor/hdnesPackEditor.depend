@@ -4,10 +4,10 @@
 	"hdnesPackEditormainForm.h"
 	"main.h"
 
-1504952722 source:c:\work\hdnesr\trunk\hdnespackeditor\mainform.cpp
+1505196295 source:c:\work\hdnesr\trunk\hdnespackeditor\mainform.cpp
 	"mainForm.h"
 
-1504952172 c:\work\hdnesr\trunk\hdnespackeditor\mainform.h
+1505186334 c:\work\hdnesr\trunk\hdnespackeditor\mainform.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/string.h>
@@ -30,7 +30,6 @@
 	<wx/frame.h>
 	<wx/filepicker.h>
 	<wx/dialog.h>
-	<wx/grid.h>
 
 1412631242 c:\work\include\wx\artprov.h
 	"wx/string.h"
@@ -2124,16 +2123,17 @@
 	"begin_code.h"
 	"close_code.h"
 
-1504953261 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.cpp
+1505216096 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.cpp
 	"hdnesPackEditormainForm.h"
 	"hdnesPackEditornewProjectDialog.h"
 	"hdnesPackEditorcolourSelectDialog.h"
 	"coreData.h"
 	<wx/wx.h>
 
-1504945590 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.h
+1505214174 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.h
 	"common.h"
 	"mainForm.h"
+	"colourDialogClient.h"
 
 1504942638 c:\work\hdnesr\trunk\hdnespackeditor\main.h
 	"common.h"
@@ -3624,11 +3624,16 @@
 	"wx/grid.h"
 	"wx/datetime.h"
 
-1504951175 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditorcolourselectdialog.cpp
+1505198213 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditorcolourselectdialog.cpp
+	"common.h"
 	"hdnesPackEditorcolourSelectDialog.h"
+	"coreData.h"
+	"colourDialogClient.h"
+	<wx/colordlg.h>
 
-1504953207 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditorcolourselectdialog.h
+1505195080 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditorcolourselectdialog.h
 	"mainForm.h"
+	"colourDialogClient.h"
 
 1504976626 source:c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditorcolourselectdialog.cpp
 	"common.h"
@@ -3637,4 +3642,30 @@
 
 1504975763 c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditorcolourselectdialog.h
 	"mainForm.h"
+
+1505195745 c:\work\hdnesr\trunk\hdnespackeditor\colourdialogclient.h
+
+1412631242 c:\work\include\wx\colordlg.h
+	"wx/defs.h"
+	"wx/colourdata.h"
+	"wx/msw/colordlg.h"
+	"wx/osx/colordlg.h"
+	"wx/gtk/colordlg.h"
+	"wx/generic/colrdlgg.h"
+
+1412631242 c:\work\include\wx\colourdata.h
+	"wx/colour.h"
+
+1412631243 c:\work\include\wx\msw\colordlg.h
+	"wx/dialog.h"
+
+1412631243 c:\work\include\wx\osx\colordlg.h
+	"wx/dialog.h"
+
+1412631242 c:\work\include\wx\gtk\colordlg.h
+	"wx/dialog.h"
+
+1412631242 c:\work\include\wx\generic\colrdlgg.h
+	"wx/gdicmn.h"
+	"wx/dialog.h"
 

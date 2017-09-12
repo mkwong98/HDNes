@@ -1,6 +1,8 @@
 #include "common.h"
 #include "hdnesPackEditorcolourSelectDialog.h"
 #include "coreData.h"
+#include "colourDialogClient.h"
+#include <wx/colordlg.h>
 
 hdnesPackEditorcolourSelectDialog::hdnesPackEditorcolourSelectDialog( wxWindow* parent )
 :
@@ -82,9 +84,30 @@ void hdnesPackEditorcolourSelectDialog::colourSelectInit( wxInitDialogEvent& eve
     }
 }
 
-void hdnesPackEditorcolourSelectDialog::setSelectedCell(Uint8 index){
+void hdnesPackEditorcolourSelectDialog::colourLClick( wxMouseEvent& event ){
     for(int i = 0; i < 64; ++i){
-        colourPanels[i]->SetWindowStyle(wxBORDER_NONE);
+        if(event.GetEventObject() == colourPanels[i]){
+            Show(false);
+            clientObj->colourSelected(i);
+        }
     }
-    colourPanels[index]->SetWindowStyle(wxBORDER_SUNKEN);
+}
+
+void hdnesPackEditorcolourSelectDialog::colourRClick( wxMouseEvent& event ){
+    wxColourDialog dialog(this);
+    if(dialog.ShowModal() == wxID_OK){
+        wxColourData retData = dialog.GetColourData();
+        wxColour col = retData.GetColour();
+        for(int i = 0; i < 64; ++i){
+            if(event.GetEventObject() == colourPanels[i]){
+                colourPanels[i]->SetBackgroundColour(col);
+                coreData::cData->palette[i] = col;
+                colourPanels[i]->Refresh();
+            }
+        }
+    }
+}
+
+void hdnesPackEditorcolourSelectDialog::setClientObj(colourDialogClient* obj){
+    clientObj = obj;
 }

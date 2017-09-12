@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Jun 17 2015)
+// C++ code generated with wxFormBuilder (version Dec 21 2016)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -183,11 +183,12 @@ class colourSelectDialog : public wxDialog
 		wxPanel* pnlColour3D;
 		wxPanel* pnlColour3E;
 		wxPanel* pnlColour3F;
-		wxButton* m_button6;
-		wxButton* m_button7;
+		wxStaticText* m_staticText8;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void colourSelectInit( wxInitDialogEvent& event ) { event.Skip(); }
+		virtual void colourLClick( wxMouseEvent& event ) { event.Skip(); }
+		virtual void colourRClick( wxMouseEvent& event ) { event.Skip(); }
 		
 	
 	public:
