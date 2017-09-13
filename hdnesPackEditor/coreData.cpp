@@ -98,10 +98,10 @@ void coreData::loadRom(){
             Uint8 prgPageCount = header[0];
             Uint8 chrPageCount = header[1];
             //skip trainer
-            if((header[2] & 0x04) == 0x04) romfile.seekg(528);
+            if((header[2] & 0x04) == 0x04) romfile.seekg(528, ios_base::cur);
             if(chrPageCount > 0){
                 //skip prg
-                if(prgPageCount > 0) romfile.seekg(prgPageCount * 0x4000);
+                if(prgPageCount > 0) romfile.seekg(prgPageCount * 0x4000, ios_base::cur);
                 romSize = chrPageCount * 0x2000;
                 romData = (Uint8*) malloc(romSize);
                 romfile.read((char*)(romData), romSize);

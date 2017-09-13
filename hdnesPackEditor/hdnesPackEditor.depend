@@ -3317,7 +3317,7 @@
 1412631242 c:\work\include\wx\cocoa\mdi.h
 	"wx/frame.h"
 
-1504959509 source:c:\work\hdnes\trunk\hdnespackeditor\coredata.cpp
+1505322112 source:c:\work\hdnes\trunk\hdnespackeditor\coredata.cpp
 	"common.h"
 	"coreData.h"
 	"image.h"
@@ -3337,7 +3337,7 @@
 	<wx/image.h>
 	<SDL2\SDL.h>
 
-1504959509 source:c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.cpp
+1505241348 source:c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.cpp
 	"hdnesPackEditormainForm.h"
 	"hdnesPackEditornewProjectDialog.h"
 	"hdnesPackEditorcolourSelectDialog.h"

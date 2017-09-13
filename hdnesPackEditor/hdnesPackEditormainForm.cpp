@@ -216,7 +216,7 @@ void hdnesPackEditormainForm::paintTile(wxImage &img, Uint8* tileData, Uint16 x,
     Uint8 decodedVal;
     for(Uint8 dy = 0; dy < 8; ++dy){
         decodeByte1 = tileData[dy];
-        decodeByte2 = tileData[dy + 16];
+        decodeByte2 = tileData[dy + 8];
         for(Uint8 dx = 0; dx < 8; ++dx){
             decodedVal = ((decodeByte1 >> dx) & 0x01) | (((decodeByte2 >> dx) << 1) & 0x02);
             img.SetRGB(x + 7 - dx, y + dy, useColour[decodedVal].Red(), useColour[decodedVal].Green(), useColour[decodedVal].Blue());
