@@ -75,12 +75,18 @@ void hdnesPackEditormainForm::closeWindow( wxCloseEvent& event ){
 	convert << romViewColours[0];
 	s = convert.str();
 	inifile << "<romViewColour0>" + s + "\n";
+	convert.str("");
+	convert.clear();
 	convert << romViewColours[1];
 	s = convert.str();
 	inifile << "<romViewColour1>" + s + "\n";
+	convert.str("");
+	convert.clear();
 	convert << romViewColours[2];
 	s = convert.str();
 	inifile << "<romViewColour2>" + s + "\n";
+	convert.str("");
+	convert.clear();
 	convert << romViewColours[3];
 	s = convert.str();
 	inifile << "<romViewColour3>" + s + "\n";

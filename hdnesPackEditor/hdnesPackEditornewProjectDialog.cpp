@@ -9,7 +9,8 @@ hdnesPackEditornewProjectDialog::hdnesPackEditornewProjectDialog( wxWindow* pare
 :
 newProjectDialog( parent )
 {
-
+    filePickRom->SetPath(wxString(main::mForm->romDir));
+    dirPickPack->SetPath(wxString(main::mForm->packDir));
 }
 
 void hdnesPackEditornewProjectDialog::fileSelected( wxCommandEvent& event )
@@ -26,6 +27,8 @@ void hdnesPackEditornewProjectDialog::fileSelected( wxCommandEvent& event )
         coreData::cData->packPath = dirPickPack->GetPath().ToStdString();
         coreData::cData->loadPackData();
         main::mForm->refreshCoreDataDisplay();
+        main::mForm->romDir = coreData::cData->romPath;
+        main::mForm->packDir = coreData::cData->packPath;
         Show(false);
     }
 }

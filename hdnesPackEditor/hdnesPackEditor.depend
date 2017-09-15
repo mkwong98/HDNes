@@ -3319,13 +3319,13 @@
 1412631242 c:\work\include\wx\cocoa\mdi.h
 	"wx/frame.h"
 
-1505322112 source:c:\work\hdnes\trunk\hdnespackeditor\coredata.cpp
+1505496385 source:c:\work\hdnes\trunk\hdnespackeditor\coredata.cpp
 	"common.h"
 	"coreData.h"
 	"image.h"
 	"main.h"
 
-1504959509 c:\work\hdnes\trunk\hdnespackeditor\coredata.h
+1505496203 c:\work\hdnes\trunk\hdnespackeditor\coredata.h
 	"common.h"
 	"classList.h"
 	<wx/wx.h>
@@ -3339,19 +3339,21 @@
 	<wx/image.h>
 	<SDL2\SDL.h>
 
-1505241348 source:c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.cpp
+1505492229 source:c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.cpp
 	"hdnesPackEditormainForm.h"
 	"hdnesPackEditornewProjectDialog.h"
 	"hdnesPackEditorcolourSelectDialog.h"
 	"coreData.h"
+	"main.h"
+	"common.h"
 	<wx/wx.h>
 
-1505232310 c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.h
+1505491959 c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.h
 	"common.h"
 	"mainForm.h"
 	"colourDialogClient.h"
 
-1505225760 c:\work\hdnes\trunk\hdnespackeditor\mainform.h
+1505491353 c:\work\hdnes\trunk\hdnespackeditor\mainform.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/string.h>
@@ -3398,7 +3400,7 @@
 1504621029 c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditornewprojectdialog.h
 	"mainForm.h"
 
-1504959509 source:c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditornewprojectdialog.cpp
+1505496866 source:c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditornewprojectdialog.cpp
 	<wx/wx.h>
 	"hdnesPackEditornewProjectDialog.h"
 	"hdnesPackEditormainForm.h"
@@ -3414,7 +3416,7 @@
 	"common.h"
 	<wx\wx.h>
 
-1505225760 source:c:\work\hdnes\trunk\hdnespackeditor\mainform.cpp
+1505491353 source:c:\work\hdnes\trunk\hdnespackeditor\mainform.cpp
 	"mainForm.h"
 
 1504196542 source:c:\work\hdnes\trunk\hdnespackeditor\condition.cpp

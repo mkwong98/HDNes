@@ -19,7 +19,7 @@ class coreData
 
         //rom data
         bool isCHRROM;
-        Uint16 romSize;
+        Uint32 romSize;
         Uint8* romData;
 
         //pack data
