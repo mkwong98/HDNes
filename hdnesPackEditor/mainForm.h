@@ -61,6 +61,7 @@ class mainForm : public wxFrame
 		wxScrollBar* romHScroll;
 		
 		// Virtual event handlers, overide them in your derived class
+		virtual void closeWindow( wxCloseEvent& event ) { event.Skip(); }
 		virtual void MenuFileNew( wxCommandEvent& event ) { event.Skip(); }
 		virtual void MenuFileOpen( wxCommandEvent& event ) { event.Skip(); }
 		virtual void MenuFileSave( wxCommandEvent& event ) { event.Skip(); }

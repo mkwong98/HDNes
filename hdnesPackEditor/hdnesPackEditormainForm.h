@@ -36,11 +36,16 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
 		void rowViewSizeChanged( wxSizeEvent& event );
         void romViewVScrolled( wxScrollEvent& event );
         void romViewHScrolled( wxScrollEvent& event );
+        void closeWindow( wxCloseEvent& event );
 	public:
 		/** Constructor */
 		hdnesPackEditormainForm( wxWindow* parent );
 	//// end generated class members
 
+
+        string lastDir;
+        string romDir;
+        string packDir;
 
         Uint16 colourSelectSource;
         Uint32 tileCnt;

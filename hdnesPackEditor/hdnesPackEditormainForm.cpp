@@ -2,6 +2,8 @@
 #include "hdnesPackEditornewProjectDialog.h"
 #include "hdnesPackEditorcolourSelectDialog.h"
 #include "coreData.h"
+#include "main.h"
+#include "common.h"
 #include <wx/wx.h>
 
 hdnesPackEditormainForm::hdnesPackEditormainForm( wxWindow* parent )
@@ -12,6 +14,91 @@ mainForm( parent )
     romViewColours[1] = 18;
     romViewColours[2] = 22;
     romViewColours[3] = 26;
+    lastDir = "";
+    romDir = "";
+    packDir = "";
+
+    //load config
+    string configPath;
+    configPath = main::exeDir + string("\\config.txt");
+
+    fstream fs;
+    string line;
+    string lineHdr;
+    string lineTail;
+    fs.open(configPath, fstream::in);
+    if(fs.is_open()){
+        while(getline(fs, line)){
+            size_t found = line.find_first_of(">");
+            if(found!=string::npos){
+                lineHdr = line.substr(0, found + 1);
+                lineTail = line.substr(found + 1);
+                if(lineHdr == "<lastDir>"){
+                    lastDir = lineTail;
+                }
+                else if(lineHdr == "<romDir>" ){
+                    romDir = lineTail;
+                }
+                else if(lineHdr == "<packDir>"){
+                    packDir = lineTail;
+                }
+                else if(lineHdr == "<romViewColour0>" ){
+                    romViewColours[0] = atoi(lineTail.c_str());
+                }
+                else if(lineHdr == "<romViewColour1>" ){
+                    romViewColours[1] = atoi(lineTail.c_str());
+                }
+                else if(lineHdr == "<romViewColour2>" ){
+                    romViewColours[2] = atoi(lineTail.c_str());
+                }
+                else if(lineHdr == "<romViewColour3>" ){
+                    romViewColours[3] = atoi(lineTail.c_str());
+                }
+                else{
+                }
+            }
+        }
+        fs.close();
+    }
+}
+
+void hdnesPackEditormainForm::closeWindow( wxCloseEvent& event ){
+	fstream inifile;
+    ostringstream convert;
+    string s;
+
+	inifile.open(main::exeDir + "\\config.txt", ios::out);
+	inifile << "<lastDir>" + lastDir + "\n";
+	inifile << "<romDir>" + romDir + "\n";
+	inifile << "<packDir>" + packDir + "\n";
+
+	convert << romViewColours[0];
+	s = convert.str();
+	inifile << "<romViewColour0>" + s + "\n";
+	convert << romViewColours[1];
+	s = convert.str();
+	inifile << "<romViewColour1>" + s + "\n";
+	convert << romViewColours[2];
+	s = convert.str();
+	inifile << "<romViewColour2>" + s + "\n";
+	convert << romViewColours[3];
+	s = convert.str();
+	inifile << "<romViewColour3>" + s + "\n";
+	inifile.close();
+
+    if ( event.CanVeto() && false )
+    {
+        if ( wxMessageBox("The file has not been saved... continue closing?",
+                          "Please confirm",
+                          wxICON_QUESTION | wxYES_NO) != wxYES )
+        {
+            event.Veto();
+            return;
+        }
+    }
+
+	Show(false);
+	Destroy();
 }
 
 void hdnesPackEditormainForm::MenuFileNew( wxCommandEvent& event )

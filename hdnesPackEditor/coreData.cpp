@@ -36,7 +36,6 @@ void coreData::loadPackData(){
             if(found!=string::npos){
                 lineHdr = line.substr(0, found + 1);
                 lineTail = line.substr(found + 1);
-                cout << lineHdr;
                 if(lineHdr == "<scale>"){
                     scale = atoi(lineTail.c_str());
                 }
