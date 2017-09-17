@@ -2,6 +2,8 @@
 #include "hdnesPackEditorcolourSelectDialog.h"
 #include "coreData.h"
 #include "colourDialogClient.h"
+#include "main.h"
+#include "hdnesPackEditormainForm.h"
 #include <wx/colordlg.h>
 
 hdnesPackEditorcolourSelectDialog::hdnesPackEditorcolourSelectDialog( wxWindow* parent )
@@ -102,6 +104,8 @@ void hdnesPackEditorcolourSelectDialog::colourRClick( wxMouseEvent& event ){
             if(event.GetEventObject() == colourPanels[i]){
                 colourPanels[i]->SetBackgroundColour(col);
                 coreData::cData->palette[i] = col;
+                coreData::cData->notSaved = true;
+                main::mForm->dataChanged();
                 colourPanels[i]->Refresh();
             }
         }

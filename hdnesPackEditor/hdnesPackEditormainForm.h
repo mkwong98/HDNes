@@ -47,6 +47,8 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         string romDir;
         string packDir;
 
+        bool notSaved;
+
         Uint16 colourSelectSource;
         Uint32 tileCnt;
 
@@ -60,6 +62,8 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         void openColourDialog(Uint16 clientID);
         virtual void colourSelected(Uint8 selectedColour);
         void paintTile(wxImage &img, Uint8* tileData, Uint16 x, Uint16 y, wxColour cBG, wxColour c1, wxColour c2, wxColour c3);
+        void dataChanged();
+        void dataSaved();
 };
 
 #endif // __hdnesPackEditormainForm__

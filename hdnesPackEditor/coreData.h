@@ -13,9 +13,11 @@ class coreData
         coreData();
         virtual ~coreData();
 
+        //project data
         string romPath;
         string packPath;
         string projectPath;
+        bool notSaved;
 
         //rom data
         bool isCHRROM;
@@ -30,14 +32,17 @@ class coreData
         vector<string> otherLines;
         wxColour palette[64];
 
-        //project data
 
+        void dataChanged();
+        void initPath(string rPath, string pPath);
         void load(string path);
         void save();
         void saveAs(string path);
 
         void loadPackData();
         void loadRom();
+
+        vector<string> split(const string &s, char delim, vector<string> &elems);
 
     protected:
 

@@ -22,13 +22,11 @@ void hdnesPackEditornewProjectDialog::fileSelected( wxCommandEvent& event )
         wxMessageBox( wxT("Please select the location of the HD pack folder") );
     }
     else{
-        coreData::cData->romPath = filePickRom->GetPath().ToStdString();
-        coreData::cData->loadRom();
-        coreData::cData->packPath = dirPickPack->GetPath().ToStdString();
-        coreData::cData->loadPackData();
-        main::mForm->refreshCoreDataDisplay();
-        main::mForm->romDir = coreData::cData->romPath;
-        main::mForm->packDir = coreData::cData->packPath;
+        if(coreData::cData){
+            delete(coreData::cData);
+        }
+        coreData::cData = new coreData();
+        coreData::cData->initPath(filePickRom->GetPath().ToStdString(), dirPickPack->GetPath().ToStdString());
         Show(false);
     }
 }

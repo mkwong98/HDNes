@@ -17,6 +17,9 @@ mainForm( parent )
     lastDir = "";
     romDir = "";
     packDir = "";
+    m_menu3->FindItem(m_menu3->FindItem(wxString("Save Project")))->Enable(false);
+    m_menu3->FindItem(m_menu3->FindItem(wxString("Save Project As...")))->Enable(false);
+    m_menu3->FindItem(m_menu3->FindItem(wxString("Generate Pack Data")))->Enable(false);
 
     //load config
     string configPath;
@@ -92,7 +95,7 @@ void hdnesPackEditormainForm::closeWindow( wxCloseEvent& event ){
 	inifile << "<romViewColour3>" + s + "\n";
 	inifile.close();
 
-    if ( event.CanVeto() && false )
+    if ( event.CanVeto() && notSaved )
     {
         if ( wxMessageBox("The file has not been saved... continue closing?",
                           "Please confirm",
@@ -109,27 +112,45 @@ void hdnesPackEditormainForm::closeWindow( wxCloseEvent& event ){
 
 void hdnesPackEditormainForm::MenuFileNew( wxCommandEvent& event )
 {
-    if(coreData::cData){
-        delete(coreData::cData);
-    }
-    coreData::cData = new coreData();
     hdnesPackEditornewProjectDialog* fp = new hdnesPackEditornewProjectDialog(this);
     fp->Show(true);
 }
 
 void hdnesPackEditormainForm::MenuFileOpen( wxCommandEvent& event )
 {
-// TODO: Implement MenuFileOpen
+    wxFileDialog dialog(this, wxString("Open project"), lastDir, lastDir, wxString("*.hnp"), wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+    if(dialog.ShowModal() == wxID_OK){
+        if(coreData::cData){
+            delete(coreData::cData);
+        }
+        coreData::cData = new coreData();
+        coreData::cData->load(dialog.GetPath().ToStdString());
+    }
 }
 
 void hdnesPackEditormainForm::MenuFileSave( wxCommandEvent& event )
 {
-// TODO: Implement MenuFileSave
+    if(coreData::cData->projectPath == ""){
+        string romName = coreData::cData->romPath.substr(coreData::cData->romPath.find_last_of("\\/") + 1);
+        romName = romName.substr(0, romName.find_last_of("."));
+        wxFileDialog dialog(this, wxString("Save As"), lastDir, wxString(string(romName + ".hnp").c_str()), wxString("*.hnp"), wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+        if(dialog.ShowModal() == wxID_OK){
+            coreData::cData->saveAs(dialog.GetPath().ToStdString());
+        }
+    }
+    else{
+        coreData::cData->save();
+    }
 }
 
 void hdnesPackEditormainForm::MenuFileSaveAs( wxCommandEvent& event )
 {
-// TODO: Implement MenuFileSaveAs
+    string romName = coreData::cData->projectPath.substr(coreData::cData->projectPath.find_last_of("\\/") + 1);
+    romName = romName.substr(0, romName.find_last_of("."));
+    wxFileDialog dialog(this, wxString("Save As"), coreData::cData->projectPath, wxString(string(romName + ".hnp").c_str()), wxString("*.hnp"), wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+    if(dialog.ShowModal() == wxID_OK){
+        coreData::cData->saveAs(dialog.GetPath().ToStdString());
+    }
 }
 
 void hdnesPackEditormainForm::MenuFileGen( wxCommandEvent& event )
@@ -316,4 +337,19 @@ void hdnesPackEditormainForm::paintTile(wxImage &img, Uint8* tileData, Uint16 x,
         }
     }
 }
+
+void hdnesPackEditormainForm::dataChanged(){
+    refreshCoreDataDisplay();
+    romDir = coreData::cData->romPath;
+    packDir = coreData::cData->packPath;
+    m_menu3->FindItem(m_menu3->FindItem(wxString("Save Project As...")))->Enable(true);
+    m_menu3->FindItem(m_menu3->FindItem(wxString("Generate Pack Data")))->Enable(true);
+    m_menu3->FindItem(m_menu3->FindItem(wxString("Save Project")))->Enable(true);
+}
+
+void hdnesPackEditormainForm::dataSaved(){
+    lastDir = coreData::cData->projectPath;
+    m_menu3->FindItem(m_menu3->FindItem(wxString("Save Project")))->Enable(false);
+}
+
 

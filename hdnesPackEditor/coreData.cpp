@@ -2,19 +2,34 @@
 #include "coreData.h"
 #include "image.h"
 #include "main.h"
+#include "hdnesPackEditormainForm.h"
 
 coreData* coreData::cData;
 
 coreData::coreData()
 {
+    projectPath = "";
     romPath = "";
+    packPath = "";
     romSize = 0;
     isCHRROM = true;
+    notSaved = true;
 }
 
 coreData::~coreData()
 {
     if(romSize > 0) free(romData);
+}
+
+void coreData::initPath(string rPath, string pPath){
+    romPath = rPath;
+    packPath = pPath;
+    loadRom();
+    loadPackData();
+    main::mForm->dataChanged();
+    if(!notSaved){
+        main::mForm->dataSaved();
+    }
 }
 
 void coreData::loadPackData(){
@@ -117,4 +132,90 @@ void coreData::loadRom(){
     romfile.close();
 }
 
+void coreData::load(string path){
+    projectPath = path;
+    string path1;
+    string path2;
 
+    fstream fs;
+    string line;
+    string lineHdr;
+    string lineTail;
+    fs.open(projectPath, fstream::in);
+    if(fs.is_open()){
+        while(getline(fs, line)){
+            size_t found = line.find_first_of(">");
+            if(found!=string::npos){
+                lineHdr = line.substr(0, found + 1);
+                lineTail = line.substr(found + 1);
+                if(lineHdr == "<romPath>"){
+                    path1 = lineTail;
+                }
+                else if(lineHdr == "<packPath>"){
+                    path2 = lineTail;
+                }
+                else if(lineHdr == "<palette>"){
+                    vector<string> lineTokens;
+                    split(lineTail, ',', lineTokens);
+                    cout << lineTokens[1] + ",";
+                    palette[atoi(lineTokens[0].c_str())].SetRGBA(atoi(lineTokens[1].c_str()));
+
+                }
+            }
+        }
+        fs.close();
+        initPath(path1, path2);
+
+    }
+}
+
+void coreData::save(){
+    notSaved = false;
+
+	fstream inifile;
+    ostringstream convert;
+    string s;
+
+	inifile.open(projectPath, ios::out);
+	inifile << "<romPath>" + romPath + "\n";
+	inifile << "<packPath>" + packPath + "\n";
+
+    for(int i = 0; i < 64; ++i){
+        inifile << "<palette>";
+        convert.str("");
+        convert.clear();
+        convert << i;
+        s = convert.str();
+        inifile << s;
+
+        convert.str("");
+        convert.clear();
+        convert << palette[i].GetRGBA();
+        s = convert.str();
+        inifile << "," + s;
+
+        inifile << "\n";
+    }
+
+    inifile.close();
+    main::mForm->dataSaved();
+}
+
+void coreData::saveAs(string path){
+    projectPath = path;
+    save();
+}
+
+void coreData::dataChanged(){
+    notSaved = true;
+    main::mForm->dataChanged();
+}
+
+vector<string> coreData::split(const string &s, char delim, vector<string> &elems) {
+    stringstream ss(s);
+    string item;
+    while(getline(ss, item, delim)) {
+        elems.push_back(item);
+    }
+    return elems;
+}
