@@ -33,9 +33,15 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
 		void romColour1( wxCommandEvent& event );
 		void romColour2( wxCommandEvent& event );
 		void romColour3( wxCommandEvent& event );
-		void rowViewSizeChanged( wxSizeEvent& event );
+		void romViewPaletteHexChanged( wxCommandEvent& event );
+		void romViewSizeChanged( wxSizeEvent& event );
         void romViewVScrolled( wxScrollEvent& event );
         void romViewHScrolled( wxScrollEvent& event );
+		void romViewLDown( wxMouseEvent& event );
+		void romViewLUp( wxMouseEvent& event );
+		void romViewRUp( wxMouseEvent& event );
+		void romViewMove( wxMouseEvent& event );
+
         void closeWindow( wxCloseEvent& event );
 	public:
 		/** Constructor */
@@ -55,13 +61,19 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         int romViewColours[4];
         int romViewDisplayWidth;
         int romViewDisplayHeight;
+        vector<string> romViewSelectedTiles;
+        int romViewLDownX;
+        int romViewLDownY;
 
-        void refreshCoreDataDisplay();
         void refreshROMView();
         void drawROMView();
+        void romViewPaletteToText();
+
+        void refreshCoreDataDisplay();
         void openColourDialog(Uint16 clientID);
         virtual void colourSelected(Uint8 selectedColour);
         void paintTile(wxImage &img, Uint8* tileData, Uint16 x, Uint16 y, wxColour cBG, wxColour c1, wxColour c2, wxColour c3);
+
         void dataChanged();
         void dataSaved();
 };

@@ -6,6 +6,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <iomanip>
 
 #include <wx/image.h>
 

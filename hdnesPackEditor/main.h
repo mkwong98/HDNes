@@ -11,6 +11,7 @@ class main : public wxApp{
 public:
     static hdnesPackEditormainForm* mForm;
     static string exeDir;
+    static string intToHex(int value);
 
 	main(void);
 	~main(void);

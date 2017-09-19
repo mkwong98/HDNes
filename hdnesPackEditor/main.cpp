@@ -8,6 +8,13 @@ IMPLEMENT_APP(main)
 hdnesPackEditormainForm* main::mForm;
 string main::exeDir;
 
+string main::intToHex(int value){
+    stringstream stream;
+    stream << std::setfill('0') << std::setw(2);
+    stream << std::hex << value;
+    return stream.str();
+}
+
 main::main(void){
     wxInitAllImageHandlers();
 

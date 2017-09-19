@@ -36,10 +36,6 @@ void coreData::loadPackData(){
     string hiresPath;
     hiresPath = packPath + string("\\hires.txt");
 
-    string palettePath;
-    palettePath = packPath + string("\\palette.dat");
-
-
     fstream fs;
     string line;
     string lineHdr;
@@ -74,23 +70,7 @@ void coreData::loadPackData(){
         }
         fs.close();
     }
-
-    fstream palettefile;
-    char rawPalette[192];
-    palettefile.open(palettePath, ios::in | ios::binary);
-    if (!palettefile.is_open()){
-        palettefile.open(main::exeDir + string("\\default.pal"), ios::in | ios::binary);
-    }
-    if (palettefile.is_open()){
-        palettefile.read(rawPalette, 192);
-        palettefile.close();
-
-        for(int i = 0; i < 64; i++){
-            palette[i] = wxColour(rawPalette[i * 3], rawPalette[i * 3 + 1], rawPalette[i * 3 + 2]);
-        }
-    }
-
-
+    loadPalette();
 }
 
 void coreData::loadRom(){
@@ -132,10 +112,28 @@ void coreData::loadRom(){
     romfile.close();
 }
 
+void coreData::loadPalette(){
+    string palettePath;
+    palettePath = packPath + string("\\palette.dat");
+
+    fstream palettefile;
+    char rawPalette[192];
+    palettefile.open(palettePath, ios::in | ios::binary);
+    if (!palettefile.is_open()){
+        palettefile.open(main::exeDir + string("\\default.pal"), ios::in | ios::binary);
+    }
+    if (palettefile.is_open()){
+        palettefile.read(rawPalette, 192);
+        palettefile.close();
+
+        for(int i = 0; i < 64; i++){
+            palette[i] = wxColour(rawPalette[i * 3], rawPalette[i * 3 + 1], rawPalette[i * 3 + 2]);
+        }
+    }
+}
+
 void coreData::load(string path){
     projectPath = path;
-    string path1;
-    string path2;
 
     fstream fs;
     string line;
@@ -149,23 +147,23 @@ void coreData::load(string path){
                 lineHdr = line.substr(0, found + 1);
                 lineTail = line.substr(found + 1);
                 if(lineHdr == "<romPath>"){
-                    path1 = lineTail;
+                    romPath = lineTail;
                 }
                 else if(lineHdr == "<packPath>"){
-                    path2 = lineTail;
+                    packPath = lineTail;
                 }
                 else if(lineHdr == "<palette>"){
                     vector<string> lineTokens;
                     split(lineTail, ',', lineTokens);
-                    cout << lineTokens[1] + ",";
                     palette[atoi(lineTokens[0].c_str())].SetRGBA(atoi(lineTokens[1].c_str()));
 
                 }
             }
         }
         fs.close();
-        initPath(path1, path2);
-
+        loadRom();
+        main::mForm->dataChanged();
+        main::mForm->dataSaved();
     }
 }
 

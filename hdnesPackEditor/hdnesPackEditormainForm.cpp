@@ -63,6 +63,7 @@ mainForm( parent )
         }
         fs.close();
     }
+    romViewPaletteToText();
 }
 
 void hdnesPackEditormainForm::closeWindow( wxCloseEvent& event ){
@@ -177,22 +178,36 @@ void hdnesPackEditormainForm::colourSelected(Uint8 selectedColour){
     switch(colourSelectSource){
     case COLOUR_CLIENT_ROM_VIEW_BG:
         romViewColours[0] = selectedColour;
+        romViewPaletteToText();
         refreshROMView();
         break;
     case COLOUR_CLIENT_ROM_VIEW_1:
         romViewColours[1] = selectedColour;
+        romViewPaletteToText();
         refreshROMView();
         break;
     case COLOUR_CLIENT_ROM_VIEW_2:
         romViewColours[2] = selectedColour;
+        romViewPaletteToText();
         refreshROMView();
         break;
     case COLOUR_CLIENT_ROM_VIEW_3:
         romViewColours[3] = selectedColour;
+        romViewPaletteToText();
         refreshROMView();
         break;
     }
+}
 
+void hdnesPackEditormainForm::romViewPaletteHexChanged( wxCommandEvent& event ){
+    string v = txtRomViewPalette->GetValue().ToStdString();
+    if(v.length() == 8){
+         romViewColours[0] = strtol(v.substr(0, 2).c_str(), NULL, 16);
+         romViewColours[1] = strtol(v.substr(2, 2).c_str(), NULL, 16);
+         romViewColours[2] = strtol(v.substr(4, 2).c_str(), NULL, 16);
+         romViewColours[3] = strtol(v.substr(6, 2).c_str(), NULL, 16);
+    }
+    refreshROMView();
 }
 
 void hdnesPackEditormainForm::romColour1( wxCommandEvent& event ){
@@ -209,7 +224,7 @@ void hdnesPackEditormainForm::romColour3( wxCommandEvent& event ){
     openColourDialog(COLOUR_CLIENT_ROM_VIEW_3);
 }
 
-void hdnesPackEditormainForm::rowViewSizeChanged( wxSizeEvent& event ){
+void hdnesPackEditormainForm::romViewSizeChanged( wxSizeEvent& event ){
     refreshROMView();
 }
 
@@ -299,8 +314,10 @@ void hdnesPackEditormainForm::drawROMView(){
             }
         }
     }
+    wxImage scaledImg = img.Scale(visibleCols * 8 * zoomRom->GetValue(), visibleRows * 8 * zoomRom->GetValue());
 
-    wxBitmap bmp = wxBitmap(img.Scale(visibleCols * 8 * zoomRom->GetValue(), visibleRows * 8 * zoomRom->GetValue()));
+
+    wxBitmap bmp = wxBitmap(scaledImg);
 	if(bmp.IsOk()){
 		pnlRom->ClearBackground();
 		wxClientDC* objDC;
@@ -309,6 +326,34 @@ void hdnesPackEditormainForm::drawROMView(){
 		delete objDC;
 	}
 }
+
+void hdnesPackEditormainForm::romViewPaletteToText(){
+    wxString v;
+    v = wxString((main::intToHex(romViewColours[0])
+                + main::intToHex(romViewColours[1])
+                + main::intToHex(romViewColours[2])
+                + main::intToHex(romViewColours[3])).c_str());
+    txtRomViewPalette->ChangeValue(v);
+
+}
+
+void hdnesPackEditormainForm::romViewLDown( wxMouseEvent& event ){
+    wxPoint p = event.GetPosition();
+    romViewLDownX = romHScroll->GetThumbPosition() + (p.x / (8 * zoomRom->GetValue()));
+    romViewLDownY = romVScroll->GetThumbPosition() + (p.y / (8 * zoomRom->GetValue()));
+}
+
+void hdnesPackEditormainForm::romViewLUp( wxMouseEvent& event ){
+}
+
+void hdnesPackEditormainForm::romViewRUp( wxMouseEvent& event ){
+}
+
+void hdnesPackEditormainForm::romViewMove( wxMouseEvent& event ){
+
+}
+
+
 
 void hdnesPackEditormainForm::openColourDialog(Uint16 clientID){
     if(coreData::cData){

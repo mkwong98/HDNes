@@ -41,6 +41,7 @@ class coreData
 
         void loadPackData();
         void loadRom();
+        void loadPalette();
 
         vector<string> split(const string &s, char delim, vector<string> &elems);
 

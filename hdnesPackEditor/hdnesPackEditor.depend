@@ -1,13 +1,13 @@
 # depslib dependency file v1.0
-1504946993 source:c:\work\hdnesr\trunk\hdnespackeditor\main.cpp
+1505814512 source:c:\work\hdnesr\trunk\hdnespackeditor\main.cpp
 	"common.h"
 	"hdnesPackEditormainForm.h"
 	"main.h"
 
-1505471564 source:c:\work\hdnesr\trunk\hdnespackeditor\mainform.cpp
+1505818554 source:c:\work\hdnesr\trunk\hdnespackeditor\mainform.cpp
 	"mainForm.h"
 
-1505471564 c:\work\hdnesr\trunk\hdnespackeditor\mainform.h
+1505818554 c:\work\hdnesr\trunk\hdnespackeditor\mainform.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/string.h>
@@ -23,6 +23,7 @@
 	<wx/stattext.h>
 	<wx/spinctrl.h>
 	<wx/button.h>
+	<wx/textctrl.h>
 	<wx/sizer.h>
 	<wx/panel.h>
 	<wx/scrolbar.h>
@@ -2123,7 +2124,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1505473933 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.cpp
+1505815545 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.cpp
 	"hdnesPackEditormainForm.h"
 	"hdnesPackEditornewProjectDialog.h"
 	"hdnesPackEditorcolourSelectDialog.h"
@@ -2132,12 +2133,12 @@
 	"common.h"
 	<wx/wx.h>
 
-1505471687 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.h
+1505818573 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.h
 	"common.h"
 	"mainForm.h"
 	"colourDialogClient.h"
 
-1504942638 c:\work\hdnesr\trunk\hdnespackeditor\main.h
+1505814512 c:\work\hdnesr\trunk\hdnespackeditor\main.h
 	"common.h"
 	<wx\wx.h>
 
@@ -3441,23 +3442,25 @@
 1504855141 c:\work\hdnesr\trunk\hdnespackeditor\condition.h
 	"common.h"
 
-1505471080 source:c:\work\hdnesr\trunk\hdnespackeditor\coredata.cpp
+1505811131 source:c:\work\hdnesr\trunk\hdnespackeditor\coredata.cpp
 	"common.h"
 	"coreData.h"
 	"image.h"
 	"main.h"
+	"hdnesPackEditormainForm.h"
 
-1504949189 c:\work\hdnesr\trunk\hdnespackeditor\coredata.h
+1505801033 c:\work\hdnesr\trunk\hdnespackeditor\coredata.h
 	"common.h"
 	"classList.h"
 	<wx/wx.h>
 
-1504941227 c:\work\hdnesr\trunk\hdnespackeditor\common.h
+1505812394 c:\work\hdnesr\trunk\hdnespackeditor\common.h
 	<fstream>
 	<sstream>
 	<string>
 	<iostream>
 	<vector>
+	<iomanip>
 	<wx/image.h>
 	<SDL2\SDL.h>
 
@@ -3473,7 +3476,7 @@
 1504255405 c:\work\hdnesr\trunk\hdnespackeditor\image.h
 	"common.h"
 
-1504943917 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditornewprojectdialog.cpp
+1505786148 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditornewprojectdialog.cpp
 	<wx/wx.h>
 	"hdnesPackEditornewProjectDialog.h"
 	"hdnesPackEditormainForm.h"
@@ -3630,11 +3633,13 @@
 	"wx/grid.h"
 	"wx/datetime.h"
 
-1505198213 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditorcolourselectdialog.cpp
+1505786148 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditorcolourselectdialog.cpp
 	"common.h"
 	"hdnesPackEditorcolourSelectDialog.h"
 	"coreData.h"
 	"colourDialogClient.h"
+	"main.h"
+	"hdnesPackEditormainForm.h"
 	<wx/colordlg.h>
 
 1505195080 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditorcolourselectdialog.h

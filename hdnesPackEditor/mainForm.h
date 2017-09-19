@@ -23,6 +23,7 @@
 #include <wx/stattext.h>
 #include <wx/spinctrl.h>
 #include <wx/button.h>
+#include <wx/textctrl.h>
 #include <wx/sizer.h>
 #include <wx/panel.h>
 #include <wx/scrolbar.h>
@@ -49,13 +50,13 @@ class mainForm : public wxFrame
 		wxPanel* m_panel1;
 		wxStaticText* m_staticText6;
 		wxSpinCtrl* zoomRom;
-		wxStaticText* m_staticText7;
 		wxStaticText* m_staticText9;
 		wxStaticText* m_staticText10;
 		wxButton* btnRomViewBGColour;
 		wxButton* btnRomViewColour1;
 		wxButton* btnRomViewColour2;
 		wxButton* btnRomViewColour3;
+		wxTextCtrl* txtRomViewPalette;
 		wxPanel* pnlRom;
 		wxScrollBar* romVScroll;
 		wxScrollBar* romHScroll;
@@ -73,14 +74,19 @@ class mainForm : public wxFrame
 		virtual void romColour1( wxCommandEvent& event ) { event.Skip(); }
 		virtual void romColour2( wxCommandEvent& event ) { event.Skip(); }
 		virtual void romColour3( wxCommandEvent& event ) { event.Skip(); }
-		virtual void rowViewSizeChanged( wxSizeEvent& event ) { event.Skip(); }
+		virtual void romViewPaletteHexChanged( wxCommandEvent& event ) { event.Skip(); }
+		virtual void romViewLDown( wxMouseEvent& event ) { event.Skip(); }
+		virtual void romViewLUp( wxMouseEvent& event ) { event.Skip(); }
+		virtual void romViewMove( wxMouseEvent& event ) { event.Skip(); }
+		virtual void romViewRUp( wxMouseEvent& event ) { event.Skip(); }
+		virtual void romViewSizeChanged( wxSizeEvent& event ) { event.Skip(); }
 		virtual void romViewVScrolled( wxScrollEvent& event ) { event.Skip(); }
 		virtual void romViewHScrolled( wxScrollEvent& event ) { event.Skip(); }
 		
 	
 	public:
 		
-		mainForm( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("HDNes Graphics Pack Editor"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 800,471 ), long style = wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER|wxTAB_TRAVERSAL );
+		mainForm( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("HDNes Graphics Pack Editor"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 849,521 ), long style = wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER|wxTAB_TRAVERSAL );
 		
 		~mainForm();
 	
