@@ -3320,24 +3320,25 @@
 1412631242 c:\work\include\wx\cocoa\mdi.h
 	"wx/frame.h"
 
-1505670999 source:c:\work\hdnes\trunk\hdnespackeditor\coredata.cpp
+1505837122 source:c:\work\hdnes\trunk\hdnespackeditor\coredata.cpp
 	"common.h"
 	"coreData.h"
 	"image.h"
 	"main.h"
 	"hdnesPackEditormainForm.h"
 
-1505669495 c:\work\hdnes\trunk\hdnespackeditor\coredata.h
+1505837122 c:\work\hdnes\trunk\hdnespackeditor\coredata.h
 	"common.h"
 	"classList.h"
 	<wx/wx.h>
 
-1504631310 c:\work\hdnes\trunk\hdnespackeditor\common.h
+1505837122 c:\work\hdnes\trunk\hdnespackeditor\common.h
 	<fstream>
 	<sstream>
 	<string>
 	<iostream>
 	<vector>
+	<iomanip>
 	<wx/image.h>
 	<SDL2\SDL.h>
 
@@ -3350,12 +3351,12 @@
 	"common.h"
 	<wx/wx.h>
 
-1505666796 c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.h
+1505838104 c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.h
 	"common.h"
 	"mainForm.h"
 	"colourDialogClient.h"
 
-1505491353 c:\work\hdnes\trunk\hdnespackeditor\mainform.h
+1505837122 c:\work\hdnes\trunk\hdnespackeditor\mainform.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/string.h>
@@ -3371,6 +3372,7 @@
 	<wx/stattext.h>
 	<wx/spinctrl.h>
 	<wx/button.h>
+	<wx/textctrl.h>
 	<wx/sizer.h>
 	<wx/panel.h>
 	<wx/scrolbar.h>
@@ -3409,16 +3411,16 @@
 	"main.h"
 	"coreData.h"
 
-1504959509 source:c:\work\hdnes\trunk\hdnespackeditor\main.cpp
+1505837122 source:c:\work\hdnes\trunk\hdnespackeditor\main.cpp
 	"common.h"
 	"hdnesPackEditormainForm.h"
 	"main.h"
 
-1504959509 c:\work\hdnes\trunk\hdnespackeditor\main.h
+1505837122 c:\work\hdnes\trunk\hdnespackeditor\main.h
 	"common.h"
 	<wx\wx.h>
 
-1505491353 source:c:\work\hdnes\trunk\hdnespackeditor\mainform.cpp
+1505837122 source:c:\work\hdnes\trunk\hdnespackeditor\mainform.cpp
 	"mainForm.h"
 
 1504196542 source:c:\work\hdnes\trunk\hdnespackeditor\condition.cpp

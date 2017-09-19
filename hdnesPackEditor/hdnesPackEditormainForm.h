@@ -64,9 +64,11 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         vector<string> romViewSelectedTiles;
         int romViewLDownX;
         int romViewLDownY;
+        wxImage romViewImage;
 
         void refreshROMView();
         void drawROMView();
+        void showROMView();
         void romViewPaletteToText();
 
         void refreshCoreDataDisplay();

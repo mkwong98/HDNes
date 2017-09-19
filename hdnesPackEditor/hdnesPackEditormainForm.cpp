@@ -293,30 +293,34 @@ void hdnesPackEditormainForm::refreshROMView()
 }
 
 void hdnesPackEditormainForm::drawROMView(){
-    Uint16 visibleCols = min(romViewDisplayWidth, romHScroll->GetThumbSize());
-    Uint16 visibleRows = min(romViewDisplayHeight, romVScroll->GetThumbSize());
-    wxImage img = wxImage(visibleCols * 8, visibleRows * 8, true);
+    Uint16 visibleCols = min(romViewDisplayWidth, romHScroll->GetThumbSize()) + 1;
+    Uint16 visibleRows = min(romViewDisplayHeight, romVScroll->GetThumbSize()) + 1;
+    romViewImage = wxImage(visibleCols * 8, visibleRows * 8, true);
 
     Uint32 memAddress;
     Uint16 drawX;
     Uint16 drawY;
     for(Uint16 j = 0; j < visibleRows; ++j){
         for(Uint16 i = 0; i < visibleCols; ++i){
-            memAddress = ((romVScroll->GetThumbPosition() + j) * 16 + romHScroll->GetThumbPosition() + i) * 16;
-            if(memAddress < coreData::cData->romSize){
-                drawX = i * 8;
-                drawY = j * 8;
-                paintTile(img, coreData::cData->romData + memAddress, drawX, drawY,
-                          coreData::cData->palette[romViewColours[0]],
-                          coreData::cData->palette[romViewColours[1]],
-                          coreData::cData->palette[romViewColours[2]],
-                          coreData::cData->palette[romViewColours[3]]);
+            if(romHScroll->GetThumbPosition() + i < romViewDisplayWidth && romVScroll->GetThumbPosition() + j < romViewDisplayHeight){
+                memAddress = ((romVScroll->GetThumbPosition() + j) * 16 + romHScroll->GetThumbPosition() + i) * 16;
+                if(memAddress < coreData::cData->romSize){
+                    drawX = i * 8;
+                    drawY = j * 8;
+                    paintTile(romViewImage, coreData::cData->romData + memAddress, drawX, drawY,
+                              coreData::cData->palette[romViewColours[0]],
+                              coreData::cData->palette[romViewColours[1]],
+                              coreData::cData->palette[romViewColours[2]],
+                              coreData::cData->palette[romViewColours[3]]);
+                }
             }
         }
     }
-    wxImage scaledImg = img.Scale(visibleCols * 8 * zoomRom->GetValue(), visibleRows * 8 * zoomRom->GetValue());
+    showROMView();
+}
 
-
+void hdnesPackEditormainForm::showROMView(){
+    wxImage scaledImg = romViewImage.Scale(romViewImage.GetWidth() * zoomRom->GetValue(), romViewImage.GetHeight() * zoomRom->GetValue());
     wxBitmap bmp = wxBitmap(scaledImg);
 	if(bmp.IsOk()){
 		pnlRom->ClearBackground();
@@ -326,6 +330,7 @@ void hdnesPackEditormainForm::drawROMView(){
 		delete objDC;
 	}
 }
+
 
 void hdnesPackEditormainForm::romViewPaletteToText(){
     wxString v;
