@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Dec 21 2016)
+// C++ code generated with wxFormBuilder (version Jun 17 2015)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -110,6 +110,8 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	fgSizer1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_ALL );
 	
 	pnlRom = new wxPanel( m_panel1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	pnlRom->SetBackgroundColour( wxColour( 0, 0, 0 ) );
+	
 	fgSizer1->Add( pnlRom, 1, wxEXPAND | wxALL, 5 );
 	
 	wxBoxSizer* bSizer10;
