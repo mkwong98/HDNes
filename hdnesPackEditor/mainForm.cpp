@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Jun 17 2015)
+// C++ code generated with wxFormBuilder (version Dec 21 2016)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -164,6 +164,7 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	btnRomViewColour2->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romColour2 ), NULL, this );
 	btnRomViewColour3->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romColour3 ), NULL, this );
 	txtRomViewPalette->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( mainForm::romViewPaletteHexChanged ), NULL, this );
+	pnlRom->Connect( wxEVT_LEAVE_WINDOW, wxMouseEventHandler( mainForm::romViewLeave ), NULL, this );
 	pnlRom->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( mainForm::romViewLDown ), NULL, this );
 	pnlRom->Connect( wxEVT_LEFT_UP, wxMouseEventHandler( mainForm::romViewLUp ), NULL, this );
 	pnlRom->Connect( wxEVT_MOTION, wxMouseEventHandler( mainForm::romViewMove ), NULL, this );
@@ -206,6 +207,7 @@ mainForm::~mainForm()
 	btnRomViewColour2->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romColour2 ), NULL, this );
 	btnRomViewColour3->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romColour3 ), NULL, this );
 	txtRomViewPalette->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( mainForm::romViewPaletteHexChanged ), NULL, this );
+	pnlRom->Disconnect( wxEVT_LEAVE_WINDOW, wxMouseEventHandler( mainForm::romViewLeave ), NULL, this );
 	pnlRom->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( mainForm::romViewLDown ), NULL, this );
 	pnlRom->Disconnect( wxEVT_LEFT_UP, wxMouseEventHandler( mainForm::romViewLUp ), NULL, this );
 	pnlRom->Disconnect( wxEVT_MOTION, wxMouseEventHandler( mainForm::romViewMove ), NULL, this );

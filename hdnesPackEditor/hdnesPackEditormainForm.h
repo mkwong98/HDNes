@@ -41,6 +41,7 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
 		void romViewLUp( wxMouseEvent& event );
 		void romViewRUp( wxMouseEvent& event );
 		void romViewMove( wxMouseEvent& event );
+		void romViewLeave( wxMouseEvent& event );
 
         void closeWindow( wxCloseEvent& event );
 	public:
@@ -49,6 +50,7 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
 	//// end generated class members
 
 
+        //--general session
         string lastDir;
         string romDir;
         string packDir;
@@ -58,26 +60,42 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         Uint16 colourSelectSource;
         Uint32 tileCnt;
 
-        int romViewColours[4];
-        int romViewDisplayWidth;
-        int romViewDisplayHeight;
-        vector<string> romViewSelectedTiles;
-        int romViewLDownX;
-        int romViewLDownY;
-        wxImage romViewImage;
-
-        void refreshROMView();
-        void drawROMView();
-        void showROMView();
-        void romViewPaletteToText();
-
+        void initGeneral();
+        void configGeneral(string lineHdr, string lineTail);
+        void saveCfgGeneral(fstream& inifile);
         void refreshCoreDataDisplay();
         void openColourDialog(Uint16 clientID);
         virtual void colourSelected(Uint8 selectedColour);
         void paintTile(wxImage &img, Uint8* tileData, Uint16 x, Uint16 y, wxColour cBG, wxColour c1, wxColour c2, wxColour c3);
+        void drawLine(wxImage &img, wxPoint pt, int len, wxColour c, bool hDir);
+        void drawRect(wxImage &img, wxPoint pt, wxPoint rectSize, wxColour c);
 
         void dataChanged();
         void dataSaved();
+        //--end general session
+
+        //--rom view session
+        int romViewColours[4];
+        int romViewDisplayWidth;
+        int romViewDisplayHeight;
+        vector<string> romViewSelectedTiles;
+        wxPoint romViewLDownPos;
+        wxPoint romViewLCurrPos;
+        bool romViewCtrPressed;
+        bool romViewClicked;
+        wxImage romViewImage;
+
+        void initROMView();
+        void configROMView(string lineHdr, string lineTail);
+        void saveCfgROMView(fstream& inifile);
+        void refreshROMView();
+        void drawROMView();
+        void showROMView();
+        void romViewPaletteToText();
+        //--end rom view session
+
+
+
 };
 
 #endif // __hdnesPackEditormainForm__

@@ -4,10 +4,10 @@
 	"hdnesPackEditormainForm.h"
 	"main.h"
 
-1505818554 source:c:\work\hdnesr\trunk\hdnespackeditor\mainform.cpp
+1506050761 source:c:\work\hdnesr\trunk\hdnespackeditor\mainform.cpp
 	"mainForm.h"
 
-1505818554 c:\work\hdnesr\trunk\hdnespackeditor\mainform.h
+1506050761 c:\work\hdnesr\trunk\hdnespackeditor\mainform.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/string.h>
@@ -2124,7 +2124,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1505815545 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.cpp
+1506055135 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.cpp
 	"hdnesPackEditormainForm.h"
 	"hdnesPackEditornewProjectDialog.h"
 	"hdnesPackEditorcolourSelectDialog.h"
@@ -2133,7 +2133,7 @@
 	"common.h"
 	<wx/wx.h>
 
-1505818573 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.h
+1506059018 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.h
 	"common.h"
 	"mainForm.h"
 	"colourDialogClient.h"

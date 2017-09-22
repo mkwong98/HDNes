@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Jun 17 2015)
+// C++ code generated with wxFormBuilder (version Dec 21 2016)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -75,6 +75,7 @@ class mainForm : public wxFrame
 		virtual void romColour2( wxCommandEvent& event ) { event.Skip(); }
 		virtual void romColour3( wxCommandEvent& event ) { event.Skip(); }
 		virtual void romViewPaletteHexChanged( wxCommandEvent& event ) { event.Skip(); }
+		virtual void romViewLeave( wxMouseEvent& event ) { event.Skip(); }
 		virtual void romViewLDown( wxMouseEvent& event ) { event.Skip(); }
 		virtual void romViewLUp( wxMouseEvent& event ) { event.Skip(); }
 		virtual void romViewMove( wxMouseEvent& event ) { event.Skip(); }
