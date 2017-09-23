@@ -78,12 +78,12 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         int romViewColours[4];
         int romViewDisplayWidth;
         int romViewDisplayHeight;
-        vector<string> romViewSelectedTiles;
+        vector<Uint32> romViewSelectedTiles;
         wxPoint romViewLDownPos;
         wxPoint romViewLCurrPos;
-        bool romViewCtrPressed;
         bool romViewClicked;
         wxImage romViewImage;
+        Uint32 rightClickedID;
 
         void initROMView();
         void configROMView(string lineHdr, string lineTail);
@@ -92,6 +92,7 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         void drawROMView();
         void showROMView();
         void romViewPaletteToText();
+        void romViewMenu( wxCommandEvent& event );
         //--end rom view session
 
 

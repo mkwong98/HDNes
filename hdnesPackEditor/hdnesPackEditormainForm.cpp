@@ -157,7 +157,6 @@ void hdnesPackEditormainForm::colourSelected(Uint8 selectedColour){
     }
 }
 
-
 void hdnesPackEditormainForm::openColourDialog(Uint16 clientID){
     if(coreData::cData){
         colourSelectSource = clientID;
@@ -198,7 +197,6 @@ void hdnesPackEditormainForm::drawRect(wxImage &img, wxPoint pt, wxPoint rectSiz
     drawLine(img, p, rectSize.x, c, true);
 }
 
-
 void hdnesPackEditormainForm::drawLine(wxImage &img, wxPoint pt, int len, wxColour c, bool hDir){
     wxPoint p = pt;
     for(int i = 0; i < len; ++i){
@@ -235,7 +233,6 @@ void hdnesPackEditormainForm::initROMView(){
     romViewColours[2] = 22;
     romViewColours[3] = 26;
     romViewClicked = false;
-    romViewCtrPressed = false;
     romViewPaletteToText();
 }
 
@@ -434,6 +431,21 @@ void hdnesPackEditormainForm::showROMView(){
         drawRect(baseImg, p1, rectSize, wxColour(255, 255, 255));
     }
 
+    wxPoint pt;
+    wxPoint pt2;
+    wxPoint tileBoxSize;
+    tileBoxSize.x = (8 * zoomRom->GetValue()) - 1;
+    tileBoxSize.y = (8 * zoomRom->GetValue()) - 1;
+    for (vector<Uint32>::iterator it = romViewSelectedTiles.begin() ; it != romViewSelectedTiles.end(); ++it){
+        pt.x = (((*it) % 16) - romHScroll->GetThumbPosition()) * (8 * zoomRom->GetValue());
+        pt.y = (((*it) / 16) - romVScroll->GetThumbPosition()) * (8 * zoomRom->GetValue());
+        pt2 = pt;
+        ++(pt2.x);
+        ++(pt2.y);
+        drawRect(baseImg, pt2, tileBoxSize, wxColour(0, 0, 0));
+        drawRect(baseImg, pt, tileBoxSize, wxColour(255, 255, 255));
+    }
+
     wxBitmap bmp = wxBitmap(baseImg);
 	if(bmp.IsOk()){
 		pnlRom->ClearBackground();
@@ -456,13 +468,9 @@ void hdnesPackEditormainForm::romViewPaletteToText(){
 
 void hdnesPackEditormainForm::romViewLDown( wxMouseEvent& event ){
     if(coreData::cData){
-        if(event.GetModifiers() != wxMOD_ALT){
+        if(event.GetModifiers() != wxMOD_CONTROL){
             //clear currently selected
             romViewSelectedTiles.clear();
-            romViewCtrPressed = false;
-        }
-        else{
-            romViewCtrPressed = true;
         }
         romViewLDownPos = event.GetPosition();
         romViewLCurrPos = romViewLDownPos;
@@ -472,12 +480,82 @@ void hdnesPackEditormainForm::romViewLDown( wxMouseEvent& event ){
 }
 
 void hdnesPackEditormainForm::romViewLUp( wxMouseEvent& event ){
-    //romViewLDownPos.x = romHScroll->GetThumbPosition() + (p.x / (8 * zoomRom->GetValue()));
-    //romViewLDownPos.y = romVScroll->GetThumbPosition() + (p.y / (8 * zoomRom->GetValue()));
-    romViewClicked = false;
+    if(coreData::cData){
+        if(romViewClicked){
+            wxPoint p = event.GetPosition();
+            int x1 = min(p.x, romViewLDownPos.x);
+            int x2 = max(p.x, romViewLDownPos.x);
+            int y1 = min(p.y, romViewLDownPos.y);
+            int y2 = max(p.y, romViewLDownPos.y);
+
+            int tileX1 = romHScroll->GetThumbPosition() + (x1 / (8 * zoomRom->GetValue()));
+            int tileY1 = romVScroll->GetThumbPosition() + (y1 / (8 * zoomRom->GetValue()));
+            int tileX2 = romHScroll->GetThumbPosition() + (x2 / (8 * zoomRom->GetValue()));
+            int tileY2 = romVScroll->GetThumbPosition() + (y2 / (8 * zoomRom->GetValue()));
+
+            Uint32 tileID;
+            for(int j = tileY1; j <= tileY2; ++j){
+                for(int i = tileX1; i <= tileX2; ++i){
+                    if(i < 16){
+                        tileID = (romVScroll->GetThumbPosition() + j) * 16 + romHScroll->GetThumbPosition() + i;
+                        if(tileID < (coreData::cData->romSize / 16)){
+                            //look for that id in vector
+                            bool tileFound = false;
+                            for(Uint32 k = 0; k < romViewSelectedTiles.size(); ++k){
+                                if(romViewSelectedTiles[k] == tileID){
+                                    romViewSelectedTiles.erase(romViewSelectedTiles.begin() + k);
+                                    tileFound = true;
+                                }
+                            }
+                            if(!tileFound){
+                                romViewSelectedTiles.push_back(tileID);
+                            }
+                        }
+                    }
+                }
+            }
+
+            romViewClicked = false;
+            showROMView();
+        }
+    }
 }
 
 void hdnesPackEditormainForm::romViewRUp( wxMouseEvent& event ){
+    //check right click on a selected tile
+    if(coreData::cData){
+        wxPoint p = event.GetPosition();
+        int tileX1 = romHScroll->GetThumbPosition() + (p.x / (8 * zoomRom->GetValue()));
+        int tileY1 = romVScroll->GetThumbPosition() + (p.y / (8 * zoomRom->GetValue()));
+        if(tileX1 < 16){
+            Uint32 tileID = (romVScroll->GetThumbPosition() + tileY1) * 16 + romHScroll->GetThumbPosition() + tileX1;
+            if(tileID < (coreData::cData->romSize / 16)){
+                //look for that id in vector
+                bool tileFound = false;
+                for(Uint32 k = 0; k < romViewSelectedTiles.size(); ++k){
+                    if(romViewSelectedTiles[k] == tileID){
+                        tileFound = true;
+                        rightClickedID = tileID;
+                    }
+                }
+                if(tileFound){
+                    wxMenu menu(wxT(""));
+                    menu.Append(wxID_ANY, wxT("Copy"));
+                    menu.Connect( wxEVT_MENU, wxCommandEventHandler(hdnesPackEditormainForm::romViewMenu), NULL, this );
+                    pnlRom->PopupMenu(&menu, p);
+                }
+                else{
+                    romViewSelectedTiles.clear();
+                    showROMView();
+                }
+            }
+        }
+    }
+}
+
+void hdnesPackEditormainForm::romViewMenu( wxCommandEvent& event ){
+    string copyContent = "";
+
 }
 
 void hdnesPackEditormainForm::romViewMove( wxMouseEvent& event ){
@@ -492,7 +570,6 @@ void hdnesPackEditormainForm::romViewMove( wxMouseEvent& event ){
 void hdnesPackEditormainForm::romViewLeave( wxMouseEvent& event ){
     if(coreData::cData){
         romViewClicked = false;
-        romViewCtrPressed = false;
         showROMView();
     }
 }
