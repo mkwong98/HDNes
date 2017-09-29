@@ -5,6 +5,7 @@
 #include "main.h"
 #include "common.h"
 #include <wx/wx.h>
+#include <wx/clipbrd.h>
 
 hdnesPackEditormainForm::hdnesPackEditormainForm( wxWindow* parent )
 :
@@ -56,6 +57,10 @@ void hdnesPackEditormainForm::closeWindow( wxCloseEvent& event ){
 
 	Show(false);
 	Destroy();
+}
+
+void hdnesPackEditormainForm::romChanged(){
+    romViewROMChanged();
 }
 
 void hdnesPackEditormainForm::initGeneral(){
@@ -234,6 +239,16 @@ void hdnesPackEditormainForm::initROMView(){
     romViewColours[3] = 26;
     romViewClicked = false;
     romViewPaletteToText();
+    romHScroll->SetRange(1);
+    romHScroll->SetThumbSize(1);
+    romVScroll->SetRange(1);
+    romVScroll->SetThumbSize(1);
+}
+
+void hdnesPackEditormainForm::romViewROMChanged(){
+    romHScroll->SetThumbPosition(0);
+    romVScroll->SetThumbPosition(0);
+    romViewClicked = false;
 }
 
 void hdnesPackEditormainForm::configROMView(string lineHdr, string lineTail){
@@ -365,59 +380,70 @@ void hdnesPackEditormainForm::refreshROMView(){
         btnRomViewColour3->SetForegroundColour(wxColour(255,255,255));
     }
 
+    romViewTileSize = 8 * zoomRom->GetValue();
+    romViewCurrentRow = -1;
+
     tileCnt = coreData::cData->romSize / 16;
-    Uint32 tileSize = 8 * zoomRom->GetValue();
-    //display 32 tiles across
-    romViewDisplayWidth = 16;
-    romViewDisplayHeight = ((tileCnt / 16) + 1);
+    romViewDisplayRows = ((tileCnt / 16) + (tileCnt % 16 ? 1 : 0));
+    //display 16 tiles across
+    romViewDisplayWidth = 16 * romViewTileSize;
+    romViewDisplayHeight = romViewDisplayRows * romViewTileSize;
 
     romHScroll->SetRange(romViewDisplayWidth);
     romVScroll->SetRange(romViewDisplayHeight);
-    romHScroll->SetThumbSize(pnlRom->GetSize().GetWidth() / tileSize);
-    romVScroll->SetThumbSize(pnlRom->GetSize().GetHeight() / tileSize);
+    romHScroll->SetThumbSize(pnlRom->GetSize().GetWidth());
+    romVScroll->SetThumbSize(pnlRom->GetSize().GetHeight());
 
     drawROMView();
 }
 
 void hdnesPackEditormainForm::drawROMView(){
-    Uint16 visibleCols = min(romViewDisplayWidth, romHScroll->GetThumbSize()) + 1;
-    Uint16 visibleRows = min(romViewDisplayHeight, romVScroll->GetThumbSize()) + 1;
-    romViewImage = wxImage(visibleCols * 8, visibleRows * 8, true);
+    int newRowStart = romVScroll->GetThumbPosition() / romViewTileSize;
+    int bufferRows = newRowStart % 3;
+    newRowStart -= bufferRows;
+    if(romViewCurrentRow != newRowStart){
+        romViewCurrentRow = newRowStart;
+        Uint16 visibleRows = (romVScroll->GetThumbSize() / romViewTileSize) + (romVScroll->GetThumbSize() % romViewTileSize ? 1 : 0) + 2;
+        romViewImage = wxImage(16 * 8, visibleRows * 8, true);
 
-    Uint32 memAddress;
-    Uint16 drawX;
-    Uint16 drawY;
-    for(Uint16 j = 0; j < visibleRows; ++j){
-        for(Uint16 i = 0; i < visibleCols; ++i){
-            if(romHScroll->GetThumbPosition() + i < romViewDisplayWidth && romVScroll->GetThumbPosition() + j < romViewDisplayHeight){
-                memAddress = ((romVScroll->GetThumbPosition() + j) * 16 + romHScroll->GetThumbPosition() + i) * 16;
-                if(memAddress < coreData::cData->romSize){
-                    drawX = i * 8;
-                    drawY = j * 8;
-                    paintTile(romViewImage, coreData::cData->romData + memAddress, drawX, drawY,
-                              coreData::cData->palette[romViewColours[0]],
-                              coreData::cData->palette[romViewColours[1]],
-                              coreData::cData->palette[romViewColours[2]],
-                              coreData::cData->palette[romViewColours[3]]);
+        Uint32 memAddress;
+        Uint16 drawX;
+        Uint16 drawY;
+        for(Uint16 j = 0; j < visibleRows; ++j){
+            for(Uint16 i = 0; i < 16; ++i){
+                if(romViewCurrentRow + j < romViewDisplayRows){
+                    memAddress = ((romViewCurrentRow + j) * 16 + i) * 16;
+                    if(memAddress < coreData::cData->romSize){
+                        drawX = i * 8;
+                        drawY = j * 8;
+                        paintTile(romViewImage, coreData::cData->romData + memAddress, drawX, drawY,
+                                coreData::cData->palette[romViewColours[0]],
+                                coreData::cData->palette[romViewColours[1]],
+                                coreData::cData->palette[romViewColours[2]],
+                                coreData::cData->palette[romViewColours[3]]);
+                    }
                 }
             }
         }
+        drawROMViewSelection();
     }
-    showROMView();
+    else{
+        showROMView();
+    }
 }
 
-void hdnesPackEditormainForm::showROMView(){
-    wxImage baseImg = wxImage(pnlRom->GetSize().x, pnlRom->GetSize().y);
-    wxImage scaledImg = romViewImage.Scale(romViewImage.GetWidth() * zoomRom->GetValue(), romViewImage.GetHeight() * zoomRom->GetValue());
-    baseImg.Paste(scaledImg, 0, 0);
+void hdnesPackEditormainForm::drawROMViewSelection(){
+    romViewImageWithSelection = romViewImage.Scale(romViewImage.GetWidth() * zoomRom->GetValue(), romViewImage.GetHeight() * zoomRom->GetValue());
+    int rowY = romViewCurrentRow * romViewTileSize;
+    int vOffSet = romVScroll->GetThumbPosition() - rowY;
     if(romViewClicked){
         wxPoint p1;
-        p1.x = min(romViewLDownPos.x, romViewLCurrPos.x);
-        p1.y = min(romViewLDownPos.y, romViewLCurrPos.y);
+        p1.x = min(romViewLDownPos.x, romViewLCurrPos.x) + romHScroll->GetThumbPosition();
+        p1.y = min(romViewLDownPos.y, romViewLCurrPos.y) + vOffSet;
 
         wxPoint p2;
-        p2.x = max(romViewLDownPos.x, romViewLCurrPos.x);
-        p2.y = max(romViewLDownPos.y, romViewLCurrPos.y);
+        p2.x = max(romViewLDownPos.x, romViewLCurrPos.x) + romHScroll->GetThumbPosition();
+        p2.y = max(romViewLDownPos.y, romViewLCurrPos.y) + vOffSet;
 
         wxPoint rectSize;
         rectSize.x = p2.x - p1.x;
@@ -427,25 +453,32 @@ void hdnesPackEditormainForm::showROMView(){
         ++(p3.x);
         ++(p3.y);
 
-        drawRect(baseImg, p3, rectSize, wxColour(0, 0, 0));
-        drawRect(baseImg, p1, rectSize, wxColour(255, 255, 255));
+        drawRect(romViewImageWithSelection, p3, rectSize, wxColour(0, 0, 0));
+        drawRect(romViewImageWithSelection, p1, rectSize, wxColour(255, 255, 255));
     }
 
     wxPoint pt;
     wxPoint pt2;
     wxPoint tileBoxSize;
-    tileBoxSize.x = (8 * zoomRom->GetValue()) - 1;
-    tileBoxSize.y = (8 * zoomRom->GetValue()) - 1;
+    tileBoxSize.x = romViewTileSize - 1;
+    tileBoxSize.y = romViewTileSize - 1;
     for (vector<Uint32>::iterator it = romViewSelectedTiles.begin() ; it != romViewSelectedTiles.end(); ++it){
-        pt.x = (((*it) % 16) - romHScroll->GetThumbPosition()) * (8 * zoomRom->GetValue());
-        pt.y = (((*it) / 16) - romVScroll->GetThumbPosition()) * (8 * zoomRom->GetValue());
+        pt.x = ((*it) % 16) * romViewTileSize;
+        pt.y = ((*it) / 16) * romViewTileSize - rowY;
         pt2 = pt;
         ++(pt2.x);
         ++(pt2.y);
-        drawRect(baseImg, pt2, tileBoxSize, wxColour(0, 0, 0));
-        drawRect(baseImg, pt, tileBoxSize, wxColour(255, 255, 255));
+        drawRect(romViewImageWithSelection, pt2, tileBoxSize, wxColour(0, 0, 0));
+        drawRect(romViewImageWithSelection, pt, tileBoxSize, wxColour(255, 255, 255));
     }
+    showROMView();
+}
 
+void hdnesPackEditormainForm::showROMView(){
+    wxImage baseImg = wxImage(pnlRom->GetSize().x, pnlRom->GetSize().y);
+    int rowY = romViewCurrentRow * romViewTileSize;
+
+    baseImg.Paste(romViewImageWithSelection, -romHScroll->GetThumbPosition(), rowY - romVScroll->GetThumbPosition());
     wxBitmap bmp = wxBitmap(baseImg);
 	if(bmp.IsOk()){
 		pnlRom->ClearBackground();
@@ -475,7 +508,7 @@ void hdnesPackEditormainForm::romViewLDown( wxMouseEvent& event ){
         romViewLDownPos = event.GetPosition();
         romViewLCurrPos = romViewLDownPos;
         romViewClicked = true;
-        showROMView();
+        drawROMViewSelection();
     }
 }
 
@@ -488,17 +521,17 @@ void hdnesPackEditormainForm::romViewLUp( wxMouseEvent& event ){
             int y1 = min(p.y, romViewLDownPos.y);
             int y2 = max(p.y, romViewLDownPos.y);
 
-            int tileX1 = romHScroll->GetThumbPosition() + (x1 / (8 * zoomRom->GetValue()));
-            int tileY1 = romVScroll->GetThumbPosition() + (y1 / (8 * zoomRom->GetValue()));
-            int tileX2 = romHScroll->GetThumbPosition() + (x2 / (8 * zoomRom->GetValue()));
-            int tileY2 = romVScroll->GetThumbPosition() + (y2 / (8 * zoomRom->GetValue()));
+            int tileX1 = (romHScroll->GetThumbPosition() + x1) / romViewTileSize;
+            int tileY1 = (romVScroll->GetThumbPosition() + y1) / romViewTileSize;
+            int tileX2 = (romHScroll->GetThumbPosition() + x2) / romViewTileSize;
+            int tileY2 = (romVScroll->GetThumbPosition() + y2) / romViewTileSize;
 
             Uint32 tileID;
             for(int j = tileY1; j <= tileY2; ++j){
                 for(int i = tileX1; i <= tileX2; ++i){
                     if(i < 16){
-                        tileID = (romVScroll->GetThumbPosition() + j) * 16 + romHScroll->GetThumbPosition() + i;
-                        if(tileID < (coreData::cData->romSize / 16)){
+                        tileID = j * 16 + i;
+                        if(tileID < tileCnt){
                             //look for that id in vector
                             bool tileFound = false;
                             for(Uint32 k = 0; k < romViewSelectedTiles.size(); ++k){
@@ -516,7 +549,7 @@ void hdnesPackEditormainForm::romViewLUp( wxMouseEvent& event ){
             }
 
             romViewClicked = false;
-            showROMView();
+            drawROMViewSelection();
         }
     }
 }
@@ -525,17 +558,19 @@ void hdnesPackEditormainForm::romViewRUp( wxMouseEvent& event ){
     //check right click on a selected tile
     if(coreData::cData){
         wxPoint p = event.GetPosition();
-        int tileX1 = romHScroll->GetThumbPosition() + (p.x / (8 * zoomRom->GetValue()));
-        int tileY1 = romVScroll->GetThumbPosition() + (p.y / (8 * zoomRom->GetValue()));
+        int tileX1 = (romHScroll->GetThumbPosition() + p.x) / romViewTileSize;
+        int tileY1 = (romVScroll->GetThumbPosition() + p.y) / romViewTileSize;
         if(tileX1 < 16){
-            Uint32 tileID = (romVScroll->GetThumbPosition() + tileY1) * 16 + romHScroll->GetThumbPosition() + tileX1;
-            if(tileID < (coreData::cData->romSize / 16)){
+            Uint32 tileID = tileY1 * 16 + tileX1;
+            if(tileID < tileCnt){
                 //look for that id in vector
                 bool tileFound = false;
                 for(Uint32 k = 0; k < romViewSelectedTiles.size(); ++k){
                     if(romViewSelectedTiles[k] == tileID){
                         tileFound = true;
                         rightClickedID = tileID;
+                        rightClickedTileX = tileX1;
+                        rightClickedTileY = tileY1;
                     }
                 }
                 if(tileFound){
@@ -546,7 +581,7 @@ void hdnesPackEditormainForm::romViewRUp( wxMouseEvent& event ){
                 }
                 else{
                     romViewSelectedTiles.clear();
-                    showROMView();
+                    drawROMViewSelection();
                 }
             }
         }
@@ -555,14 +590,42 @@ void hdnesPackEditormainForm::romViewRUp( wxMouseEvent& event ){
 
 void hdnesPackEditormainForm::romViewMenu( wxCommandEvent& event ){
     string copyContent = "";
+    int tileX;
+    int tileY;
+    for(Uint32 k = 0; k < romViewSelectedTiles.size(); ++k){
+        tileX = romViewSelectedTiles[k] % 16;
+        tileY = romViewSelectedTiles[k] / 16;
+        if(copyContent != ""){
+            copyContent = copyContent + ";";
+        }
+        copyContent = copyContent + coreData::cData->getTileID(romViewSelectedTiles[k])
+                        + "," + txtRomViewPalette->GetValue().ToStdString()
+                        + "," + main::intToStr((tileX - rightClickedTileX) * 8)
+                        + "," + main::intToStr((tileY - rightClickedTileY) * 8);
 
+    }
+
+    if (wxTheClipboard->Open()){
+        wxTheClipboard->SetData( new wxTextDataObject(copyContent.c_str()) );
+        wxTheClipboard->Close();
+    }
 }
 
 void hdnesPackEditormainForm::romViewMove( wxMouseEvent& event ){
     if(coreData::cData){
+        wxPoint p = event.GetPosition();
+        int tileX1 = (romHScroll->GetThumbPosition() + p.x) / romViewTileSize;
+        int tileY1 = (romVScroll->GetThumbPosition() + p.y) / romViewTileSize;
+        if(tileX1 < 16){
+            int tileIndex = tileY1 * 16 + tileX1;
+            if(tileIndex < tileCnt){
+                m_statusBar->SetLabel(wxString(coreData::cData->getTileID(tileIndex).c_str()));
+            }
+        }
+
         if(romViewClicked){
-            romViewLCurrPos = event.GetPosition();
-            showROMView();
+            romViewLCurrPos = p;
+            drawROMViewSelection();
         }
     }
 }
@@ -570,6 +633,6 @@ void hdnesPackEditormainForm::romViewMove( wxMouseEvent& event ){
 void hdnesPackEditormainForm::romViewLeave( wxMouseEvent& event ){
     if(coreData::cData){
         romViewClicked = false;
-        showROMView();
+        drawROMViewSelection();
     }
 }

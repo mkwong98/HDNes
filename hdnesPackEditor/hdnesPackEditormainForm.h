@@ -70,26 +70,37 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         void drawLine(wxImage &img, wxPoint pt, int len, wxColour c, bool hDir);
         void drawRect(wxImage &img, wxPoint pt, wxPoint rectSize, wxColour c);
 
+        void romChanged();
         void dataChanged();
         void dataSaved();
         //--end general session
 
         //--rom view session
         int romViewColours[4];
+        int romViewDisplayRows;
         int romViewDisplayWidth;
         int romViewDisplayHeight;
+        int romViewCurrentRow;
+        int romViewTileSize;
+        wxImage romViewImage;
+
+        //selection
         vector<Uint32> romViewSelectedTiles;
         wxPoint romViewLDownPos;
         wxPoint romViewLCurrPos;
         bool romViewClicked;
-        wxImage romViewImage;
         Uint32 rightClickedID;
+        int rightClickedTileX;
+        int rightClickedTileY;
+        wxImage romViewImageWithSelection;
 
         void initROMView();
         void configROMView(string lineHdr, string lineTail);
         void saveCfgROMView(fstream& inifile);
+        void romViewROMChanged();
         void refreshROMView();
         void drawROMView();
+        void drawROMViewSelection();
         void showROMView();
         void romViewPaletteToText();
         void romViewMenu( wxCommandEvent& event );

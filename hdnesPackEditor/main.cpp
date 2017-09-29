@@ -15,6 +15,12 @@ string main::intToHex(int value){
     return stream.str();
 }
 
+string main::intToStr(int value){
+    stringstream stream;
+    stream << value;
+    return stream.str();
+}
+
 main::main(void){
     wxInitAllImageHandlers();
 

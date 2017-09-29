@@ -110,6 +110,7 @@ void coreData::loadRom(){
 		}
 	}
     romfile.close();
+    main::mForm->romChanged();
 }
 
 void coreData::loadPalette(){
@@ -216,4 +217,17 @@ vector<string> coreData::split(const string &s, char delim, vector<string> &elem
         elems.push_back(item);
     }
     return elems;
+}
+
+string coreData::getTileID(int tileIndex){
+    if(isCHRROM){
+        return main::intToStr(tileIndex);
+    }
+    else{
+        Uint8* tileData = romData + (tileIndex * 16);
+        string tmpVal = "";
+        for(Uint8 i = 0; i < 16; ++i){
+            tmpVal = tmpVal + main::intToHex(tileData[i]);
+        }
+    }
 }

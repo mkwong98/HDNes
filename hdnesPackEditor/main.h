@@ -12,6 +12,7 @@ public:
     static hdnesPackEditormainForm* mForm;
     static string exeDir;
     static string intToHex(int value);
+    static string intToStr(int value);
 
 	main(void);
 	~main(void);

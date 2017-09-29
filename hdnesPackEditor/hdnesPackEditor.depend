@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1505814512 source:c:\work\hdnesr\trunk\hdnespackeditor\main.cpp
+1506322780 source:c:\work\hdnesr\trunk\hdnespackeditor\main.cpp
 	"common.h"
 	"hdnesPackEditormainForm.h"
 	"main.h"
@@ -2124,7 +2124,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1506055135 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.cpp
+1506683849 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.cpp
 	"hdnesPackEditormainForm.h"
 	"hdnesPackEditornewProjectDialog.h"
 	"hdnesPackEditorcolourSelectDialog.h"
@@ -2132,13 +2132,14 @@
 	"main.h"
 	"common.h"
 	<wx/wx.h>
+	<wx/clipbrd.h>
 
-1506075939 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.h
+1506683545 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.h
 	"common.h"
 	"mainForm.h"
 	"colourDialogClient.h"
 
-1505814512 c:\work\hdnesr\trunk\hdnespackeditor\main.h
+1506322780 c:\work\hdnesr\trunk\hdnespackeditor\main.h
 	"common.h"
 	<wx\wx.h>
 
@@ -3444,14 +3445,14 @@
 1504855141 c:\work\hdnesr\trunk\hdnespackeditor\condition.h
 	"common.h"
 
-1505811131 source:c:\work\hdnesr\trunk\hdnespackeditor\coredata.cpp
+1506686038 source:c:\work\hdnesr\trunk\hdnespackeditor\coredata.cpp
 	"common.h"
 	"coreData.h"
 	"image.h"
 	"main.h"
 	"hdnesPackEditormainForm.h"
 
-1505801033 c:\work\hdnesr\trunk\hdnespackeditor\coredata.h
+1506685076 c:\work\hdnesr\trunk\hdnespackeditor\coredata.h
 	"common.h"
 	"classList.h"
 	<wx/wx.h>
@@ -3688,4 +3689,52 @@
 	"wx/dialog.h"
 
 1505225760 c:\work\hdnes\trunk\hdnespackeditor\colourdialogclient.h
+
+1412631242 c:\work\include\wx\clipbrd.h
+	"wx/defs.h"
+	"wx/event.h"
+	"wx/chartype.h"
+	"wx/dataobj.h"
+	"wx/vector.h"
+	"wx/msw/clipbrd.h"
+	"wx/motif/clipbrd.h"
+	"wx/gtk/clipbrd.h"
+	"wx/gtk1/clipbrd.h"
+	"wx/x11/clipbrd.h"
+	"wx/osx/clipbrd.h"
+	"wx/cocoa/clipbrd.h"
+	"wx/os2/clipbrd.h"
+
+1412631243 c:\work\include\wx\msw\clipbrd.h
+
+1412631243 c:\work\include\wx\motif\clipbrd.h
+	"wx/list.h"
+
+1412631242 c:\work\include\wx\gtk\clipbrd.h
+	"wx/weakref.h"
+
+1412631242 c:\work\include\wx\gtk1\clipbrd.h
+	"wx/object.h"
+	"wx/list.h"
+	"wx/dataobj.h"
+	"wx/control.h"
+	"wx/module.h"
+
+1412631243 c:\work\include\wx\x11\clipbrd.h
+	"wx/object.h"
+	"wx/list.h"
+	"wx/dataobj.h"
+	"wx/control.h"
+	"wx/module.h"
+
+1412631243 c:\work\include\wx\osx\clipbrd.h
+	"wx/osx/core/cfref.h"
+
+1412631242 c:\work\include\wx\cocoa\clipbrd.h
+	"wx/dataobj.h"
+
+1412631243 c:\work\include\wx\os2\clipbrd.h
+	"wx/list.h"
+	"wx/module.h"
+	"wx/dataobj.h"
 
