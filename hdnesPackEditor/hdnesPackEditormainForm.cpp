@@ -12,6 +12,7 @@ hdnesPackEditormainForm::hdnesPackEditormainForm( wxWindow* parent )
 mainForm( parent )
 {
     initROMView();
+    initGameObjs();
     initGeneral();
 
     //load config
@@ -61,6 +62,7 @@ void hdnesPackEditormainForm::closeWindow( wxCloseEvent& event ){
 
 void hdnesPackEditormainForm::romChanged(){
     romViewROMChanged();
+    gameObjsROMChanged();
 }
 
 void hdnesPackEditormainForm::initGeneral(){
@@ -243,6 +245,7 @@ void hdnesPackEditormainForm::initROMView(){
     romHScroll->SetThumbSize(1);
     romVScroll->SetRange(1);
     romVScroll->SetThumbSize(1);
+    zoomRom->SetValue(4);
 }
 
 void hdnesPackEditormainForm::romViewROMChanged(){
@@ -394,6 +397,8 @@ void hdnesPackEditormainForm::refreshROMView(){
     romHScroll->SetThumbSize(pnlRom->GetSize().GetWidth());
     romVScroll->SetThumbSize(pnlRom->GetSize().GetHeight());
 
+    romViewImageDisplay = wxImage(pnlRom->GetSize().x, pnlRom->GetSize().y);
+
     drawROMView();
 }
 
@@ -435,27 +440,6 @@ void hdnesPackEditormainForm::drawROMView(){
 void hdnesPackEditormainForm::drawROMViewSelection(){
     romViewImageWithSelection = romViewImage.Scale(romViewImage.GetWidth() * zoomRom->GetValue(), romViewImage.GetHeight() * zoomRom->GetValue());
     int rowY = romViewCurrentRow * romViewTileSize;
-    int vOffSet = romVScroll->GetThumbPosition() - rowY;
-    if(romViewClicked){
-        wxPoint p1;
-        p1.x = min(romViewLDownPos.x, romViewLCurrPos.x) + romHScroll->GetThumbPosition();
-        p1.y = min(romViewLDownPos.y, romViewLCurrPos.y) + vOffSet;
-
-        wxPoint p2;
-        p2.x = max(romViewLDownPos.x, romViewLCurrPos.x) + romHScroll->GetThumbPosition();
-        p2.y = max(romViewLDownPos.y, romViewLCurrPos.y) + vOffSet;
-
-        wxPoint rectSize;
-        rectSize.x = p2.x - p1.x;
-        rectSize.y = p2.y - p1.y;
-
-        wxPoint p3 = p1;
-        ++(p3.x);
-        ++(p3.y);
-
-        drawRect(romViewImageWithSelection, p3, rectSize, wxColour(0, 0, 0));
-        drawRect(romViewImageWithSelection, p1, rectSize, wxColour(255, 255, 255));
-    }
 
     wxPoint pt;
     wxPoint pt2;
@@ -475,13 +459,34 @@ void hdnesPackEditormainForm::drawROMViewSelection(){
 }
 
 void hdnesPackEditormainForm::showROMView(){
-    wxImage baseImg = wxImage(pnlRom->GetSize().x, pnlRom->GetSize().y);
     int rowY = romViewCurrentRow * romViewTileSize;
+    romViewImageDisplay.Clear();
+    romViewImageDisplay.Paste(romViewImageWithSelection, -romHScroll->GetThumbPosition(), rowY - romVScroll->GetThumbPosition());
 
-    baseImg.Paste(romViewImageWithSelection, -romHScroll->GetThumbPosition(), rowY - romVScroll->GetThumbPosition());
-    wxBitmap bmp = wxBitmap(baseImg);
+    if(romViewClicked){
+        wxPoint p1;
+        p1.x = min(romViewLDownPos.x, romViewLCurrPos.x);
+        p1.y = min(romViewLDownPos.y, romViewLCurrPos.y);
+
+        wxPoint p2;
+        p2.x = max(romViewLDownPos.x, romViewLCurrPos.x);
+        p2.y = max(romViewLDownPos.y, romViewLCurrPos.y);
+
+        wxPoint rectSize;
+        rectSize.x = p2.x - p1.x;
+        rectSize.y = p2.y - p1.y;
+
+        wxPoint p3 = p1;
+        ++(p3.x);
+        ++(p3.y);
+
+
+        drawRect(romViewImageDisplay, p3, rectSize, wxColour(0, 0, 0));
+        drawRect(romViewImageDisplay, p1, rectSize, wxColour(255, 255, 255));
+    }
+
+    wxBitmap bmp = wxBitmap(romViewImageDisplay);
 	if(bmp.IsOk()){
-		pnlRom->ClearBackground();
 		wxClientDC* objDC;
 		objDC = new wxClientDC(pnlRom);
 		objDC->DrawBitmap(bmp, 0, 0);
@@ -625,14 +630,37 @@ void hdnesPackEditormainForm::romViewMove( wxMouseEvent& event ){
 
         if(romViewClicked){
             romViewLCurrPos = p;
-            drawROMViewSelection();
+            showROMView();
         }
     }
 }
 
-void hdnesPackEditormainForm::romViewLeave( wxMouseEvent& event ){
-    if(coreData::cData){
+void hdnesPackEditormainForm::romViewEnter( wxMouseEvent& event ){
+    if(coreData::cData && !event.LeftIsDown()){
         romViewClicked = false;
-        drawROMViewSelection();
+        showROMView();
     }
 }
+
+
+void hdnesPackEditormainForm::initGameObjs(){
+}
+
+void hdnesPackEditormainForm::gameObjsROMChanged(){
+    tItmGameObjRoot = treeGameObjs->AddRoot(wxString("\\"));
+    tItmGameObjRoot
+}
+
+void hdnesPackEditormainForm::gameObjTItemChangeName( wxTreeEvent& event ){
+}
+
+void hdnesPackEditormainForm::gameObjTItemMenu( wxTreeEvent& event ){
+    wxMenu menu(wxT(""));
+    menu.Append(wxID_ANY, wxT("Copy"));
+    menu.Connect( wxEVT_MENU, wxCommandEventHandler(hdnesPackEditormainForm::romViewMenu), NULL, this );
+    treeGameObjs->PopupMenu(&menu, event.GetPoint());
+}
+
+void hdnesPackEditormainForm::gameObjTItemSelected( wxTreeEvent& event ){
+}
+

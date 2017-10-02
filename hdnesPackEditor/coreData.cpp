@@ -229,5 +229,6 @@ string coreData::getTileID(int tileIndex){
         for(Uint8 i = 0; i < 16; ++i){
             tmpVal = tmpVal + main::intToHex(tileData[i]);
         }
+        return tmpVal;
     }
 }

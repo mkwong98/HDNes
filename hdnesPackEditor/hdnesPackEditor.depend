@@ -3321,14 +3321,14 @@
 1412631242 c:\work\include\wx\cocoa\mdi.h
 	"wx/frame.h"
 
-1505837122 source:c:\work\hdnes\trunk\hdnespackeditor\coredata.cpp
+1506733091 source:c:\work\hdnes\trunk\hdnespackeditor\coredata.cpp
 	"common.h"
 	"coreData.h"
 	"image.h"
 	"main.h"
 	"hdnesPackEditormainForm.h"
 
-1505837122 c:\work\hdnes\trunk\hdnespackeditor\coredata.h
+1506695069 c:\work\hdnes\trunk\hdnespackeditor\coredata.h
 	"common.h"
 	"classList.h"
 	<wx/wx.h>
@@ -3343,7 +3343,7 @@
 	<wx/image.h>
 	<SDL2\SDL.h>
 
-1505669739 source:c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.cpp
+1506781389 source:c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.cpp
 	"hdnesPackEditormainForm.h"
 	"hdnesPackEditornewProjectDialog.h"
 	"hdnesPackEditorcolourSelectDialog.h"
@@ -3351,13 +3351,14 @@
 	"main.h"
 	"common.h"
 	<wx/wx.h>
+	<wx/clipbrd.h>
 
-1505838104 c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.h
+1506873372 c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.h
 	"common.h"
 	"mainForm.h"
 	"colourDialogClient.h"
 
-1505837122 c:\work\hdnes\trunk\hdnespackeditor\mainform.h
+1506865676 c:\work\hdnes\trunk\hdnespackeditor\mainform.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/string.h>
@@ -3377,6 +3378,8 @@
 	<wx/sizer.h>
 	<wx/panel.h>
 	<wx/scrolbar.h>
+	<wx/treectrl.h>
+	<wx/splitter.h>
 	<wx/notebook.h>
 	<wx/frame.h>
 	<wx/filepicker.h>
@@ -3412,16 +3415,16 @@
 	"main.h"
 	"coreData.h"
 
-1505837122 source:c:\work\hdnes\trunk\hdnespackeditor\main.cpp
+1506695070 source:c:\work\hdnes\trunk\hdnespackeditor\main.cpp
 	"common.h"
 	"hdnesPackEditormainForm.h"
 	"main.h"
 
-1505837122 c:\work\hdnes\trunk\hdnespackeditor\main.h
+1506695070 c:\work\hdnes\trunk\hdnespackeditor\main.h
 	"common.h"
 	<wx\wx.h>
 
-1505837122 source:c:\work\hdnes\trunk\hdnespackeditor\mainform.cpp
+1506865676 source:c:\work\hdnes\trunk\hdnespackeditor\mainform.cpp
 	"mainForm.h"
 
 1504196542 source:c:\work\hdnes\trunk\hdnespackeditor\condition.cpp
@@ -3688,7 +3691,7 @@
 	"wx/gdicmn.h"
 	"wx/dialog.h"
 
-1505225760 c:\work\hdnes\trunk\hdnespackeditor\colourdialogclient.h
+1506865099 c:\work\hdnes\trunk\hdnespackeditor\colourdialogclient.h
 
 1412631242 c:\work\include\wx\clipbrd.h
 	"wx/defs.h"
@@ -3737,4 +3740,44 @@
 	"wx/list.h"
 	"wx/module.h"
 	"wx/dataobj.h"
+
+1412631243 c:\work\include\wx\treectrl.h
+	"wx/defs.h"
+	"wx/control.h"
+	"wx/treebase.h"
+	"wx/textctrl.h"
+	"wx/generic/treectlg.h"
+	"wx/msw/treectrl.h"
+	"wx/generic/treectlg.h"
+	"wx/generic/treectlg.h"
+	"wx/generic/treectlg.h"
+	"wx/generic/treectlg.h"
+	"wx/generic/treectlg.h"
+
+1412631243 c:\work\include\wx\treebase.h
+	"wx/defs.h"
+	"wx/window.h"
+	"wx/event.h"
+	"wx/dynarray.h"
+	"wx/itemid.h"
+
+1412631242 c:\work\include\wx\itemid.h
+
+1412631242 c:\work\include\wx\generic\treectlg.h
+	"wx/scrolwin.h"
+	"wx/pen.h"
+
+1412631243 c:\work\include\wx\msw\treectrl.h
+	"wx/textctrl.h"
+	"wx/dynarray.h"
+	"wx/treebase.h"
+	"wx/hashmap.h"
+
+1412631243 c:\work\include\wx\splitter.h
+	"wx/event.h"
+	"wx/generic/splitter.h"
+
+1412631242 c:\work\include\wx\generic\splitter.h
+	"wx/window.h"
+	"wx/containr.h"
 

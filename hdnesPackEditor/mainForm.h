@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Dec 21 2016)
+// C++ code generated with wxFormBuilder (version Jun 17 2015)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -27,6 +27,8 @@
 #include <wx/sizer.h>
 #include <wx/panel.h>
 #include <wx/scrolbar.h>
+#include <wx/treectrl.h>
+#include <wx/splitter.h>
 #include <wx/notebook.h>
 #include <wx/frame.h>
 #include <wx/filepicker.h>
@@ -60,6 +62,21 @@ class mainForm : public wxFrame
 		wxPanel* pnlRom;
 		wxScrollBar* romVScroll;
 		wxScrollBar* romHScroll;
+		wxPanel* m_panel67;
+		wxSplitterWindow* m_splitter2;
+		wxPanel* m_panel70;
+		wxTreeCtrl* treeGameObjs;
+		wxPanel* m_panel71;
+		wxStaticText* m_staticText61;
+		wxSpinCtrl* zoomRom1;
+		wxStaticText* m_staticText11;
+		wxPanel* pnlGameObjRaw;
+		wxScrollBar* scrGameObjRawV;
+		wxScrollBar* scrGameObjRawH;
+		wxStaticText* m_staticText12;
+		wxPanel* pnlGameObjNew;
+		wxScrollBar* scrGameObjNewV;
+		wxScrollBar* scrGameObjNewH;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void closeWindow( wxCloseEvent& event ) { event.Skip(); }
@@ -75,7 +92,7 @@ class mainForm : public wxFrame
 		virtual void romColour2( wxCommandEvent& event ) { event.Skip(); }
 		virtual void romColour3( wxCommandEvent& event ) { event.Skip(); }
 		virtual void romViewPaletteHexChanged( wxCommandEvent& event ) { event.Skip(); }
-		virtual void romViewLeave( wxMouseEvent& event ) { event.Skip(); }
+		virtual void romViewEnter( wxMouseEvent& event ) { event.Skip(); }
 		virtual void romViewLDown( wxMouseEvent& event ) { event.Skip(); }
 		virtual void romViewLUp( wxMouseEvent& event ) { event.Skip(); }
 		virtual void romViewMove( wxMouseEvent& event ) { event.Skip(); }
@@ -83,13 +100,22 @@ class mainForm : public wxFrame
 		virtual void romViewSizeChanged( wxSizeEvent& event ) { event.Skip(); }
 		virtual void romViewVScrolled( wxScrollEvent& event ) { event.Skip(); }
 		virtual void romViewHScrolled( wxScrollEvent& event ) { event.Skip(); }
+		virtual void gameObjTItemChangeName( wxTreeEvent& event ) { event.Skip(); }
+		virtual void gameObjTItemMenu( wxTreeEvent& event ) { event.Skip(); }
+		virtual void gameObjTItemSelected( wxTreeEvent& event ) { event.Skip(); }
 		
 	
 	public:
 		
-		mainForm( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("HDNes Graphics Pack Editor"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 849,521 ), long style = wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER|wxTAB_TRAVERSAL );
+		mainForm( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("HDNes Graphics Pack Editor"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 816,626 ), long style = wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER|wxTAB_TRAVERSAL );
 		
 		~mainForm();
+		
+		void m_splitter2OnIdle( wxIdleEvent& )
+		{
+			m_splitter2->SetSashPosition( 150 );
+			m_splitter2->Disconnect( wxEVT_IDLE, wxIdleEventHandler( mainForm::m_splitter2OnIdle ), NULL, this );
+		}
 	
 };
 
