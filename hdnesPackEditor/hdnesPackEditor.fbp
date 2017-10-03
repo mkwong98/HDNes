@@ -1938,7 +1938,7 @@
                                                                 <event name="OnSetFocus"></event>
                                                                 <event name="OnSize"></event>
                                                                 <event name="OnTreeBeginDrag"></event>
-                                                                <event name="OnTreeBeginLabelEdit"></event>
+                                                                <event name="OnTreeBeginLabelEdit">gameObjTItemBeginEdit</event>
                                                                 <event name="OnTreeBeginRDrag"></event>
                                                                 <event name="OnTreeDeleteItem"></event>
                                                                 <event name="OnTreeEndDrag"></event>
@@ -1950,7 +1950,7 @@
                                                                 <event name="OnTreeItemExpanded"></event>
                                                                 <event name="OnTreeItemExpanding"></event>
                                                                 <event name="OnTreeItemGetTooltip"></event>
-                                                                <event name="OnTreeItemMenu">gameObjTItemMenu</event>
+                                                                <event name="OnTreeItemMenu">gameObjTItemOpenMenu</event>
                                                                 <event name="OnTreeItemMiddleClick"></event>
                                                                 <event name="OnTreeItemRightClick"></event>
                                                                 <event name="OnTreeKeyDown"></event>

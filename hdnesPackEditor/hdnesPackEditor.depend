@@ -4,10 +4,10 @@
 	"hdnesPackEditormainForm.h"
 	"main.h"
 
-1506074185 source:c:\work\hdnesr\trunk\hdnespackeditor\mainform.cpp
+1507026469 source:c:\work\hdnesr\trunk\hdnespackeditor\mainform.cpp
 	"mainForm.h"
 
-1506074185 c:\work\hdnesr\trunk\hdnespackeditor\mainform.h
+1507017855 c:\work\hdnesr\trunk\hdnespackeditor\mainform.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/string.h>
@@ -27,6 +27,8 @@
 	<wx/sizer.h>
 	<wx/panel.h>
 	<wx/scrolbar.h>
+	<wx/treectrl.h>
+	<wx/splitter.h>
 	<wx/notebook.h>
 	<wx/frame.h>
 	<wx/filepicker.h>
@@ -2124,7 +2126,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1506683849 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.cpp
+1507026197 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.cpp
 	"hdnesPackEditormainForm.h"
 	"hdnesPackEditornewProjectDialog.h"
 	"hdnesPackEditorcolourSelectDialog.h"
@@ -2133,8 +2135,9 @@
 	"common.h"
 	<wx/wx.h>
 	<wx/clipbrd.h>
+	"gameObjNode.h"
 
-1506683545 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.h
+1507023243 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.h
 	"common.h"
 	"mainForm.h"
 	"colourDialogClient.h"
@@ -3448,7 +3451,7 @@
 1504855141 c:\work\hdnesr\trunk\hdnespackeditor\condition.h
 	"common.h"
 
-1506686038 source:c:\work\hdnesr\trunk\hdnespackeditor\coredata.cpp
+1507001550 source:c:\work\hdnesr\trunk\hdnespackeditor\coredata.cpp
 	"common.h"
 	"coreData.h"
 	"image.h"
@@ -3780,4 +3783,11 @@
 1412631242 c:\work\include\wx\generic\splitter.h
 	"wx/window.h"
 	"wx/containr.h"
+
+1507016312 source:c:\work\hdnesr\trunk\hdnespackeditor\gameobjnode.cpp
+	"gameObjNode.h"
+
+1507027183 c:\work\hdnesr\trunk\hdnespackeditor\gameobjnode.h
+	"common.h"
+	<wx/treebase.h>
 

@@ -54,6 +54,8 @@
 		<Unit filename="condition.h" />
 		<Unit filename="coreData.cpp" />
 		<Unit filename="coreData.h" />
+		<Unit filename="gameObjNode.cpp" />
+		<Unit filename="gameObjNode.h" />
 		<Unit filename="hdnesPackEditorcolourSelectDialog.cpp" />
 		<Unit filename="hdnesPackEditorcolourSelectDialog.h" />
 		<Unit filename="hdnesPackEditormainForm.cpp" />

@@ -43,8 +43,9 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
 		void romViewMove( wxMouseEvent& event );
 		void romViewEnter( wxMouseEvent& event );
 
+        void gameObjTItemBeginEdit( wxTreeEvent& event );
 		void gameObjTItemChangeName( wxTreeEvent& event );
-		void gameObjTItemMenu( wxTreeEvent& event );
+		void gameObjTItemOpenMenu( wxTreeEvent& event );
 		void gameObjTItemSelected( wxTreeEvent& event );
 
         void closeWindow( wxCloseEvent& event );
@@ -113,8 +114,11 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
 
         //--game objs session
         wxTreeItemId tItmGameObjRoot;
+        wxTreeItemId tItmGameObjMenu;
+
         void initGameObjs();
         void gameObjsROMChanged();
+        void gameObjsMenu( wxCommandEvent& event );
         //--end game objs session
 
 };

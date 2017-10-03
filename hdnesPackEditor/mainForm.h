@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Jun 17 2015)
+// C++ code generated with wxFormBuilder (version Dec 21 2016)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -100,8 +100,9 @@ class mainForm : public wxFrame
 		virtual void romViewSizeChanged( wxSizeEvent& event ) { event.Skip(); }
 		virtual void romViewVScrolled( wxScrollEvent& event ) { event.Skip(); }
 		virtual void romViewHScrolled( wxScrollEvent& event ) { event.Skip(); }
+		virtual void gameObjTItemBeginEdit( wxTreeEvent& event ) { event.Skip(); }
 		virtual void gameObjTItemChangeName( wxTreeEvent& event ) { event.Skip(); }
-		virtual void gameObjTItemMenu( wxTreeEvent& event ) { event.Skip(); }
+		virtual void gameObjTItemOpenMenu( wxTreeEvent& event ) { event.Skip(); }
 		virtual void gameObjTItemSelected( wxTreeEvent& event ) { event.Skip(); }
 		
 	
