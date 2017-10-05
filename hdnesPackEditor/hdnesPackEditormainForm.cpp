@@ -704,14 +704,14 @@ void hdnesPackEditormainForm::gameObjTItemOpenMenu( wxTreeEvent& event ){
         }
     }
 
-    menu.Connect( wxEVT_MENU, wxCommandEventHandler(hdnesPackEditormainForm::gameObjsMenu), NULL, this );
+    menu.Connect( wxEVT_MENU, wxCommandEventHandler(hdnesPackEditormainForm::gameObjsTreeMenu), NULL, this );
     treeGameObjs->PopupMenu(&menu, event.GetPoint());
 }
 
 void hdnesPackEditormainForm::gameObjTItemSelected( wxTreeEvent& event ){
 }
 
-void hdnesPackEditormainForm::gameObjsMenu( wxCommandEvent& event ){
+void hdnesPackEditormainForm::gameObjsTreeMenu( wxCommandEvent& event ){
     gameObjNode* node;
     switch(event.GetId()){
     case GAME_OBJ_NODE_MENU_ADD_FOLDER:
@@ -729,5 +729,20 @@ void hdnesPackEditormainForm::gameObjsMenu( wxCommandEvent& event ){
     case GAME_OBJ_NODE_MENU_DEL:
         treeGameObjs->Delete(tItmGameObjMenu);
         break;
+    case GAME_OBJ_NODE_MENU_MOVE_UP:
+        gameObjsMoveTreeItem(tItmGameObjMenu, treeGameObjs->GetItemParent(tItmGameObjMenu), treeGameObjs->GetPrevSibling(treeGameObjs->GetPrevSibling(tItmGameObjMenu)));
+        break;
     }
+}
+
+
+
+void hdnesPackEditormainForm::gameObjsMoveTreeItem(wxTreeItemId item, wxTreeItemId newParent, wxTreeItemId previousItem){
+    gameObjNode* node = treeGameObjs->GetItemData(item);
+    treeGameObjs->SetItemData(item, NULL);
+    wxTreeItemId newItm = treeGameObjs->InsertItem(newParent, previousItem, treeGameObjs->GetItemText(item), -1, -1, node);
+    wxTreeItemId = treeGameObjs->GetLastChild(newParent);
+
+
+    treeGameObjs->Delete(item);
 }
