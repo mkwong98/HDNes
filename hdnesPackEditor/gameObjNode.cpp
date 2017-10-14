@@ -3,6 +3,7 @@
 gameObjNode::gameObjNode()
 {
     //ctor
+    effectedByMove = false;
 }
 
 gameObjNode::~gameObjNode()

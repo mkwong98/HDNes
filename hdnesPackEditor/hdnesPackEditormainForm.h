@@ -115,11 +115,21 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         //--game objs session
         wxTreeItemId tItmGameObjRoot;
         wxTreeItemId tItmGameObjMenu;
+        bool gameObjectTreeWillMove;
+        wxTreeItemId tItmGameObjMove;
 
         void initGameObjs();
+        void configGameObjs(string lineHdr, string lineTail);
+        void saveCfgGameObjs(fstream& inifile);
+        void loadGameObjs(fstream& file);
+        void loadGameObjItem(fstream& file, wxTreeItemId item);
+        void saveGameObjs(fstream& file);
+        void saveGameObjItem(fstream& file, wxTreeItemId item);
         void gameObjsROMChanged();
         void gameObjsTreeMenu( wxCommandEvent& event );
         void gameObjsMoveTreeItem(wxTreeItemId item, wxTreeItemId newParent, wxTreeItemId previousItem);
+        void gameObjsSetWillMove(wxTreeItemId item);
+        void gameObjsCancelWillMove(wxTreeItemId item);
         //--end game objs session
 
 };

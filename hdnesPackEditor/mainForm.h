@@ -68,7 +68,7 @@ class mainForm : public wxFrame
 		wxTreeCtrl* treeGameObjs;
 		wxPanel* m_panel71;
 		wxStaticText* m_staticText61;
-		wxSpinCtrl* zoomRom1;
+		wxSpinCtrl* zoomGameObjs;
 		wxStaticText* m_staticText11;
 		wxPanel* pnlGameObjRaw;
 		wxScrollBar* scrGameObjRawV;
@@ -104,6 +104,19 @@ class mainForm : public wxFrame
 		virtual void gameObjTItemChangeName( wxTreeEvent& event ) { event.Skip(); }
 		virtual void gameObjTItemOpenMenu( wxTreeEvent& event ) { event.Skip(); }
 		virtual void gameObjTItemSelected( wxTreeEvent& event ) { event.Skip(); }
+		virtual void zoomGameObjsChanged( wxSpinEvent& event ) { event.Skip(); }
+		virtual void gameObjsRawEnter( wxMouseEvent& event ) { event.Skip(); }
+		virtual void gameObjsRawLDown( wxMouseEvent& event ) { event.Skip(); }
+		virtual void gameObjsRawLUp( wxMouseEvent& event ) { event.Skip(); }
+		virtual void gameObjsRawMove( wxMouseEvent& event ) { event.Skip(); }
+		virtual void gameObjsRawRUp( wxMouseEvent& event ) { event.Skip(); }
+		virtual void gameObjsRawSizeChanged( wxSizeEvent& event ) { event.Skip(); }
+		virtual void gameObjsNewEnter( wxMouseEvent& event ) { event.Skip(); }
+		virtual void gameObjsNewLDown( wxMouseEvent& event ) { event.Skip(); }
+		virtual void gameObjsNewLUp( wxMouseEvent& event ) { event.Skip(); }
+		virtual void gameObjsNewMove( wxMouseEvent& event ) { event.Skip(); }
+		virtual void gameObjsNewRUp( wxMouseEvent& event ) { event.Skip(); }
+		virtual void gameObjsNewSizeChanged( wxSizeEvent& event ) { event.Skip(); }
 		
 	
 	public:

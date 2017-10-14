@@ -33,6 +33,7 @@ mainForm( parent )
                 lineTail = line.substr(found + 1);
                 configGeneral(lineHdr, lineTail);
                 configROMView(lineHdr, lineTail);
+                configGameObjs(lineHdr, lineTail);
             }
         }
         fs.close();
@@ -45,6 +46,7 @@ void hdnesPackEditormainForm::closeWindow( wxCloseEvent& event ){
 
     saveCfgGeneral(inifile);
 	saveCfgROMView(inifile);
+	saveCfgGameObjs(inifile);
 
 	inifile.close();
 
@@ -233,6 +235,7 @@ void hdnesPackEditormainForm::dataChanged(){
 void hdnesPackEditormainForm::dataSaved(){
     lastDir = coreData::cData->projectPath;
     m_menu3->FindItem(m_menu3->FindItem(wxString("Save Project")))->Enable(false);
+    notSaved = false;
 }
 
 void hdnesPackEditormainForm::initROMView(){
@@ -645,13 +648,24 @@ void hdnesPackEditormainForm::romViewEnter( wxMouseEvent& event ){
 
 
 void hdnesPackEditormainForm::initGameObjs(){
+    zoomGameObjs->SetValue(4);
+    scrGameObjRawH->SetRange(1);
+    scrGameObjRawH->SetThumbSize(1);
+    scrGameObjRawV->SetRange(1);
+    scrGameObjRawV->SetThumbSize(1);
+    scrGameObjNewH->SetRange(1);
+    scrGameObjNewH->SetThumbSize(1);
+    scrGameObjNewV->SetRange(1);
+    scrGameObjNewV->SetThumbSize(1);
 }
 
 void hdnesPackEditormainForm::gameObjsROMChanged(){
+    treeGameObjs->DeleteAllItems();
     gameObjNode* node = new gameObjNode();
     node->nodeType = GAME_OBJ_NODE_TYPE_ROOT;
     node->nodeName = "";
     tItmGameObjRoot = treeGameObjs->AddRoot(wxString("\\"), -1, -1, node);
+    gameObjectTreeWillMove = false;
 }
 
 void hdnesPackEditormainForm::gameObjTItemBeginEdit( wxTreeEvent& event ){
@@ -684,6 +698,7 @@ void hdnesPackEditormainForm::gameObjTItemChangeName( wxTreeEvent& event ){
         }
         break;
     }
+    notSaved = true;
 }
 
 void hdnesPackEditormainForm::gameObjTItemOpenMenu( wxTreeEvent& event ){
@@ -693,6 +708,9 @@ void hdnesPackEditormainForm::gameObjTItemOpenMenu( wxTreeEvent& event ){
     if(data->nodeType != GAME_OBJ_NODE_TYPE_OBJECT){
         menu.Append(GAME_OBJ_NODE_MENU_ADD_FOLDER, wxT("Add folder"));
         menu.Append(GAME_OBJ_NODE_MENU_ADD_OBJECT, wxT("Add object"));
+        if(gameObjectTreeWillMove && !(data->effectedByMove)){
+            menu.Append(GAME_OBJ_NODE_MENU_MOVE_HERE, wxT("Move here"));
+        }
     }
     if(data->nodeType != GAME_OBJ_NODE_TYPE_ROOT){
         menu.Append(GAME_OBJ_NODE_MENU_DEL, wxT("Delete"));
@@ -702,6 +720,7 @@ void hdnesPackEditormainForm::gameObjTItemOpenMenu( wxTreeEvent& event ){
         if(treeGameObjs->GetNextSibling(tItmGameObjMenu).IsOk()){
             menu.Append(GAME_OBJ_NODE_MENU_MOVE_DOWN, wxT("Move down"));
         }
+        menu.Append(GAME_OBJ_NODE_MENU_MOVE_TO_FOLDER, wxT("Move to folder"));
     }
 
     menu.Connect( wxEVT_MENU, wxCommandEventHandler(hdnesPackEditormainForm::gameObjsTreeMenu), NULL, this );
@@ -713,36 +732,176 @@ void hdnesPackEditormainForm::gameObjTItemSelected( wxTreeEvent& event ){
 
 void hdnesPackEditormainForm::gameObjsTreeMenu( wxCommandEvent& event ){
     gameObjNode* node;
+    wxTreeItemId newItm;
     switch(event.GetId()){
     case GAME_OBJ_NODE_MENU_ADD_FOLDER:
         node = new gameObjNode();
         node->nodeType = GAME_OBJ_NODE_TYPE_GROUP;
         node->nodeName = "Folder";
-        treeGameObjs->AppendItem(tItmGameObjMenu, wxString("Folder\\"), -1, -1, node);
+        newItm = treeGameObjs->AppendItem(tItmGameObjMenu, wxString("Folder\\"), -1, -1, node);
+        treeGameObjs->Expand(tItmGameObjMenu);
+        treeGameObjs->EditLabel(newItm);
+        notSaved = true;
         break;
     case GAME_OBJ_NODE_MENU_ADD_OBJECT:
         node = new gameObjNode();
         node->nodeType = GAME_OBJ_NODE_TYPE_OBJECT;
         node->nodeName = "Object";
-        treeGameObjs->AppendItem(tItmGameObjMenu, wxString("Object"), -1, -1, node);
+        newItm = treeGameObjs->AppendItem(tItmGameObjMenu, wxString("Object"), -1, -1, node);
+        treeGameObjs->Expand(tItmGameObjMenu);
+        treeGameObjs->EditLabel(newItm);
+        notSaved = true;
         break;
     case GAME_OBJ_NODE_MENU_DEL:
         treeGameObjs->Delete(tItmGameObjMenu);
+        notSaved = true;
         break;
     case GAME_OBJ_NODE_MENU_MOVE_UP:
+        gameObjectTreeWillMove = false;
         gameObjsMoveTreeItem(tItmGameObjMenu, treeGameObjs->GetItemParent(tItmGameObjMenu), treeGameObjs->GetPrevSibling(treeGameObjs->GetPrevSibling(tItmGameObjMenu)));
+        notSaved = true;
+        break;
+    case GAME_OBJ_NODE_MENU_MOVE_DOWN:
+        gameObjectTreeWillMove = false;
+        gameObjsMoveTreeItem(tItmGameObjMenu, treeGameObjs->GetItemParent(tItmGameObjMenu), treeGameObjs->GetNextSibling(tItmGameObjMenu));
+        notSaved = true;
+        break;
+    case GAME_OBJ_NODE_MENU_MOVE_TO_FOLDER:
+        gameObjectTreeWillMove = true;
+        gameObjsCancelWillMove(tItmGameObjRoot);
+        gameObjsSetWillMove(tItmGameObjMenu);
+        tItmGameObjMove = tItmGameObjMenu;
+        notSaved = true;
+        break;
+    case GAME_OBJ_NODE_MENU_MOVE_HERE:
+        gameObjectTreeWillMove = false;
+        gameObjsMoveTreeItem(tItmGameObjMove, tItmGameObjMenu, treeGameObjs->GetLastChild(tItmGameObjMenu));
+        gameObjsCancelWillMove(tItmGameObjRoot);
+        notSaved = true;
         break;
     }
 }
 
-
-
 void hdnesPackEditormainForm::gameObjsMoveTreeItem(wxTreeItemId item, wxTreeItemId newParent, wxTreeItemId previousItem){
-    gameObjNode* node = treeGameObjs->GetItemData(item);
+    gameObjNode* node = (gameObjNode*)(treeGameObjs->GetItemData(item));
     treeGameObjs->SetItemData(item, NULL);
     wxTreeItemId newItm = treeGameObjs->InsertItem(newParent, previousItem, treeGameObjs->GetItemText(item), -1, -1, node);
-    wxTreeItemId = treeGameObjs->GetLastChild(newParent);
 
-
+    wxTreeItemIdValue cookie = 0;
+    wxTreeItemId child = treeGameObjs->GetFirstChild(item, cookie);
+    while(child.IsOk()){
+        gameObjsMoveTreeItem(child, newItm, treeGameObjs->GetLastChild(newItm));
+        child = treeGameObjs->GetFirstChild(item, cookie);
+    }
     treeGameObjs->Delete(item);
+}
+
+void hdnesPackEditormainForm::gameObjsCancelWillMove(wxTreeItemId item){
+    gameObjNode* node = (gameObjNode*)(treeGameObjs->GetItemData(item));
+    node->effectedByMove = false;
+    wxTreeItemIdValue cookie = 0;
+    wxTreeItemId child = treeGameObjs->GetFirstChild(item, cookie);
+    while(child.IsOk()){
+        gameObjsCancelWillMove(child);
+        child = treeGameObjs->GetNextSibling(child);
+    }
+}
+
+void hdnesPackEditormainForm::gameObjsSetWillMove(wxTreeItemId item){
+    gameObjNode* node = (gameObjNode*)(treeGameObjs->GetItemData(item));
+    node->effectedByMove = true;
+    wxTreeItemIdValue cookie = 0;
+    wxTreeItemId child = treeGameObjs->GetFirstChild(item, cookie);
+    while(child.IsOk()){
+        gameObjsSetWillMove(child);
+        child = treeGameObjs->GetNextSibling(child);
+    }
+}
+
+void hdnesPackEditormainForm::configGameObjs(string lineHdr, string lineTail){
+}
+
+void hdnesPackEditormainForm::saveCfgGameObjs(fstream& inifile){
+}
+
+void hdnesPackEditormainForm::loadGameObjs(fstream& file){
+    string line;
+    getline(file, line);
+    while(line != "<endChildObjects>"){
+        loadGameObjItem(file, treeGameObjs->GetRootItem());
+        getline(file, line);
+    }
+}
+
+void hdnesPackEditormainForm::loadGameObjItem(fstream& file, wxTreeItemId item){
+    gameObjNode* node = new gameObjNode();
+    wxTreeItemId newItm = treeGameObjs->InsertItem(item, treeGameObjs->GetLastChild(item), "", -1, -1, node);
+
+    string line;
+    string lineHdr;
+    string lineTail;
+
+    getline(file, line);
+    while(line != "<endGameObject>"){
+        size_t found = line.find_first_of(">");
+        if(found!=string::npos){
+            lineHdr = line.substr(0, found + 1);
+            lineTail = line.substr(found + 1);
+            if(lineHdr == "<type>"){
+                node->nodeType = atoi(lineTail.c_str());
+            }
+            if(lineHdr == "<name>"){
+                node->nodeName = lineTail;
+                if(node->nodeType == GAME_OBJ_NODE_TYPE_GROUP){
+                    treeGameObjs->SetItemText(newItm, wxString(node->nodeName + "\\"));
+                }
+                else{
+                    treeGameObjs->SetItemText(newItm, wxString(node->nodeName));
+                }
+            }
+            if(lineHdr == "<childObjects>"){
+                getline(file, line);
+                while(line != "<endChildObjects>"){
+                    loadGameObjItem(file, newItm);
+                    getline(file, line);
+                }
+            }
+        }
+        getline(file, line);
+    }
+}
+
+void hdnesPackEditormainForm::saveGameObjs(fstream& file){
+    saveGameObjItem(file, tItmGameObjRoot);
+}
+
+void hdnesPackEditormainForm::saveGameObjItem(fstream& file, wxTreeItemId item){
+    gameObjNode* node = (gameObjNode*)(treeGameObjs->GetItemData(item));
+    if(node->nodeType != GAME_OBJ_NODE_TYPE_ROOT){
+        file << "<gameObject>\n";
+        file << "<type>" + main::intToStr(node->nodeType) + "\n";
+        file << "<name>" + node->nodeName + "\n";
+    }
+
+    wxTreeItemIdValue cookie = 0;
+    wxTreeItemId child = treeGameObjs->GetFirstChild(item, cookie);
+
+    if(node->nodeType == GAME_OBJ_NODE_TYPE_OBJECT){
+        file << "<tiles>\n";
+        file << "<endTiles>\n";
+    }
+    else{
+        file << "<childObjects>\n";
+        cookie = 0;
+        child = treeGameObjs->GetFirstChild(item, cookie);
+        while(child.IsOk()){
+            saveGameObjItem(file, child);
+            child = treeGameObjs->GetNextSibling(child);
+        }
+        file << "<endChildObjects>\n";
+    }
+
+    if(node->nodeType != GAME_OBJ_NODE_TYPE_ROOT){
+        file << "<endGameObject>\n";
+    }
 }

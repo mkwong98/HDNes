@@ -28,7 +28,7 @@ class coreData
         Uint8 scale;
         vector<image*> images;
         vector<condition*> conditions;
-        vector<tile*> tiles;
+        vector<gameTile*> tiles;
         vector<string> otherLines;
         wxColour palette[64];
 

@@ -2,6 +2,7 @@
 #include "coreData.h"
 #include "image.h"
 #include "main.h"
+#include "gameTile.h"
 #include "hdnesPackEditormainForm.h"
 
 coreData* coreData::cData;
@@ -19,6 +20,14 @@ coreData::coreData()
 coreData::~coreData()
 {
     if(romSize > 0) free(romData);
+    while(images.size() > 0){
+        delete(images.back());
+        images.pop_back();
+    }
+    while(tiles.size() > 0){
+        delete(tiles.back());
+        tiles.pop_back();
+    }
 }
 
 void coreData::initPath(string rPath, string pPath){
@@ -60,7 +69,9 @@ void coreData::loadPackData(){
 
                 }
                 else if(lineHdr == "<tile>" ){
+                    gameTile* t = new gameTile();
 
+                    tiles.push_back(t);
                 }
                 else{
                     //put all other lines away at the moment
@@ -149,9 +160,11 @@ void coreData::load(string path){
                 lineTail = line.substr(found + 1);
                 if(lineHdr == "<romPath>"){
                     romPath = lineTail;
+                    loadRom();
                 }
                 else if(lineHdr == "<packPath>"){
                     packPath = lineTail;
+                    loadPackData();
                 }
                 else if(lineHdr == "<palette>"){
                     vector<string> lineTokens;
@@ -159,10 +172,13 @@ void coreData::load(string path){
                     palette[atoi(lineTokens[0].c_str())].SetRGBA(atoi(lineTokens[1].c_str()));
 
                 }
+                else if(lineHdr == "<gameObjects>"){
+                    main::mForm->loadGameObjs(fs);
+                }
             }
         }
         fs.close();
-        loadRom();
+
         main::mForm->dataChanged();
         main::mForm->dataSaved();
     }
@@ -195,6 +211,8 @@ void coreData::save(){
 
         inifile << "\n";
     }
+
+    main::mForm->saveGameObjs(inifile);
 
     inifile.close();
     main::mForm->dataSaved();

@@ -2178,7 +2178,7 @@
                                                                         <property name="minimize_button">0</property>
                                                                         <property name="minimum_size">50,-1</property>
                                                                         <property name="moveable">1</property>
-                                                                        <property name="name">zoomRom1</property>
+                                                                        <property name="name">zoomGameObjs</property>
                                                                         <property name="pane_border">1</property>
                                                                         <property name="pane_position"></property>
                                                                         <property name="pane_size"></property>
@@ -2218,7 +2218,7 @@
                                                                         <event name="OnRightUp"></event>
                                                                         <event name="OnSetFocus"></event>
                                                                         <event name="OnSize"></event>
-                                                                        <event name="OnSpinCtrl">zoomRomChanged</event>
+                                                                        <event name="OnSpinCtrl">zoomGameObjsChanged</event>
                                                                         <event name="OnSpinCtrlText"></event>
                                                                         <event name="OnTextEnter"></event>
                                                                         <event name="OnUpdateUI"></event>
@@ -2399,27 +2399,27 @@
                                                                                         <property name="window_name"></property>
                                                                                         <property name="window_style">wxTAB_TRAVERSAL</property>
                                                                                         <event name="OnChar"></event>
-                                                                                        <event name="OnEnterWindow">romViewEnter</event>
+                                                                                        <event name="OnEnterWindow">gameObjsRawEnter</event>
                                                                                         <event name="OnEraseBackground"></event>
                                                                                         <event name="OnKeyDown"></event>
                                                                                         <event name="OnKeyUp"></event>
                                                                                         <event name="OnKillFocus"></event>
                                                                                         <event name="OnLeaveWindow"></event>
                                                                                         <event name="OnLeftDClick"></event>
-                                                                                        <event name="OnLeftDown">romViewLDown</event>
-                                                                                        <event name="OnLeftUp">romViewLUp</event>
+                                                                                        <event name="OnLeftDown">gameObjsRawLDown</event>
+                                                                                        <event name="OnLeftUp">gameObjsRawLUp</event>
                                                                                         <event name="OnMiddleDClick"></event>
                                                                                         <event name="OnMiddleDown"></event>
                                                                                         <event name="OnMiddleUp"></event>
-                                                                                        <event name="OnMotion">romViewMove</event>
+                                                                                        <event name="OnMotion">gameObjsRawMove</event>
                                                                                         <event name="OnMouseEvents"></event>
                                                                                         <event name="OnMouseWheel"></event>
                                                                                         <event name="OnPaint"></event>
                                                                                         <event name="OnRightDClick"></event>
                                                                                         <event name="OnRightDown"></event>
-                                                                                        <event name="OnRightUp">romViewRUp</event>
+                                                                                        <event name="OnRightUp">gameObjsRawRUp</event>
                                                                                         <event name="OnSetFocus"></event>
-                                                                                        <event name="OnSize">romViewSizeChanged</event>
+                                                                                        <event name="OnSize">gameObjsRawSizeChanged</event>
                                                                                         <event name="OnUpdateUI"></event>
                                                                                     </object>
                                                                                 </object>
@@ -2831,27 +2831,27 @@
                                                                                         <property name="window_name"></property>
                                                                                         <property name="window_style">wxTAB_TRAVERSAL</property>
                                                                                         <event name="OnChar"></event>
-                                                                                        <event name="OnEnterWindow">romViewEnter</event>
+                                                                                        <event name="OnEnterWindow">gameObjsNewEnter</event>
                                                                                         <event name="OnEraseBackground"></event>
                                                                                         <event name="OnKeyDown"></event>
                                                                                         <event name="OnKeyUp"></event>
                                                                                         <event name="OnKillFocus"></event>
                                                                                         <event name="OnLeaveWindow"></event>
                                                                                         <event name="OnLeftDClick"></event>
-                                                                                        <event name="OnLeftDown">romViewLDown</event>
-                                                                                        <event name="OnLeftUp">romViewLUp</event>
+                                                                                        <event name="OnLeftDown">gameObjsNewLDown</event>
+                                                                                        <event name="OnLeftUp">gameObjsNewLUp</event>
                                                                                         <event name="OnMiddleDClick"></event>
                                                                                         <event name="OnMiddleDown"></event>
                                                                                         <event name="OnMiddleUp"></event>
-                                                                                        <event name="OnMotion">romViewMove</event>
+                                                                                        <event name="OnMotion">gameObjsNewMove</event>
                                                                                         <event name="OnMouseEvents"></event>
                                                                                         <event name="OnMouseWheel"></event>
                                                                                         <event name="OnPaint"></event>
                                                                                         <event name="OnRightDClick"></event>
                                                                                         <event name="OnRightDown"></event>
-                                                                                        <event name="OnRightUp">romViewRUp</event>
+                                                                                        <event name="OnRightUp">gameObjsNewRUp</event>
                                                                                         <event name="OnSetFocus"></event>
-                                                                                        <event name="OnSize">romViewSizeChanged</event>
+                                                                                        <event name="OnSize">gameObjsNewSizeChanged</event>
                                                                                         <event name="OnUpdateUI"></event>
                                                                                     </object>
                                                                                 </object>

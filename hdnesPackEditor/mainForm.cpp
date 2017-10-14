@@ -169,10 +169,10 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	m_staticText61->Wrap( -1 );
 	bSizer15->Add( m_staticText61, 0, wxALL, 5 );
 	
-	zoomRom1 = new wxSpinCtrl( m_panel71, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 1, 10, 1 );
-	zoomRom1->SetMinSize( wxSize( 50,-1 ) );
+	zoomGameObjs = new wxSpinCtrl( m_panel71, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 1, 10, 1 );
+	zoomGameObjs->SetMinSize( wxSize( 50,-1 ) );
 	
-	bSizer15->Add( zoomRom1, 0, wxALL, 5 );
+	bSizer15->Add( zoomGameObjs, 0, wxALL, 5 );
 	
 	
 	bSizer14->Add( bSizer15, 0, wxEXPAND, 5 );
@@ -333,13 +333,13 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	treeGameObjs->Connect( wxEVT_COMMAND_TREE_END_LABEL_EDIT, wxTreeEventHandler( mainForm::gameObjTItemChangeName ), NULL, this );
 	treeGameObjs->Connect( wxEVT_COMMAND_TREE_ITEM_MENU, wxTreeEventHandler( mainForm::gameObjTItemOpenMenu ), NULL, this );
 	treeGameObjs->Connect( wxEVT_COMMAND_TREE_SEL_CHANGED, wxTreeEventHandler( mainForm::gameObjTItemSelected ), NULL, this );
-	zoomRom1->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainForm::zoomRomChanged ), NULL, this );
-	pnlGameObjRaw->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( mainForm::romViewEnter ), NULL, this );
-	pnlGameObjRaw->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( mainForm::romViewLDown ), NULL, this );
-	pnlGameObjRaw->Connect( wxEVT_LEFT_UP, wxMouseEventHandler( mainForm::romViewLUp ), NULL, this );
-	pnlGameObjRaw->Connect( wxEVT_MOTION, wxMouseEventHandler( mainForm::romViewMove ), NULL, this );
-	pnlGameObjRaw->Connect( wxEVT_RIGHT_UP, wxMouseEventHandler( mainForm::romViewRUp ), NULL, this );
-	pnlGameObjRaw->Connect( wxEVT_SIZE, wxSizeEventHandler( mainForm::romViewSizeChanged ), NULL, this );
+	zoomGameObjs->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainForm::zoomGameObjsChanged ), NULL, this );
+	pnlGameObjRaw->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( mainForm::gameObjsRawEnter ), NULL, this );
+	pnlGameObjRaw->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( mainForm::gameObjsRawLDown ), NULL, this );
+	pnlGameObjRaw->Connect( wxEVT_LEFT_UP, wxMouseEventHandler( mainForm::gameObjsRawLUp ), NULL, this );
+	pnlGameObjRaw->Connect( wxEVT_MOTION, wxMouseEventHandler( mainForm::gameObjsRawMove ), NULL, this );
+	pnlGameObjRaw->Connect( wxEVT_RIGHT_UP, wxMouseEventHandler( mainForm::gameObjsRawRUp ), NULL, this );
+	pnlGameObjRaw->Connect( wxEVT_SIZE, wxSizeEventHandler( mainForm::gameObjsRawSizeChanged ), NULL, this );
 	scrGameObjRawV->Connect( wxEVT_SCROLL_TOP, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
 	scrGameObjRawV->Connect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
 	scrGameObjRawV->Connect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
@@ -358,12 +358,12 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	scrGameObjRawH->Connect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
 	scrGameObjRawH->Connect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
 	scrGameObjRawH->Connect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
-	pnlGameObjNew->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( mainForm::romViewEnter ), NULL, this );
-	pnlGameObjNew->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( mainForm::romViewLDown ), NULL, this );
-	pnlGameObjNew->Connect( wxEVT_LEFT_UP, wxMouseEventHandler( mainForm::romViewLUp ), NULL, this );
-	pnlGameObjNew->Connect( wxEVT_MOTION, wxMouseEventHandler( mainForm::romViewMove ), NULL, this );
-	pnlGameObjNew->Connect( wxEVT_RIGHT_UP, wxMouseEventHandler( mainForm::romViewRUp ), NULL, this );
-	pnlGameObjNew->Connect( wxEVT_SIZE, wxSizeEventHandler( mainForm::romViewSizeChanged ), NULL, this );
+	pnlGameObjNew->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( mainForm::gameObjsNewEnter ), NULL, this );
+	pnlGameObjNew->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( mainForm::gameObjsNewLDown ), NULL, this );
+	pnlGameObjNew->Connect( wxEVT_LEFT_UP, wxMouseEventHandler( mainForm::gameObjsNewLUp ), NULL, this );
+	pnlGameObjNew->Connect( wxEVT_MOTION, wxMouseEventHandler( mainForm::gameObjsNewMove ), NULL, this );
+	pnlGameObjNew->Connect( wxEVT_RIGHT_UP, wxMouseEventHandler( mainForm::gameObjsNewRUp ), NULL, this );
+	pnlGameObjNew->Connect( wxEVT_SIZE, wxSizeEventHandler( mainForm::gameObjsNewSizeChanged ), NULL, this );
 	scrGameObjNewV->Connect( wxEVT_SCROLL_TOP, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
 	scrGameObjNewV->Connect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
 	scrGameObjNewV->Connect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
@@ -429,13 +429,13 @@ mainForm::~mainForm()
 	treeGameObjs->Disconnect( wxEVT_COMMAND_TREE_END_LABEL_EDIT, wxTreeEventHandler( mainForm::gameObjTItemChangeName ), NULL, this );
 	treeGameObjs->Disconnect( wxEVT_COMMAND_TREE_ITEM_MENU, wxTreeEventHandler( mainForm::gameObjTItemOpenMenu ), NULL, this );
 	treeGameObjs->Disconnect( wxEVT_COMMAND_TREE_SEL_CHANGED, wxTreeEventHandler( mainForm::gameObjTItemSelected ), NULL, this );
-	zoomRom1->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainForm::zoomRomChanged ), NULL, this );
-	pnlGameObjRaw->Disconnect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( mainForm::romViewEnter ), NULL, this );
-	pnlGameObjRaw->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( mainForm::romViewLDown ), NULL, this );
-	pnlGameObjRaw->Disconnect( wxEVT_LEFT_UP, wxMouseEventHandler( mainForm::romViewLUp ), NULL, this );
-	pnlGameObjRaw->Disconnect( wxEVT_MOTION, wxMouseEventHandler( mainForm::romViewMove ), NULL, this );
-	pnlGameObjRaw->Disconnect( wxEVT_RIGHT_UP, wxMouseEventHandler( mainForm::romViewRUp ), NULL, this );
-	pnlGameObjRaw->Disconnect( wxEVT_SIZE, wxSizeEventHandler( mainForm::romViewSizeChanged ), NULL, this );
+	zoomGameObjs->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainForm::zoomGameObjsChanged ), NULL, this );
+	pnlGameObjRaw->Disconnect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( mainForm::gameObjsRawEnter ), NULL, this );
+	pnlGameObjRaw->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( mainForm::gameObjsRawLDown ), NULL, this );
+	pnlGameObjRaw->Disconnect( wxEVT_LEFT_UP, wxMouseEventHandler( mainForm::gameObjsRawLUp ), NULL, this );
+	pnlGameObjRaw->Disconnect( wxEVT_MOTION, wxMouseEventHandler( mainForm::gameObjsRawMove ), NULL, this );
+	pnlGameObjRaw->Disconnect( wxEVT_RIGHT_UP, wxMouseEventHandler( mainForm::gameObjsRawRUp ), NULL, this );
+	pnlGameObjRaw->Disconnect( wxEVT_SIZE, wxSizeEventHandler( mainForm::gameObjsRawSizeChanged ), NULL, this );
 	scrGameObjRawV->Disconnect( wxEVT_SCROLL_TOP, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
 	scrGameObjRawV->Disconnect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
 	scrGameObjRawV->Disconnect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
@@ -454,12 +454,12 @@ mainForm::~mainForm()
 	scrGameObjRawH->Disconnect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
 	scrGameObjRawH->Disconnect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
 	scrGameObjRawH->Disconnect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
-	pnlGameObjNew->Disconnect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( mainForm::romViewEnter ), NULL, this );
-	pnlGameObjNew->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( mainForm::romViewLDown ), NULL, this );
-	pnlGameObjNew->Disconnect( wxEVT_LEFT_UP, wxMouseEventHandler( mainForm::romViewLUp ), NULL, this );
-	pnlGameObjNew->Disconnect( wxEVT_MOTION, wxMouseEventHandler( mainForm::romViewMove ), NULL, this );
-	pnlGameObjNew->Disconnect( wxEVT_RIGHT_UP, wxMouseEventHandler( mainForm::romViewRUp ), NULL, this );
-	pnlGameObjNew->Disconnect( wxEVT_SIZE, wxSizeEventHandler( mainForm::romViewSizeChanged ), NULL, this );
+	pnlGameObjNew->Disconnect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( mainForm::gameObjsNewEnter ), NULL, this );
+	pnlGameObjNew->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( mainForm::gameObjsNewLDown ), NULL, this );
+	pnlGameObjNew->Disconnect( wxEVT_LEFT_UP, wxMouseEventHandler( mainForm::gameObjsNewLUp ), NULL, this );
+	pnlGameObjNew->Disconnect( wxEVT_MOTION, wxMouseEventHandler( mainForm::gameObjsNewMove ), NULL, this );
+	pnlGameObjNew->Disconnect( wxEVT_RIGHT_UP, wxMouseEventHandler( mainForm::gameObjsNewRUp ), NULL, this );
+	pnlGameObjNew->Disconnect( wxEVT_SIZE, wxSizeEventHandler( mainForm::gameObjsNewSizeChanged ), NULL, this );
 	scrGameObjNewV->Disconnect( wxEVT_SCROLL_TOP, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
 	scrGameObjNewV->Disconnect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
 	scrGameObjNewV->Disconnect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );

@@ -13,6 +13,8 @@
 #define GAME_OBJ_NODE_MENU_DEL          3
 #define GAME_OBJ_NODE_MENU_MOVE_UP      4
 #define GAME_OBJ_NODE_MENU_MOVE_DOWN    5
+#define GAME_OBJ_NODE_MENU_MOVE_TO_FOLDER   6
+#define GAME_OBJ_NODE_MENU_MOVE_HERE    7
 
 class gameObjNode : public wxTreeItemData
 {
@@ -22,7 +24,7 @@ class gameObjNode : public wxTreeItemData
 
         Uint8 nodeType;
         string nodeName;
-
+        bool effectedByMove;
     protected:
 
     private:
