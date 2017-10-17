@@ -21,6 +21,22 @@ string main::intToStr(int value){
     return stream.str();
 }
 
+vector<string> main::split(const string &s, char delim, vector<string> &elems) {
+    stringstream ss(s);
+    string item;
+    elems.clear();
+    while(getline(ss, item, delim)) {
+        elems.push_back(item);
+    }
+    return elems;
+}
+
+void main::hexToByteArray(const string &s, UINT8* ar){
+    for(int i = 0; i < s.length() / 2; ++i){
+        ar[i] = strtol(s.substr(i * 2, 2).c_str(), NULL, 16);
+    }
+}
+
 main::main(void){
     wxInitAllImageHandlers();
 

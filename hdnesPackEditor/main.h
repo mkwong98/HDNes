@@ -13,6 +13,8 @@ public:
     static string exeDir;
     static string intToHex(int value);
     static string intToStr(int value);
+    static vector<string> split(const string &s, char delim, vector<string> &elems);
+    static void hexToByteArray(const string &s, UINT8* ar);
 
 	main(void);
 	~main(void);

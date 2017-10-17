@@ -70,7 +70,7 @@ void coreData::loadPackData(){
                 }
                 else if(lineHdr == "<tile>" ){
                     gameTile* t = new gameTile();
-
+                    t->readLine(lineTail);
                     tiles.push_back(t);
                 }
                 else{
@@ -168,7 +168,7 @@ void coreData::load(string path){
                 }
                 else if(lineHdr == "<palette>"){
                     vector<string> lineTokens;
-                    split(lineTail, ',', lineTokens);
+                    main::split(lineTail, ',', lineTokens);
                     palette[atoi(lineTokens[0].c_str())].SetRGBA(atoi(lineTokens[1].c_str()));
 
                 }
@@ -226,15 +226,6 @@ void coreData::saveAs(string path){
 void coreData::dataChanged(){
     notSaved = true;
     main::mForm->dataChanged();
-}
-
-vector<string> coreData::split(const string &s, char delim, vector<string> &elems) {
-    stringstream ss(s);
-    string item;
-    while(getline(ss, item, delim)) {
-        elems.push_back(item);
-    }
-    return elems;
 }
 
 string coreData::getTileID(int tileIndex){

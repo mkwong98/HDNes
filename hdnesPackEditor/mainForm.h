@@ -111,12 +111,16 @@ class mainForm : public wxFrame
 		virtual void gameObjsRawMove( wxMouseEvent& event ) { event.Skip(); }
 		virtual void gameObjsRawRUp( wxMouseEvent& event ) { event.Skip(); }
 		virtual void gameObjsRawSizeChanged( wxSizeEvent& event ) { event.Skip(); }
+		virtual void gameObjsRawVScrolled( wxScrollEvent& event ) { event.Skip(); }
+		virtual void gameObjsRawHScrolled( wxScrollEvent& event ) { event.Skip(); }
 		virtual void gameObjsNewEnter( wxMouseEvent& event ) { event.Skip(); }
 		virtual void gameObjsNewLDown( wxMouseEvent& event ) { event.Skip(); }
 		virtual void gameObjsNewLUp( wxMouseEvent& event ) { event.Skip(); }
 		virtual void gameObjsNewMove( wxMouseEvent& event ) { event.Skip(); }
 		virtual void gameObjsNewRUp( wxMouseEvent& event ) { event.Skip(); }
 		virtual void gameObjsNewSizeChanged( wxSizeEvent& event ) { event.Skip(); }
+		virtual void gameObjsNewVScrolled( wxScrollEvent& event ) { event.Skip(); }
+		virtual void gameObjsNewHScrolled( wxScrollEvent& event ) { event.Skip(); }
 		
 	
 	public:

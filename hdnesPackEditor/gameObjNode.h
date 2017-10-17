@@ -2,6 +2,7 @@
 #define GAMEOBJNODE_H
 
 #include "common.h"
+#include "gameTile.h"
 #include <wx/treebase.h>
 
 #define GAME_OBJ_NODE_TYPE_ROOT     0
@@ -25,6 +26,8 @@ class gameObjNode : public wxTreeItemData
         Uint8 nodeType;
         string nodeName;
         bool effectedByMove;
+
+        vector<gameTile> tiles;
     protected:
 
     private:

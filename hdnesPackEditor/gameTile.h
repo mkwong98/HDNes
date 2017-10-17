@@ -15,12 +15,18 @@ class gameTile
         Uint8 rawData[16];
         Uint8 palette[4];
 
+        int objCoordX;
+        int objCoordY;
+
         bool hasReplacement;
         bool isDefault;
         vector<condition> conditions;
-        image* img;
+        int img;
         int x;
         int y;
+        double brightness;
+
+        void readLine(string s);
 
     protected:
 

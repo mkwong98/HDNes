@@ -2526,7 +2526,7 @@
                                                                                                 <event name="OnRightDClick"></event>
                                                                                                 <event name="OnRightDown"></event>
                                                                                                 <event name="OnRightUp"></event>
-                                                                                                <event name="OnScroll">romViewVScrolled</event>
+                                                                                                <event name="OnScroll">gameObjsRawVScrolled</event>
                                                                                                 <event name="OnScrollBottom"></event>
                                                                                                 <event name="OnScrollChanged"></event>
                                                                                                 <event name="OnScrollLineDown"></event>
@@ -2646,7 +2646,7 @@
                                                                                                 <event name="OnRightDClick"></event>
                                                                                                 <event name="OnRightDown"></event>
                                                                                                 <event name="OnRightUp"></event>
-                                                                                                <event name="OnScroll">romViewHScrolled</event>
+                                                                                                <event name="OnScroll">gameObjsRawHScrolled</event>
                                                                                                 <event name="OnScrollBottom"></event>
                                                                                                 <event name="OnScrollChanged"></event>
                                                                                                 <event name="OnScrollLineDown"></event>
@@ -2958,7 +2958,7 @@
                                                                                                 <event name="OnRightDClick"></event>
                                                                                                 <event name="OnRightDown"></event>
                                                                                                 <event name="OnRightUp"></event>
-                                                                                                <event name="OnScroll">romViewVScrolled</event>
+                                                                                                <event name="OnScroll">gameObjsNewVScrolled</event>
                                                                                                 <event name="OnScrollBottom"></event>
                                                                                                 <event name="OnScrollChanged"></event>
                                                                                                 <event name="OnScrollLineDown"></event>
@@ -3078,7 +3078,7 @@
                                                                                                 <event name="OnRightDClick"></event>
                                                                                                 <event name="OnRightDown"></event>
                                                                                                 <event name="OnRightUp"></event>
-                                                                                                <event name="OnScroll">romViewHScrolled</event>
+                                                                                                <event name="OnScroll">gameObjsNewHScrolled</event>
                                                                                                 <event name="OnScrollBottom"></event>
                                                                                                 <event name="OnScrollChanged"></event>
                                                                                                 <event name="OnScrollLineDown"></event>

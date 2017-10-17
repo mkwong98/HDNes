@@ -311,12 +311,7 @@ void hdnesPackEditormainForm::romBGColour( wxCommandEvent& event ){
 
 void hdnesPackEditormainForm::romViewPaletteHexChanged( wxCommandEvent& event ){
     string v = txtRomViewPalette->GetValue().ToStdString();
-    if(v.length() == 8){
-         romViewColours[0] = strtol(v.substr(0, 2).c_str(), NULL, 16);
-         romViewColours[1] = strtol(v.substr(2, 2).c_str(), NULL, 16);
-         romViewColours[2] = strtol(v.substr(4, 2).c_str(), NULL, 16);
-         romViewColours[3] = strtol(v.substr(6, 2).c_str(), NULL, 16);
-    }
+    main::hexToByteArray(v, (Uint8*)romViewColours);
     refreshROMView();
 }
 
@@ -817,6 +812,56 @@ void hdnesPackEditormainForm::gameObjsSetWillMove(wxTreeItemId item){
         child = treeGameObjs->GetNextSibling(child);
     }
 }
+
+void hdnesPackEditormainForm::gameObjsRawRUp( wxMouseEvent& event ){
+    if(coreData::cData){
+        wxPoint p = event.GetPosition();
+        wxMenu menu(wxT(""));
+
+        //show paste when context valid and object node selected
+        wxTreeItemId tID = treeGameObjs->GetFocusedItem();
+        if(tID.IsOk()){
+            gameObjNode* data = (gameObjNode*)(treeGameObjs->GetItemData(tID));
+            if(data->nodeType == GAME_OBJ_NODE_TYPE_OBJECT){
+                if (wxTheClipboard->IsSupported( wxDF_TEXT )){
+                    wxTextDataObject data;
+                    wxTheClipboard->GetData( data );
+                    if(checkPasteValid(data.GetText().ToStdString())){
+                        menu.Append(GAME_OBJ_PNL_PASTE, wxT("Paste"));
+                    }
+                }
+            }
+        }
+
+        menu.Connect( wxEVT_MENU, wxCommandEventHandler(hdnesPackEditormainForm::gameObjsRawMenu), NULL, this );
+        pnlGameObjRaw->PopupMenu(&menu, p);
+    }
+}
+
+void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
+    switch(event.GetId()){
+    case GAME_OBJ_PNL_PASTE:
+
+    }
+}
+
+bool hdnesPackEditormainForm::checkPasteValid(string content){
+    vector<string> tileLines;
+    main::split(content, ';', tileLines);
+    if(tileLines.size() > 0){
+        bool allValid = true;
+        vector<string> tileDetails;
+        for(int i = 0; i < tileLines.size(); ++i){
+            main::split(tileLines[i], ',', tileDetails);
+            if(tileDetails.size() != 4){
+                allValid = false;
+            }
+        }
+        return allValid;
+    }
+    return false;
+}
+
 
 void hdnesPackEditormainForm::configGameObjs(string lineHdr, string lineTail){
 }
