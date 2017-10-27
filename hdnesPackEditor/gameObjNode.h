@@ -27,7 +27,19 @@ class gameObjNode : public wxTreeItemData
         string nodeName;
         bool effectedByMove;
 
+        int x1;
+        int x2;
+        int y1;
+        int y2;
+        int objectWidth;
+        int objectHeight;
+        Uint8 bgColour;
+
         vector<gameTile> tiles;
+
+        void addTile(gameTile g);
+        void addToObjectSize(int gIdx);
+        void clearAllTiles();
     protected:
 
     private:

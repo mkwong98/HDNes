@@ -69,6 +69,9 @@ class mainForm : public wxFrame
 		wxPanel* m_panel71;
 		wxStaticText* m_staticText61;
 		wxSpinCtrl* zoomGameObjs;
+		wxStaticText* m_staticText91;
+		wxStaticText* m_staticText101;
+		wxButton* btnGameObjBGColour;
 		wxStaticText* m_staticText11;
 		wxPanel* pnlGameObjRaw;
 		wxScrollBar* scrGameObjRawV;
@@ -105,6 +108,7 @@ class mainForm : public wxFrame
 		virtual void gameObjTItemOpenMenu( wxTreeEvent& event ) { event.Skip(); }
 		virtual void gameObjTItemSelected( wxTreeEvent& event ) { event.Skip(); }
 		virtual void zoomGameObjsChanged( wxSpinEvent& event ) { event.Skip(); }
+		virtual void gameObjBGColour( wxCommandEvent& event ) { event.Skip(); }
 		virtual void gameObjsRawEnter( wxMouseEvent& event ) { event.Skip(); }
 		virtual void gameObjsRawLDown( wxMouseEvent& event ) { event.Skip(); }
 		virtual void gameObjsRawLUp( wxMouseEvent& event ) { event.Skip(); }
