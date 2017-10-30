@@ -981,6 +981,7 @@ void hdnesPackEditormainForm::drawGameObj(){
 
 void hdnesPackEditormainForm::drawGameObjPasteTiles(){
     //cal image size
+    int mouseX = gameObjRawCurrPos.x / zoomGameObjs->GetValue();
 
     //create image
     gameObjRawImage2 = wxImage(gameObjPasteData.objectWidth, gameObjPasteData.objectHeight, true);
@@ -1042,6 +1043,15 @@ void hdnesPackEditormainForm::gameObjBGColour( wxCommandEvent& event ){
             }
         }
     }
+}
+
+void hdnesPackEditormainForm::gameObjsRawMove( wxMouseEvent& event ){
+    if(coreData::cData){
+        gameObjRawCurrPos = event.GetPosition();
+    }
+}
+
+void hdnesPackEditormainForm::gameObjsRawEnter( wxMouseEvent& event ){
 }
 
 

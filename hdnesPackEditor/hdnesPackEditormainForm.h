@@ -55,6 +55,8 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
 		void gameObjTItemSelected( wxTreeEvent& event );
         void gameObjsRawRUp( wxMouseEvent& event );
 		void gameObjBGColour( wxCommandEvent& event );
+		void gameObjsRawMove( wxMouseEvent& event );
+		void gameObjsRawEnter( wxMouseEvent& event );
 
 
         void closeWindow( wxCloseEvent& event );
@@ -135,6 +137,9 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         int gameObjViewCentreY;
         wxColor gameObjBlankColour;
         gameObjNode gameObjPasteData;
+
+        wxPoint gameObjRawCurrPos;
+
 
         void initGameObjs();
         void configGameObjs(string lineHdr, string lineTail);
