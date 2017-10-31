@@ -7,6 +7,5 @@ class coreData;
 class image;
 class condition;
 class gameTile;
-class tileReplacement;
 
 #endif // CLASSLIST_H_INCLUDED

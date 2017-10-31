@@ -3325,14 +3325,15 @@
 1412631242 c:\work\include\wx\cocoa\mdi.h
 	"wx/frame.h"
 
-1506733091 source:c:\work\hdnes\trunk\hdnespackeditor\coredata.cpp
+1509125480 source:c:\work\hdnes\trunk\hdnespackeditor\coredata.cpp
 	"common.h"
 	"coreData.h"
 	"image.h"
 	"main.h"
+	"gameTile.h"
 	"hdnesPackEditormainForm.h"
 
-1506695069 c:\work\hdnes\trunk\hdnespackeditor\coredata.h
+1509125480 c:\work\hdnes\trunk\hdnespackeditor\coredata.h
 	"common.h"
 	"classList.h"
 	<wx/wx.h>
@@ -3357,12 +3358,13 @@
 	<wx/wx.h>
 	<wx/clipbrd.h>
 
-1506873372 c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.h
+1509458981 c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.h
 	"common.h"
 	"mainForm.h"
 	"colourDialogClient.h"
+	"gameObjNode.h"
 
-1506865676 c:\work\hdnes\trunk\hdnespackeditor\mainform.h
+1509125480 c:\work\hdnes\trunk\hdnespackeditor\mainform.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/string.h>
@@ -3424,7 +3426,7 @@
 	"hdnesPackEditormainForm.h"
 	"main.h"
 
-1506695070 c:\work\hdnes\trunk\hdnespackeditor\main.h
+1509125480 c:\work\hdnes\trunk\hdnespackeditor\main.h
 	"common.h"
 	<wx\wx.h>
 
@@ -3437,7 +3439,7 @@
 1504196566 c:\work\hdnes\trunk\hdnespackeditor\condition.h
 	"common.h"
 
-1504631328 c:\work\hdnes\trunk\hdnespackeditor\classlist.h
+1509472055 c:\work\hdnes\trunk\hdnespackeditor\classlist.h
 
 1504631215 source:c:\work\hdnes\trunk\hdnespackeditor\image.cpp
 	"image.h"
@@ -3806,6 +3808,16 @@
 	"tileReplacement.h"
 
 1507954472 c:\work\hdnesr\trunk\hdnespackeditor\tilereplacement.h
+	"common.h"
+	"classList.h"
+	"condition.h"
+
+1509125480 c:\work\hdnes\trunk\hdnespackeditor\gameobjnode.h
+	"common.h"
+	"gameTile.h"
+	<wx/treebase.h>
+
+1509472163 c:\work\hdnes\trunk\hdnespackeditor\gametile.h
 	"common.h"
 	"classList.h"
 	"condition.h"

@@ -3,7 +3,7 @@
 
 #include "common.h"
 #include "classList.h"
-#include "tileReplacement.h"
+#include "condition.h"
 
 class gameTile
 {

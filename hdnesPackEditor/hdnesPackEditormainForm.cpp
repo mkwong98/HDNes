@@ -1060,14 +1060,14 @@ void hdnesPackEditormainForm::drawGameObjPasteTiles(){
     }
 
     if(ndata->objectWidth * zoomGameObjs->GetValue() < pnlGameObjRaw->GetSize().GetWidth()){
-        drawX = ((pasteX1 - ndata->x1) * zoomGameObjs->GetValue()) + (pnlGameObjRaw->GetSize().GetWidth() - ndata->objectWidth * zoomGameObjs->GetValue()) / 2;
+        drawX = (pnlGameObjRaw->GetSize().GetWidth() / 2) + ((pasteX1 - gameObjViewCentreX) * zoomGameObjs->GetValue());
     }
     else{
         drawX = ((pasteX1 - ndata->x1) * zoomGameObjs->GetValue()) - scrGameObjRawH->GetThumbPosition();
     }
 
     if(ndata->objectHeight * zoomGameObjs->GetValue() < pnlGameObjRaw->GetSize().GetHeight()){
-        drawY = ((pasteY1 - ndata->y1) * zoomGameObjs->GetValue()) + (pnlGameObjRaw->GetSize().GetHeight() - ndata->objectHeight * zoomGameObjs->GetValue()) / 2;
+        drawY = (pnlGameObjRaw->GetSize().GetHeight() / 2) + ((pasteY1 - gameObjViewCentreY) * zoomGameObjs->GetValue());
     }
     else{
         drawY = ((pasteY1 - ndata->y1) * zoomGameObjs->GetValue()) - scrGameObjRawV->GetThumbPosition();

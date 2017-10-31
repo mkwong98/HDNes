@@ -1,4 +1,5 @@
 #include "gameObjNode.h"
+#include "gameTile.h"
 
 gameObjNode::gameObjNode()
 {
