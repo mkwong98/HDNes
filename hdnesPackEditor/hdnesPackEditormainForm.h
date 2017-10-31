@@ -9,6 +9,8 @@
 
 #define GAME_OBJ_PNL_PASTE  0
 #define GAME_OBJ_PNL_COPY   1
+#define GAME_OBJ_PNL_CONFIRM_PASTE  2
+#define GAME_OBJ_PNL_CANCEL_PASTE   3
 
 /**
 @file
@@ -82,7 +84,7 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         void refreshCoreDataDisplay();
         void openColourDialog(Uint16 clientID);
         virtual void colourSelected(Uint8 selectedColour);
-        void paintTile(wxImage &img, Uint8* tileData, Uint16 x, Uint16 y, wxColour cBG, wxColour c1, wxColour c2, wxColour c3);
+        void paintTile(wxImage &img, Uint8* tileData, int x, int y, wxColour c1, wxColour c2, wxColour c3);
         void drawLine(wxImage &img, wxPoint pt, int len, wxColour c, bool hDir);
         void drawRect(wxImage &img, wxPoint pt, wxPoint rectSize, wxColour c);
 
@@ -131,7 +133,6 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
 
         int gameObjTileSize;
         wxImage gameObjRawImage;
-        wxImage gameObjRawImage2;
         wxImage gameObjRawImageDisplay;
         int gameObjViewCentreX;
         int gameObjViewCentreY;
@@ -155,13 +156,14 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         void gameObjsCancelWillMove(wxTreeItemId item);
         void gameObjsRawMenu( wxCommandEvent& event );
         bool checkPasteValid(string content);
+        void updateGameObjRawMousePosition(wxPoint pos);
 
         void refreshGameObj();
         void clearGameObj();
         void drawGameObj();
         void drawGameObjPasteTiles();
         void drawGameObjSelection();
-        void showGameObj();
+        void showGameObj(wxImage& displayImg, int x, int y);
         //--end game objs session
 
 };
