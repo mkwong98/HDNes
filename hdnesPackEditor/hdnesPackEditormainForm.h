@@ -59,6 +59,7 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
 		void gameObjBGColour( wxCommandEvent& event );
 		void gameObjsRawMove( wxMouseEvent& event );
 		void gameObjsRawEnter( wxMouseEvent& event );
+		void gameObjsRawSizeChanged( wxSizeEvent& event );
 
 
         void closeWindow( wxCloseEvent& event );
