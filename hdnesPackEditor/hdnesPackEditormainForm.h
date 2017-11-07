@@ -51,6 +51,7 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
 		void romViewMove( wxMouseEvent& event );
 		void romViewEnter( wxMouseEvent& event );
 
+		void zoomGameObjsChanged( wxSpinEvent& event );
         void gameObjTItemBeginEdit( wxTreeEvent& event );
 		void gameObjTItemChangeName( wxTreeEvent& event );
 		void gameObjTItemOpenMenu( wxTreeEvent& event );
@@ -60,6 +61,8 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
 		void gameObjsRawMove( wxMouseEvent& event );
 		void gameObjsRawEnter( wxMouseEvent& event );
 		void gameObjsRawSizeChanged( wxSizeEvent& event );
+		void gameObjsRawVScrolled( wxScrollEvent& event );
+		void gameObjsRawHScrolled( wxScrollEvent& event );
 
 
         void closeWindow( wxCloseEvent& event );
@@ -134,9 +137,19 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
 
         int gameObjTileSize;
         wxImage gameObjRawImage;
+        wxImage gameObjRawImage2;
         wxImage gameObjRawImageDisplay;
         int gameObjViewCentreX;
         int gameObjViewCentreY;
+        int gameObjScrollMinH;
+        int gameObjScrollMaxH;
+        int gameObjScrollSizeH;
+        int gameObjScrollMinV;
+        int gameObjScrollMaxV;
+        int gameObjScrollSizeV;
+        int gameObjRawPasteX;
+        int gameObjRawPasteY;
+        int gameObjZoom;
         wxColor gameObjBlankColour;
         gameObjNode gameObjPasteData;
 
@@ -158,10 +171,13 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         void gameObjsRawMenu( wxCommandEvent& event );
         bool checkPasteValid(string content);
         void updateGameObjRawMousePosition(wxPoint pos);
+        gameObjNode* getGameObjsSelectedObjectTreeNode();
 
         void refreshGameObj();
         void clearGameObj();
         void drawGameObj();
+        void adjustGameObjSize();
+        void drawGameObjEdits();
         void drawGameObjPasteTiles();
         void drawGameObjSelection();
         void showGameObj(wxImage& displayImg, int x, int y);
