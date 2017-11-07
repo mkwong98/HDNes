@@ -658,6 +658,7 @@ void hdnesPackEditormainForm::romViewEnter( wxMouseEvent& event ){
 void hdnesPackEditormainForm::initGameObjs(){
     zoomGameObjs->SetValue(4);
     gameObjZoom = 4;
+    gameObjTileSize = 8 * gameObjZoom;
     scrGameObjRawH->SetRange(1);
     scrGameObjRawH->SetThumbSize(1);
     scrGameObjRawV->SetRange(1);
@@ -955,8 +956,6 @@ void hdnesPackEditormainForm::refreshGameObj(){
     v = wxString(main::intToHex(ndata->bgColour).c_str());
     btnGameObjBGColour->SetLabel(v);
 
-    gameObjTileSize = 8 * gameObjZoom;
-
     drawGameObj();
     adjustGameObjSize();
     drawGameObjEdits();
@@ -1095,16 +1094,16 @@ void hdnesPackEditormainForm::adjustGameObjSize(){
     //at least half panel left of centre
     gameObjScrollMinH = -pnlGameObjRaw->GetSize().GetWidth() / 2;
     //adjust for object left size
-    gameObjScrollMinH = min(gameObjScrollMinH, ndata->x1 * gameObjZoom);
+    gameObjScrollMinH = min(gameObjScrollMinH, (ndata->x1 - 16) * gameObjZoom);
     //repeat for right side
     gameObjScrollMaxH = pnlGameObjRaw->GetSize().GetWidth() / 2;
-    gameObjScrollMaxH = max(gameObjScrollMaxH, ndata->x2 * gameObjZoom);
+    gameObjScrollMaxH = max(gameObjScrollMaxH, (ndata->x2 + 16) * gameObjZoom);
 
     //repeat for vertical
     gameObjScrollMinV = -pnlGameObjRaw->GetSize().GetHeight() / 2;
-    gameObjScrollMinV = min(gameObjScrollMinV, ndata->y1 * gameObjZoom);
+    gameObjScrollMinV = min(gameObjScrollMinV, (ndata->y1 - 16) * gameObjZoom);
     gameObjScrollMaxV = pnlGameObjRaw->GetSize().GetHeight() / 2;
-    gameObjScrollMaxV = max(gameObjScrollMaxV, ndata->y2 * gameObjZoom);
+    gameObjScrollMaxV = max(gameObjScrollMaxV, (ndata->y2 + 16) * gameObjZoom);
 
     gameObjScrollSizeH = gameObjScrollMaxH - gameObjScrollMinH;
     gameObjScrollSizeV = gameObjScrollMaxV - gameObjScrollMinV;
@@ -1113,6 +1112,13 @@ void hdnesPackEditormainForm::adjustGameObjSize(){
     scrGameObjRawV->SetRange(gameObjScrollSizeV);
     scrGameObjRawH->SetThumbSize(pnlGameObjRaw->GetSize().GetWidth());
     scrGameObjRawV->SetThumbSize(pnlGameObjRaw->GetSize().GetHeight());
+
+    //check view centre is out of bound
+    gameObjViewCentreX = min(gameObjViewCentreX, gameObjScrollMaxH - (pnlGameObjRaw->GetSize().GetWidth() / 2));
+    gameObjViewCentreX = max(gameObjViewCentreX, gameObjScrollMinH + (pnlGameObjRaw->GetSize().GetWidth() / 2));
+    gameObjViewCentreY = min(gameObjViewCentreY, gameObjScrollMaxV - (pnlGameObjRaw->GetSize().GetHeight() / 2));
+    gameObjViewCentreY = max(gameObjViewCentreY, gameObjScrollMinV + (pnlGameObjRaw->GetSize().GetHeight() / 2));
+
     scrGameObjRawH->SetThumbPosition(gameObjViewCentreX - gameObjScrollMinH - (pnlGameObjRaw->GetSize().GetWidth() / 2));
     scrGameObjRawV->SetThumbPosition(gameObjViewCentreY - gameObjScrollMinV - (pnlGameObjRaw->GetSize().GetHeight() / 2));
 }
@@ -1187,6 +1193,7 @@ void hdnesPackEditormainForm::gameObjsRawVScrolled( wxScrollEvent& event ){
 
 void hdnesPackEditormainForm::zoomGameObjsChanged( wxSpinEvent& event ){
     gameObjZoom = zoomGameObjs->GetValue();
+    gameObjTileSize = 8 * gameObjZoom;
     if(getGameObjsSelectedObjectTreeNode()){
         gameObjViewCentreX = (gameObjViewCentreX * zoomGameObjs->GetValue()) / gameObjZoom;
         gameObjViewCentreY = (gameObjViewCentreY * zoomGameObjs->GetValue()) / gameObjZoom;
