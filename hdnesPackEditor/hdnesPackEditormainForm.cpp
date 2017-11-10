@@ -867,6 +867,28 @@ void hdnesPackEditormainForm::gameObjsRawRUp( wxMouseEvent& event ){
             if(checkPasteValid(txt.GetText().ToStdString())){
                 menu.Append(GAME_OBJ_PNL_PASTE, wxT("Paste"));
             }
+
+            //check right click on a selected tile
+            bool tileFound = false;
+            for(Uint32 k = 0; k < gameObjSelectedTiles.size(); ++k){
+                if(gameObjRawCurrPos.x <= data->tiles[gameObjSelectedTiles[k]].objCoordX + 8
+                   && gameObjRawCurrPos.x >= data->tiles[gameObjSelectedTiles[k]].objCoordX
+                   && gameObjRawCurrPos.y <= data->tiles[gameObjSelectedTiles[k]].objCoordY + 8
+                   && gameObjRawCurrPos.y >= data->tiles[gameObjSelectedTiles[k]].objCoordY){
+                    tileFound = true;
+                    rightClickedgameObjID = gameObjSelectedTiles[k];
+                    rightClickedGameObjTileX = gameObjRawCurrPos.x;
+                    rightClickedGameObjTileY = gameObjRawCurrPos.y;
+                }
+            }
+            if(tileFound){
+                menu.Append(GAME_OBJ_PNL_COPY, wxT("Copy"));
+                menu.Append(GAME_OBJ_PNL_DELETE, wxT("Delete"));
+            }
+            else{
+                gameObjSelectedTiles.clear();
+                drawGameObjEdits();
+            }
         }
 
         menu.Connect( wxEVT_MENU, wxCommandEventHandler(hdnesPackEditormainForm::gameObjsRawMenu), NULL, this );
@@ -875,6 +897,7 @@ void hdnesPackEditormainForm::gameObjsRawRUp( wxMouseEvent& event ){
 }
 
 void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
+    string copyContent = "";
     gameObjNode* ndata;
     switch(event.GetId()){
     case GAME_OBJ_PNL_PASTE:
@@ -919,6 +942,38 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
     case GAME_OBJ_PNL_CANCEL_PASTE:
         gameObjPasteData.clearAllTiles();
         drawGameObjEdits();
+        break;
+    case GAME_OBJ_PNL_COPY:
+        ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
+
+        for(int k = 0; k < gameObjSelectedTiles.size(); ++k){
+            if(copyContent != ""){
+                copyContent = copyContent + ";";
+            }
+            if(coreData::cData->isCHRROM){
+                copyContent = copyContent + main::intToStr(ndata->tiles[gameObjSelectedTiles[k]].id);
+            }
+            else{
+                string tmpVal = "";
+                for(Uint8 i = 0; i < 16; ++i){
+                    tmpVal = tmpVal + main::intToHex(ndata->tiles[gameObjSelectedTiles[k]].rawData[i]);
+                }
+                copyContent = copyContent + tmpVal;
+            }
+            copyContent = copyContent + "," + wxString(main::intToHex(ndata->bgColour).c_str())
+                        + wxString(main::intToHex(ndata->tiles[gameObjSelectedTiles[k]].palette[1]).c_str())
+                        + wxString(main::intToHex(ndata->tiles[gameObjSelectedTiles[k]].palette[2]).c_str())
+                        + wxString(main::intToHex(ndata->tiles[gameObjSelectedTiles[k]].palette[3]).c_str())
+                        + "," + main::intToStr(ndata->tiles[gameObjSelectedTiles[k]].objCoordX - rightClickedGameObjTileX)
+                        + "," + main::intToStr(ndata->tiles[gameObjSelectedTiles[k]].objCoordY - rightClickedGameObjTileY);
+        }
+        if (wxTheClipboard->Open()){
+            wxTheClipboard->SetData( new wxTextDataObject(copyContent.c_str()) );
+            wxTheClipboard->Close();
+        }
+        break;
+    case GAME_OBJ_PNL_DELETE:
+
         break;
     }
 }
