@@ -63,6 +63,8 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
 		void gameObjsRawSizeChanged( wxSizeEvent& event );
 		void gameObjsRawVScrolled( wxScrollEvent& event );
 		void gameObjsRawHScrolled( wxScrollEvent& event );
+		void gameObjsRawLDown( wxMouseEvent& event );
+		void gameObjsRawLUp( wxMouseEvent& event );
 
 
         void closeWindow( wxCloseEvent& event );
@@ -155,6 +157,15 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
 
         wxPoint gameObjRawCurrPos;
 
+        //selection
+        vector<Uint32> gameObjSelectedTiles;
+        wxPoint gameObjLDownPos;
+        wxPoint gameObjLCurrPos;
+        bool gameObjClicked;
+        Uint32 rightClickedgameObjID;
+        int rightClickedGameObjTileX;
+        int rightClickedGameObjTileY;
+        wxImage gameObjImageWithSelection;
 
         void initGameObjs();
         void configGameObjs(string lineHdr, string lineTail);
@@ -170,7 +181,7 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         void gameObjsCancelWillMove(wxTreeItemId item);
         void gameObjsRawMenu( wxCommandEvent& event );
         bool checkPasteValid(string content);
-        void updateGameObjRawMousePosition(wxPoint pos);
+        wxPoint convertGameObjRawPosition(wxPoint pos);
         gameObjNode* getGameObjsSelectedObjectTreeNode();
 
         void refreshGameObj();
