@@ -17,6 +17,9 @@ class gameTile
 
         int objCoordX;
         int objCoordY;
+        bool hFlip;
+        bool vFlip;
+        bool markForDelete;
 
         bool hasReplacement;
         bool isDefault;

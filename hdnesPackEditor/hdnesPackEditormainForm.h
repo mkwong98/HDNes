@@ -12,6 +12,10 @@
 #define GAME_OBJ_PNL_CONFIRM_PASTE  2
 #define GAME_OBJ_PNL_CANCEL_PASTE   3
 #define GAME_OBJ_PNL_DELETE         4
+#define GAME_OBJ_PNL_HFLIP          5
+#define GAME_OBJ_PNL_VFLIP          6
+
+
 
 /**
 @file
@@ -91,7 +95,7 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         void refreshCoreDataDisplay();
         void openColourDialog(Uint16 clientID);
         virtual void colourSelected(Uint8 selectedColour);
-        void paintTile(wxImage &img, Uint8* tileData, int x, int y, wxColour c1, wxColour c2, wxColour c3);
+        void paintTile(wxImage &img, Uint8* tileData, int x, int y, bool hFlip, bool vFlip, wxColour c1, wxColour c2, wxColour c3);
         void drawLine(wxImage &img, wxPoint pt, int len, wxColour c, bool hDir);
         void drawRect(wxImage &img, wxPoint pt, wxPoint rectSize, wxColour c);
 
