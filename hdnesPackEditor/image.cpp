@@ -8,10 +8,9 @@ image::image()
 
 image::~image()
 {
-    if(fileName != "") delete(imageData);
 }
 
 void image::load(string path){
     fileName = path;
-    imageData = new wxImage((coreData::cData->packPath + "\\" + path).c_str());
+    imageData.LoadFile(wxString((coreData::cData->packPath + "\\" + path).c_str()));
 }

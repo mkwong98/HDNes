@@ -60,86 +60,6 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	bSizer5 = new wxBoxSizer( wxVERTICAL );
 	
 	m_notebook1 = new wxNotebook( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
-	m_panel1 = new wxPanel( m_notebook1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	wxBoxSizer* bSizer6;
-	bSizer6 = new wxBoxSizer( wxVERTICAL );
-	
-	wxBoxSizer* bSizer7;
-	bSizer7 = new wxBoxSizer( wxHORIZONTAL );
-	
-	m_staticText6 = new wxStaticText( m_panel1, wxID_ANY, wxT("Zoom:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText6->Wrap( -1 );
-	bSizer7->Add( m_staticText6, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
-	
-	zoomRom = new wxSpinCtrl( m_panel1, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 1, 10, 1 );
-	zoomRom->SetMinSize( wxSize( 50,-1 ) );
-	
-	bSizer7->Add( zoomRom, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
-	
-	m_staticText9 = new wxStaticText( m_panel1, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText9->Wrap( -1 );
-	bSizer7->Add( m_staticText9, 0, wxALL, 5 );
-	
-	m_staticText10 = new wxStaticText( m_panel1, wxID_ANY, wxT("Palette: "), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText10->Wrap( -1 );
-	bSizer7->Add( m_staticText10, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
-	
-	btnRomViewBGColour = new wxButton( m_panel1, wxID_ANY, wxT("BG"), wxDefaultPosition, wxSize( 50,-1 ), 0 );
-	bSizer7->Add( btnRomViewBGColour, 0, wxALIGN_CENTER_VERTICAL, 5 );
-	
-	btnRomViewColour1 = new wxButton( m_panel1, wxID_ANY, wxT("1"), wxDefaultPosition, wxSize( 50,-1 ), 0 );
-	bSizer7->Add( btnRomViewColour1, 0, wxALIGN_CENTER_VERTICAL, 5 );
-	
-	btnRomViewColour2 = new wxButton( m_panel1, wxID_ANY, wxT("2"), wxDefaultPosition, wxSize( 50,-1 ), 0 );
-	bSizer7->Add( btnRomViewColour2, 0, wxALIGN_CENTER_VERTICAL, 5 );
-	
-	btnRomViewColour3 = new wxButton( m_panel1, wxID_ANY, wxT("3"), wxDefaultPosition, wxSize( 50,-1 ), 0 );
-	bSizer7->Add( btnRomViewColour3, 0, wxALIGN_CENTER_VERTICAL, 5 );
-	
-	txtRomViewPalette = new wxTextCtrl( m_panel1, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer7->Add( txtRomViewPalette, 0, wxALL, 5 );
-	
-	
-	bSizer6->Add( bSizer7, 0, wxEXPAND, 5 );
-	
-	wxFlexGridSizer* fgSizer1;
-	fgSizer1 = new wxFlexGridSizer( 0, 2, 0, 0 );
-	fgSizer1->AddGrowableCol( 0 );
-	fgSizer1->AddGrowableRow( 0 );
-	fgSizer1->SetFlexibleDirection( wxBOTH );
-	fgSizer1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_ALL );
-	
-	pnlRom = new wxPanel( m_panel1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	pnlRom->SetBackgroundColour( wxColour( 0, 0, 0 ) );
-	
-	fgSizer1->Add( pnlRom, 1, wxEXPAND | wxALL, 5 );
-	
-	wxBoxSizer* bSizer10;
-	bSizer10 = new wxBoxSizer( wxVERTICAL );
-	
-	romVScroll = new wxScrollBar( m_panel1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSB_VERTICAL );
-	bSizer10->Add( romVScroll, 1, wxALL, 5 );
-	
-	
-	fgSizer1->Add( bSizer10, 1, wxEXPAND, 5 );
-	
-	wxBoxSizer* bSizer13;
-	bSizer13 = new wxBoxSizer( wxHORIZONTAL );
-	
-	romHScroll = new wxScrollBar( m_panel1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSB_HORIZONTAL );
-	bSizer13->Add( romHScroll, 1, wxALL, 5 );
-	
-	
-	fgSizer1->Add( bSizer13, 1, wxEXPAND, 5 );
-	
-	
-	bSizer6->Add( fgSizer1, 1, wxEXPAND, 5 );
-	
-	
-	m_panel1->SetSizer( bSizer6 );
-	m_panel1->Layout();
-	bSizer6->Fit( m_panel1 );
-	m_notebook1->AddPage( m_panel1, wxT("ROM Viewer"), true );
 	m_panel67 = new wxPanel( m_notebook1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer12;
 	bSizer12 = new wxBoxSizer( wxHORIZONTAL );
@@ -291,7 +211,151 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	m_panel67->SetSizer( bSizer12 );
 	m_panel67->Layout();
 	bSizer12->Fit( m_panel67 );
-	m_notebook1->AddPage( m_panel67, wxT("Game Objects"), false );
+	m_notebook1->AddPage( m_panel67, wxT("Game Objects"), true );
+	m_panel72 = new wxPanel( m_notebook1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizer23;
+	bSizer23 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_splitter21 = new wxSplitterWindow( m_panel72, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_3D );
+	m_splitter21->Connect( wxEVT_IDLE, wxIdleEventHandler( mainForm::m_splitter21OnIdle ), NULL, this );
+	
+	m_panel741 = new wxPanel( m_splitter21, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizer261;
+	bSizer261 = new wxBoxSizer( wxVERTICAL );
+	
+	lstHDImg = new wxListCtrl( m_panel741, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT|wxLC_SINGLE_SEL );
+	bSizer261->Add( lstHDImg, 1, wxALL|wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer26;
+	bSizer26 = new wxBoxSizer( wxHORIZONTAL );
+	
+	btnHDImgAdd = new wxButton( m_panel741, wxID_ANY, wxT("Add"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer26->Add( btnHDImgAdd, 0, wxALL, 5 );
+	
+	btnHDImgRemove = new wxButton( m_panel741, wxID_ANY, wxT("Remove"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer26->Add( btnHDImgRemove, 0, wxALL, 5 );
+	
+	
+	bSizer261->Add( bSizer26, 0, wxEXPAND, 5 );
+	
+	
+	m_panel741->SetSizer( bSizer261 );
+	m_panel741->Layout();
+	bSizer261->Fit( m_panel741 );
+	m_panel75 = new wxPanel( m_splitter21, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizer262;
+	bSizer262 = new wxBoxSizer( wxVERTICAL );
+	
+	m_splitter3 = new wxSplitterWindow( m_panel75, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_3D );
+	m_splitter3->Connect( wxEVT_IDLE, wxIdleEventHandler( mainForm::m_splitter3OnIdle ), NULL, this );
+	
+	m_panel76 = new wxPanel( m_splitter3, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizer30;
+	bSizer30 = new wxBoxSizer( wxVERTICAL );
+	
+	lstHDImgTiles = new wxListCtrl( m_panel76, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT );
+	bSizer30->Add( lstHDImgTiles, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	m_panel76->SetSizer( bSizer30 );
+	m_panel76->Layout();
+	bSizer30->Fit( m_panel76 );
+	pnlHDImg = new wxPanel( m_splitter3, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_splitter3->SplitVertically( m_panel76, pnlHDImg, 250 );
+	bSizer262->Add( m_splitter3, 1, wxEXPAND, 5 );
+	
+	
+	m_panel75->SetSizer( bSizer262 );
+	m_panel75->Layout();
+	bSizer262->Fit( m_panel75 );
+	m_splitter21->SplitVertically( m_panel741, m_panel75, 250 );
+	bSizer23->Add( m_splitter21, 1, wxEXPAND, 5 );
+	
+	
+	m_panel72->SetSizer( bSizer23 );
+	m_panel72->Layout();
+	bSizer23->Fit( m_panel72 );
+	m_notebook1->AddPage( m_panel72, wxT("HD Images"), false );
+	m_panel1 = new wxPanel( m_notebook1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizer6;
+	bSizer6 = new wxBoxSizer( wxVERTICAL );
+	
+	wxBoxSizer* bSizer7;
+	bSizer7 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText6 = new wxStaticText( m_panel1, wxID_ANY, wxT("Zoom:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText6->Wrap( -1 );
+	bSizer7->Add( m_staticText6, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	zoomRom = new wxSpinCtrl( m_panel1, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 1, 10, 1 );
+	zoomRom->SetMinSize( wxSize( 50,-1 ) );
+	
+	bSizer7->Add( zoomRom, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	m_staticText9 = new wxStaticText( m_panel1, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText9->Wrap( -1 );
+	bSizer7->Add( m_staticText9, 0, wxALL, 5 );
+	
+	m_staticText10 = new wxStaticText( m_panel1, wxID_ANY, wxT("Palette: "), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText10->Wrap( -1 );
+	bSizer7->Add( m_staticText10, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	btnRomViewBGColour = new wxButton( m_panel1, wxID_ANY, wxT("BG"), wxDefaultPosition, wxSize( 50,-1 ), 0 );
+	bSizer7->Add( btnRomViewBGColour, 0, wxALIGN_CENTER_VERTICAL, 5 );
+	
+	btnRomViewColour1 = new wxButton( m_panel1, wxID_ANY, wxT("1"), wxDefaultPosition, wxSize( 50,-1 ), 0 );
+	bSizer7->Add( btnRomViewColour1, 0, wxALIGN_CENTER_VERTICAL, 5 );
+	
+	btnRomViewColour2 = new wxButton( m_panel1, wxID_ANY, wxT("2"), wxDefaultPosition, wxSize( 50,-1 ), 0 );
+	bSizer7->Add( btnRomViewColour2, 0, wxALIGN_CENTER_VERTICAL, 5 );
+	
+	btnRomViewColour3 = new wxButton( m_panel1, wxID_ANY, wxT("3"), wxDefaultPosition, wxSize( 50,-1 ), 0 );
+	bSizer7->Add( btnRomViewColour3, 0, wxALIGN_CENTER_VERTICAL, 5 );
+	
+	txtRomViewPalette = new wxTextCtrl( m_panel1, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer7->Add( txtRomViewPalette, 0, wxALL, 5 );
+	
+	
+	bSizer6->Add( bSizer7, 0, wxEXPAND, 5 );
+	
+	wxFlexGridSizer* fgSizer1;
+	fgSizer1 = new wxFlexGridSizer( 0, 2, 0, 0 );
+	fgSizer1->AddGrowableCol( 0 );
+	fgSizer1->AddGrowableRow( 0 );
+	fgSizer1->SetFlexibleDirection( wxBOTH );
+	fgSizer1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_ALL );
+	
+	pnlRom = new wxPanel( m_panel1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	pnlRom->SetBackgroundColour( wxColour( 0, 0, 0 ) );
+	
+	fgSizer1->Add( pnlRom, 1, wxEXPAND | wxALL, 5 );
+	
+	wxBoxSizer* bSizer10;
+	bSizer10 = new wxBoxSizer( wxVERTICAL );
+	
+	romVScroll = new wxScrollBar( m_panel1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSB_VERTICAL );
+	bSizer10->Add( romVScroll, 1, wxALL, 5 );
+	
+	
+	fgSizer1->Add( bSizer10, 1, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer13;
+	bSizer13 = new wxBoxSizer( wxHORIZONTAL );
+	
+	romHScroll = new wxScrollBar( m_panel1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSB_HORIZONTAL );
+	bSizer13->Add( romHScroll, 1, wxALL, 5 );
+	
+	
+	fgSizer1->Add( bSizer13, 1, wxEXPAND, 5 );
+	
+	
+	bSizer6->Add( fgSizer1, 1, wxEXPAND, 5 );
+	
+	
+	m_panel1->SetSizer( bSizer6 );
+	m_panel1->Layout();
+	bSizer6->Fit( m_panel1 );
+	m_notebook1->AddPage( m_panel1, wxT("ROM Viewer"), false );
 	
 	bSizer5->Add( m_notebook1, 1, wxEXPAND | wxALL, 5 );
 	
@@ -310,36 +374,6 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	this->Connect( m_menuItemGen->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( mainForm::MenuFileGen ) );
 	this->Connect( m_menuClose->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( mainForm::MenuFileGen ) );
 	this->Connect( m_menuExit->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( mainForm::MenuFileExit ) );
-	zoomRom->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainForm::zoomRomChanged ), NULL, this );
-	btnRomViewBGColour->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romBGColour ), NULL, this );
-	btnRomViewColour1->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romColour1 ), NULL, this );
-	btnRomViewColour2->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romColour2 ), NULL, this );
-	btnRomViewColour3->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romColour3 ), NULL, this );
-	txtRomViewPalette->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( mainForm::romViewPaletteHexChanged ), NULL, this );
-	pnlRom->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( mainForm::romViewEnter ), NULL, this );
-	pnlRom->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( mainForm::romViewLDown ), NULL, this );
-	pnlRom->Connect( wxEVT_LEFT_UP, wxMouseEventHandler( mainForm::romViewLUp ), NULL, this );
-	pnlRom->Connect( wxEVT_MOTION, wxMouseEventHandler( mainForm::romViewMove ), NULL, this );
-	pnlRom->Connect( wxEVT_RIGHT_UP, wxMouseEventHandler( mainForm::romViewRUp ), NULL, this );
-	pnlRom->Connect( wxEVT_SIZE, wxSizeEventHandler( mainForm::romViewSizeChanged ), NULL, this );
-	romVScroll->Connect( wxEVT_SCROLL_TOP, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
-	romVScroll->Connect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
-	romVScroll->Connect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
-	romVScroll->Connect( wxEVT_SCROLL_LINEDOWN, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
-	romVScroll->Connect( wxEVT_SCROLL_PAGEUP, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
-	romVScroll->Connect( wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
-	romVScroll->Connect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
-	romVScroll->Connect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
-	romVScroll->Connect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
-	romHScroll->Connect( wxEVT_SCROLL_TOP, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
-	romHScroll->Connect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
-	romHScroll->Connect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
-	romHScroll->Connect( wxEVT_SCROLL_LINEDOWN, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
-	romHScroll->Connect( wxEVT_SCROLL_PAGEUP, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
-	romHScroll->Connect( wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
-	romHScroll->Connect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
-	romHScroll->Connect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
-	romHScroll->Connect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
 	treeGameObjs->Connect( wxEVT_COMMAND_TREE_BEGIN_LABEL_EDIT, wxTreeEventHandler( mainForm::gameObjTItemBeginEdit ), NULL, this );
 	treeGameObjs->Connect( wxEVT_COMMAND_TREE_END_LABEL_EDIT, wxTreeEventHandler( mainForm::gameObjTItemChangeName ), NULL, this );
 	treeGameObjs->Connect( wxEVT_COMMAND_TREE_ITEM_MENU, wxTreeEventHandler( mainForm::gameObjTItemOpenMenu ), NULL, this );
@@ -394,6 +428,41 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	scrGameObjNewH->Connect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( mainForm::gameObjsNewHScrolled ), NULL, this );
 	scrGameObjNewH->Connect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( mainForm::gameObjsNewHScrolled ), NULL, this );
 	scrGameObjNewH->Connect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( mainForm::gameObjsNewHScrolled ), NULL, this );
+	lstHDImg->Connect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( mainForm::HDImgSelected ), NULL, this );
+	btnHDImgAdd->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::HDImgAdd ), NULL, this );
+	btnHDImgRemove->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::HDImgRemove ), NULL, this );
+	lstHDImgTiles->Connect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( mainForm::HDImgTileSelected ), NULL, this );
+	pnlHDImg->Connect( wxEVT_SIZE, wxSizeEventHandler( mainForm::HDImgSizeChanged ), NULL, this );
+	zoomRom->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainForm::zoomRomChanged ), NULL, this );
+	btnRomViewBGColour->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romBGColour ), NULL, this );
+	btnRomViewColour1->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romColour1 ), NULL, this );
+	btnRomViewColour2->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romColour2 ), NULL, this );
+	btnRomViewColour3->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romColour3 ), NULL, this );
+	txtRomViewPalette->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( mainForm::romViewPaletteHexChanged ), NULL, this );
+	pnlRom->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( mainForm::romViewEnter ), NULL, this );
+	pnlRom->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( mainForm::romViewLDown ), NULL, this );
+	pnlRom->Connect( wxEVT_LEFT_UP, wxMouseEventHandler( mainForm::romViewLUp ), NULL, this );
+	pnlRom->Connect( wxEVT_MOTION, wxMouseEventHandler( mainForm::romViewMove ), NULL, this );
+	pnlRom->Connect( wxEVT_RIGHT_UP, wxMouseEventHandler( mainForm::romViewRUp ), NULL, this );
+	pnlRom->Connect( wxEVT_SIZE, wxSizeEventHandler( mainForm::romViewSizeChanged ), NULL, this );
+	romVScroll->Connect( wxEVT_SCROLL_TOP, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
+	romVScroll->Connect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
+	romVScroll->Connect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
+	romVScroll->Connect( wxEVT_SCROLL_LINEDOWN, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
+	romVScroll->Connect( wxEVT_SCROLL_PAGEUP, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
+	romVScroll->Connect( wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
+	romVScroll->Connect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
+	romVScroll->Connect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
+	romVScroll->Connect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
+	romHScroll->Connect( wxEVT_SCROLL_TOP, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
+	romHScroll->Connect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
+	romHScroll->Connect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
+	romHScroll->Connect( wxEVT_SCROLL_LINEDOWN, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
+	romHScroll->Connect( wxEVT_SCROLL_PAGEUP, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
+	romHScroll->Connect( wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
+	romHScroll->Connect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
+	romHScroll->Connect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
+	romHScroll->Connect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
 }
 
 mainForm::~mainForm()
@@ -407,36 +476,6 @@ mainForm::~mainForm()
 	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( mainForm::MenuFileGen ) );
 	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( mainForm::MenuFileGen ) );
 	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( mainForm::MenuFileExit ) );
-	zoomRom->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainForm::zoomRomChanged ), NULL, this );
-	btnRomViewBGColour->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romBGColour ), NULL, this );
-	btnRomViewColour1->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romColour1 ), NULL, this );
-	btnRomViewColour2->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romColour2 ), NULL, this );
-	btnRomViewColour3->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romColour3 ), NULL, this );
-	txtRomViewPalette->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( mainForm::romViewPaletteHexChanged ), NULL, this );
-	pnlRom->Disconnect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( mainForm::romViewEnter ), NULL, this );
-	pnlRom->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( mainForm::romViewLDown ), NULL, this );
-	pnlRom->Disconnect( wxEVT_LEFT_UP, wxMouseEventHandler( mainForm::romViewLUp ), NULL, this );
-	pnlRom->Disconnect( wxEVT_MOTION, wxMouseEventHandler( mainForm::romViewMove ), NULL, this );
-	pnlRom->Disconnect( wxEVT_RIGHT_UP, wxMouseEventHandler( mainForm::romViewRUp ), NULL, this );
-	pnlRom->Disconnect( wxEVT_SIZE, wxSizeEventHandler( mainForm::romViewSizeChanged ), NULL, this );
-	romVScroll->Disconnect( wxEVT_SCROLL_TOP, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
-	romVScroll->Disconnect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
-	romVScroll->Disconnect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
-	romVScroll->Disconnect( wxEVT_SCROLL_LINEDOWN, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
-	romVScroll->Disconnect( wxEVT_SCROLL_PAGEUP, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
-	romVScroll->Disconnect( wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
-	romVScroll->Disconnect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
-	romVScroll->Disconnect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
-	romVScroll->Disconnect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
-	romHScroll->Disconnect( wxEVT_SCROLL_TOP, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
-	romHScroll->Disconnect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
-	romHScroll->Disconnect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
-	romHScroll->Disconnect( wxEVT_SCROLL_LINEDOWN, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
-	romHScroll->Disconnect( wxEVT_SCROLL_PAGEUP, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
-	romHScroll->Disconnect( wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
-	romHScroll->Disconnect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
-	romHScroll->Disconnect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
-	romHScroll->Disconnect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
 	treeGameObjs->Disconnect( wxEVT_COMMAND_TREE_BEGIN_LABEL_EDIT, wxTreeEventHandler( mainForm::gameObjTItemBeginEdit ), NULL, this );
 	treeGameObjs->Disconnect( wxEVT_COMMAND_TREE_END_LABEL_EDIT, wxTreeEventHandler( mainForm::gameObjTItemChangeName ), NULL, this );
 	treeGameObjs->Disconnect( wxEVT_COMMAND_TREE_ITEM_MENU, wxTreeEventHandler( mainForm::gameObjTItemOpenMenu ), NULL, this );
@@ -491,6 +530,41 @@ mainForm::~mainForm()
 	scrGameObjNewH->Disconnect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( mainForm::gameObjsNewHScrolled ), NULL, this );
 	scrGameObjNewH->Disconnect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( mainForm::gameObjsNewHScrolled ), NULL, this );
 	scrGameObjNewH->Disconnect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( mainForm::gameObjsNewHScrolled ), NULL, this );
+	lstHDImg->Disconnect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( mainForm::HDImgSelected ), NULL, this );
+	btnHDImgAdd->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::HDImgAdd ), NULL, this );
+	btnHDImgRemove->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::HDImgRemove ), NULL, this );
+	lstHDImgTiles->Disconnect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( mainForm::HDImgTileSelected ), NULL, this );
+	pnlHDImg->Disconnect( wxEVT_SIZE, wxSizeEventHandler( mainForm::HDImgSizeChanged ), NULL, this );
+	zoomRom->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainForm::zoomRomChanged ), NULL, this );
+	btnRomViewBGColour->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romBGColour ), NULL, this );
+	btnRomViewColour1->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romColour1 ), NULL, this );
+	btnRomViewColour2->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romColour2 ), NULL, this );
+	btnRomViewColour3->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romColour3 ), NULL, this );
+	txtRomViewPalette->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( mainForm::romViewPaletteHexChanged ), NULL, this );
+	pnlRom->Disconnect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( mainForm::romViewEnter ), NULL, this );
+	pnlRom->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( mainForm::romViewLDown ), NULL, this );
+	pnlRom->Disconnect( wxEVT_LEFT_UP, wxMouseEventHandler( mainForm::romViewLUp ), NULL, this );
+	pnlRom->Disconnect( wxEVT_MOTION, wxMouseEventHandler( mainForm::romViewMove ), NULL, this );
+	pnlRom->Disconnect( wxEVT_RIGHT_UP, wxMouseEventHandler( mainForm::romViewRUp ), NULL, this );
+	pnlRom->Disconnect( wxEVT_SIZE, wxSizeEventHandler( mainForm::romViewSizeChanged ), NULL, this );
+	romVScroll->Disconnect( wxEVT_SCROLL_TOP, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
+	romVScroll->Disconnect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
+	romVScroll->Disconnect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
+	romVScroll->Disconnect( wxEVT_SCROLL_LINEDOWN, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
+	romVScroll->Disconnect( wxEVT_SCROLL_PAGEUP, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
+	romVScroll->Disconnect( wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
+	romVScroll->Disconnect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
+	romVScroll->Disconnect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
+	romVScroll->Disconnect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( mainForm::romViewVScrolled ), NULL, this );
+	romHScroll->Disconnect( wxEVT_SCROLL_TOP, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
+	romHScroll->Disconnect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
+	romHScroll->Disconnect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
+	romHScroll->Disconnect( wxEVT_SCROLL_LINEDOWN, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
+	romHScroll->Disconnect( wxEVT_SCROLL_PAGEUP, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
+	romHScroll->Disconnect( wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
+	romHScroll->Disconnect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
+	romHScroll->Disconnect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
+	romHScroll->Disconnect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( mainForm::romViewHScrolled ), NULL, this );
 	
 }
 

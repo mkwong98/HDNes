@@ -5,6 +5,9 @@
 #include "common.h"
 #include <wx\wx.h>
 
+#define SDL_MAIN_HANDLED
+#include <SDL2\SDL.h>
+
 class hdnesPackEditormainForm;
 
 class main : public wxApp{
@@ -19,6 +22,7 @@ public:
 	main(void);
 	~main(void);
     bool OnInit();
+    int OnExit();
 };
 
 #endif // MAIN_H_INCLUDED

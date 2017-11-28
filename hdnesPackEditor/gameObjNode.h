@@ -5,9 +5,9 @@
 #include "gameTile.h"
 #include <wx/treebase.h>
 
-#define GAME_OBJ_NODE_TYPE_ROOT     0
-#define GAME_OBJ_NODE_TYPE_GROUP    1
-#define GAME_OBJ_NODE_TYPE_OBJECT   2
+#define GAME_OBJ_NODE_TYPE_ROOT         0
+#define GAME_OBJ_NODE_TYPE_GROUP        1
+#define GAME_OBJ_NODE_TYPE_OBJECT       2
 
 #define GAME_OBJ_NODE_MENU_ADD_FOLDER   1
 #define GAME_OBJ_NODE_MENU_ADD_OBJECT   2

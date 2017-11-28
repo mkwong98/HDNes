@@ -35,6 +35,7 @@
 			<Add directory="../../../include" />
 		</Compiler>
 		<Linker>
+			<Add option="-lmingw32 -lSDL2main -lSDL2 -lSDL2_image" />
 			<Add library="../../../lib/libwxmsw30u_gl.a" />
 			<Add library="../../../lib/libwxmsw30u.a" />
 			<Add library="../../../lib/libwxscintilla.a" />

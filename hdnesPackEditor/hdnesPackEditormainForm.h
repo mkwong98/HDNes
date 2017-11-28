@@ -71,6 +71,9 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
 		void gameObjsRawLDown( wxMouseEvent& event );
 		void gameObjsRawLUp( wxMouseEvent& event );
 
+		void HDImgSelected( wxListEvent& event );
+		void HDImgSizeChanged( wxSizeEvent& event );
+		void HDImgTileSelected( wxListEvent& event );
 
         void closeWindow( wxCloseEvent& event );
 	public:
@@ -199,6 +202,14 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         void showGameObj(wxImage& displayImg, int x, int y);
         //--end game objs session
 
+        //--image session
+        int selectedHDImg;
+
+        void initHDImg();
+        void showHDImgImage();
+        void listOutHDImgImages();
+        void listOutHDImgTiles();
+        //--end image session
 };
 
 #endif // __hdnesPackEditormainForm__

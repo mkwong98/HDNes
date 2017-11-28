@@ -10,7 +10,7 @@ class image
         virtual ~image();
 
         string fileName;
-        wxImage* imageData;
+        wxImage imageData;
 
         void load(string path);
 

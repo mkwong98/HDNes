@@ -7,6 +7,7 @@
 #include <wx/wx.h>
 #include <wx/clipbrd.h>
 #include "gameObjNode.h"
+#include "image.h"
 
 hdnesPackEditormainForm::hdnesPackEditormainForm( wxWindow* parent )
 :
@@ -15,6 +16,7 @@ mainForm( parent )
     initROMView();
     initGameObjs();
     initGeneral();
+    initHDImg();
 
     //load config
     string configPath;
@@ -370,6 +372,7 @@ void hdnesPackEditormainForm::romViewHScrolled( wxScrollEvent& event ){
 
 void hdnesPackEditormainForm::refreshCoreDataDisplay(){
     refreshROMView();
+    listOutHDImgImages();
 }
 
 void hdnesPackEditormainForm::refreshROMView(){
@@ -1256,7 +1259,7 @@ void hdnesPackEditormainForm::adjustGameObjSize(){
 }
 
 void hdnesPackEditormainForm::showGameObj(wxImage& displayImg, int x, int y){
-    gameObjRawImageDisplay.SetRGB(wxRect(gameObjRawImageDisplay.GetSize()), gameObjBlankColour.Red(), gameObjBlankColour.Green(), gameObjBlankColour.Blue());
+    gameObjRawImageDisplay.SetRGB(gameObjRawImageDisplay.GetSize(), gameObjBlankColour.Red(), gameObjBlankColour.Green(), gameObjBlankColour.Blue());
     gameObjRawImageDisplay.Paste(displayImg, x, y);
 
     if(gameObjClicked){
@@ -1499,4 +1502,119 @@ void hdnesPackEditormainForm::saveGameObjItem(fstream& file, wxTreeItemId item){
     if(node->nodeType != GAME_OBJ_NODE_TYPE_ROOT){
         file << "<endGameObject>\n";
     }
+}
+
+
+void hdnesPackEditormainForm::initHDImg(){
+    lstHDImg->AppendColumn(wxString("Name"));
+    lstHDImg->AppendColumn(wxString("Width"));
+    lstHDImg->AppendColumn(wxString("Height"));
+
+    lstHDImgTiles->AppendColumn(wxString("Index"));
+    lstHDImgTiles->AppendColumn(wxString("Tile ID"));
+    lstHDImgTiles->AppendColumn(wxString("Palette"));
+
+    selectedHDImg = -1;
+}
+
+void hdnesPackEditormainForm::showHDImgImage(){
+    float scale;
+    scale = min(((float)pnlHDImg->GetSize().x) / ((float)coreData::cData->images[selectedHDImg]->imageData.GetWidth()), ((float)pnlHDImg->GetSize().y) / ((float)coreData::cData->images[selectedHDImg]->imageData.GetHeight()));
+
+    wxImage scaledImg;
+    scaledImg = coreData::cData->images[selectedHDImg]->imageData.Scale(coreData::cData->images[selectedHDImg]->imageData.GetWidth() * scale, coreData::cData->images[selectedHDImg]->imageData.GetHeight() * scale);
+
+    int j;
+    int tileSize;
+    wxPoint pt;
+    wxPoint pt2;
+    wxPoint tileBoxSize;
+
+    tileSize = 8 * coreData::cData->scale * scale;
+    tileBoxSize.x = tileSize - 1;
+    tileBoxSize.y = tileSize - 1;
+    for(int i = 0; i < lstHDImgTiles->GetItemCount(); ++i){
+        if(lstHDImgTiles->GetItemState(i, wxLIST_STATE_SELECTED) == wxLIST_STATE_SELECTED){
+            j = atoi(lstHDImgTiles->GetItemText(i, 0));
+            //draw outline of selected tiles
+            pt.x = coreData::cData->tiles[j]->x * scale;
+            pt.y = coreData::cData->tiles[j]->y * scale;
+            pt2 = pt;
+            ++(pt2.x);
+            ++(pt2.y);
+            drawRect(scaledImg, pt2, tileBoxSize, wxColour(0, 0, 0));
+            drawRect(scaledImg, pt, tileBoxSize, wxColour(255, 255, 255));
+        }
+    }
+
+    wxImage displayImg;
+    displayImg = wxImage(pnlHDImg->GetSize(), true);
+    displayImg.SetRGB(displayImg.GetSize(), 128, 0, 128);
+    displayImg.Paste(scaledImg, (pnlHDImg->GetSize().x - scaledImg.GetWidth()) / 2, (pnlHDImg->GetSize().y - scaledImg.GetHeight()) / 2);
+
+    wxBitmap bmp = wxBitmap(displayImg);
+	if(bmp.IsOk()){
+		wxClientDC* objDC;
+		objDC = new wxClientDC(pnlHDImg);
+		objDC->DrawBitmap(bmp, 0, 0);
+		delete objDC;
+	}
+}
+
+void hdnesPackEditormainForm::listOutHDImgImages(){
+    long j;
+    if(coreData::cData){
+        lstHDImg->DeleteAllItems();
+        for(int i = 0; i < coreData::cData->images.size(); ++i){
+            j = lstHDImg->InsertItem(i, wxString(coreData::cData->images[i]->fileName.c_str()), 0);
+            lstHDImg->SetItem(j, 1, wxString(main::intToStr(coreData::cData->images[i]->imageData.GetWidth()).c_str()));
+            lstHDImg->SetItem(j, 2, wxString(main::intToStr(coreData::cData->images[i]->imageData.GetHeight()).c_str()));
+        }
+    }
+}
+
+void hdnesPackEditormainForm::HDImgSelected( wxListEvent& event ){
+    selectedHDImg = event.GetIndex();
+    showHDImgImage();
+    listOutHDImgTiles();
+}
+
+void hdnesPackEditormainForm::HDImgSizeChanged( wxSizeEvent& event ){
+    if(selectedHDImg > -1){
+        showHDImgImage();
+    }
+}
+
+void hdnesPackEditormainForm::listOutHDImgTiles(){
+    long j;
+    string tmpVal;
+    if(coreData::cData){
+        lstHDImgTiles->DeleteAllItems();
+        for(int i = 0; i < coreData::cData->tiles.size(); ++i){
+            if(coreData::cData->tiles[i]->hasReplacement && coreData::cData->tiles[i]->img == selectedHDImg){
+                if(coreData::cData->isCHRROM){
+                    tmpVal = main::intToStr(coreData::cData->tiles[i]->id);
+                }
+                else{
+                    tmpVal = "";
+                    for(Uint8 k = 0; k < 16; ++k){
+                        tmpVal = tmpVal + main::intToHex(coreData::cData->tiles[i]->rawData[k]);
+                    }
+                }
+
+                j = lstHDImgTiles->InsertItem(i, wxString(main::intToStr(i).c_str()), 0);
+                lstHDImgTiles->SetItem(j, 1, wxString(tmpVal.c_str()));
+
+                tmpVal = wxString((main::intToHex(coreData::cData->tiles[i]->palette[0])
+                        + main::intToHex(coreData::cData->tiles[i]->palette[1])
+                        + main::intToHex(coreData::cData->tiles[i]->palette[2])
+                        + main::intToHex(coreData::cData->tiles[i]->palette[3])).c_str());
+                lstHDImgTiles->SetItem(j, 2, wxString(tmpVal.c_str()));
+            }
+        }
+    }
+}
+
+void hdnesPackEditormainForm::HDImgTileSelected( wxListEvent& event ){
+    showHDImgImage();
 }

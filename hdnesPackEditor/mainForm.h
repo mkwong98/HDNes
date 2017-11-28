@@ -20,15 +20,16 @@
 #include <wx/colour.h>
 #include <wx/settings.h>
 #include <wx/statusbr.h>
+#include <wx/treectrl.h>
+#include <wx/sizer.h>
+#include <wx/panel.h>
 #include <wx/stattext.h>
 #include <wx/spinctrl.h>
 #include <wx/button.h>
-#include <wx/textctrl.h>
-#include <wx/sizer.h>
-#include <wx/panel.h>
 #include <wx/scrolbar.h>
-#include <wx/treectrl.h>
 #include <wx/splitter.h>
+#include <wx/listctrl.h>
+#include <wx/textctrl.h>
 #include <wx/notebook.h>
 #include <wx/frame.h>
 #include <wx/filepicker.h>
@@ -49,19 +50,6 @@ class mainForm : public wxFrame
 		wxMenu* m_menu3;
 		wxStatusBar* m_statusBar;
 		wxNotebook* m_notebook1;
-		wxPanel* m_panel1;
-		wxStaticText* m_staticText6;
-		wxSpinCtrl* zoomRom;
-		wxStaticText* m_staticText9;
-		wxStaticText* m_staticText10;
-		wxButton* btnRomViewBGColour;
-		wxButton* btnRomViewColour1;
-		wxButton* btnRomViewColour2;
-		wxButton* btnRomViewColour3;
-		wxTextCtrl* txtRomViewPalette;
-		wxPanel* pnlRom;
-		wxScrollBar* romVScroll;
-		wxScrollBar* romHScroll;
 		wxPanel* m_panel67;
 		wxSplitterWindow* m_splitter2;
 		wxPanel* m_panel70;
@@ -80,6 +68,30 @@ class mainForm : public wxFrame
 		wxPanel* pnlGameObjNew;
 		wxScrollBar* scrGameObjNewV;
 		wxScrollBar* scrGameObjNewH;
+		wxPanel* m_panel72;
+		wxSplitterWindow* m_splitter21;
+		wxPanel* m_panel741;
+		wxListCtrl* lstHDImg;
+		wxButton* btnHDImgAdd;
+		wxButton* btnHDImgRemove;
+		wxPanel* m_panel75;
+		wxSplitterWindow* m_splitter3;
+		wxPanel* m_panel76;
+		wxListCtrl* lstHDImgTiles;
+		wxPanel* pnlHDImg;
+		wxPanel* m_panel1;
+		wxStaticText* m_staticText6;
+		wxSpinCtrl* zoomRom;
+		wxStaticText* m_staticText9;
+		wxStaticText* m_staticText10;
+		wxButton* btnRomViewBGColour;
+		wxButton* btnRomViewColour1;
+		wxButton* btnRomViewColour2;
+		wxButton* btnRomViewColour3;
+		wxTextCtrl* txtRomViewPalette;
+		wxPanel* pnlRom;
+		wxScrollBar* romVScroll;
+		wxScrollBar* romHScroll;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void closeWindow( wxCloseEvent& event ) { event.Skip(); }
@@ -89,20 +101,6 @@ class mainForm : public wxFrame
 		virtual void MenuFileSaveAs( wxCommandEvent& event ) { event.Skip(); }
 		virtual void MenuFileGen( wxCommandEvent& event ) { event.Skip(); }
 		virtual void MenuFileExit( wxCommandEvent& event ) { event.Skip(); }
-		virtual void zoomRomChanged( wxSpinEvent& event ) { event.Skip(); }
-		virtual void romBGColour( wxCommandEvent& event ) { event.Skip(); }
-		virtual void romColour1( wxCommandEvent& event ) { event.Skip(); }
-		virtual void romColour2( wxCommandEvent& event ) { event.Skip(); }
-		virtual void romColour3( wxCommandEvent& event ) { event.Skip(); }
-		virtual void romViewPaletteHexChanged( wxCommandEvent& event ) { event.Skip(); }
-		virtual void romViewEnter( wxMouseEvent& event ) { event.Skip(); }
-		virtual void romViewLDown( wxMouseEvent& event ) { event.Skip(); }
-		virtual void romViewLUp( wxMouseEvent& event ) { event.Skip(); }
-		virtual void romViewMove( wxMouseEvent& event ) { event.Skip(); }
-		virtual void romViewRUp( wxMouseEvent& event ) { event.Skip(); }
-		virtual void romViewSizeChanged( wxSizeEvent& event ) { event.Skip(); }
-		virtual void romViewVScrolled( wxScrollEvent& event ) { event.Skip(); }
-		virtual void romViewHScrolled( wxScrollEvent& event ) { event.Skip(); }
 		virtual void gameObjTItemBeginEdit( wxTreeEvent& event ) { event.Skip(); }
 		virtual void gameObjTItemChangeName( wxTreeEvent& event ) { event.Skip(); }
 		virtual void gameObjTItemOpenMenu( wxTreeEvent& event ) { event.Skip(); }
@@ -125,6 +123,25 @@ class mainForm : public wxFrame
 		virtual void gameObjsNewSizeChanged( wxSizeEvent& event ) { event.Skip(); }
 		virtual void gameObjsNewVScrolled( wxScrollEvent& event ) { event.Skip(); }
 		virtual void gameObjsNewHScrolled( wxScrollEvent& event ) { event.Skip(); }
+		virtual void HDImgSelected( wxListEvent& event ) { event.Skip(); }
+		virtual void HDImgAdd( wxCommandEvent& event ) { event.Skip(); }
+		virtual void HDImgRemove( wxCommandEvent& event ) { event.Skip(); }
+		virtual void HDImgTileSelected( wxListEvent& event ) { event.Skip(); }
+		virtual void HDImgSizeChanged( wxSizeEvent& event ) { event.Skip(); }
+		virtual void zoomRomChanged( wxSpinEvent& event ) { event.Skip(); }
+		virtual void romBGColour( wxCommandEvent& event ) { event.Skip(); }
+		virtual void romColour1( wxCommandEvent& event ) { event.Skip(); }
+		virtual void romColour2( wxCommandEvent& event ) { event.Skip(); }
+		virtual void romColour3( wxCommandEvent& event ) { event.Skip(); }
+		virtual void romViewPaletteHexChanged( wxCommandEvent& event ) { event.Skip(); }
+		virtual void romViewEnter( wxMouseEvent& event ) { event.Skip(); }
+		virtual void romViewLDown( wxMouseEvent& event ) { event.Skip(); }
+		virtual void romViewLUp( wxMouseEvent& event ) { event.Skip(); }
+		virtual void romViewMove( wxMouseEvent& event ) { event.Skip(); }
+		virtual void romViewRUp( wxMouseEvent& event ) { event.Skip(); }
+		virtual void romViewSizeChanged( wxSizeEvent& event ) { event.Skip(); }
+		virtual void romViewVScrolled( wxScrollEvent& event ) { event.Skip(); }
+		virtual void romViewHScrolled( wxScrollEvent& event ) { event.Skip(); }
 		
 	
 	public:
@@ -137,6 +154,18 @@ class mainForm : public wxFrame
 		{
 			m_splitter2->SetSashPosition( 150 );
 			m_splitter2->Disconnect( wxEVT_IDLE, wxIdleEventHandler( mainForm::m_splitter2OnIdle ), NULL, this );
+		}
+		
+		void m_splitter21OnIdle( wxIdleEvent& )
+		{
+			m_splitter21->SetSashPosition( 250 );
+			m_splitter21->Disconnect( wxEVT_IDLE, wxIdleEventHandler( mainForm::m_splitter21OnIdle ), NULL, this );
+		}
+		
+		void m_splitter3OnIdle( wxIdleEvent& )
+		{
+			m_splitter3->SetSashPosition( 250 );
+			m_splitter3->Disconnect( wxEVT_IDLE, wxIdleEventHandler( mainForm::m_splitter3OnIdle ), NULL, this );
 		}
 	
 };

@@ -38,6 +38,10 @@ void main::hexToByteArray(const string &s, UINT8* ar){
 }
 
 main::main(void){
+    SDL_SetMainReady();
+    SDL_Init(0);
+    IMG_Init(IMG_INIT_PNG);
+
     wxInitAllImageHandlers();
 
 	CHAR szPath[MAX_PATH];
@@ -48,10 +52,17 @@ main::main(void){
 }
 
 main::~main(void){
+
 }
 
 bool main::OnInit(){
 	mForm = new hdnesPackEditormainForm(NULL);
 	mForm->Show(true);
 	return true;
+}
+
+int main::OnExit(){
+    IMG_Quit();
+    SDL_Quit();
+    return wxApp::OnExit();
 }
