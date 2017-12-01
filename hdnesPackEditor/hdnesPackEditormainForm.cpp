@@ -1515,14 +1515,14 @@ void hdnesPackEditormainForm::initHDImg(){
     lstHDImgTiles->AppendColumn(wxString("Palette"));
 
     selectedHDImg = -1;
+    hdImgRendering = false;
 }
 
 void hdnesPackEditormainForm::showHDImgImage(){
-    float scale;
-    scale = min(((float)pnlHDImg->GetSize().x) / ((float)coreData::cData->images[selectedHDImg]->imageData.GetWidth()), ((float)pnlHDImg->GetSize().y) / ((float)coreData::cData->images[selectedHDImg]->imageData.GetHeight()));
+    hdImgScale = min(((float)pnlHDImg->GetSize().x) / ((float)coreData::cData->images[selectedHDImg]->imageData.GetWidth()), ((float)pnlHDImg->GetSize().y) / ((float)coreData::cData->images[selectedHDImg]->imageData.GetHeight()));
 
     wxImage scaledImg;
-    scaledImg = coreData::cData->images[selectedHDImg]->imageData.Scale(coreData::cData->images[selectedHDImg]->imageData.GetWidth() * scale, coreData::cData->images[selectedHDImg]->imageData.GetHeight() * scale);
+    scaledImg = coreData::cData->images[selectedHDImg]->imageData.Scale(coreData::cData->images[selectedHDImg]->imageData.GetWidth() * hdImgScale, coreData::cData->images[selectedHDImg]->imageData.GetHeight() * hdImgScale);
 
     int j;
     int tileSize;
@@ -1530,15 +1530,15 @@ void hdnesPackEditormainForm::showHDImgImage(){
     wxPoint pt2;
     wxPoint tileBoxSize;
 
-    tileSize = 8 * coreData::cData->scale * scale;
+    tileSize = 8 * coreData::cData->scale * hdImgScale;
     tileBoxSize.x = tileSize - 1;
     tileBoxSize.y = tileSize - 1;
     for(int i = 0; i < lstHDImgTiles->GetItemCount(); ++i){
         if(lstHDImgTiles->GetItemState(i, wxLIST_STATE_SELECTED) == wxLIST_STATE_SELECTED){
             j = atoi(lstHDImgTiles->GetItemText(i, 0));
             //draw outline of selected tiles
-            pt.x = coreData::cData->tiles[j]->x * scale;
-            pt.y = coreData::cData->tiles[j]->y * scale;
+            pt.x = coreData::cData->tiles[j]->x * hdImgScale;
+            pt.y = coreData::cData->tiles[j]->y * hdImgScale;
             pt2 = pt;
             ++(pt2.x);
             ++(pt2.y);
@@ -1551,6 +1551,26 @@ void hdnesPackEditormainForm::showHDImgImage(){
     displayImg = wxImage(pnlHDImg->GetSize(), true);
     displayImg.SetRGB(displayImg.GetSize(), 128, 0, 128);
     displayImg.Paste(scaledImg, (pnlHDImg->GetSize().x - scaledImg.GetWidth()) / 2, (pnlHDImg->GetSize().y - scaledImg.GetHeight()) / 2);
+
+    if(hdImgClicked){
+        wxPoint p1;
+        wxPoint p2;
+        p1.x = min(hdImgLDownPos.x, hdImgLCurrPos.x);
+        p1.y = min(hdImgLDownPos.y, hdImgLCurrPos.y);
+        p2.x = max(hdImgLDownPos.x, hdImgLCurrPos.x);
+        p2.y = max(hdImgLDownPos.y, hdImgLCurrPos.y);
+
+        wxPoint rectSize;
+        rectSize.x = p2.x - p1.x;
+        rectSize.y = p2.y - p1.y;
+
+        wxPoint p3 = p1;
+        ++(p3.x);
+        ++(p3.y);
+
+        drawRect(displayImg, p3, rectSize, wxColour(0, 0, 0));
+        drawRect(displayImg, p1, rectSize, wxColour(255, 255, 255));
+    }
 
     wxBitmap bmp = wxBitmap(displayImg);
 	if(bmp.IsOk()){
@@ -1616,5 +1636,126 @@ void hdnesPackEditormainForm::listOutHDImgTiles(){
 }
 
 void hdnesPackEditormainForm::HDImgTileSelected( wxListEvent& event ){
+    if(!hdImgRendering) showHDImgImage();
+}
+
+void hdnesPackEditormainForm::HDImgLDown( wxMouseEvent& event ){
+    if(selectedHDImg == -1) return;
+    hdImgRendering = true;
+    if(event.GetModifiers() != wxMOD_CONTROL){
+        //clear currently selected
+        for(int i = 0; i < lstHDImgTiles->GetItemCount(); ++i){
+            lstHDImgTiles->SetItemState(i, 0, wxLIST_STATE_SELECTED);
+        }
+    }
+    hdImgLDownPos = event.GetPosition();
+    hdImgLCurrPos = hdImgLDownPos;
+    hdImgClicked = true;
     showHDImgImage();
+    hdImgRendering = false;
+}
+
+void hdnesPackEditormainForm::HDImgLUp( wxMouseEvent& event ){
+    if(selectedHDImg != -1){
+        if(hdImgClicked){
+            hdImgRendering = true;
+            wxPoint p = event.GetPosition();
+            wxPoint corner1;
+            wxPoint corner2;
+            corner1.x = min(p.x, hdImgLDownPos.x);
+            corner2.x = max(p.x, hdImgLDownPos.x);
+            corner1.y = min(p.y, hdImgLDownPos.y);
+            corner2.y = max(p.y, hdImgLDownPos.y);
+            corner1 = convertHDImgPosition(corner1);
+            corner2 = convertHDImgPosition(corner2);
+
+            int j;
+            int tileSize;
+
+            tileSize = 8 * coreData::cData->scale;
+            for(int i = 0; i < lstHDImgTiles->GetItemCount(); ++i){
+                j = atoi(lstHDImgTiles->GetItemText(i, 0));
+                if(corner1.x <= coreData::cData->tiles[j]->x + tileSize
+                   && corner2.x >= coreData::cData->tiles[j]->x
+                   && corner1.y <= coreData::cData->tiles[j]->y + tileSize
+                   && corner2.y >= coreData::cData->tiles[j]->y){
+                    if(lstHDImgTiles->GetItemState(i, wxLIST_STATE_SELECTED) == wxLIST_STATE_SELECTED){
+                        lstHDImgTiles->SetItemState(i, 0, wxLIST_STATE_SELECTED);
+                    }
+                    else{
+                        lstHDImgTiles->SetItemState(i, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+                    }
+                }
+            }
+
+            hdImgClicked = false;
+            showHDImgImage();
+            hdImgRendering = false;
+        }
+    }
+}
+
+wxPoint hdnesPackEditormainForm::convertHDImgPosition(wxPoint pos){
+    wxPoint result;
+    int pnlWidth = pnlHDImg->GetSize().GetWidth();
+    int pnlHeight = pnlHDImg->GetSize().GetHeight();
+    result.x = pos.x - ((pnlWidth - (coreData::cData->images[selectedHDImg]->imageData.GetWidth() * hdImgScale)) / 2);
+    result.y = pos.y - ((pnlHeight - (coreData::cData->images[selectedHDImg]->imageData.GetHeight() * hdImgScale)) / 2);
+    //remove scale
+    result.x = result.x / hdImgScale;
+    result.y = result.y / hdImgScale;
+    return result;
+}
+
+void hdnesPackEditormainForm::HDImgMove( wxMouseEvent& event ){
+    if(selectedHDImg != -1){
+        hdImgLCurrPos = event.GetPosition();
+        if(hdImgClicked){
+            hdImgLCurrPos = event.GetPosition();
+            showHDImgImage();
+        }
+    }
+}
+
+void hdnesPackEditormainForm::HDImgEnter( wxMouseEvent& event ){
+    if((selectedHDImg != -1) && !event.LeftIsDown()){
+        hdImgClicked = false;
+        showHDImgImage();
+    }
+}
+
+void hdnesPackEditormainForm::HDImgRUp( wxMouseEvent& event ){
+    if(selectedHDImg != -1){
+        hdImgLCurrPos = event.GetPosition();
+        wxPoint p = convertHDImgPosition(hdImgLCurrPos);
+        wxMenu menu(wxT(""));
+
+        //check right click on a selected tile
+        int j;
+        int tileSize;
+        bool tileFound = false;
+        tileSize = 8 * coreData::cData->scale;
+        for(int i = 0; i < lstHDImgTiles->GetItemCount(); ++i){
+            j = atoi(lstHDImgTiles->GetItemText(i, 0));
+            if(p.x <= coreData::cData->tiles[j]->x + tileSize
+                && p.x >= coreData::cData->tiles[j]->x
+                && p.y <= coreData::cData->tiles[j]->y + tileSize
+                && p.y >= coreData::cData->tiles[j]->y){
+                if(lstHDImgTiles->GetItemState(i, wxLIST_STATE_SELECTED) == wxLIST_STATE_SELECTED){
+                    tileFound = true;
+                    rightClickedHDImgID = j;
+                    rightClickedHDImgTileX = p.x;
+                    rightClickedHDImgTileY = p.y;
+                }
+            }
+        }
+        if(tileFound){
+            menu.Append(wxID_ANY, wxT("Copy"));
+        }
+        menu.Connect( wxEVT_MENU, wxCommandEventHandler(hdnesPackEditormainForm::hdImgMenu), NULL, this );
+        pnlHDImg->PopupMenu(&menu, hdImgLCurrPos);
+    }
+}
+
+void hdnesPackEditormainForm::hdImgMenu( wxCommandEvent& event ){
 }

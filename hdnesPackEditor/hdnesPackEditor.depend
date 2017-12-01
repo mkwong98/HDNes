@@ -4,10 +4,10 @@
 	"hdnesPackEditormainForm.h"
 	"main.h"
 
-1511872522 source:c:\work\hdnesr\trunk\hdnespackeditor\mainform.cpp
+1512119126 source:c:\work\hdnesr\trunk\hdnespackeditor\mainform.cpp
 	"mainForm.h"
 
-1511872522 c:\work\hdnesr\trunk\hdnespackeditor\mainform.h
+1512119126 c:\work\hdnesr\trunk\hdnespackeditor\mainform.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/string.h>
@@ -2132,7 +2132,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1511872019 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.cpp
+1512125473 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.cpp
 	"hdnesPackEditormainForm.h"
 	"hdnesPackEditornewProjectDialog.h"
 	"hdnesPackEditorcolourSelectDialog.h"
@@ -2144,7 +2144,7 @@
 	"gameObjNode.h"
 	"image.h"
 
-1511870137 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.h
+1512125936 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.h
 	"common.h"
 	"mainForm.h"
 	"colourDialogClient.h"

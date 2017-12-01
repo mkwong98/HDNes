@@ -127,6 +127,11 @@ class mainForm : public wxFrame
 		virtual void HDImgAdd( wxCommandEvent& event ) { event.Skip(); }
 		virtual void HDImgRemove( wxCommandEvent& event ) { event.Skip(); }
 		virtual void HDImgTileSelected( wxListEvent& event ) { event.Skip(); }
+		virtual void HDImgEnter( wxMouseEvent& event ) { event.Skip(); }
+		virtual void HDImgLDown( wxMouseEvent& event ) { event.Skip(); }
+		virtual void HDImgLUp( wxMouseEvent& event ) { event.Skip(); }
+		virtual void HDImgMove( wxMouseEvent& event ) { event.Skip(); }
+		virtual void HDImgRUp( wxMouseEvent& event ) { event.Skip(); }
 		virtual void HDImgSizeChanged( wxSizeEvent& event ) { event.Skip(); }
 		virtual void zoomRomChanged( wxSpinEvent& event ) { event.Skip(); }
 		virtual void romBGColour( wxCommandEvent& event ) { event.Skip(); }

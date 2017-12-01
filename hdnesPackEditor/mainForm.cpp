@@ -432,6 +432,11 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	btnHDImgAdd->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::HDImgAdd ), NULL, this );
 	btnHDImgRemove->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::HDImgRemove ), NULL, this );
 	lstHDImgTiles->Connect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( mainForm::HDImgTileSelected ), NULL, this );
+	pnlHDImg->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( mainForm::HDImgEnter ), NULL, this );
+	pnlHDImg->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( mainForm::HDImgLDown ), NULL, this );
+	pnlHDImg->Connect( wxEVT_LEFT_UP, wxMouseEventHandler( mainForm::HDImgLUp ), NULL, this );
+	pnlHDImg->Connect( wxEVT_MOTION, wxMouseEventHandler( mainForm::HDImgMove ), NULL, this );
+	pnlHDImg->Connect( wxEVT_RIGHT_UP, wxMouseEventHandler( mainForm::HDImgRUp ), NULL, this );
 	pnlHDImg->Connect( wxEVT_SIZE, wxSizeEventHandler( mainForm::HDImgSizeChanged ), NULL, this );
 	zoomRom->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainForm::zoomRomChanged ), NULL, this );
 	btnRomViewBGColour->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romBGColour ), NULL, this );
@@ -534,6 +539,11 @@ mainForm::~mainForm()
 	btnHDImgAdd->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::HDImgAdd ), NULL, this );
 	btnHDImgRemove->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::HDImgRemove ), NULL, this );
 	lstHDImgTiles->Disconnect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( mainForm::HDImgTileSelected ), NULL, this );
+	pnlHDImg->Disconnect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( mainForm::HDImgEnter ), NULL, this );
+	pnlHDImg->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( mainForm::HDImgLDown ), NULL, this );
+	pnlHDImg->Disconnect( wxEVT_LEFT_UP, wxMouseEventHandler( mainForm::HDImgLUp ), NULL, this );
+	pnlHDImg->Disconnect( wxEVT_MOTION, wxMouseEventHandler( mainForm::HDImgMove ), NULL, this );
+	pnlHDImg->Disconnect( wxEVT_RIGHT_UP, wxMouseEventHandler( mainForm::HDImgRUp ), NULL, this );
 	pnlHDImg->Disconnect( wxEVT_SIZE, wxSizeEventHandler( mainForm::HDImgSizeChanged ), NULL, this );
 	zoomRom->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainForm::zoomRomChanged ), NULL, this );
 	btnRomViewBGColour->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::romBGColour ), NULL, this );
