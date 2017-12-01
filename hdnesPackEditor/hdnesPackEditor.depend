@@ -1808,7 +1808,7 @@
 
 1412631243 c:\work\include\wx\os2\wxrsc.h
 
-1508786981 c:\work\include\sdl2\sdl.h
+1451764783 c:\work\include\sdl2\sdl.h
 	"SDL_main.h"
 	"SDL_stdinc.h"
 	"SDL_assert.h"
@@ -1820,10 +1820,10 @@
 	"SDL_error.h"
 	"SDL_events.h"
 	"SDL_filesystem.h"
+	"SDL_joystick.h"
 	"SDL_gamecontroller.h"
 	"SDL_haptic.h"
 	"SDL_hints.h"
-	"SDL_joystick.h"
 	"SDL_loadso.h"
 	"SDL_log.h"
 	"SDL_messagebox.h"
@@ -1831,7 +1831,6 @@
 	"SDL_power.h"
 	"SDL_render.h"
 	"SDL_rwops.h"
-	"SDL_shape.h"
 	"SDL_system.h"
 	"SDL_thread.h"
 	"SDL_timer.h"
@@ -1840,12 +1839,12 @@
 	"begin_code.h"
 	"close_code.h"
 
-1508786982 c:\work\include\sdl2\sdl_main.h
+1451764783 c:\work\include\sdl2\sdl_main.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1508786982 c:\work\include\sdl2\sdl_stdinc.h
+1451764783 c:\work\include\sdl2\sdl_stdinc.h
 	"SDL_config.h"
 	<sys/types.h>
 	<stdio.h>
@@ -1859,12 +1858,12 @@
 	<memory.h>
 	<string.h>
 	<strings.h>
-	<wchar.h>
 	<inttypes.h>
 	<stdint.h>
 	<ctype.h>
 	<math.h>
 	<float.h>
+	<iconv.h>
 	<sal.h>
 	"begin_code.h"
 	<alloca.h>
@@ -1874,34 +1873,34 @@
 	<stdlib.h>
 	"close_code.h"
 
-1508786982 c:\work\include\sdl2\sdl_config.h
+1451764783 c:\work\include\sdl2\sdl_config.h
 	"SDL_platform.h"
 
-1508786982 c:\work\include\sdl2\sdl_platform.h
+1451764783 c:\work\include\sdl2\sdl_platform.h
 	"AvailabilityMacros.h"
 	"TargetConditionals.h"
 	<winapifamily.h>
 	"begin_code.h"
 	"close_code.h"
 
-1508786982 c:\work\include\sdl2\begin_code.h
+1451764783 c:\work\include\sdl2\begin_code.h
 
-1508786982 c:\work\include\sdl2\close_code.h
+1451764783 c:\work\include\sdl2\close_code.h
 
-1508786981 c:\work\include\sdl2\sdl_assert.h
+1451764783 c:\work\include\sdl2\sdl_assert.h
 	"SDL_config.h"
 	"begin_code.h"
 	<signal.h>
 	"close_code.h"
 
-1508786981 c:\work\include\sdl2\sdl_atomic.h
+1451764783 c:\work\include\sdl2\sdl_atomic.h
 	"SDL_stdinc.h"
 	"SDL_platform.h"
 	"begin_code.h"
 	<mbarrier.h>
 	"close_code.h"
 
-1508786981 c:\work\include\sdl2\sdl_audio.h
+1451764783 c:\work\include\sdl2\sdl_audio.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_endian.h"
@@ -1911,46 +1910,44 @@
 	"begin_code.h"
 	"close_code.h"
 
-1508786981 c:\work\include\sdl2\sdl_error.h
+1451764783 c:\work\include\sdl2\sdl_error.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1508786981 c:\work\include\sdl2\sdl_endian.h
+1451764783 c:\work\include\sdl2\sdl_endian.h
 	"SDL_stdinc.h"
 	<endian.h>
 	"begin_code.h"
 	"close_code.h"
 
-1508786982 c:\work\include\sdl2\sdl_mutex.h
+1451764783 c:\work\include\sdl2\sdl_mutex.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1508786982 c:\work\include\sdl2\sdl_thread.h
+1451764783 c:\work\include\sdl2\sdl_thread.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_atomic.h"
 	"SDL_mutex.h"
 	"begin_code.h"
 	<process.h>
-	<process.h>
-	<stdlib.h>
 	"close_code.h"
 
-1508786982 c:\work\include\sdl2\sdl_rwops.h
+1451764783 c:\work\include\sdl2\sdl_rwops.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1508786981 c:\work\include\sdl2\sdl_clipboard.h
+1451764783 c:\work\include\sdl2\sdl_clipboard.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1508786981 c:\work\include\sdl2\sdl_cpuinfo.h
+1451764783 c:\work\include\sdl2\sdl_cpuinfo.h
 	"SDL_stdinc.h"
 	<intrin.h>
 	<intrin.h>
@@ -1959,11 +1956,10 @@
 	<mm3dnow.h>
 	<xmmintrin.h>
 	<emmintrin.h>
-	<pmmintrin.h>
 	"begin_code.h"
 	"close_code.h"
 
-1508786981 c:\work\include\sdl2\sdl_events.h
+1451764783 c:\work\include\sdl2\sdl_events.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_video.h"
@@ -1977,7 +1973,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1508786982 c:\work\include\sdl2\sdl_video.h
+1451764783 c:\work\include\sdl2\sdl_video.h
 	"SDL_stdinc.h"
 	"SDL_pixels.h"
 	"SDL_rect.h"
@@ -1985,13 +1981,12 @@
 	"begin_code.h"
 	"close_code.h"
 
-1508786982 c:\work\include\sdl2\sdl_pixels.h
+1451764783 c:\work\include\sdl2\sdl_pixels.h
 	"SDL_stdinc.h"
-	"SDL_endian.h"
 	"begin_code.h"
 	"close_code.h"
 
-1508786982 c:\work\include\sdl2\sdl_rect.h
+1451764783 c:\work\include\sdl2\sdl_rect.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_pixels.h"
@@ -1999,7 +1994,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1508786982 c:\work\include\sdl2\sdl_surface.h
+1451764783 c:\work\include\sdl2\sdl_surface.h
 	"SDL_stdinc.h"
 	"SDL_pixels.h"
 	"SDL_rect.h"
@@ -2008,11 +2003,11 @@
 	"begin_code.h"
 	"close_code.h"
 
-1508786981 c:\work\include\sdl2\sdl_blendmode.h
+1451764783 c:\work\include\sdl2\sdl_blendmode.h
 	"begin_code.h"
 	"close_code.h"
 
-1508786981 c:\work\include\sdl2\sdl_keyboard.h
+1451764783 c:\work\include\sdl2\sdl_keyboard.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_keycode.h"
@@ -2020,27 +2015,27 @@
 	"begin_code.h"
 	"close_code.h"
 
-1508786982 c:\work\include\sdl2\sdl_keycode.h
+1451764783 c:\work\include\sdl2\sdl_keycode.h
 	"SDL_stdinc.h"
 	"SDL_scancode.h"
 
-1508786982 c:\work\include\sdl2\sdl_scancode.h
+1451764783 c:\work\include\sdl2\sdl_scancode.h
 	"SDL_stdinc.h"
 
-1508786982 c:\work\include\sdl2\sdl_mouse.h
+1451764783 c:\work\include\sdl2\sdl_mouse.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_video.h"
 	"begin_code.h"
 	"close_code.h"
 
-1508786981 c:\work\include\sdl2\sdl_joystick.h
+1451764783 c:\work\include\sdl2\sdl_joystick.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1508786981 c:\work\include\sdl2\sdl_gamecontroller.h
+1451764783 c:\work\include\sdl2\sdl_gamecontroller.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_rwops.h"
@@ -2048,11 +2043,11 @@
 	"begin_code.h"
 	"close_code.h"
 
-1508786982 c:\work\include\sdl2\sdl_quit.h
+1451764783 c:\work\include\sdl2\sdl_quit.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 
-1508786981 c:\work\include\sdl2\sdl_gesture.h
+1451764783 c:\work\include\sdl2\sdl_gesture.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_video.h"
@@ -2060,60 +2055,60 @@
 	"begin_code.h"
 	"close_code.h"
 
-1508786982 c:\work\include\sdl2\sdl_touch.h
+1451764783 c:\work\include\sdl2\sdl_touch.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_video.h"
 	"begin_code.h"
 	"close_code.h"
 
-1508786981 c:\work\include\sdl2\sdl_filesystem.h
+1451764783 c:\work\include\sdl2\sdl_filesystem.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1508786981 c:\work\include\sdl2\sdl_haptic.h
+1451764783 c:\work\include\sdl2\sdl_haptic.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_joystick.h"
 	"begin_code.h"
 	"close_code.h"
 
-1508786981 c:\work\include\sdl2\sdl_hints.h
+1451764783 c:\work\include\sdl2\sdl_hints.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1508786982 c:\work\include\sdl2\sdl_loadso.h
+1451764783 c:\work\include\sdl2\sdl_loadso.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1508786982 c:\work\include\sdl2\sdl_log.h
+1451764783 c:\work\include\sdl2\sdl_log.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1508786982 c:\work\include\sdl2\sdl_messagebox.h
+1451764783 c:\work\include\sdl2\sdl_messagebox.h
 	"SDL_stdinc.h"
 	"SDL_video.h"
 	"begin_code.h"
 	"close_code.h"
 
-1508786982 c:\work\include\sdl2\sdl_power.h
+1451764783 c:\work\include\sdl2\sdl_power.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1508786982 c:\work\include\sdl2\sdl_render.h
+1451764783 c:\work\include\sdl2\sdl_render.h
 	"SDL_stdinc.h"
 	"SDL_rect.h"
 	"SDL_video.h"
 	"begin_code.h"
 	"close_code.h"
 
-1508786982 c:\work\include\sdl2\sdl_system.h
+1451764783 c:\work\include\sdl2\sdl_system.h
 	"SDL_stdinc.h"
 	"SDL_keyboard.h"
 	"SDL_render.h"
@@ -2121,13 +2116,13 @@
 	"begin_code.h"
 	"close_code.h"
 
-1508786982 c:\work\include\sdl2\sdl_timer.h
+1451764783 c:\work\include\sdl2\sdl_timer.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1508786982 c:\work\include\sdl2\sdl_version.h
+1451764783 c:\work\include\sdl2\sdl_version.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
@@ -3346,7 +3341,7 @@
 	"classList.h"
 	<wx/wx.h>
 
-1505837122 c:\work\hdnes\trunk\hdnespackeditor\common.h
+1512141582 c:\work\hdnes\trunk\hdnespackeditor\common.h
 	<fstream>
 	<sstream>
 	<string>
@@ -3354,9 +3349,9 @@
 	<vector>
 	<iomanip>
 	<wx/image.h>
-	<SDL2\SDL.h>
+	<SDL2/SDL.h>
 
-1509643252 source:c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.cpp
+1512141412 source:c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.cpp
 	"hdnesPackEditormainForm.h"
 	"hdnesPackEditornewProjectDialog.h"
 	"hdnesPackEditorcolourSelectDialog.h"
@@ -3366,14 +3361,15 @@
 	<wx/wx.h>
 	<wx/clipbrd.h>
 	"gameObjNode.h"
+	"image.h"
 
-1510074559 c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.h
+1512141412 c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.h
 	"common.h"
 	"mainForm.h"
 	"colourDialogClient.h"
 	"gameObjNode.h"
 
-1509125480 c:\work\hdnes\trunk\hdnespackeditor\mainform.h
+1512141412 c:\work\hdnes\trunk\hdnespackeditor\mainform.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/string.h>
@@ -3386,15 +3382,16 @@
 	<wx/colour.h>
 	<wx/settings.h>
 	<wx/statusbr.h>
+	<wx/treectrl.h>
+	<wx/sizer.h>
+	<wx/panel.h>
 	<wx/stattext.h>
 	<wx/spinctrl.h>
 	<wx/button.h>
-	<wx/textctrl.h>
-	<wx/sizer.h>
-	<wx/panel.h>
 	<wx/scrolbar.h>
-	<wx/treectrl.h>
 	<wx/splitter.h>
+	<wx/listctrl.h>
+	<wx/textctrl.h>
 	<wx/notebook.h>
 	<wx/frame.h>
 	<wx/filepicker.h>
@@ -3430,16 +3427,17 @@
 	"main.h"
 	"coreData.h"
 
-1509125480 source:c:\work\hdnes\trunk\hdnespackeditor\main.cpp
+1512141685 source:c:\work\hdnes\trunk\hdnespackeditor\main.cpp
 	"common.h"
 	"hdnesPackEditormainForm.h"
 	"main.h"
 
-1509125480 c:\work\hdnes\trunk\hdnespackeditor\main.h
+1512141412 c:\work\hdnes\trunk\hdnespackeditor\main.h
 	"common.h"
 	<wx\wx.h>
+	<SDL2\SDL.h>
 
-1509125480 source:c:\work\hdnes\trunk\hdnespackeditor\mainform.cpp
+1512141412 source:c:\work\hdnes\trunk\hdnespackeditor\mainform.cpp
 	"mainForm.h"
 
 1504196542 source:c:\work\hdnes\trunk\hdnespackeditor\condition.cpp
@@ -3450,11 +3448,11 @@
 
 1509472055 c:\work\hdnes\trunk\hdnespackeditor\classlist.h
 
-1504631215 source:c:\work\hdnes\trunk\hdnespackeditor\image.cpp
+1512141412 source:c:\work\hdnes\trunk\hdnespackeditor\image.cpp
 	"image.h"
 	"coreData.h"
 
-1504631231 c:\work\hdnes\trunk\hdnespackeditor\image.h
+1512141412 c:\work\hdnes\trunk\hdnespackeditor\image.h
 	"common.h"
 
 1504235169 source:c:\work\hdnesr\trunk\hdnespackeditor\condition.cpp
@@ -3823,12 +3821,12 @@
 	"classList.h"
 	"condition.h"
 
-1509125480 c:\work\hdnes\trunk\hdnespackeditor\gameobjnode.h
+1512141412 c:\work\hdnes\trunk\hdnespackeditor\gameobjnode.h
 	"common.h"
 	"gameTile.h"
 	<wx/treebase.h>
 
-1509472163 c:\work\hdnes\trunk\hdnespackeditor\gametile.h
+1512141412 c:\work\hdnes\trunk\hdnespackeditor\gametile.h
 	"common.h"
 	"classList.h"
 	"condition.h"

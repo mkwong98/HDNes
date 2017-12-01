@@ -40,7 +40,6 @@ void main::hexToByteArray(const string &s, UINT8* ar){
 main::main(void){
     SDL_SetMainReady();
     SDL_Init(0);
-    IMG_Init(IMG_INIT_PNG);
 
     wxInitAllImageHandlers();
 
@@ -62,7 +61,6 @@ bool main::OnInit(){
 }
 
 int main::OnExit(){
-    IMG_Quit();
     SDL_Quit();
     return wxApp::OnExit();
 }
