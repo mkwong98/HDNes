@@ -212,8 +212,10 @@ void hdnesPackEditormainForm::paintTile(wxImage &img, Uint8* tileData, int x, in
             }
             drawX = x + 7 - dx;
             drawY = y + dy;
-            if(drawX >= 0 && drawX < img.GetWidth() && drawY >= 0 && drawY < img.GetHeight() && decodedVal > 0)
+            if(drawX >= 0 && drawX < img.GetWidth() && drawY >= 0 && drawY < img.GetHeight() && decodedVal > 0){
                 img.SetRGB(drawX, drawY, useColour[decodedVal].Red(), useColour[decodedVal].Green(), useColour[decodedVal].Blue());
+                if(img.HasAlpha()) img.SetAlpha(drawX, drawY, 255);
+            }
         }
     }
 }
@@ -684,6 +686,8 @@ void hdnesPackEditormainForm::initGameObjs(){
     clearGameObj();
     gameObjClicked = false;
     gameObjRawImageDisplay = wxImage(pnlGameObjRaw->GetSize().x, pnlGameObjRaw->GetSize().y);
+    gameObjNewImageDisplay = wxImage(pnlGameObjNew->GetSize().x, pnlGameObjNew->GetSize().y);
+    gameObjBaseTile = wxImage(8, 8);
 }
 
 void hdnesPackEditormainForm::gameObjsROMChanged(){
@@ -1091,35 +1095,49 @@ void hdnesPackEditormainForm::clearGameObj(){
 void hdnesPackEditormainForm::drawGameObj(){
     gameObjNode* ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
     gameObjRawImage = wxImage(max(ndata->objectWidth, 1), max(ndata->objectHeight, 1), true);
+    gameObjNewImage = wxImage(max(ndata->objectWidth * coreData::cData->scale, 1), max(ndata->objectHeight * coreData::cData->scale, 1), true);
     //clear image with blank colour
-    gameObjRawImage.SetRGB(wxRect(0, 0, ndata->objectWidth, ndata->objectHeight), gameObjBlankColour.Red(), gameObjBlankColour.Green(), gameObjBlankColour.Blue());
+    gameObjRawImage.SetRGB(wxRect(gameObjRawImage.GetSize()), gameObjBlankColour.Red(), gameObjBlankColour.Green(), gameObjBlankColour.Blue());
+    gameObjNewImage.SetRGB(wxRect(gameObjNewImage.GetSize()), gameObjBlankColour.Red(), gameObjBlankColour.Green(), gameObjBlankColour.Blue());
 
     Uint32 memAddress;
     Uint16 drawX;
     Uint16 drawY;
-
     //fill background first
     for(int i = 0; i < ndata->tiles.size(); ++i){
         drawX = ndata->tiles[i].objCoordX - ndata->x1;
         drawY = ndata->tiles[i].objCoordY - ndata->y1;
         gameObjRawImage.SetRGB(wxRect(drawX, drawY, 8, 8), coreData::cData->palette[ndata->bgColour].Red(), coreData::cData->palette[ndata->bgColour].Green(), coreData::cData->palette[ndata->bgColour].Blue());
+        gameObjNewImage.SetRGB(wxRect(drawX * coreData::cData->scale, drawY * coreData::cData->scale, 8 * coreData::cData->scale, 8 * coreData::cData->scale), coreData::cData->palette[ndata->bgColour].Red(), coreData::cData->palette[ndata->bgColour].Green(), coreData::cData->palette[ndata->bgColour].Blue());
     }
     //draw tiles
     for(int i = 0; i < ndata->tiles.size(); ++i){
         drawX = ndata->tiles[i].objCoordX - ndata->x1;
         drawY = ndata->tiles[i].objCoordY - ndata->y1;
+        gameObjBaseTile.InitAlpha();
+        memset(gameObjBaseTile.GetAlpha(), 0, 64);
         if(coreData::cData->isCHRROM){
             memAddress = ndata->tiles[i].id * 16;
-            paintTile(gameObjRawImage, coreData::cData->romData + memAddress, drawX, drawY, ndata->tiles[i].hFlip, ndata->tiles[i].vFlip,
+            paintTile(gameObjBaseTile, coreData::cData->romData + memAddress, 0, 0, ndata->tiles[i].hFlip, ndata->tiles[i].vFlip,
                     coreData::cData->palette[ndata->tiles[i].palette[1]],
                     coreData::cData->palette[ndata->tiles[i].palette[2]],
                     coreData::cData->palette[ndata->tiles[i].palette[3]]);
         }
         else{
-            paintTile(gameObjRawImage, ndata->tiles[i].rawData, drawX, drawY, ndata->tiles[i].hFlip, ndata->tiles[i].vFlip,
+            paintTile(gameObjBaseTile, ndata->tiles[i].rawData, 0, 0, ndata->tiles[i].hFlip, ndata->tiles[i].vFlip,
                     coreData::cData->palette[ndata->tiles[i].palette[1]],
                     coreData::cData->palette[ndata->tiles[i].palette[2]],
                     coreData::cData->palette[ndata->tiles[i].palette[3]]);
+        }
+        gameObjBaseTile.ConvertAlphaToMask(255);
+        gameObjRawImage.Paste(gameObjBaseTile, drawX, drawY);
+
+        if(ndata->tiles[i].hasReplacement){
+
+        }
+        else{
+            //look for replacement tiles
+
         }
     }
 }
@@ -1131,7 +1149,7 @@ void hdnesPackEditormainForm::drawGameObjEdits(){
     else{
         drawGameObjPasteTiles();
     }
-    showGameObj(gameObjRawImage2, gameObjRawPasteX, gameObjRawPasteY);
+    showGameObj(gameObjRawImage2, gameObjNewImage2, gameObjRawPasteX, gameObjRawPasteY);
 }
 
 void hdnesPackEditormainForm::drawGameObjPasteTiles(){
@@ -1146,12 +1164,15 @@ void hdnesPackEditormainForm::drawGameObjPasteTiles(){
 
     //create image
     gameObjRawImage2 = wxImage(pasteWidth, pasteHeight, true);
+    gameObjNewImage2 = wxImage(pasteWidth * coreData::cData->scale, pasteHeight * coreData::cData->scale, true);
     //clear image with blank colour
-    gameObjRawImage2.SetRGB(wxRect(0, 0, pasteWidth, pasteHeight), gameObjBlankColour.Red(), gameObjBlankColour.Green(), gameObjBlankColour.Blue());
+    gameObjRawImage2.SetRGB(wxRect(gameObjRawImage2.GetSize()), gameObjBlankColour.Red(), gameObjBlankColour.Green(), gameObjBlankColour.Blue());
+    gameObjNewImage2.SetRGB(wxRect(gameObjNewImage2.GetSize()), gameObjBlankColour.Red(), gameObjBlankColour.Green(), gameObjBlankColour.Blue());
 
     //copy raw image here
     if(ndata->tiles.size() > 0){
         gameObjRawImage2.Paste(gameObjRawImage, ndata->x1 - pasteX1, ndata->y1 - pasteY1);
+        gameObjNewImage2.Paste(gameObjNewImage, (ndata->x1 - pasteX1) * coreData::cData->scale, (ndata->y1 - pasteY1) * coreData::cData->scale);
     }
 
     //draw paste tiles
@@ -1177,6 +1198,7 @@ void hdnesPackEditormainForm::drawGameObjPasteTiles(){
     }
     //scale up
     gameObjRawImage2 = gameObjRawImage2.Scale(pasteWidth * gameObjZoom, pasteHeight * gameObjZoom);
+    gameObjNewImage2 = gameObjNewImage2.Scale(pasteWidth * gameObjZoom, pasteHeight * gameObjZoom);
 
     //draw outline of paste tiles
     wxPoint pt;
@@ -1202,6 +1224,7 @@ void hdnesPackEditormainForm::drawGameObjPasteTiles(){
 void hdnesPackEditormainForm::drawGameObjSelection(){
     gameObjNode* ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
     gameObjRawImage2 = gameObjRawImage.Scale(gameObjRawImage.GetWidth() * gameObjZoom, gameObjRawImage.GetHeight() * gameObjZoom);
+    gameObjNewImage2 = gameObjNewImage.Scale(gameObjRawImage.GetWidth() * gameObjZoom, gameObjRawImage.GetHeight() * gameObjZoom);
 
     //draw outline of selected tiles
     wxPoint pt;
@@ -1218,7 +1241,6 @@ void hdnesPackEditormainForm::drawGameObjSelection(){
         drawRect(gameObjRawImage2, pt2, tileBoxSize, wxColour(0, 0, 0));
         drawRect(gameObjRawImage2, pt, tileBoxSize, wxColour(255, 255, 255));
     }
-
 
     gameObjRawPasteX = ndata->x1 * gameObjZoom + (pnlGameObjRaw->GetSize().GetWidth() / 2) - gameObjViewCentreX;
     gameObjRawPasteY = ndata->y1 * gameObjZoom + (pnlGameObjRaw->GetSize().GetHeight() / 2) - gameObjViewCentreY;
@@ -1258,9 +1280,11 @@ void hdnesPackEditormainForm::adjustGameObjSize(){
     scrGameObjRawV->SetThumbPosition(gameObjViewCentreY - gameObjScrollMinV - (pnlGameObjRaw->GetSize().GetHeight() / 2));
 }
 
-void hdnesPackEditormainForm::showGameObj(wxImage& displayImg, int x, int y){
-    gameObjRawImageDisplay.SetRGB(gameObjRawImageDisplay.GetSize(), gameObjBlankColour.Red(), gameObjBlankColour.Green(), gameObjBlankColour.Blue());
+void hdnesPackEditormainForm::showGameObj(wxImage& displayImg, wxImage& displayImg2, int x, int y){
+    gameObjRawImageDisplay.SetRGB(wxRect(gameObjRawImageDisplay.GetSize()), gameObjBlankColour.Red(), gameObjBlankColour.Green(), gameObjBlankColour.Blue());
     gameObjRawImageDisplay.Paste(displayImg, x, y);
+    gameObjNewImageDisplay.SetRGB(wxRect(gameObjNewImageDisplay.GetSize()), gameObjBlankColour.Red(), gameObjBlankColour.Green(), gameObjBlankColour.Blue());
+    gameObjNewImageDisplay.Paste(displayImg2, x, y);
 
     if(gameObjClicked){
         wxPoint p1;
@@ -1283,10 +1307,16 @@ void hdnesPackEditormainForm::showGameObj(wxImage& displayImg, int x, int y){
         drawRect(gameObjRawImageDisplay, p1, rectSize, wxColour(255, 255, 255));
     }
 
+    wxClientDC* objDC;
     wxBitmap bmp = wxBitmap(gameObjRawImageDisplay);
 	if(bmp.IsOk()){
-		wxClientDC* objDC;
 		objDC = new wxClientDC(pnlGameObjRaw);
+		objDC->DrawBitmap(bmp, 0, 0);
+		delete objDC;
+	}
+    bmp = wxBitmap(gameObjNewImageDisplay);
+	if(bmp.IsOk()){
+		objDC = new wxClientDC(pnlGameObjNew);
 		objDC->DrawBitmap(bmp, 0, 0);
 		delete objDC;
 	}
@@ -1744,8 +1774,8 @@ void hdnesPackEditormainForm::HDImgRUp( wxMouseEvent& event ){
                 if(lstHDImgTiles->GetItemState(i, wxLIST_STATE_SELECTED) == wxLIST_STATE_SELECTED){
                     tileFound = true;
                     rightClickedHDImgID = j;
-                    rightClickedHDImgTileX = p.x;
-                    rightClickedHDImgTileY = p.y;
+                    rightClickedHDImgTileX = coreData::cData->tiles[j]->x;
+                    rightClickedHDImgTileY = coreData::cData->tiles[j]->y;
                 }
             }
         }
@@ -1758,4 +1788,23 @@ void hdnesPackEditormainForm::HDImgRUp( wxMouseEvent& event ){
 }
 
 void hdnesPackEditormainForm::hdImgMenu( wxCommandEvent& event ){
+    string copyContent = "";
+    int j;
+    for(int i = 0; i < lstHDImgTiles->GetItemCount(); ++i){
+        j = atoi(lstHDImgTiles->GetItemText(i, 0));
+        if(lstHDImgTiles->GetItemState(i, wxLIST_STATE_SELECTED) == wxLIST_STATE_SELECTED){
+            if(copyContent != ""){
+                copyContent = copyContent + ";";
+            }
+            copyContent = copyContent + lstHDImgTiles->GetItemText(i, 1).ToStdString()
+                            + "," + lstHDImgTiles->GetItemText(i, 2).ToStdString()
+                            + "," + main::intToStr((coreData::cData->tiles[j]->x - rightClickedHDImgTileX) / coreData::cData->scale)
+                            + "," + main::intToStr((coreData::cData->tiles[j]->y - rightClickedHDImgTileY) / coreData::cData->scale);
+        }
+    }
+
+    if (wxTheClipboard->Open()){
+        wxTheClipboard->SetData( new wxTextDataObject(copyContent.c_str()) );
+        wxTheClipboard->Close();
+    }
 }

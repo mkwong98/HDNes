@@ -153,6 +153,9 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         wxImage gameObjRawImage;
         wxImage gameObjRawImage2;
         wxImage gameObjRawImageDisplay;
+        wxImage gameObjNewImage;
+        wxImage gameObjNewImage2;
+        wxImage gameObjNewImageDisplay;
         int gameObjViewCentreX;
         int gameObjViewCentreY;
         int gameObjScrollMinH;
@@ -178,6 +181,7 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         int rightClickedGameObjTileX;
         int rightClickedGameObjTileY;
         wxImage gameObjImageWithSelection;
+        wxImage gameObjBaseTile;
 
         void initGameObjs();
         void configGameObjs(string lineHdr, string lineTail);
@@ -203,7 +207,7 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         void drawGameObjEdits();
         void drawGameObjPasteTiles();
         void drawGameObjSelection();
-        void showGameObj(wxImage& displayImg, int x, int y);
+        void showGameObj(wxImage& displayImg, wxImage& displayImg2, int x, int y);
         //--end game objs session
 
         //--image session
