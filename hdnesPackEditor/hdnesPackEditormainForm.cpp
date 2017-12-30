@@ -629,7 +629,7 @@ void hdnesPackEditormainForm::romViewMenu( wxCommandEvent& event ){
         tileX = romViewSelectedTiles[k] % 16;
         tileY = romViewSelectedTiles[k] / 16;
         if(copyContent != ""){
-            copyContent = copyContent + ";";
+            copyContent = copyContent + "\n";
         }
         copyContent = copyContent + coreData::cData->getTileID(romViewSelectedTiles[k])
                         + "," + txtRomViewPalette->GetValue().ToStdString()
@@ -773,6 +773,7 @@ void hdnesPackEditormainForm::gameObjTItemSelected( wxTreeEvent& event ){
     tItmGameObjMenu = event.GetItem();
     gameObjViewCentreX = 0;
     gameObjViewCentreY = 0;
+    gameObjSelectedTiles.clear();
     refreshGameObj();
 }
 
@@ -798,6 +799,7 @@ void hdnesPackEditormainForm::gameObjsTreeMenu( wxCommandEvent& event ){
         treeGameObjs->EditLabel(newItm);
         treeGameObjs->SetFocusedItem(newItm);
         tItmGameObjMenu = newItm;
+        gameObjSelectedTiles.clear();
         refreshGameObj();
         notSaved = true;
         break;
@@ -931,7 +933,7 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
             gameTile g;
 
             gameObjPasteData.clearAllTiles();
-            main::split(txt.GetText().ToStdString(), ';', tileLines);
+            main::split(txt.GetText().ToStdString(), '\n', tileLines);
             for(int i = 0; i < tileLines.size(); ++i){
                 main::split(tileLines[i], ',', tileDetails);
                 if(tileDetails.size() == 4 || tileDetails.size() == 6){
@@ -978,7 +980,7 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
 
         for(int k = 0; k < gameObjSelectedTiles.size(); ++k){
             if(copyContent != ""){
-                copyContent = copyContent + ";";
+                copyContent = copyContent + "\n";
             }
             if(coreData::cData->isCHRROM){
                 copyContent = copyContent + main::intToStr(ndata->tiles[gameObjSelectedTiles[k]].id);
@@ -1044,7 +1046,7 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
 
 bool hdnesPackEditormainForm::checkPasteValid(string content){
     vector<string> tileLines;
-    main::split(content, ';', tileLines);
+    main::split(content, '\n', tileLines);
     if(tileLines.size() > 0){
         bool allValid = true;
         vector<string> tileDetails;
@@ -1794,7 +1796,7 @@ void hdnesPackEditormainForm::hdImgMenu( wxCommandEvent& event ){
         j = atoi(lstHDImgTiles->GetItemText(i, 0));
         if(lstHDImgTiles->GetItemState(i, wxLIST_STATE_SELECTED) == wxLIST_STATE_SELECTED){
             if(copyContent != ""){
-                copyContent = copyContent + ";";
+                copyContent = copyContent + "\n";
             }
             copyContent = copyContent + lstHDImgTiles->GetItemText(i, 1).ToStdString()
                             + "," + lstHDImgTiles->GetItemText(i, 2).ToStdString()
