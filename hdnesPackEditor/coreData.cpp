@@ -60,10 +60,7 @@ void coreData::loadPackData(){
                     scale = atoi(lineTail.c_str());
                 }
                 else if(lineHdr == "<img>" ){
-                    //load image and add to list
-                    image* i = new image();
-                    i->load(lineTail);
-                    images.push_back(i);
+                    addImage(lineTail);
                 }
                 else if(lineHdr == "condition"){
 
@@ -240,4 +237,29 @@ string coreData::getTileID(int tileIndex){
         }
         return tmpVal;
     }
+}
+
+void coreData::addImage(string path){
+    //load image and add to list
+    image* i = new image();
+    i->load(path);
+    images.push_back(i);
+}
+
+void coreData::removeImage(int index){
+    int i = 0;
+    //update index of tiles
+    while(i < tiles.size()){
+        if(tiles[i]->hasReplacement){
+            if(tiles[i]->img == index){
+                tiles.erase(tiles.begin() + i);
+                --i;
+            }
+            else if(tiles[i]->img > index){
+                --(tiles[i]->img);
+            }
+        }
+        ++i;
+    }
+    images.erase(images.begin() + index);
 }

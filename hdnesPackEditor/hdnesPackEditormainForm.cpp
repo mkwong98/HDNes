@@ -1810,3 +1810,53 @@ void hdnesPackEditormainForm::hdImgMenu( wxCommandEvent& event ){
         wxTheClipboard->Close();
     }
 }
+
+void hdnesPackEditormainForm::HDImgAdd( wxCommandEvent& event ){
+    wxFileDialog openFileDialog(this, _("Choose image file(PNG)"), "", "", "PNG files (*.png)|*.png", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
+
+    if (openFileDialog.ShowModal() == wxID_CANCEL)
+        return;     // the user changed idea...
+
+    //check name against existing images
+    bool hasExisting = false;
+    bool sameFolder;
+    string fullPath;
+    string imgPath;
+    string imgName;
+
+    fullPath = openFileDialog.GetPath().ToStdString();
+    imgPath = fullPath.substr(0, fullPath.find_last_of("/\\") - 1);
+    imgName = fullPath.substr(fullPath.find_last_of("/\\") + 1);
+
+    //if image is not already in folder then copy it
+    if(imgPath != coreData::cData->packPath){
+        ifstream  src(fullPath, ios::binary);
+        ofstream  dst(coreData::cData->packPath + "\\" + imgName, ios::binary);
+        dst << src.rdbuf();
+    }
+
+    //check if image name is new
+    if(coreData::cData){
+        for(int i = 0; i < coreData::cData->images.size(); ++i){
+            if(coreData::cData->images[i]->fileName == imgName){
+                hasExisting = true;
+                coreData::cData->images[i]->reloadImg();
+            }
+        }
+    }
+
+    if(!hasExisting){
+        coreData::cData->addImage(imgName);
+        listOutHDImgImages();
+    }
+}
+
+void hdnesPackEditormainForm::HDImgRemove( wxCommandEvent& event ){
+    if(selectedHDImg > -1 && coreData::cData){
+        coreData::cData->removeImage(selectedHDImg);
+        listOutHDImgImages();
+        lstHDImgTiles->DeleteAllItems();
+        selectedHDImg = -1;
+    }
+}
+

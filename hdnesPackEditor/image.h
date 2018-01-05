@@ -13,6 +13,7 @@ class image
         wxImage imageData;
 
         void load(string path);
+        void reloadImg();
 
     protected:
 

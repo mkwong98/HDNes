@@ -78,6 +78,8 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
 		void HDImgMove( wxMouseEvent& event );
 		void HDImgEnter( wxMouseEvent& event );
 		void HDImgRUp( wxMouseEvent& event );
+		void HDImgAdd( wxCommandEvent& event );
+		void HDImgRemove( wxCommandEvent& event );
 
         void closeWindow( wxCloseEvent& event );
 	public:

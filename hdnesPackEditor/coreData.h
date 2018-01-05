@@ -32,7 +32,6 @@ class coreData
         vector<string> otherLines;
         wxColour palette[64];
 
-
         void dataChanged();
         void initPath(string rPath, string pPath);
         void load(string path);
@@ -44,6 +43,8 @@ class coreData
         void loadPalette();
         string getTileID(int tileIndex);
 
+        void addImage(string path);
+        void removeImage(int index);
     protected:
 
     private:
