@@ -2,14 +2,24 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="gameTile.cpp" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="classList.h" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="126" topLine="21" />
+			<Cursor1 position="127" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="image.cpp" open="1" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="condition.cpp" open="0" top="0" tabpos="20" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="166" topLine="6" />
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="condition.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="216" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="coreData.h" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1049" topLine="27" />
 		</Cursor>
 	</File>
 	<File name="common.h" open="1" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -17,9 +27,44 @@
 			<Cursor1 position="251" topLine="0" />
 		</Cursor>
 	</File>
+	<File name="main.cpp" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="694" topLine="13" />
+		</Cursor>
+	</File>
+	<File name="main.h" open="1" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="554" topLine="4" />
+		</Cursor>
+	</File>
+	<File name="coreData.cpp" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="7057" topLine="239" />
+		</Cursor>
+	</File>
+	<File name="gameTile.h" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="420" topLine="13" />
+		</Cursor>
+	</File>
+	<File name="gameObjNode.cpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="147" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="hdnesPackEditorcolourSelectDialog.h" open="0" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="813" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="gameObjNode.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="699" topLine="22" />
+		</Cursor>
+	</File>
 	<File name="hdnesPackEditormainForm.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="72355" topLine="322" />
+			<Cursor1 position="56359" topLine="153" />
 		</Cursor>
 		<Folding>
 			<Collapse line="14" />
@@ -210,15 +255,7 @@
 			<Collapse line="1073" />
 			<Collapse line="1086" />
 			<Collapse line="1096" />
-			<Collapse line="1108" />
-			<Collapse line="1115" />
-			<Collapse line="1120" />
-			<Collapse line="1127" />
-			<Collapse line="1136" />
-			<Collapse line="1139" />
 			<Collapse line="1146" />
-			<Collapse line="1147" />
-			<Collapse line="1150" />
 			<Collapse line="1156" />
 			<Collapse line="1174" />
 			<Collapse line="1183" />
@@ -230,8 +267,6 @@
 			<Collapse line="1250" />
 			<Collapse line="1284" />
 			<Collapse line="1290" />
-			<Collapse line="1313" />
-			<Collapse line="1319" />
 			<Collapse line="1326" />
 			<Collapse line="1327" />
 			<Collapse line="1332" />
@@ -251,146 +286,94 @@
 			<Collapse line="1398" />
 			<Collapse line="1399" />
 			<Collapse line="1404" />
-			<Collapse line="1415" />
-			<Collapse line="1416" />
-			<Collapse line="1425" />
 			<Collapse line="1426" />
-			<Collapse line="1432" />
+			<Collapse line="1427" />
 			<Collapse line="1433" />
-			<Collapse line="1439" />
-			<Collapse line="1442" />
-			<Collapse line="1450" />
-			<Collapse line="1453" />
-			<Collapse line="1456" />
-			<Collapse line="1459" />
-			<Collapse line="1465" />
-			<Collapse line="1474" />
-			<Collapse line="1476" />
-			<Collapse line="1479" />
-			<Collapse line="1482" />
-			<Collapse line="1484" />
-			<Collapse line="1487" />
-			<Collapse line="1491" />
-			<Collapse line="1493" />
-			<Collapse line="1503" />
-			<Collapse line="1507" />
-			<Collapse line="1509" />
-			<Collapse line="1518" />
-			<Collapse line="1522" />
-			<Collapse line="1526" />
-			<Collapse line="1533" />
-			<Collapse line="1633" />
+			<Collapse line="1434" />
+			<Collapse line="1440" />
+			<Collapse line="1443" />
+			<Collapse line="1451" />
+			<Collapse line="1454" />
+			<Collapse line="1457" />
+			<Collapse line="1460" />
+			<Collapse line="1466" />
+			<Collapse line="1475" />
+			<Collapse line="1477" />
+			<Collapse line="1480" />
+			<Collapse line="1483" />
+			<Collapse line="1485" />
+			<Collapse line="1488" />
+			<Collapse line="1492" />
+			<Collapse line="1494" />
+			<Collapse line="1504" />
+			<Collapse line="1508" />
+			<Collapse line="1510" />
+			<Collapse line="1519" />
+			<Collapse line="1523" />
+			<Collapse line="1527" />
+			<Collapse line="1534" />
+			<Collapse line="1540" />
+			<Collapse line="1553" />
+			<Collapse line="1568" />
+			<Collapse line="1569" />
+			<Collapse line="1587" />
+			<Collapse line="1608" />
+			<Collapse line="1616" />
+			<Collapse line="1618" />
+			<Collapse line="1620" />
+			<Collapse line="1628" />
 			<Collapse line="1634" />
-			<Collapse line="1639" />
-			<Collapse line="1651" />
-			<Collapse line="1669" />
-			<Collapse line="1673" />
-			<Collapse line="1676" />
-			<Collapse line="1678" />
-			<Collapse line="1689" />
+			<Collapse line="1635" />
+			<Collapse line="1640" />
+			<Collapse line="1643" />
+			<Collapse line="1645" />
+			<Collapse line="1646" />
+			<Collapse line="1647" />
+			<Collapse line="1650" />
+			<Collapse line="1652" />
+			<Collapse line="1670" />
+			<Collapse line="1674" />
+			<Collapse line="1677" />
+			<Collapse line="1679" />
 			<Collapse line="1690" />
 			<Collapse line="1691" />
-			<Collapse line="1707" />
-			<Collapse line="1712" />
+			<Collapse line="1692" />
+			<Collapse line="1708" />
 			<Collapse line="1713" />
-			<Collapse line="1716" />
-			<Collapse line="1729" />
-			<Collapse line="1741" />
+			<Collapse line="1714" />
+			<Collapse line="1717" />
+			<Collapse line="1730" />
 			<Collapse line="1742" />
-			<Collapse line="1744" />
-			<Collapse line="1751" />
+			<Collapse line="1743" />
+			<Collapse line="1745" />
 			<Collapse line="1752" />
-			<Collapse line="1758" />
+			<Collapse line="1753" />
 			<Collapse line="1759" />
-			<Collapse line="1769" />
-			<Collapse line="1774" />
+			<Collapse line="1760" />
+			<Collapse line="1770" />
 			<Collapse line="1775" />
-			<Collapse line="1783" />
-			<Collapse line="1791" />
-			<Collapse line="1794" />
-			<Collapse line="1796" />
+			<Collapse line="1776" />
+			<Collapse line="1784" />
+			<Collapse line="1792" />
+			<Collapse line="1795" />
 			<Collapse line="1797" />
-			<Collapse line="1807" />
+			<Collapse line="1798" />
+			<Collapse line="1808" />
+			<Collapse line="1814" />
+			<Collapse line="1832" />
+			<Collapse line="1834" />
+			<Collapse line="1835" />
+			<Collapse line="1841" />
+			<Collapse line="1842" />
+			<Collapse line="1852" />
+			<Collapse line="1856" />
+			<Collapse line="1865" />
+			<Collapse line="1866" />
 		</Folding>
-	</File>
-	<File name="condition.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="216" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="main.h" open="1" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="554" topLine="9" />
-		</Cursor>
-	</File>
-	<File name="gameTile.h" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="420" topLine="18" />
-		</Cursor>
-	</File>
-	<File name="mainForm.cpp" open="1" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="34741" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="coreData.cpp" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="7057" topLine="251" />
-		</Cursor>
-	</File>
-	<File name="gameObjNode.cpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="147" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="gameObjNode.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="699" topLine="27" />
-		</Cursor>
 	</File>
 	<File name="image.h" open="1" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="249" topLine="6" />
-		</Cursor>
-	</File>
-	<File name="condition.cpp" open="0" top="0" tabpos="20" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="0" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="mainForm.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="5081" topLine="124" />
-		</Cursor>
-	</File>
-	<File name="coreData.h" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1049" topLine="33" />
-		</Cursor>
-	</File>
-	<File name="hdnesPackEditorcolourSelectDialog.cpp" open="1" top="0" tabpos="18" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3677" topLine="78" />
-		</Cursor>
-	</File>
-	<File name="classList.h" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="127" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="hdnesPackEditornewProjectDialog.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="229" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="hdnesPackEditormainForm.h" open="1" top="0" tabpos="17" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2915" topLine="68" />
-		</Cursor>
-	</File>
-	<File name="hdnesPackEditorcolourSelectDialog.h" open="0" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="813" topLine="0" />
+			<Cursor1 position="249" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="colourDialogClient.h" open="0" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -398,14 +381,44 @@
 			<Cursor1 position="235" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="main.cpp" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="mainForm.cpp" open="1" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="694" topLine="13" />
+			<Cursor1 position="34741" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="hdnesPackEditormainForm.h" open="1" top="0" tabpos="17" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2915" topLine="68" />
+		</Cursor>
+	</File>
+	<File name="hdnesPackEditornewProjectDialog.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="229" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="image.cpp" open="1" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="166" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="mainForm.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="5081" topLine="124" />
+		</Cursor>
+	</File>
+	<File name="gameTile.cpp" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="126" topLine="9" />
 		</Cursor>
 	</File>
 	<File name="hdnesPackEditornewProjectDialog.cpp" open="1" top="0" tabpos="16" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="594" topLine="18" />
+			<Cursor1 position="594" topLine="6" />
+		</Cursor>
+	</File>
+	<File name="hdnesPackEditorcolourSelectDialog.cpp" open="1" top="0" tabpos="18" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3677" topLine="78" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

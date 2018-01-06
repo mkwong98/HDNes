@@ -1416,6 +1416,7 @@ void hdnesPackEditormainForm::gameObjsRawLUp( wxMouseEvent& event ){
 void hdnesPackEditormainForm::gameObjsRawSizeChanged( wxSizeEvent& event ){
     if(coreData::cData){
         gameObjRawImageDisplay = wxImage(pnlGameObjRaw->GetSize().x, pnlGameObjRaw->GetSize().y);
+        gameObjNewImageDisplay = wxImage(pnlGameObjNew->GetSize().x, pnlGameObjNew->GetSize().y);
 
         if(!getGameObjsSelectedObjectTreeNode()) return;
         adjustGameObjSize();
@@ -1819,6 +1820,7 @@ void hdnesPackEditormainForm::HDImgAdd( wxCommandEvent& event ){
 
     //check name against existing images
     bool hasExisting = false;
+    int existIndex;
     bool sameFolder;
     string fullPath;
     string imgPath;
@@ -1828,27 +1830,37 @@ void hdnesPackEditormainForm::HDImgAdd( wxCommandEvent& event ){
     imgPath = fullPath.substr(0, fullPath.find_last_of("/\\") - 1);
     imgName = fullPath.substr(fullPath.find_last_of("/\\") + 1);
 
-    //if image is not already in folder then copy it
-    if(imgPath != coreData::cData->packPath){
-        ifstream  src(fullPath, ios::binary);
-        ofstream  dst(coreData::cData->packPath + "\\" + imgName, ios::binary);
-        dst << src.rdbuf();
-    }
-
-    //check if image name is new
     if(coreData::cData){
+        //check if image name is new
         for(int i = 0; i < coreData::cData->images.size(); ++i){
             if(coreData::cData->images[i]->fileName == imgName){
                 hasExisting = true;
-                coreData::cData->images[i]->reloadImg();
+                existIndex = i;
             }
         }
+        //if image is not already in folder then copy it
+        if(imgPath != coreData::cData->packPath){
+            if(hasExisting){
+                if (wxMessageBox(_("There is an image of the same name. This will replace that image. Proceed?"), _("Please confirm"),
+                         wxICON_QUESTION | wxYES_NO, this) == wxNO )
+                return;
+            }
+            ifstream  src(fullPath, ios::binary);
+            ofstream  dst(coreData::cData->packPath + "\\" + imgName, ios::binary);
+            dst << src.rdbuf();
+        }
+
+        if(!hasExisting){
+            coreData::cData->addImage(imgName);
+            listOutHDImgImages();
+        }
+        else{
+            coreData::cData->images[existIndex]->reloadImg();
+        }
+
     }
 
-    if(!hasExisting){
-        coreData::cData->addImage(imgName);
-        listOutHDImgImages();
-    }
+
 }
 
 void hdnesPackEditormainForm::HDImgRemove( wxCommandEvent& event ){
