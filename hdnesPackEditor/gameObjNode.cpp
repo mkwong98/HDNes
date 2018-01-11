@@ -12,6 +12,7 @@ gameObjNode::gameObjNode()
     objectWidth = 0;
     objectHeight = 0;
     bgColour = 0;
+    isSprite = false;
 }
 
 gameObjNode::~gameObjNode()

@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Dec 21 2016)
+// C++ code generated with wxFormBuilder (version Jun 17 2015)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -25,6 +25,7 @@
 #include <wx/panel.h>
 #include <wx/stattext.h>
 #include <wx/spinctrl.h>
+#include <wx/radiobut.h>
 #include <wx/button.h>
 #include <wx/scrolbar.h>
 #include <wx/splitter.h>
@@ -58,6 +59,8 @@ class mainForm : public wxFrame
 		wxStaticText* m_staticText61;
 		wxSpinCtrl* zoomGameObjs;
 		wxStaticText* m_staticText91;
+		wxRadioButton* rbnObjectSprite;
+		wxRadioButton* rbnObjectBG;
 		wxStaticText* m_staticText101;
 		wxButton* btnGameObjBGColour;
 		wxStaticText* m_staticText11;
@@ -106,6 +109,8 @@ class mainForm : public wxFrame
 		virtual void gameObjTItemOpenMenu( wxTreeEvent& event ) { event.Skip(); }
 		virtual void gameObjTItemSelected( wxTreeEvent& event ) { event.Skip(); }
 		virtual void zoomGameObjsChanged( wxSpinEvent& event ) { event.Skip(); }
+		virtual void gameObjSpriteClicked( wxCommandEvent& event ) { event.Skip(); }
+		virtual void gameObjBGClicked( wxCommandEvent& event ) { event.Skip(); }
 		virtual void gameObjBGColour( wxCommandEvent& event ) { event.Skip(); }
 		virtual void gameObjsRawEnter( wxMouseEvent& event ) { event.Skip(); }
 		virtual void gameObjsRawLDown( wxMouseEvent& event ) { event.Skip(); }

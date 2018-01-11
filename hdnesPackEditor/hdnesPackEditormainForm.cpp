@@ -1066,6 +1066,9 @@ void hdnesPackEditormainForm::refreshGameObj(){
     gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
     if(!ndata) return;
 
+    rbnObjectSprite->SetValue(ndata->isSprite);
+    rbnObjectBG->SetValue(!ndata->isSprite);
+
     //refresh bg colour button
     btnGameObjBGColour->SetBackgroundColour(coreData::cData->palette[ndata->bgColour]);
     if(coreData::cData->palette[ndata->bgColour].Red() + coreData::cData->palette[ndata->bgColour].Green() + coreData::cData->palette[ndata->bgColour].Blue() > 256){
@@ -1323,6 +1326,21 @@ void hdnesPackEditormainForm::showGameObj(wxImage& displayImg, wxImage& displayI
 		delete objDC;
 	}
 }
+
+void hdnesPackEditormainForm::gameObjSpriteClicked( wxCommandEvent& event ){
+    gameObjNode* ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
+    if(!ndata) return;
+
+    ndata->isSprite = rbnObjectSprite->GetValue();
+}
+
+void hdnesPackEditormainForm::gameObjBGClicked( wxCommandEvent& event ){
+    gameObjNode* ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
+    if(!ndata) return;
+
+    ndata->isSprite = !rbnObjectBG->GetValue();
+}
+
 
 void hdnesPackEditormainForm::gameObjBGColour( wxCommandEvent& event ){
     if(getGameObjsSelectedObjectTreeNode()){
