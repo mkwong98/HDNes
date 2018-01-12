@@ -4,6 +4,7 @@
 #include "common.h"
 #include "classList.h"
 #include "condition.h"
+#include "tileReference.h"
 
 class gameTile
 {
@@ -11,9 +12,7 @@ class gameTile
         gameTile();
         virtual ~gameTile();
 
-        int id;
-        Uint8 rawData[16];
-        Uint8 palette[4];
+        tileReference id;
 
         int objCoordX;
         int objCoordY;
@@ -30,6 +29,7 @@ class gameTile
         double brightness;
 
         void readLine(string s);
+        bool compareEqual(gameTile t);
 
     protected:
 

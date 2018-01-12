@@ -700,6 +700,8 @@ void hdnesPackEditormainForm::gameObjsROMChanged(){
     gameObjectTreeWillMove = false;
     clearGameObj();
     gameObjClicked = false;
+    gameObjBaseTileNew = wxImage(8 * coreData::cData->scale, 8 * coreData::cData->scale);
+
 }
 
 gameObjNode* hdnesPackEditormainForm::getGameObjsSelectedObjectTreeNode(){
@@ -905,8 +907,10 @@ void hdnesPackEditormainForm::gameObjsRawRUp( wxMouseEvent& event ){
             if(tileFound){
                 menu.Append(GAME_OBJ_PNL_COPY, wxT("Copy"));
                 menu.Append(GAME_OBJ_PNL_DELETE, wxT("Delete"));
-                menu.Append(GAME_OBJ_PNL_HFLIP, wxT("Flip horizontally"));
-                menu.Append(GAME_OBJ_PNL_VFLIP, wxT("Flip vertically"));
+                if(data->isSprite){
+                    menu.Append(GAME_OBJ_PNL_HFLIP, wxT("Flip horizontally"));
+                    menu.Append(GAME_OBJ_PNL_VFLIP, wxT("Flip vertically"));
+                }
             }
             else{
                 gameObjSelectedTiles.clear();
@@ -938,12 +942,12 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
                 main::split(tileLines[i], ',', tileDetails);
                 if(tileDetails.size() == 4 || tileDetails.size() == 6){
                     if(coreData::cData->isCHRROM){
-                        g.id = atoi(tileDetails[0].c_str());
+                        g.id.id = atoi(tileDetails[0].c_str());
                     }
                     else{
-                        main::hexToByteArray(tileDetails[0], g.rawData);
+                        main::hexToByteArray(tileDetails[0], g.id.rawData);
                     }
-                    main::hexToByteArray(tileDetails[1], g.palette);
+                    main::hexToByteArray(tileDetails[1], g.id.palette);
                     g.objCoordX = atoi(tileDetails[2].c_str());
                     g.objCoordY = atoi(tileDetails[3].c_str());
                     if(tileDetails.size() == 6){
@@ -983,19 +987,19 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
                 copyContent = copyContent + "\n";
             }
             if(coreData::cData->isCHRROM){
-                copyContent = copyContent + main::intToStr(ndata->tiles[gameObjSelectedTiles[k]].id);
+                copyContent = copyContent + main::intToStr(ndata->tiles[gameObjSelectedTiles[k]].id.id);
             }
             else{
                 string tmpVal = "";
                 for(Uint8 i = 0; i < 16; ++i){
-                    tmpVal = tmpVal + main::intToHex(ndata->tiles[gameObjSelectedTiles[k]].rawData[i]);
+                    tmpVal = tmpVal + main::intToHex(ndata->tiles[gameObjSelectedTiles[k]].id.rawData[i]);
                 }
                 copyContent = copyContent + tmpVal;
             }
             copyContent = copyContent + "," + wxString(main::intToHex(ndata->bgColour).c_str())
-                        + wxString(main::intToHex(ndata->tiles[gameObjSelectedTiles[k]].palette[1]).c_str())
-                        + wxString(main::intToHex(ndata->tiles[gameObjSelectedTiles[k]].palette[2]).c_str())
-                        + wxString(main::intToHex(ndata->tiles[gameObjSelectedTiles[k]].palette[3]).c_str())
+                        + wxString(main::intToHex(ndata->tiles[gameObjSelectedTiles[k]].id.palette[1]).c_str())
+                        + wxString(main::intToHex(ndata->tiles[gameObjSelectedTiles[k]].id.palette[2]).c_str())
+                        + wxString(main::intToHex(ndata->tiles[gameObjSelectedTiles[k]].id.palette[3]).c_str())
                         + "," + main::intToStr(ndata->tiles[gameObjSelectedTiles[k]].objCoordX - rightClickedGameObjTileX)
                         + "," + main::intToStr(ndata->tiles[gameObjSelectedTiles[k]].objCoordY - rightClickedGameObjTileY)
                         + "," +(ndata->tiles[gameObjSelectedTiles[k]].hFlip ? "Y" : "N")
@@ -1108,12 +1112,16 @@ void hdnesPackEditormainForm::drawGameObj(){
     Uint32 memAddress;
     Uint16 drawX;
     Uint16 drawY;
+    bool hasHD;
+    gameTile* tile;
+    int replaceSize = 8 * coreData::cData->scale;
+
     //fill background first
     for(int i = 0; i < ndata->tiles.size(); ++i){
         drawX = ndata->tiles[i].objCoordX - ndata->x1;
         drawY = ndata->tiles[i].objCoordY - ndata->y1;
         gameObjRawImage.SetRGB(wxRect(drawX, drawY, 8, 8), coreData::cData->palette[ndata->bgColour].Red(), coreData::cData->palette[ndata->bgColour].Green(), coreData::cData->palette[ndata->bgColour].Blue());
-        gameObjNewImage.SetRGB(wxRect(drawX * coreData::cData->scale, drawY * coreData::cData->scale, 8 * coreData::cData->scale, 8 * coreData::cData->scale), coreData::cData->palette[ndata->bgColour].Red(), coreData::cData->palette[ndata->bgColour].Green(), coreData::cData->palette[ndata->bgColour].Blue());
+        gameObjNewImage.SetRGB(wxRect(drawX * coreData::cData->scale, drawY * coreData::cData->scale, replaceSize, replaceSize), coreData::cData->palette[ndata->bgColour].Red(), coreData::cData->palette[ndata->bgColour].Green(), coreData::cData->palette[ndata->bgColour].Blue());
     }
     //draw tiles
     for(int i = 0; i < ndata->tiles.size(); ++i){
@@ -1122,17 +1130,17 @@ void hdnesPackEditormainForm::drawGameObj(){
         gameObjBaseTile.InitAlpha();
         memset(gameObjBaseTile.GetAlpha(), 0, 64);
         if(coreData::cData->isCHRROM){
-            memAddress = ndata->tiles[i].id * 16;
+            memAddress = ndata->tiles[i].id.id * 16;
             paintTile(gameObjBaseTile, coreData::cData->romData + memAddress, 0, 0, ndata->tiles[i].hFlip, ndata->tiles[i].vFlip,
-                    coreData::cData->palette[ndata->tiles[i].palette[1]],
-                    coreData::cData->palette[ndata->tiles[i].palette[2]],
-                    coreData::cData->palette[ndata->tiles[i].palette[3]]);
+                    coreData::cData->palette[ndata->tiles[i].id.palette[1]],
+                    coreData::cData->palette[ndata->tiles[i].id.palette[2]],
+                    coreData::cData->palette[ndata->tiles[i].id.palette[3]]);
         }
         else{
-            paintTile(gameObjBaseTile, ndata->tiles[i].rawData, 0, 0, ndata->tiles[i].hFlip, ndata->tiles[i].vFlip,
-                    coreData::cData->palette[ndata->tiles[i].palette[1]],
-                    coreData::cData->palette[ndata->tiles[i].palette[2]],
-                    coreData::cData->palette[ndata->tiles[i].palette[3]]);
+            paintTile(gameObjBaseTile, ndata->tiles[i].id.rawData, 0, 0, ndata->tiles[i].hFlip, ndata->tiles[i].vFlip,
+                    coreData::cData->palette[ndata->tiles[i].id.palette[1]],
+                    coreData::cData->palette[ndata->tiles[i].id.palette[2]],
+                    coreData::cData->palette[ndata->tiles[i].id.palette[3]]);
         }
         gameObjBaseTile.ConvertAlphaToMask(255);
         gameObjRawImage.Paste(gameObjBaseTile, drawX, drawY);
@@ -1142,7 +1150,26 @@ void hdnesPackEditormainForm::drawGameObj(){
         }
         else{
             //look for replacement tiles
-
+            hasHD = false;
+            for(int j = 0; j < coreData::cData->tiles.size(); ++j){
+                tile = coreData::cData->tiles[j];
+                if(tile->compareEqual(ndata->tiles[i])){
+                    if(tile->hasReplacement ){
+                        hasHD = true;
+                        gameObjBaseTileNew = coreData::cData->images[tile->img]->imageData.GetSubImage(wxRect(tile->x, tile->y, replaceSize, replaceSize));
+                        if(ndata->tiles[i].hFlip){
+                            gameObjBaseTileNew = gameObjBaseTileNew.Mirror(true);
+                        }
+                        if(ndata->tiles[i].vFlip){
+                            gameObjBaseTileNew = gameObjBaseTileNew.Mirror(false);
+                        }
+                    }
+                }
+            }
+            if(!hasHD){
+                gameObjBaseTileNew = gameObjBaseTile.Scale(replaceSize, replaceSize);
+            }
+            gameObjNewImage.Paste(gameObjBaseTileNew, drawX * coreData::cData->scale, drawY * coreData::cData->scale);
         }
     }
 }
@@ -1188,17 +1215,17 @@ void hdnesPackEditormainForm::drawGameObjPasteTiles(){
         drawX = gameObjPasteData.tiles[i].objCoordX - pasteX1 + gameObjRawCurrPos.x;
         drawY = gameObjPasteData.tiles[i].objCoordY - pasteY1 + gameObjRawCurrPos.y;
         if(coreData::cData->isCHRROM){
-            memAddress = gameObjPasteData.tiles[i].id * 16;
+            memAddress = gameObjPasteData.tiles[i].id.id * 16;
             paintTile(gameObjRawImage2, coreData::cData->romData + memAddress, drawX, drawY, gameObjPasteData.tiles[i].hFlip, gameObjPasteData.tiles[i].vFlip,
-                    coreData::cData->palette[gameObjPasteData.tiles[i].palette[1]],
-                    coreData::cData->palette[gameObjPasteData.tiles[i].palette[2]],
-                    coreData::cData->palette[gameObjPasteData.tiles[i].palette[3]]);
+                    coreData::cData->palette[gameObjPasteData.tiles[i].id.palette[1]],
+                    coreData::cData->palette[gameObjPasteData.tiles[i].id.palette[2]],
+                    coreData::cData->palette[gameObjPasteData.tiles[i].id.palette[3]]);
         }
         else{
-            paintTile(gameObjRawImage2, gameObjPasteData.tiles[i].rawData, drawX, drawY, gameObjPasteData.tiles[i].hFlip, gameObjPasteData.tiles[i].vFlip,
-                    coreData::cData->palette[gameObjPasteData.tiles[i].palette[1]],
-                    coreData::cData->palette[gameObjPasteData.tiles[i].palette[2]],
-                    coreData::cData->palette[gameObjPasteData.tiles[i].palette[3]]);
+            paintTile(gameObjRawImage2, gameObjPasteData.tiles[i].id.rawData, drawX, drawY, gameObjPasteData.tiles[i].hFlip, gameObjPasteData.tiles[i].vFlip,
+                    coreData::cData->palette[gameObjPasteData.tiles[i].id.palette[1]],
+                    coreData::cData->palette[gameObjPasteData.tiles[i].id.palette[2]],
+                    coreData::cData->palette[gameObjPasteData.tiles[i].id.palette[3]]);
         }
     }
     //scale up
@@ -1328,14 +1355,14 @@ void hdnesPackEditormainForm::showGameObj(wxImage& displayImg, wxImage& displayI
 }
 
 void hdnesPackEditormainForm::gameObjSpriteClicked( wxCommandEvent& event ){
-    gameObjNode* ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
     if(!ndata) return;
 
     ndata->isSprite = rbnObjectSprite->GetValue();
 }
 
 void hdnesPackEditormainForm::gameObjBGClicked( wxCommandEvent& event ){
-    gameObjNode* ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
     if(!ndata) return;
 
     ndata->isSprite = !rbnObjectBG->GetValue();
@@ -1664,22 +1691,22 @@ void hdnesPackEditormainForm::listOutHDImgTiles(){
         for(int i = 0; i < coreData::cData->tiles.size(); ++i){
             if(coreData::cData->tiles[i]->hasReplacement && coreData::cData->tiles[i]->img == selectedHDImg){
                 if(coreData::cData->isCHRROM){
-                    tmpVal = main::intToStr(coreData::cData->tiles[i]->id);
+                    tmpVal = main::intToStr(coreData::cData->tiles[i]->id.id);
                 }
                 else{
                     tmpVal = "";
                     for(Uint8 k = 0; k < 16; ++k){
-                        tmpVal = tmpVal + main::intToHex(coreData::cData->tiles[i]->rawData[k]);
+                        tmpVal = tmpVal + main::intToHex(coreData::cData->tiles[i]->id.rawData[k]);
                     }
                 }
 
                 j = lstHDImgTiles->InsertItem(i, wxString(main::intToStr(i).c_str()), 0);
                 lstHDImgTiles->SetItem(j, 1, wxString(tmpVal.c_str()));
 
-                tmpVal = wxString((main::intToHex(coreData::cData->tiles[i]->palette[0])
-                        + main::intToHex(coreData::cData->tiles[i]->palette[1])
-                        + main::intToHex(coreData::cData->tiles[i]->palette[2])
-                        + main::intToHex(coreData::cData->tiles[i]->palette[3])).c_str());
+                tmpVal = wxString((main::intToHex(coreData::cData->tiles[i]->id.palette[0])
+                        + main::intToHex(coreData::cData->tiles[i]->id.palette[1])
+                        + main::intToHex(coreData::cData->tiles[i]->id.palette[2])
+                        + main::intToHex(coreData::cData->tiles[i]->id.palette[3])).c_str());
                 lstHDImgTiles->SetItem(j, 2, wxString(tmpVal.c_str()));
             }
         }

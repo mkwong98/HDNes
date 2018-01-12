@@ -61,6 +61,8 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
 		void gameObjTItemOpenMenu( wxTreeEvent& event );
 		void gameObjTItemSelected( wxTreeEvent& event );
         void gameObjsRawRUp( wxMouseEvent& event );
+        void gameObjSpriteClicked( wxCommandEvent& event );
+        void gameObjBGClicked( wxCommandEvent& event );
 		void gameObjBGColour( wxCommandEvent& event );
 		void gameObjsRawMove( wxMouseEvent& event );
 		void gameObjsRawEnter( wxMouseEvent& event );
@@ -184,6 +186,7 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         int rightClickedGameObjTileY;
         wxImage gameObjImageWithSelection;
         wxImage gameObjBaseTile;
+        wxImage gameObjBaseTileNew;
 
         void initGameObjs();
         void configGameObjs(string lineHdr, string lineTail);
