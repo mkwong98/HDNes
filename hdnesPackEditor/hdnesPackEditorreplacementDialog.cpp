@@ -6,6 +6,7 @@ hdnesPackEditorreplacementDialog::hdnesPackEditorreplacementDialog( wxWindow* pa
 :
 replacementDialog( parent )
 {
+    locationSelected = false;
     if(coreData::cData){
         for(int i = 0; i < coreData::cData->images.size(); ++i){
             cboImage->Append(wxString(coreData::cData->images[i]->fileName.c_str()));
@@ -26,6 +27,9 @@ void hdnesPackEditorreplacementDialog::mouseClicked( wxMouseEvent& event ){
 }
 
 void hdnesPackEditorreplacementDialog::mouseMoved( wxMouseEvent& event ){
+    if(!locationSelected){
+
+    }
 }
 
 void hdnesPackEditorreplacementDialog::sizeChanged( wxSizeEvent& event ){
