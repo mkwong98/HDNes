@@ -65,12 +65,16 @@
 		<Unit filename="hdnesPackEditormainForm.h" />
 		<Unit filename="hdnesPackEditornewProjectDialog.cpp" />
 		<Unit filename="hdnesPackEditornewProjectDialog.h" />
+		<Unit filename="hdnesPackEditorreplacementDialog.cpp" />
+		<Unit filename="hdnesPackEditorreplacementDialog.h" />
 		<Unit filename="image.cpp" />
 		<Unit filename="image.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="main.h" />
 		<Unit filename="mainForm.cpp" />
 		<Unit filename="mainForm.h" />
+		<Unit filename="tileReference.cpp" />
+		<Unit filename="tileReference.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

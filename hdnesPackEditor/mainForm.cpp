@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Jun 17 2015)
+// C++ code generated with wxFormBuilder (version Dec 21 2016)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -1139,5 +1139,76 @@ colourSelectDialog::~colourSelectDialog()
 	pnlColour3E->Disconnect( wxEVT_RIGHT_UP, wxMouseEventHandler( colourSelectDialog::colourRClick ), NULL, this );
 	pnlColour3F->Disconnect( wxEVT_LEFT_UP, wxMouseEventHandler( colourSelectDialog::colourLClick ), NULL, this );
 	pnlColour3F->Disconnect( wxEVT_RIGHT_UP, wxMouseEventHandler( colourSelectDialog::colourRClick ), NULL, this );
+	
+}
+
+replacementDialog::replacementDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	wxBoxSizer* bSizer28;
+	bSizer28 = new wxBoxSizer( wxVERTICAL );
+	
+	wxBoxSizer* bSizer29;
+	bSizer29 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText13 = new wxStaticText( this, wxID_ANY, wxT("Select an image"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText13->Wrap( -1 );
+	bSizer29->Add( m_staticText13, 0, wxALL, 5 );
+	
+	cboImage = new wxComboBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY ); 
+	bSizer29->Add( cboImage, 0, wxALL, 5 );
+	
+	
+	bSizer28->Add( bSizer29, 0, 0, 5 );
+	
+	wxBoxSizer* bSizer31;
+	bSizer31 = new wxBoxSizer( wxVERTICAL );
+	
+	m_staticText14 = new wxStaticText( this, wxID_ANY, wxT("Click on the image to choose the location of the replacement. Click once more to choose again."), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText14->Wrap( -1 );
+	bSizer31->Add( m_staticText14, 0, wxALL, 5 );
+	
+	chkSnapToGrid = new wxCheckBox( this, wxID_ANY, wxT("Snap to grid"), wxDefaultPosition, wxDefaultSize, 0 );
+	chkSnapToGrid->SetValue(true); 
+	bSizer31->Add( chkSnapToGrid, 0, wxALL, 5 );
+	
+	
+	bSizer28->Add( bSizer31, 0, wxEXPAND, 5 );
+	
+	pnlImage = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	bSizer28->Add( pnlImage, 1, wxEXPAND | wxALL, 5 );
+	
+	wxBoxSizer* bSizer30;
+	bSizer30 = new wxBoxSizer( wxVERTICAL );
+	
+	m_button9 = new wxButton( this, wxID_ANY, wxT("OK"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer30->Add( m_button9, 0, wxALL, 5 );
+	
+	
+	bSizer28->Add( bSizer30, 0, wxALIGN_RIGHT, 5 );
+	
+	
+	this->SetSizer( bSizer28 );
+	this->Layout();
+	
+	this->Centre( wxBOTH );
+	
+	// Connect Events
+	cboImage->Connect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( replacementDialog::imageSelected ), NULL, this );
+	pnlImage->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( replacementDialog::mouseClicked ), NULL, this );
+	pnlImage->Connect( wxEVT_MOTION, wxMouseEventHandler( replacementDialog::mouseMoved ), NULL, this );
+	pnlImage->Connect( wxEVT_SIZE, wxSizeEventHandler( replacementDialog::sizeChanged ), NULL, this );
+	m_button9->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( replacementDialog::replacementConfirm ), NULL, this );
+}
+
+replacementDialog::~replacementDialog()
+{
+	// Disconnect Events
+	cboImage->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( replacementDialog::imageSelected ), NULL, this );
+	pnlImage->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( replacementDialog::mouseClicked ), NULL, this );
+	pnlImage->Disconnect( wxEVT_MOTION, wxMouseEventHandler( replacementDialog::mouseMoved ), NULL, this );
+	pnlImage->Disconnect( wxEVT_SIZE, wxSizeEventHandler( replacementDialog::sizeChanged ), NULL, this );
+	m_button9->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( replacementDialog::replacementConfirm ), NULL, this );
 	
 }

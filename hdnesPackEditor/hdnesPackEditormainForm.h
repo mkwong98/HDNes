@@ -14,6 +14,7 @@
 #define GAME_OBJ_PNL_DELETE         4
 #define GAME_OBJ_PNL_HFLIP          5
 #define GAME_OBJ_PNL_VFLIP          6
+#define GAME_OBJ_PNL_REPLACE        7
 
 
 /**

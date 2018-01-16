@@ -1,6 +1,7 @@
 #include "hdnesPackEditormainForm.h"
 #include "hdnesPackEditornewProjectDialog.h"
 #include "hdnesPackEditorcolourSelectDialog.h"
+#include "hdnesPackEditorreplacementDialog.h"
 #include "coreData.h"
 #include "main.h"
 #include "common.h"
@@ -907,6 +908,7 @@ void hdnesPackEditormainForm::gameObjsRawRUp( wxMouseEvent& event ){
             if(tileFound){
                 menu.Append(GAME_OBJ_PNL_COPY, wxT("Copy"));
                 menu.Append(GAME_OBJ_PNL_DELETE, wxT("Delete"));
+                menu.Append(GAME_OBJ_PNL_REPLACE, wxT("Set replacement"));
                 if(data->isSprite){
                     menu.Append(GAME_OBJ_PNL_HFLIP, wxT("Flip horizontally"));
                     menu.Append(GAME_OBJ_PNL_VFLIP, wxT("Flip vertically"));
@@ -1044,6 +1046,16 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
             ndata->tiles[gameObjSelectedTiles[k]].vFlip = !ndata->tiles[gameObjSelectedTiles[k]].vFlip;
         }
         refreshGameObj();
+        break;
+    case GAME_OBJ_PNL_REPLACE:
+        vector<gameTile> selectedTiles;
+        ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
+        for(int k = 0; k < gameObjSelectedTiles.size(); ++k){
+            selectedTiles.push_back(ndata->tiles[gameObjSelectedTiles[k]]);
+        }
+        hdnesPackEditorreplacementDialog* fp = new hdnesPackEditorreplacementDialog(this);
+        fp->setSelectedTiles(selectedTiles);
+        fp->Show(true);
         break;
     }
 }
@@ -1367,7 +1379,6 @@ void hdnesPackEditormainForm::gameObjBGClicked( wxCommandEvent& event ){
 
     ndata->isSprite = !rbnObjectBG->GetValue();
 }
-
 
 void hdnesPackEditormainForm::gameObjBGColour( wxCommandEvent& event ){
     if(getGameObjsSelectedObjectTreeNode()){

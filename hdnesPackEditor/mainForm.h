@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Jun 17 2015)
+// C++ code generated with wxFormBuilder (version Dec 21 2016)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -35,6 +35,8 @@
 #include <wx/frame.h>
 #include <wx/filepicker.h>
 #include <wx/dialog.h>
+#include <wx/combobox.h>
+#include <wx/checkbox.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -290,6 +292,36 @@ class colourSelectDialog : public wxDialog
 		
 		colourSelectDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Choose a colour"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 774,288 ), long style = wxDEFAULT_DIALOG_STYLE ); 
 		~colourSelectDialog();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class replacementDialog
+///////////////////////////////////////////////////////////////////////////////
+class replacementDialog : public wxDialog 
+{
+	private:
+	
+	protected:
+		wxStaticText* m_staticText13;
+		wxComboBox* cboImage;
+		wxStaticText* m_staticText14;
+		wxCheckBox* chkSnapToGrid;
+		wxPanel* pnlImage;
+		wxButton* m_button9;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void imageSelected( wxCommandEvent& event ) { event.Skip(); }
+		virtual void mouseClicked( wxMouseEvent& event ) { event.Skip(); }
+		virtual void mouseMoved( wxMouseEvent& event ) { event.Skip(); }
+		virtual void sizeChanged( wxSizeEvent& event ) { event.Skip(); }
+		virtual void replacementConfirm( wxCommandEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		
+		replacementDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Choose a replacement"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 669,504 ), long style = wxDEFAULT_DIALOG_STYLE|wxMAXIMIZE_BOX|wxMINIMIZE_BOX|wxRESIZE_BORDER ); 
+		~replacementDialog();
 	
 };
 
