@@ -1022,6 +1022,8 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
     case GAME_OBJ_PNL_REPLACE:
         vector<gameTile> selectedTiles;
         ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
+        int clickedX = 0;
+        int clickedY = 0;
         for(int k = 0; k < gameObjSelectedTiles.size(); ++k){
             selectedTiles.push_back(ndata->tiles[gameObjSelectedTiles[k]]);
         }

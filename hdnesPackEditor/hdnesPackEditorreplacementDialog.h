@@ -31,7 +31,8 @@ class hdnesPackEditorreplacementDialog : public replacementDialog
         bool locationSelected;
         int selectedX;
         int selectedY;
-        wxPoint imgOffset;
+        int imgOffsetX;
+        int imgOffsetY;
         wxPoint clickOffset;
 
         void setSelectedTiles(vector<gameTile> tiles, int pXOffSet, int pYOffSet);

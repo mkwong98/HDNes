@@ -2135,7 +2135,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1516343120 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.cpp
+1516359934 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.cpp
 	"hdnesPackEditormainForm.h"
 	"hdnesPackEditornewProjectDialog.h"
 	"hdnesPackEditorcolourSelectDialog.h"
@@ -3881,13 +3881,13 @@
 	"tileReference.h"
 	"coreData.h"
 
-1516344082 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditorreplacementdialog.cpp
+1516384002 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditorreplacementdialog.cpp
 	"hdnesPackEditorreplacementDialog.h"
 	"coreData.h"
 	"image.h"
 	"main.h"
 
-1516346561 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditorreplacementdialog.h
+1516378557 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditorreplacementdialog.h
 	"mainForm.h"
 	"gameTile.h"
 

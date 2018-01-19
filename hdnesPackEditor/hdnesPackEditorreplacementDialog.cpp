@@ -55,13 +55,15 @@ void hdnesPackEditorreplacementDialog::showImage(){
 
     wxImage scaledImg;
     scaledImg = coreData::cData->images[cboImage->GetSelection()]->imageData.Scale(coreData::cData->images[cboImage->GetSelection()]->imageData.GetWidth() * hdImgScale, coreData::cData->images[cboImage->GetSelection()]->imageData.GetHeight() * hdImgScale);
-    imgOffset.x = (pnlImage->GetSize().x - scaledImg.GetWidth()) / 2;
-    imgOffset.y = (pnlImage->GetSize().y - scaledImg.GetHeight()) / 2;
+    imgOffsetX = (pnlImage->GetSize().x - scaledImg.GetWidth()) / 2;
+    imgOffsetY = (pnlImage->GetSize().y - scaledImg.GetHeight()) / 2;
+    int mouseX = selectedX - imgOffsetX;
+    int mouseY = selectedY - imgOffsetY;
 
     wxImage displayImg;
     displayImg = wxImage(pnlImage->GetSize(), true);
     displayImg.SetRGB(displayImg.GetSize(), 128, 0, 128);
-    displayImg.Paste(scaledImg, imgOffset.x, imgOffset.y);
+    displayImg.Paste(scaledImg, imgOffsetX, imgOffsetY);
 
     wxPoint pt;
     wxPoint pt2;
@@ -71,18 +73,29 @@ void hdnesPackEditorreplacementDialog::showImage(){
     tileBoxSize.y = tileBoxSize.x;
 
     if(chkSnapToGrid->IsChecked()){
-        clickOffset.x = fmod(((selectedX - imgOffset.x) / pixSize) - xOffSet, 8) * pixSize;
-        clickOffset.y = fmod(((selectedY - imgOffset.y) / pixSize) - yOffSet, 8) * pixSize;
+        float rawOffsetX = (mouseX / pixSize) + selectedTiles[0].objCoordX - xOffSet;
+        float rawOffsetY = (mouseY / pixSize) + selectedTiles[0].objCoordY - yOffSet;
+        if(rawOffsetX >= 0){
+            clickOffset.x = fmod(rawOffsetX, 8) * pixSize;
+        }
+        else{
+            clickOffset.x = (8 + fmod(rawOffsetX, 8)) * pixSize;
+        }
+        if(rawOffsetY >= 0){
+            clickOffset.y = fmod(rawOffsetY, 8) * pixSize;
+        }
+        else{
+            clickOffset.y = (8 + fmod(rawOffsetY, 8)) * pixSize;
+        }
     }
     else{
         clickOffset.x = 0;
         clickOffset.y = 0;
     }
-
-
     for(int i = 0; i < selectedTiles.size(); ++i){
-        pt.x = ((selectedTiles[i].objCoordX - xOffSet) * hdImgScale * coreData::cData->scale) + selectedX - clickOffset.x;
-        pt.y = ((selectedTiles[i].objCoordY - yOffSet) * hdImgScale * coreData::cData->scale) + selectedY - clickOffset.y;
+        pt.x = ((selectedTiles[i].objCoordX - xOffSet) * pixSize) + selectedX - clickOffset.x;
+        pt.y = ((selectedTiles[i].objCoordY - yOffSet) * pixSize) + selectedY - clickOffset.y;
+
         pt2 = pt;
         ++(pt2.x);
         ++(pt2.y);
