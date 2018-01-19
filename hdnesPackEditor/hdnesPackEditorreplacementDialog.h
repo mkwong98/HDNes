@@ -26,11 +26,15 @@ class hdnesPackEditorreplacementDialog : public replacementDialog
 		hdnesPackEditorreplacementDialog( wxWindow* parent );
 	//// end generated class members
         vector<gameTile> selectedTiles;
+        int xOffSet;
+        int yOffSet;
         bool locationSelected;
         int selectedX;
         int selectedY;
+        wxPoint imgOffset;
+        wxPoint clickOffset;
 
-        void setSelectedTiles(vector<gameTile> tiles);
+        void setSelectedTiles(vector<gameTile> tiles, int pXOffSet, int pYOffSet);
         void showImage();
 };
 

@@ -18,6 +18,8 @@ public:
     static string intToStr(int value);
     static vector<string> split(const string &s, char delim, vector<string> &elems);
     static void hexToByteArray(const string &s, UINT8* ar);
+    static void drawRect(wxImage &img, wxPoint pt, wxPoint rectSize, wxColour c);
+    static void drawLine(wxImage &img, wxPoint pt, int len, wxColour c, bool hDir);
 
 	main(void);
 	~main(void);

@@ -221,34 +221,6 @@ void hdnesPackEditormainForm::paintTile(wxImage &img, Uint8* tileData, int x, in
     }
 }
 
-void hdnesPackEditormainForm::drawRect(wxImage &img, wxPoint pt, wxPoint rectSize, wxColour c){
-    drawLine(img, pt, rectSize.x, c, true);
-    drawLine(img, pt, rectSize.y, c, false);
-
-    wxPoint p = pt;
-    p.x += rectSize.x;
-    drawLine(img, p, rectSize.y, c, false);
-    p = pt;
-    p.y += rectSize.y;
-    drawLine(img, p, rectSize.x, c, true);
-}
-
-void hdnesPackEditormainForm::drawLine(wxImage &img, wxPoint pt, int len, wxColour c, bool hDir){
-    wxPoint p = pt;
-    for(int i = 0; i < len; ++i){
-        if(p.x >= 0 && p.x < img.GetWidth()
-        && p.y >= 0 && p.y < img.GetHeight()){
-            img.SetRGB(p.x, p.y, c.Red(), c.Green(), c.Blue());
-        }
-        if(hDir){
-            ++(p.x);
-        }
-        else{
-            ++(p.y);
-        }
-    }
-}
-
 void hdnesPackEditormainForm::dataChanged(){
     refreshCoreDataDisplay();
     romDir = coreData::cData->romPath;
@@ -481,8 +453,8 @@ void hdnesPackEditormainForm::drawROMViewSelection(){
         pt2 = pt;
         ++(pt2.x);
         ++(pt2.y);
-        drawRect(romViewImageWithSelection, pt2, tileBoxSize, wxColour(0, 0, 0));
-        drawRect(romViewImageWithSelection, pt, tileBoxSize, wxColour(255, 255, 255));
+        main::drawRect(romViewImageWithSelection, pt2, tileBoxSize, wxColour(0, 0, 0));
+        main::drawRect(romViewImageWithSelection, pt, tileBoxSize, wxColour(255, 255, 255));
     }
     showROMView();
 }
@@ -510,8 +482,8 @@ void hdnesPackEditormainForm::showROMView(){
         ++(p3.y);
 
 
-        drawRect(romViewImageDisplay, p3, rectSize, wxColour(0, 0, 0));
-        drawRect(romViewImageDisplay, p1, rectSize, wxColour(255, 255, 255));
+        main::drawRect(romViewImageDisplay, p3, rectSize, wxColour(0, 0, 0));
+        main::drawRect(romViewImageDisplay, p1, rectSize, wxColour(255, 255, 255));
     }
 
     wxBitmap bmp = wxBitmap(romViewImageDisplay);
@@ -1054,7 +1026,7 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
             selectedTiles.push_back(ndata->tiles[gameObjSelectedTiles[k]]);
         }
         hdnesPackEditorreplacementDialog* fp = new hdnesPackEditorreplacementDialog(this);
-        fp->setSelectedTiles(selectedTiles);
+        fp->setSelectedTiles(selectedTiles, rightClickedGameObjTileX, rightClickedGameObjTileY);
         fp->Show(true);
         break;
     }
@@ -1256,8 +1228,8 @@ void hdnesPackEditormainForm::drawGameObjPasteTiles(){
         pt2 = pt;
         ++(pt2.x);
         ++(pt2.y);
-        drawRect(gameObjRawImage2, pt2, tileBoxSize, wxColour(0, 0, 0));
-        drawRect(gameObjRawImage2, pt, tileBoxSize, wxColour(255, 255, 255));
+        main::drawRect(gameObjRawImage2, pt2, tileBoxSize, wxColour(0, 0, 0));
+        main::drawRect(gameObjRawImage2, pt, tileBoxSize, wxColour(255, 255, 255));
     }
 
     gameObjRawPasteX = pasteX1 * gameObjZoom + (pnlGameObjRaw->GetSize().GetWidth() / 2) - gameObjViewCentreX;
@@ -1282,8 +1254,8 @@ void hdnesPackEditormainForm::drawGameObjSelection(){
         pt2 = pt;
         ++(pt2.x);
         ++(pt2.y);
-        drawRect(gameObjRawImage2, pt2, tileBoxSize, wxColour(0, 0, 0));
-        drawRect(gameObjRawImage2, pt, tileBoxSize, wxColour(255, 255, 255));
+        main::drawRect(gameObjRawImage2, pt2, tileBoxSize, wxColour(0, 0, 0));
+        main::drawRect(gameObjRawImage2, pt, tileBoxSize, wxColour(255, 255, 255));
     }
 
     gameObjRawPasteX = ndata->x1 * gameObjZoom + (pnlGameObjRaw->GetSize().GetWidth() / 2) - gameObjViewCentreX;
@@ -1347,8 +1319,8 @@ void hdnesPackEditormainForm::showGameObj(wxImage& displayImg, wxImage& displayI
         ++(p3.x);
         ++(p3.y);
 
-        drawRect(gameObjRawImageDisplay, p3, rectSize, wxColour(0, 0, 0));
-        drawRect(gameObjRawImageDisplay, p1, rectSize, wxColour(255, 255, 255));
+        main::drawRect(gameObjRawImageDisplay, p3, rectSize, wxColour(0, 0, 0));
+        main::drawRect(gameObjRawImageDisplay, p1, rectSize, wxColour(255, 255, 255));
     }
 
     wxClientDC* objDC;
@@ -1631,8 +1603,8 @@ void hdnesPackEditormainForm::showHDImgImage(){
             pt2 = pt;
             ++(pt2.x);
             ++(pt2.y);
-            drawRect(scaledImg, pt2, tileBoxSize, wxColour(0, 0, 0));
-            drawRect(scaledImg, pt, tileBoxSize, wxColour(255, 255, 255));
+            main::drawRect(scaledImg, pt2, tileBoxSize, wxColour(0, 0, 0));
+            main::drawRect(scaledImg, pt, tileBoxSize, wxColour(255, 255, 255));
         }
     }
 
@@ -1657,8 +1629,8 @@ void hdnesPackEditormainForm::showHDImgImage(){
         ++(p3.x);
         ++(p3.y);
 
-        drawRect(displayImg, p3, rectSize, wxColour(0, 0, 0));
-        drawRect(displayImg, p1, rectSize, wxColour(255, 255, 255));
+        main::drawRect(displayImg, p3, rectSize, wxColour(0, 0, 0));
+        main::drawRect(displayImg, p1, rectSize, wxColour(255, 255, 255));
     }
 
     wxBitmap bmp = wxBitmap(displayImg);
