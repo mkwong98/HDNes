@@ -34,6 +34,7 @@ class hdnesPackEditorreplacementDialog : public replacementDialog
         int imgOffsetX;
         int imgOffsetY;
         wxPoint clickOffset;
+        float hdImgScale;
 
         void setSelectedTiles(vector<gameTile> tiles, int pXOffSet, int pYOffSet);
         void showImage();

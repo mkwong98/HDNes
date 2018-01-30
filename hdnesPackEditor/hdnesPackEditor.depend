@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1516342745 source:c:\work\hdnesr\trunk\hdnespackeditor\main.cpp
+1517303755 source:c:\work\hdnesr\trunk\hdnespackeditor\main.cpp
 	"common.h"
 	"hdnesPackEditormainForm.h"
 	"main.h"
@@ -2135,7 +2135,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1516359934 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.cpp
+1517303145 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.cpp
 	"hdnesPackEditormainForm.h"
 	"hdnesPackEditornewProjectDialog.h"
 	"hdnesPackEditorcolourSelectDialog.h"
@@ -2148,7 +2148,7 @@
 	"gameObjNode.h"
 	"image.h"
 
-1516092257 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.h
+1517296217 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.h
 	"common.h"
 	"mainForm.h"
 	"colourDialogClient.h"
@@ -3881,13 +3881,14 @@
 	"tileReference.h"
 	"coreData.h"
 
-1516384002 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditorreplacementdialog.cpp
+1517307020 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditorreplacementdialog.cpp
 	"hdnesPackEditorreplacementDialog.h"
+	"hdnesPackEditormainForm.h"
 	"coreData.h"
 	"image.h"
 	"main.h"
 
-1516378557 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditorreplacementdialog.h
+1517306424 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditorreplacementdialog.h
 	"mainForm.h"
 	"gameTile.h"
 

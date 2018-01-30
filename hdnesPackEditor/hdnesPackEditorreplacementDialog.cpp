@@ -1,4 +1,5 @@
 #include "hdnesPackEditorreplacementDialog.h"
+#include "hdnesPackEditormainForm.h"
 #include "coreData.h"
 #include "image.h"
 #include "main.h"
@@ -20,12 +21,16 @@ void hdnesPackEditorreplacementDialog::imageSelected( wxCommandEvent& event ){
     showImage();
 }
 
-void hdnesPackEditorreplacementDialog::replacementConfirm( wxCommandEvent& event )
-{
-// TODO: Implement replacementConfirm
+void hdnesPackEditorreplacementDialog::replacementConfirm( wxCommandEvent& event ){
+    if(locationSelected){
+        float pixSize = coreData::cData->scale * hdImgScale;
+        main::mForm->setReplacement(cboImage->GetSelection(), (selectedX - imgOffsetX - clickOffset.x) / hdImgScale, (selectedY - imgOffsetY - clickOffset.y) / hdImgScale);
+    }
+    Show(false);
 }
 
 void hdnesPackEditorreplacementDialog::mouseClicked( wxMouseEvent& event ){
+    if(cboImage->GetSelection() == wxNOT_FOUND) return;
     locationSelected = !locationSelected;
 }
 
@@ -51,7 +56,7 @@ void hdnesPackEditorreplacementDialog::setSelectedTiles(vector<gameTile> tiles, 
 void hdnesPackEditorreplacementDialog::showImage(){
     if(cboImage->GetSelection() == wxNOT_FOUND) return;
 
-    float hdImgScale = min(((float)pnlImage->GetSize().x) / ((float)coreData::cData->images[cboImage->GetSelection()]->imageData.GetWidth()), ((float)pnlImage->GetSize().y) / ((float)coreData::cData->images[cboImage->GetSelection()]->imageData.GetHeight()));
+    hdImgScale = min(((float)pnlImage->GetSize().x) / ((float)coreData::cData->images[cboImage->GetSelection()]->imageData.GetWidth()), ((float)pnlImage->GetSize().y) / ((float)coreData::cData->images[cboImage->GetSelection()]->imageData.GetHeight()));
 
     wxImage scaledImg;
     scaledImg = coreData::cData->images[cboImage->GetSelection()]->imageData.Scale(coreData::cData->images[cboImage->GetSelection()]->imageData.GetWidth() * hdImgScale, coreData::cData->images[cboImage->GetSelection()]->imageData.GetHeight() * hdImgScale);
@@ -75,17 +80,20 @@ void hdnesPackEditorreplacementDialog::showImage(){
     if(chkSnapToGrid->IsChecked()){
         float rawOffsetX = (mouseX / pixSize) + selectedTiles[0].objCoordX - xOffSet;
         float rawOffsetY = (mouseY / pixSize) + selectedTiles[0].objCoordY - yOffSet;
+        float adjustX = fmod(rawOffsetX, 8) * pixSize;
+        float adjustY = fmod(rawOffsetY, 8) * pixSize;
+
         if(rawOffsetX >= 0){
             clickOffset.x = fmod(rawOffsetX, 8) * pixSize;
         }
         else{
-            clickOffset.x = (8 + fmod(rawOffsetX, 8)) * pixSize;
+            clickOffset.x = floor(fmod(rawOffsetX, 8) * pixSize);
         }
         if(rawOffsetY >= 0){
             clickOffset.y = fmod(rawOffsetY, 8) * pixSize;
         }
         else{
-            clickOffset.y = (8 + fmod(rawOffsetY, 8)) * pixSize;
+            clickOffset.y = floor(fmod(rawOffsetY, 8) * pixSize);
         }
     }
     else{

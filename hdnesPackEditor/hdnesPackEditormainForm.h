@@ -216,6 +216,7 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         void drawGameObjPasteTiles();
         void drawGameObjSelection();
         void showGameObj(wxImage& displayImg, wxImage& displayImg2, int x, int y);
+        void setReplacement(int imageID, int x, int y);
         //--end game objs session
 
         //--image session

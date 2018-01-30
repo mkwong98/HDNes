@@ -1034,6 +1034,23 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
     }
 }
 
+void hdnesPackEditormainForm::setReplacement(int imageID, int x, int y){
+    gameObjNode* ndata;
+    ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
+    gameTile t;
+    for(int k = 0; k < gameObjSelectedTiles.size(); ++k){
+        t = ndata->tiles[gameObjSelectedTiles[k]];
+        t.hasReplacement = true;
+        t.isDefault = false;
+        t.img = imageID;
+        t.x = x + ((t.objCoordX - rightClickedGameObjTileX) * coreData::cData->scale);
+        t.y = y + ((t.objCoordY - rightClickedGameObjTileY) * coreData::cData->scale);
+        t.brightness = 100;
+        ndata->tiles[gameObjSelectedTiles[k]] = t;
+    }
+    refreshGameObj();
+}
+
 bool hdnesPackEditormainForm::checkPasteValid(string content){
     vector<string> tileLines;
     main::split(content, '\n', tileLines);
@@ -1132,7 +1149,8 @@ void hdnesPackEditormainForm::drawGameObj(){
         gameObjRawImage.Paste(gameObjBaseTile, drawX, drawY);
 
         if(ndata->tiles[i].hasReplacement){
-
+            gameObjBaseTileNew = coreData::cData->images[ndata->tiles[i].img]->imageData.GetSubImage(wxRect(ndata->tiles[i].x, ndata->tiles[i].y, replaceSize, replaceSize));
+            gameObjNewImage.Paste(gameObjBaseTileNew, drawX * coreData::cData->scale, drawY * coreData::cData->scale);
         }
         else{
             //look for replacement tiles
