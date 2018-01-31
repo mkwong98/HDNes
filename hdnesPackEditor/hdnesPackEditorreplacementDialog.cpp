@@ -23,8 +23,7 @@ void hdnesPackEditorreplacementDialog::imageSelected( wxCommandEvent& event ){
 
 void hdnesPackEditorreplacementDialog::replacementConfirm( wxCommandEvent& event ){
     if(locationSelected){
-        float pixSize = coreData::cData->scale * hdImgScale;
-        main::mForm->setReplacement(cboImage->GetSelection(), (selectedX - imgOffsetX - clickOffset.x) / hdImgScale, (selectedY - imgOffsetY - clickOffset.y) / hdImgScale);
+        main::mForm->setReplacement(cboImage->GetSelection(), scaledX, scaledX);
     }
     Show(false);
 }
@@ -56,15 +55,14 @@ void hdnesPackEditorreplacementDialog::setSelectedTiles(vector<gameTile> tiles, 
 void hdnesPackEditorreplacementDialog::showImage(){
     if(cboImage->GetSelection() == wxNOT_FOUND) return;
 
-    hdImgScale = min(((float)pnlImage->GetSize().x) / ((float)coreData::cData->images[cboImage->GetSelection()]->imageData.GetWidth()), ((float)pnlImage->GetSize().y) / ((float)coreData::cData->images[cboImage->GetSelection()]->imageData.GetHeight()));
-
+    //calculate image location
+    float hdImgScale = min(((float)pnlImage->GetSize().x) / ((float)coreData::cData->images[cboImage->GetSelection()]->imageData.GetWidth()), ((float)pnlImage->GetSize().y) / ((float)coreData::cData->images[cboImage->GetSelection()]->imageData.GetHeight()));
     wxImage scaledImg;
     scaledImg = coreData::cData->images[cboImage->GetSelection()]->imageData.Scale(coreData::cData->images[cboImage->GetSelection()]->imageData.GetWidth() * hdImgScale, coreData::cData->images[cboImage->GetSelection()]->imageData.GetHeight() * hdImgScale);
     imgOffsetX = (pnlImage->GetSize().x - scaledImg.GetWidth()) / 2;
     imgOffsetY = (pnlImage->GetSize().y - scaledImg.GetHeight()) / 2;
-    int mouseX = selectedX - imgOffsetX;
-    int mouseY = selectedY - imgOffsetY;
 
+    //show the image
     wxImage displayImg;
     displayImg = wxImage(pnlImage->GetSize(), true);
     displayImg.SetRGB(displayImg.GetSize(), 128, 0, 128);
@@ -72,37 +70,22 @@ void hdnesPackEditorreplacementDialog::showImage(){
 
     wxPoint pt;
     wxPoint pt2;
+    int scaledTileSize = 8 * coreData::cData->scale;
     wxPoint tileBoxSize;
-    float pixSize = coreData::cData->scale * hdImgScale;
-    tileBoxSize.x = (8 * pixSize) - 1;
+    tileBoxSize.x = (scaledTileSize * hdImgScale) - 1;
     tileBoxSize.y = tileBoxSize.x;
 
-    if(chkSnapToGrid->IsChecked()){
-        float rawOffsetX = (mouseX / pixSize) + selectedTiles[0].objCoordX - xOffSet;
-        float rawOffsetY = (mouseY / pixSize) + selectedTiles[0].objCoordY - yOffSet;
-        float adjustX = fmod(rawOffsetX, 8) * pixSize;
-        float adjustY = fmod(rawOffsetY, 8) * pixSize;
 
-        if(rawOffsetX >= 0){
-            clickOffset.x = fmod(rawOffsetX, 8) * pixSize;
-        }
-        else{
-            clickOffset.x = floor(fmod(rawOffsetX, 8) * pixSize);
-        }
-        if(rawOffsetY >= 0){
-            clickOffset.y = fmod(rawOffsetY, 8) * pixSize;
-        }
-        else{
-            clickOffset.y = floor(fmod(rawOffsetY, 8) * pixSize);
-        }
+    scaledX = (selectedX - imgOffsetX) / hdImgScale;
+    scaledY = (selectedY - imgOffsetY) / hdImgScale;
+    if(chkSnapToGrid->IsChecked()){
+        scaledX -= fmod(scaledX, scaledTileSize);
+        scaledY -= fmod(scaledY, scaledTileSize);
     }
-    else{
-        clickOffset.x = 0;
-        clickOffset.y = 0;
-    }
+
     for(int i = 0; i < selectedTiles.size(); ++i){
-        pt.x = ((selectedTiles[i].objCoordX - xOffSet) * pixSize) + selectedX - clickOffset.x;
-        pt.y = ((selectedTiles[i].objCoordY - yOffSet) * pixSize) + selectedY - clickOffset.y;
+        pt.x = (((selectedTiles[i].objCoordX - xOffSet) * coreData::cData->scale) + scaledX) * hdImgScale + imgOffsetX;
+        pt.y = (((selectedTiles[i].objCoordY - yOffSet) * coreData::cData->scale) + scaledY) * hdImgScale + imgOffsetY;
 
         pt2 = pt;
         ++(pt2.x);
