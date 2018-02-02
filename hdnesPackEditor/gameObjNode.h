@@ -41,6 +41,8 @@ class gameObjNode : public wxTreeItemData
         void addTile(gameTile g);
         void addToObjectSize(int gIdx);
         void clearAllTiles();
+        void load(fstream& file, wxTreeItemId newItm);
+        void save(fstream& file, wxTreeItemId newItm);
     protected:
 
     private:

@@ -28,6 +28,8 @@ class hdnesPackEditorreplacementDialog : public replacementDialog
         vector<gameTile> selectedTiles;
         int xOffSet;
         int yOffSet;
+        int tileX;
+        int tileY;
         bool locationSelected;
         int selectedX;
         int selectedY;
@@ -36,7 +38,7 @@ class hdnesPackEditorreplacementDialog : public replacementDialog
         int scaledX;
         int scaledY;
 
-        void setSelectedTiles(vector<gameTile> tiles, int pXOffSet, int pYOffSet);
+        void setSelectedTiles(vector<gameTile> tiles, int pTileX, int pTileY, int pXOffSet, int pYOffSet);
         void showImage();
 };
 

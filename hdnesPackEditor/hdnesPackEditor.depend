@@ -2135,7 +2135,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1517303145 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.cpp
+1517566596 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.cpp
 	"hdnesPackEditormainForm.h"
 	"hdnesPackEditornewProjectDialog.h"
 	"hdnesPackEditorcolourSelectDialog.h"
@@ -2148,7 +2148,7 @@
 	"gameObjNode.h"
 	"image.h"
 
-1517296217 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.h
+1517566027 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.h
 	"common.h"
 	"mainForm.h"
 	"colourDialogClient.h"
@@ -3473,7 +3473,7 @@
 	"classList.h"
 	"tileReference.h"
 
-1515153164 source:c:\work\hdnesr\trunk\hdnespackeditor\coredata.cpp
+1517565334 source:c:\work\hdnesr\trunk\hdnespackeditor\coredata.cpp
 	"common.h"
 	"coreData.h"
 	"image.h"
@@ -3807,11 +3807,13 @@
 	"wx/window.h"
 	"wx/containr.h"
 
-1515722701 source:c:\work\hdnesr\trunk\hdnespackeditor\gameobjnode.cpp
+1517567026 source:c:\work\hdnesr\trunk\hdnespackeditor\gameobjnode.cpp
 	"gameObjNode.h"
 	"gameTile.h"
+	"main.h"
+	"hdnesPackEditormainForm.h"
 
-1515722701 c:\work\hdnesr\trunk\hdnespackeditor\gameobjnode.h
+1517562677 c:\work\hdnesr\trunk\hdnespackeditor\gameobjnode.h
 	"common.h"
 	"gameTile.h"
 	<wx/treebase.h>
@@ -3881,14 +3883,14 @@
 	"tileReference.h"
 	"coreData.h"
 
-1517307020 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditorreplacementdialog.cpp
+1517543293 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditorreplacementdialog.cpp
 	"hdnesPackEditorreplacementDialog.h"
 	"hdnesPackEditormainForm.h"
 	"coreData.h"
 	"image.h"
 	"main.h"
 
-1517419558 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditorreplacementdialog.h
+1517542252 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditorreplacementdialog.h
 	"mainForm.h"
 	"gameTile.h"
 

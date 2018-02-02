@@ -193,8 +193,10 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         void configGameObjs(string lineHdr, string lineTail);
         void saveCfgGameObjs(fstream& inifile);
         void loadGameObjs(fstream& file);
-        void loadGameObjItem(fstream& file, wxTreeItemId item);
+        void loadChildGameObjs(fstream& file, wxTreeItemId item);
+        void loadGameObjItem(fstream& file, wxTreeItemId item, bool isRoot);
         void saveGameObjs(fstream& file);
+        void saveChildGameObjs(fstream& file, wxTreeItemId item);
         void saveGameObjItem(fstream& file, wxTreeItemId item);
         void gameObjsROMChanged();
         void gameObjsTreeMenu( wxCommandEvent& event );

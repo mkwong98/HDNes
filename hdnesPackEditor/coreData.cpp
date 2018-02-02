@@ -169,7 +169,7 @@ void coreData::load(string path){
                     palette[atoi(lineTokens[0].c_str())].SetRGBA(atoi(lineTokens[1].c_str()));
 
                 }
-                else if(lineHdr == "<gameObjects>"){
+                else if(lineHdr == "<gameObject>"){
                     main::mForm->loadGameObjs(fs);
                 }
             }

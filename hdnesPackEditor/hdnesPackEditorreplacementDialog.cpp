@@ -23,7 +23,7 @@ void hdnesPackEditorreplacementDialog::imageSelected( wxCommandEvent& event ){
 
 void hdnesPackEditorreplacementDialog::replacementConfirm( wxCommandEvent& event ){
     if(locationSelected){
-        main::mForm->setReplacement(cboImage->GetSelection(), scaledX, scaledX);
+        main::mForm->setReplacement(cboImage->GetSelection(), scaledX, scaledY);
     }
     Show(false);
 }
@@ -45,9 +45,10 @@ void hdnesPackEditorreplacementDialog::sizeChanged( wxSizeEvent& event ){
     showImage();
 }
 
-
-void hdnesPackEditorreplacementDialog::setSelectedTiles(vector<gameTile> tiles, int pXOffSet, int pYOffSet){
+void hdnesPackEditorreplacementDialog::setSelectedTiles(vector<gameTile> tiles, int pTileX, int pTileY, int pXOffSet, int pYOffSet){
     selectedTiles = tiles;
+    tileX = pTileX;
+    tileY = pTileY;
     xOffSet = pXOffSet;
     yOffSet = pYOffSet;
 }
@@ -76,16 +77,16 @@ void hdnesPackEditorreplacementDialog::showImage(){
     tileBoxSize.y = tileBoxSize.x;
 
 
-    scaledX = (selectedX - imgOffsetX) / hdImgScale;
-    scaledY = (selectedY - imgOffsetY) / hdImgScale;
+    scaledX = ((selectedX - imgOffsetX) / hdImgScale) - xOffSet;
+    scaledY = (selectedY - imgOffsetY) / hdImgScale - yOffSet;
     if(chkSnapToGrid->IsChecked()){
         scaledX -= fmod(scaledX, scaledTileSize);
         scaledY -= fmod(scaledY, scaledTileSize);
     }
 
     for(int i = 0; i < selectedTiles.size(); ++i){
-        pt.x = (((selectedTiles[i].objCoordX - xOffSet) * coreData::cData->scale) + scaledX) * hdImgScale + imgOffsetX;
-        pt.y = (((selectedTiles[i].objCoordY - yOffSet) * coreData::cData->scale) + scaledY) * hdImgScale + imgOffsetY;
+        pt.x = (((selectedTiles[i].objCoordX - tileX) * coreData::cData->scale) + scaledX) * hdImgScale + imgOffsetX;
+        pt.y = (((selectedTiles[i].objCoordY - tileY) * coreData::cData->scale) + scaledY) * hdImgScale + imgOffsetY;
 
         pt2 = pt;
         ++(pt2.x);
