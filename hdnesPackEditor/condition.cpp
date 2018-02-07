@@ -23,3 +23,10 @@ bool condition::compareEqual(condition c){
     if(checkLayer && (layer != c.layer)) return false;
     return true;
 }
+
+void condition::load(fstream& file){
+}
+
+void condition::save(fstream& file){
+}
+

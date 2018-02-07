@@ -172,6 +172,7 @@ void hdnesPackEditormainForm::colourSelected(Uint8 selectedColour){
         gameObjNode* data = (gameObjNode*)(treeGameObjs->GetItemData(tID));
         data->bgColour = selectedColour;
         refreshGameObj();
+        coreData::cData->dataChanged();
         break;
     }
 }
@@ -233,7 +234,6 @@ void hdnesPackEditormainForm::dataChanged(){
 void hdnesPackEditormainForm::dataSaved(){
     lastDir = coreData::cData->projectPath;
     m_menu3->FindItem(m_menu3->FindItem(wxString("Save Project")))->Enable(false);
-    notSaved = false;
 }
 
 void hdnesPackEditormainForm::initROMView(){
@@ -715,7 +715,7 @@ void hdnesPackEditormainForm::gameObjTItemChangeName( wxTreeEvent& event ){
         }
         break;
     }
-    notSaved = true;
+    coreData::cData->dataChanged();
 }
 
 void hdnesPackEditormainForm::gameObjTItemOpenMenu( wxTreeEvent& event ){
@@ -763,7 +763,7 @@ void hdnesPackEditormainForm::gameObjsTreeMenu( wxCommandEvent& event ){
         newItm = treeGameObjs->AppendItem(tItmGameObjMenu, wxString("Folder\\"), -1, -1, node);
         treeGameObjs->Expand(tItmGameObjMenu);
         treeGameObjs->EditLabel(newItm);
-        notSaved = true;
+        coreData::cData->dataChanged();
         break;
     case GAME_OBJ_NODE_MENU_ADD_OBJECT:
         node = new gameObjNode();
@@ -776,34 +776,34 @@ void hdnesPackEditormainForm::gameObjsTreeMenu( wxCommandEvent& event ){
         tItmGameObjMenu = newItm;
         gameObjSelectedTiles.clear();
         refreshGameObj();
-        notSaved = true;
+        coreData::cData->dataChanged();
         break;
     case GAME_OBJ_NODE_MENU_DEL:
         treeGameObjs->Delete(tItmGameObjMenu);
-        notSaved = true;
+        coreData::cData->dataChanged();
         break;
     case GAME_OBJ_NODE_MENU_MOVE_UP:
         gameObjectTreeWillMove = false;
         gameObjsMoveTreeItem(tItmGameObjMenu, treeGameObjs->GetItemParent(tItmGameObjMenu), treeGameObjs->GetPrevSibling(treeGameObjs->GetPrevSibling(tItmGameObjMenu)));
-        notSaved = true;
+        coreData::cData->dataChanged();
         break;
     case GAME_OBJ_NODE_MENU_MOVE_DOWN:
         gameObjectTreeWillMove = false;
         gameObjsMoveTreeItem(tItmGameObjMenu, treeGameObjs->GetItemParent(tItmGameObjMenu), treeGameObjs->GetNextSibling(tItmGameObjMenu));
-        notSaved = true;
+        coreData::cData->dataChanged();
         break;
     case GAME_OBJ_NODE_MENU_MOVE_TO_FOLDER:
         gameObjectTreeWillMove = true;
         gameObjsCancelWillMove(tItmGameObjRoot);
         gameObjsSetWillMove(tItmGameObjMenu);
         tItmGameObjMove = tItmGameObjMenu;
-        notSaved = true;
+        coreData::cData->dataChanged();
         break;
     case GAME_OBJ_NODE_MENU_MOVE_HERE:
         gameObjectTreeWillMove = false;
         gameObjsMoveTreeItem(tItmGameObjMove, tItmGameObjMenu, treeGameObjs->GetLastChild(tItmGameObjMenu));
         gameObjsCancelWillMove(tItmGameObjRoot);
-        notSaved = true;
+        coreData::cData->dataChanged();
         break;
     }
 }
@@ -948,6 +948,7 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
         }
         gameObjPasteData.clearAllTiles();
         refreshGameObj();
+        coreData::cData->dataChanged();
         break;
     case GAME_OBJ_PNL_CANCEL_PASTE:
         gameObjPasteData.clearAllTiles();
@@ -1002,6 +1003,7 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
         }
         gameObjSelectedTiles.clear();
         refreshGameObj();
+        coreData::cData->dataChanged();
         break;
     case GAME_OBJ_PNL_HFLIP:
         ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
@@ -1010,6 +1012,7 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
             ndata->tiles[gameObjSelectedTiles[k]].hFlip = !ndata->tiles[gameObjSelectedTiles[k]].hFlip;
         }
         refreshGameObj();
+        coreData::cData->dataChanged();
         break;
     case GAME_OBJ_PNL_VFLIP:
         ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
@@ -1018,6 +1021,7 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
             ndata->tiles[gameObjSelectedTiles[k]].vFlip = !ndata->tiles[gameObjSelectedTiles[k]].vFlip;
         }
         refreshGameObj();
+        coreData::cData->dataChanged();
         break;
     case GAME_OBJ_PNL_REPLACE:
         vector<gameTile> selectedTiles;
@@ -1052,6 +1056,7 @@ void hdnesPackEditormainForm::setReplacement(int imageID, int x, int y){
         ndata->tiles[gameObjSelectedTiles[k]] = t;
     }
     refreshGameObj();
+    coreData::cData->dataChanged();
 }
 
 bool hdnesPackEditormainForm::checkPasteValid(string content){
@@ -1366,6 +1371,7 @@ void hdnesPackEditormainForm::gameObjSpriteClicked( wxCommandEvent& event ){
     if(!ndata) return;
 
     ndata->isSprite = rbnObjectSprite->GetValue();
+    coreData::cData->dataChanged();
 }
 
 void hdnesPackEditormainForm::gameObjBGClicked( wxCommandEvent& event ){
@@ -1373,6 +1379,7 @@ void hdnesPackEditormainForm::gameObjBGClicked( wxCommandEvent& event ){
     if(!ndata) return;
 
     ndata->isSprite = !rbnObjectBG->GetValue();
+    coreData::cData->dataChanged();
 }
 
 void hdnesPackEditormainForm::gameObjBGColour( wxCommandEvent& event ){
@@ -1877,7 +1884,7 @@ void hdnesPackEditormainForm::HDImgAdd( wxCommandEvent& event ){
         else{
             coreData::cData->images[existIndex]->reloadImg();
         }
-
+        coreData::cData->dataChanged();
     }
 
 
@@ -1886,6 +1893,7 @@ void hdnesPackEditormainForm::HDImgAdd( wxCommandEvent& event ){
 void hdnesPackEditormainForm::HDImgRemove( wxCommandEvent& event ){
     if(selectedHDImg > -1 && coreData::cData){
         coreData::cData->removeImage(selectedHDImg);
+        coreData::cData->dataChanged();
         listOutHDImgImages();
         lstHDImgTiles->DeleteAllItems();
         selectedHDImg = -1;

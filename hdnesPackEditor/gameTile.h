@@ -30,7 +30,8 @@ class gameTile
 
         void readLine(string s);
         bool compareEqual(gameTile t);
-
+        void load(fstream& file);
+        void save(fstream& file);
     protected:
 
     private:

@@ -50,6 +50,7 @@ void gameObjNode::load(fstream& file, wxTreeItemId newItm){
     string line;
     string lineHdr;
     string lineTail;
+    gameTile g;
 
     getline(file, line);
     while(line != "<endGameObject>"){
@@ -57,14 +58,29 @@ void gameObjNode::load(fstream& file, wxTreeItemId newItm){
         if(found!=string::npos){
             lineHdr = line.substr(0, found + 1);
             lineTail = line.substr(found + 1);
+
             if(lineHdr == "<type>"){
                 nodeType = atoi(lineTail.c_str());
             }
-            if(lineHdr == "<name>"){
+            else if(lineHdr == "<name>"){
                 nodeName = lineTail;
             }
-            if(lineHdr == "<childObjects>"){
+            else if(lineHdr == "<bgColour>"){
+                bgColour = strtol(lineTail.c_str(), NULL, 16);
+            }
+            else if(lineHdr == "<isSprite>"){
+                isSprite = (lineTail == "Y");
+            }
+            else if(lineHdr == "<childObjects>"){
                 main::mForm->loadChildGameObjs(file, newItm);
+            }
+            else if(lineHdr == "<tiles>"){
+                getline(file, line);
+                while(line != "<endTiles>"){
+                    g.load(file);
+                    addTile(g);
+                    getline(file, line);
+                }
             }
         }
         getline(file, line);
@@ -73,16 +89,20 @@ void gameObjNode::load(fstream& file, wxTreeItemId newItm){
 
 void gameObjNode::save(fstream& file, wxTreeItemId newItm){
     file << "<gameObject>\n";
-    file << "<type>" + main::intToStr(nodeType) + "\n";
+    file << "<type>" << (int)nodeType << "\n";
 
     if(nodeType != GAME_OBJ_NODE_TYPE_ROOT){
-        file << "<name>" + nodeName + "\n";
+        file << "<name>" << nodeName << "\n";
     }
     if(nodeType == GAME_OBJ_NODE_TYPE_OBJECT){
-        /*
+        file << "<bgColour>" << main::intToHex(bgColour) << "\n";
+        file << "<isSprite>" << (isSprite ? "Y" : "N") << "\n";
+
         file << "<tiles>\n";
+        for(int i = 0; i < tiles.size(); ++i){
+            tiles[i].save(file);
+        }
         file << "<endTiles>\n";
-        */
     }
     else{
         file << "<childObjects>\n";

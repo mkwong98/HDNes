@@ -104,8 +104,7 @@ void hdnesPackEditorcolourSelectDialog::colourRClick( wxMouseEvent& event ){
             if(event.GetEventObject() == colourPanels[i]){
                 colourPanels[i]->SetBackgroundColour(col);
                 coreData::cData->palette[i] = col;
-                coreData::cData->notSaved = true;
-                main::mForm->dataChanged();
+                coreData::cData->dataChanged();
                 colourPanels[i]->Refresh();
             }
         }

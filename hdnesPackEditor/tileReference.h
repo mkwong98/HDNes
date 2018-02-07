@@ -14,6 +14,9 @@ class tileReference
         Uint8 palette[4];
 
         bool compareEqual(tileReference t);
+        void load(fstream& file);
+        void save(fstream& file);
+
     protected:
 
     private:

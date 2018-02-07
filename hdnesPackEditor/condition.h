@@ -27,6 +27,8 @@ class condition
         int layer;
 
         bool compareEqual(condition c);
+        void load(fstream& file);
+        void save(fstream& file);
 
     protected:
 

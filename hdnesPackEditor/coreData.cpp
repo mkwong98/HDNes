@@ -162,6 +162,7 @@ void coreData::load(string path){
                 else if(lineHdr == "<packPath>"){
                     packPath = lineTail;
                     loadPackData();
+                    images.clear();
                 }
                 else if(lineHdr == "<palette>"){
                     vector<string> lineTokens;
@@ -171,6 +172,9 @@ void coreData::load(string path){
                 }
                 else if(lineHdr == "<gameObject>"){
                     main::mForm->loadGameObjs(fs);
+                }
+                else if(lineHdr == "<img>"){
+                    addImage(lineTail);
                 }
             }
         }
@@ -204,12 +208,13 @@ void coreData::save(){
         convert.clear();
         convert << palette[i].GetRGBA();
         s = convert.str();
-        inifile << "," + s;
-
-        inifile << "\n";
+        inifile << "," + s << "\n";
     }
 
     main::mForm->saveGameObjs(inifile);
+    for(int i = 0; i < images.size(); ++i){
+        inifile << "<img>" << images[i]->fileName << "\n";
+    }
 
     inifile.close();
     main::mForm->dataSaved();
