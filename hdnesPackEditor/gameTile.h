@@ -29,7 +29,8 @@ class gameTile
         double brightness;
 
         void readLine(string s);
-        bool compareEqual(gameTile t);
+        string writeLine();
+        bool compareEqual(gameTile& t);
         void load(fstream& file);
         void save(fstream& file);
     protected:

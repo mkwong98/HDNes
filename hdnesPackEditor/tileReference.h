@@ -13,9 +13,14 @@ class tileReference
         Uint8 rawData[16];
         Uint8 palette[4];
 
-        bool compareEqual(tileReference t);
+        bool compareEqual(tileReference& t);
         void load(fstream& file);
         void save(fstream& file);
+
+        void readID(string s);
+        string writeID();
+        void readPalette(string s);
+        string writePalette();
 
     protected:
 

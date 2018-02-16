@@ -7,14 +7,17 @@
 #define COLOUR_CLIENT_ROM_VIEW_3    3
 #define COLOUR_CLIENT_GAME_OBJ_BG   4
 
-#define GAME_OBJ_PNL_PASTE          0
-#define GAME_OBJ_PNL_COPY           1
-#define GAME_OBJ_PNL_CONFIRM_PASTE  2
-#define GAME_OBJ_PNL_CANCEL_PASTE   3
-#define GAME_OBJ_PNL_DELETE         4
-#define GAME_OBJ_PNL_HFLIP          5
-#define GAME_OBJ_PNL_VFLIP          6
-#define GAME_OBJ_PNL_REPLACE        7
+#define GAME_OBJ_PNL_PASTE              0
+#define GAME_OBJ_PNL_COPY               1
+#define GAME_OBJ_PNL_CONFIRM_PASTE      2
+#define GAME_OBJ_PNL_CANCEL_PASTE       3
+#define GAME_OBJ_PNL_DELETE             4
+#define GAME_OBJ_PNL_HFLIP              5
+#define GAME_OBJ_PNL_VFLIP              6
+#define GAME_OBJ_PNL_REPLACE            7
+#define GAME_OBJ_PNL_CONDITION          8
+#define GAME_OBJ_PNL_CONFIRM_CONDITION  9
+#define GAME_OBJ_PNL_CANCEL_CONDITION   10
 
 
 /**
@@ -182,9 +185,13 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         wxPoint gameObjLDownPos;
         wxPoint gameObjLCurrPos;
         bool gameObjClicked;
+        bool editCondition;
         Uint32 rightClickedgameObjID;
         int rightClickedGameObjTileX;
         int rightClickedGameObjTileY;
+        Uint32 conditionGameObjID;
+        int conditionGameObjTileX;
+        int conditionGameObjTileY;
         wxImage gameObjImageWithSelection;
         wxImage gameObjBaseTile;
         wxImage gameObjBaseTileNew;

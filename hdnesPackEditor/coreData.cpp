@@ -28,6 +28,10 @@ coreData::~coreData()
         delete(tiles.back());
         tiles.pop_back();
     }
+    while(conditions.size() > 0){
+        delete(conditions.back());
+        conditions.pop_back();
+    }
 }
 
 void coreData::initPath(string rPath, string pPath){
@@ -49,31 +53,87 @@ void coreData::loadPackData(){
     string line;
     string lineHdr;
     string lineTail;
+    string orgLine;
+    bool editorSection = false;
+    vector<string> conNames;
+    string conNameStr;
+
     fs.open(hiresPath, fstream::in);
     if(fs.is_open()){
         while(getline(fs, line)){
-            size_t found = line.find_first_of(">");
-            if(found!=string::npos){
-                lineHdr = line.substr(0, found + 1);
-                lineTail = line.substr(found + 1);
-                if(lineHdr == "<scale>"){
-                    scale = atoi(lineTail.c_str());
+            if(!editorSection){
+                orgLine = line;
+                conNames.clear();
+                if(line.substr(0, 1) == "["){
+                    //is condition
+                    size_t conTagPos = line.find_first_of("]");
+                    if(conTagPos!=string::npos){
+                        conNameStr = line.substr(1, conTagPos - 1);
+                        main::split(conNameStr, '&', conNames);
+                        line = line.substr(conTagPos + 1);
+                    }
                 }
-                else if(lineHdr == "<img>" ){
-                    addImage(lineTail);
+                size_t found = line.find_first_of(">");
+                if(found!=string::npos){
+                    lineHdr = line.substr(0, found + 1);
+                    lineTail = line.substr(found + 1);
+                    if(lineHdr == "<ver>"){
+                        ver.push_back(line);
+                    }
+                    else if(lineHdr == "<scale>"){
+                        scale = atoi(lineTail.c_str());
+                    }
+                    else if(lineHdr == "<supportedRom>"){
+                        supportedRom.push_back(line);
+                    }
+                    else if(lineHdr == "<overscan>"){
+                        overscan.push_back(line);
+                    }
+                    else if(lineHdr == "<patch>"){
+                        patch.push_back(line);
+                    }
+                    else if(lineHdr == "<img>" ){
+                        addImage(lineTail);
+                    }
+                    else if(lineHdr == "<condition>"){
+                        condition* c = new condition();
+                        c->readLine(lineTail);
+                        conditions.push_back(c);
+                    }
+                    else if(lineHdr == "<tile>" ){
+                        gameTile* t = new gameTile();
+                        t->readLine(lineTail);
+                        if(conNames.size() > 0){
+                            //add conditions
+                            for(int i = 0; i < conditions.size(); ++i){
+                                for(int j = 0; j < conNames.size(); ++j){
+                                    if(conditions[i]->name == conNames[j]){
+                                        t->conditions.push_back(*conditions[i]);
+                                    }
+                                }
+                            }
+                        }
+                        tiles.push_back(t);
+                    }
+                    else if(lineHdr == "<background>"){
+                        background.push_back(orgLine);
+                    }
+                    else if(lineHdr == "<options>"){
+                        options.push_back(line);
+                    }
+                    else if(lineHdr == "<bgm>"){
+                        bgm.push_back(line);
+                    }
+                    else if(lineHdr == "<sfx>"){
+                        sfx.push_back(line);
+                    }
                 }
-                else if(lineHdr == "condition"){
-
+                else if(line == "#editorSection"){
+                    editorSection = true;
                 }
-                else if(lineHdr == "<tile>" ){
-                    gameTile* t = new gameTile();
-                    t->readLine(lineTail);
-                    tiles.push_back(t);
-                }
-                else{
-                    //put all other lines away at the moment
-                    otherLines.push_back(line);
-                }
+            }
+            else if(line == "#endEditorSection"){
+                editorSection = false;
             }
         }
         fs.close();
@@ -164,6 +224,9 @@ void coreData::load(string path){
                     loadPackData();
                     images.clear();
                 }
+                else if(lineHdr == "<saveNo>"){
+                    saveNo = atoi(lineTail.c_str());
+                }
                 else if(lineHdr == "<palette>"){
                     vector<string> lineTokens;
                     main::split(lineTail, ',', lineTokens);
@@ -195,6 +258,7 @@ void coreData::save(){
 	inifile.open(projectPath, ios::out);
 	inifile << "<romPath>" + romPath + "\n";
 	inifile << "<packPath>" + packPath + "\n";
+	inifile << "<saveNo>" << saveNo << "\n";
 
     for(int i = 0; i < 64; ++i){
         inifile << "<palette>";
@@ -257,6 +321,7 @@ void coreData::removeImage(int index){
     while(i < tiles.size()){
         if(tiles[i]->hasReplacement){
             if(tiles[i]->img == index){
+                delete(tiles[i]);
                 tiles.erase(tiles.begin() + i);
                 --i;
             }
@@ -266,5 +331,73 @@ void coreData::removeImage(int index){
         }
         ++i;
     }
+    delete(images[index]);
     images.erase(images.begin() + index);
+}
+
+void coreData::genPackData(){
+    string hiresPath;
+    hiresPath = packPath + string("\\hires.txt");
+
+    //back up old file
+    string backPath;
+    backPath = packPath + string("\\hiresBak") + main::intToStr(saveNo) + string(".txt");
+    std::ifstream  src(hiresPath, std::ios::binary);
+    std::ofstream  dst(backPath, std::ios::binary);
+    dst << src.rdbuf();
+    src.close();
+    dst.close();
+
+    //save project first
+    ++saveNo;
+    save();
+
+	fstream inifile;
+    string s;
+
+	inifile.open(projectPath, ios::out);
+	genSection(inifile, ver);
+	inifile << "<scale>" << scale << "\n";
+	genSection(inifile, supportedRom);
+	genSection(inifile, overscan);
+	genSection(inifile, patch);
+
+	for(int i = 0; i < images.size(); ++i){
+        inifile << "<img>" << images[i]->fileName << "\n";
+	}
+
+	inifile << "#editorSection\n";
+	inifile << "#endEditorSection\n";
+
+	genSection(inifile, background);
+	genSection(inifile, options);
+	genSection(inifile, bgm);
+	genSection(inifile, sfx);
+
+
+}
+
+void coreData::genSection(fstream& inifile, vector<string>& sect){
+    for(int i = 0; i < sect.size(); ++i){
+        inifile << sect[i] << "\n";
+    }
+}
+
+void coreData::genPalette(){
+    string palettePath;
+    palettePath = packPath + string("\\palette.dat");
+
+    fstream palettefile;
+    char rawPalette[192];
+    for(int i = 0; i < 64; i++){
+        rawPalette[i * 3] = palette[i].Red();
+        rawPalette[i * 3 + 1] = palette[i].Green();
+        rawPalette[i * 3 + 2] = palette[i].Blue();
+    }
+
+    palettefile.open(palettePath, ios::out | ios::binary);
+    if (palettefile.is_open()){
+        palettefile.write(rawPalette, 192);
+        palettefile.close();
+    }
 }

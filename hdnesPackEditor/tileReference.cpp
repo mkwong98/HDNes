@@ -12,7 +12,7 @@ tileReference::~tileReference()
     //dtor
 }
 
-bool tileReference::compareEqual(tileReference t){
+bool tileReference::compareEqual(tileReference& t){
     for(int i = 0; i < 4; ++i){
         if(palette[i] != t.palette[i]) return false;
     }
@@ -25,6 +25,40 @@ bool tileReference::compareEqual(tileReference t){
         }
     }
     return true;
+}
+
+void tileReference::readID(string s){
+    if(coreData::cData->isCHRROM){
+        id = atoi(s.c_str());
+    }
+    else{
+        main::hexToByteArray(s, (Uint8*)(rawData));
+    }
+}
+
+string tileReference::writeID(){
+    if(coreData::cData->isCHRROM){
+        return main::intToStr(id);
+    }
+    else{
+        stringstream stream;
+        for(int i = 0; i < 16; ++i){
+            stream << main::intToHex(rawData[i]);
+        }
+        return stream.str();
+    }
+}
+
+void tileReference::readPalette(string s){
+    main::hexToByteArray(s, (Uint8*)(palette));
+}
+
+string tileReference::writePalette(){
+    stringstream stream;
+    for(int i = 0; i < 4; ++i){
+        stream << main::intToHex(palette[i]);
+    }
+    return stream.str();
 }
 
 void tileReference::load(fstream& file){
@@ -40,13 +74,10 @@ void tileReference::load(fstream& file){
             lineTail = line.substr(found + 1);
 
             if(lineHdr == "<id>"){
-                id = atoi(lineTail.c_str());
-            }
-            else if(lineHdr == "<rawData>"){
-                main::hexToByteArray(lineTail, (Uint8*)rawData);
+                readID(lineTail);
             }
             else if(lineHdr == "<palette>"){
-                main::hexToByteArray(lineTail, (Uint8*)palette);
+                readPalette(lineTail);
             }
         }
         getline(file, line);
@@ -55,20 +86,8 @@ void tileReference::load(fstream& file){
 
 void tileReference::save(fstream& file){
     file << "<tileReference>\n";
-    if(coreData::cData->isCHRROM){
-        file << "<id>" << id << "\n";
-    }
-    else{
-        file << "<rawData>";
-        for(int i = 0; i < 16; ++i){
-            file << main::intToHex(rawData[i]);
-        }
-        file << "\n";
-    }
-    file << "<palette>";
-    for(int i = 0; i < 4; ++i){
-        file << main::intToHex(palette[i]);
-    }
-    file << "\n";
+    file << "<id>" << writeID() << "\n";
+    file << "<palette>" << writePalette() << "\n";
     file << "<endTileReference>\n";
 }
+

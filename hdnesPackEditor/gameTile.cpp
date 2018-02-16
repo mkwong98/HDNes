@@ -21,13 +21,8 @@ void gameTile::readLine(string s){
     hasReplacement = true;
     img = atoi(tokens[0].c_str());
 
-    if(coreData::cData->isCHRROM){
-        id.id = atoi(tokens[1].c_str());
-    }
-    else{
-        main::hexToByteArray(tokens[1], (Uint8*)(id.rawData));
-    }
-    main::hexToByteArray(tokens[2], (Uint8*)(id.palette));
+    id.readID(tokens[1]);
+    id.readPalette(tokens[2]);
 
     x = atoi(tokens[3].c_str());
     y = atoi(tokens[4].c_str());
@@ -35,7 +30,13 @@ void gameTile::readLine(string s){
     isDefault = (tokens[6] == "Y");
 }
 
-bool gameTile::compareEqual(gameTile t){
+string gameTile::writeLine(){
+    stringstream stream;
+    stream << img << "," << id.writeID() << "," << id.writePalette() << "," << x << "," << y << "," << brightness << "," << (isDefault ? "Y" : "N");
+    return stream.str();
+}
+
+bool gameTile::compareEqual(gameTile& t){
     if(conditions.size() != t.conditions.size()) return false;
     for(int i = 0; i < conditions.size(); ++i){
         if(!conditions[i].compareEqual(t.conditions[i])) return false;

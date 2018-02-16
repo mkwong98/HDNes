@@ -25,12 +25,21 @@ class coreData
         Uint8* romData;
 
         //pack data
+        vector<string> ver;
+        vector<string> supportedRom;
+        vector<string> overscan;
+        vector<string> patch;
+        vector<string> background;
+        vector<string> options;
+        vector<string> bgm;
+        vector<string> sfx;
+
         Uint8 scale;
         vector<image*> images;
         vector<condition*> conditions;
         vector<gameTile*> tiles;
-        vector<string> otherLines;
         wxColour palette[64];
+        int saveNo;
 
         void dataChanged();
         void initPath(string rPath, string pPath);
@@ -39,8 +48,11 @@ class coreData
         void saveAs(string path);
 
         void loadPackData();
+        void genPackData();
+        void genSection(fstream& inifile, vector<string>& sect);
         void loadRom();
         void loadPalette();
+        void genPalette();
         string getTileID(int tileIndex);
 
         void addImage(string path);

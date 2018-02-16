@@ -19,16 +19,15 @@ class condition
         int objCoordX;
         int objCoordY;
 
-        bool checkHFlip;
         bool hFlip;
-        bool checkVFlip;
         bool vFlip;
-        bool checkLayer;
-        int layer;
 
-        bool compareEqual(condition c);
+        void readLine(string s);
+        string writeLine();
+        bool compareEqual(condition& c);
         void load(fstream& file);
         void save(fstream& file);
+        bool isMatch(gameTile& owner, gameTile& conditionTile);
 
     protected:
 

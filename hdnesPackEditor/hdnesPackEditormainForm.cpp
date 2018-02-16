@@ -658,6 +658,7 @@ void hdnesPackEditormainForm::initGameObjs(){
     scrGameObjNewV->SetThumbSize(1);
     clearGameObj();
     gameObjClicked = false;
+    editCondition = false;
     gameObjRawImageDisplay = wxImage(pnlGameObjRaw->GetSize().x, pnlGameObjRaw->GetSize().y);
     gameObjNewImageDisplay = wxImage(pnlGameObjNew->GetSize().x, pnlGameObjNew->GetSize().y);
     gameObjBaseTile = wxImage(8, 8);
@@ -673,6 +674,7 @@ void hdnesPackEditormainForm::gameObjsROMChanged(){
     gameObjectTreeWillMove = false;
     clearGameObj();
     gameObjClicked = false;
+    editCondition = false;
     gameObjBaseTileNew = wxImage(8 * coreData::cData->scale, 8 * coreData::cData->scale);
 
 }
@@ -856,6 +858,10 @@ void hdnesPackEditormainForm::gameObjsRawRUp( wxMouseEvent& event ){
             menu.Append(GAME_OBJ_PNL_CONFIRM_PASTE, wxT("Confirm paste location"));
             menu.Append(GAME_OBJ_PNL_CANCEL_PASTE, wxT("Cancel paste"));
         }
+        else if(editCondition){
+            menu.Append(GAME_OBJ_PNL_CONFIRM_CONDITION, wxT("Confirm changes"));
+            menu.Append(GAME_OBJ_PNL_CANCEL_CONDITION, wxT("Cancel changes"));
+        }
         else{
             if (wxTheClipboard->IsSupported( wxDF_TEXT )){
                 wxTextDataObject txt;
@@ -881,6 +887,7 @@ void hdnesPackEditormainForm::gameObjsRawRUp( wxMouseEvent& event ){
                 menu.Append(GAME_OBJ_PNL_COPY, wxT("Copy"));
                 menu.Append(GAME_OBJ_PNL_DELETE, wxT("Delete"));
                 menu.Append(GAME_OBJ_PNL_REPLACE, wxT("Set replacement"));
+                menu.Append(GAME_OBJ_PNL_CONDITION, wxT("Set conditions"));
                 if(data->isSprite){
                     menu.Append(GAME_OBJ_PNL_HFLIP, wxT("Flip horizontally"));
                     menu.Append(GAME_OBJ_PNL_VFLIP, wxT("Flip vertically"));
@@ -900,6 +907,13 @@ void hdnesPackEditormainForm::gameObjsRawRUp( wxMouseEvent& event ){
 void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
     string copyContent = "";
     gameObjNode* ndata;
+    gameTile t;
+    condition c;
+    int clickedX;
+    int clickedY;
+    hdnesPackEditorreplacementDialog* fp;
+    vector<gameTile> selectedTiles;
+
     switch(event.GetId()){
     case GAME_OBJ_PNL_PASTE:
         if (wxTheClipboard->IsSupported( wxDF_TEXT )){
@@ -1024,17 +1038,58 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
         coreData::cData->dataChanged();
         break;
     case GAME_OBJ_PNL_REPLACE:
-        vector<gameTile> selectedTiles;
+
         ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
-        int clickedX = 0;
-        int clickedY = 0;
+        clickedX = 0;
+        clickedY = 0;
         for(int k = 0; k < gameObjSelectedTiles.size(); ++k){
             selectedTiles.push_back(ndata->tiles[gameObjSelectedTiles[k]]);
         }
-        gameTile t = ndata->tiles[rightClickedgameObjID];
-        hdnesPackEditorreplacementDialog* fp = new hdnesPackEditorreplacementDialog(this);
+        t = ndata->tiles[rightClickedgameObjID];
+        fp = new hdnesPackEditorreplacementDialog(this);
         fp->setSelectedTiles(selectedTiles, t.objCoordX, t.objCoordY, rightClickedGameObjTileX - t.objCoordX, rightClickedGameObjTileY - t.objCoordY);
         fp->Show(true);
+        break;
+    case GAME_OBJ_PNL_CONDITION:
+        editCondition = true;
+        conditionGameObjID = rightClickedgameObjID;
+        conditionGameObjTileX = rightClickedGameObjTileX;
+        conditionGameObjTileY = rightClickedGameObjTileY;
+        //set condition tiles to selected tiles
+        ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
+        t = ndata->tiles[conditionGameObjID];
+        gameObjSelectedTiles.clear();
+        for(int k = 0; k < t.conditions.size(); ++k){
+            for(int i = 0; i < ndata->tiles.size(); ++i){
+                if(t.conditions[k].isMatch(t, ndata->tiles[i])){
+                    gameObjSelectedTiles.push_back(i);
+                }
+            }
+        }
+        drawGameObjEdits();
+        break;
+    case GAME_OBJ_PNL_CONFIRM_CONDITION:
+        editCondition = false;
+        ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
+        t = ndata->tiles[conditionGameObjID];
+        t.conditions.clear();
+        //add selected tiles to condition
+        for(int k = 0; k < gameObjSelectedTiles.size(); ++k){
+            c.id = ndata->tiles[gameObjSelectedTiles[k]].id;
+            c.objCoordX = ndata->tiles[gameObjSelectedTiles[k]].objCoordX - t.objCoordX;
+            c.objCoordY = ndata->tiles[gameObjSelectedTiles[k]].objCoordY - t.objCoordY;
+            c.hFlip = (ndata->tiles[gameObjSelectedTiles[k]].hFlip == t.hFlip);
+            c.vFlip = (ndata->tiles[gameObjSelectedTiles[k]].vFlip == t.vFlip);
+            t.conditions.push_back(c);
+        }
+        ndata->tiles[conditionGameObjID] = t;
+        gameObjSelectedTiles.clear();
+        drawGameObjEdits();
+        break;
+    case GAME_OBJ_PNL_CANCEL_CONDITION:
+        editCondition = false;
+        gameObjSelectedTiles.clear();
+        drawGameObjEdits();
         break;
     }
 }
@@ -1285,6 +1340,15 @@ void hdnesPackEditormainForm::drawGameObjSelection(){
         main::drawRect(gameObjRawImage2, pt2, tileBoxSize, wxColour(0, 0, 0));
         main::drawRect(gameObjRawImage2, pt, tileBoxSize, wxColour(255, 255, 255));
     }
+    if(editCondition){
+        pt.x = (ndata->tiles[conditionGameObjID].objCoordX - ndata->x1) * gameObjZoom;
+        pt.y = (ndata->tiles[conditionGameObjID].objCoordY - ndata->y1) * gameObjZoom;
+        pt2 = pt;
+        ++(pt2.x);
+        ++(pt2.y);
+        main::drawRect(gameObjRawImage2, pt2, tileBoxSize, wxColour(0, 100, 100));
+        main::drawRect(gameObjRawImage2, pt, tileBoxSize, wxColour(0, 255, 255));
+    }
 
     gameObjRawPasteX = ndata->x1 * gameObjZoom + (pnlGameObjRaw->GetSize().GetWidth() / 2) - gameObjViewCentreX;
     gameObjRawPasteY = ndata->y1 * gameObjZoom + (pnlGameObjRaw->GetSize().GetHeight() / 2) - gameObjViewCentreY;
@@ -1447,6 +1511,7 @@ void hdnesPackEditormainForm::gameObjsRawLUp( wxMouseEvent& event ){
             corner2 = convertGameObjRawPosition(corner2);
 
             for(int i = 0; i < ndata->tiles.size(); i++){
+                if(editCondition && i == conditionGameObjID) continue;
                 if(corner1.x <= ndata->tiles[i].objCoordX + 8
                    && corner2.x >= ndata->tiles[i].objCoordX
                    && corner1.y <= ndata->tiles[i].objCoordY + 8
