@@ -65,8 +65,8 @@ bool condition::isMatch(gameTile& owner, gameTile& conditionTile){
     if(!conditionTile.id.compareEqual(id)) return false;
     if(owner.objCoordX + (hFlip ? -objCoordX : objCoordX) != conditionTile.objCoordX) return false;
     if(owner.objCoordY + (vFlip ? -objCoordY : objCoordY) != conditionTile.objCoordY) return false;
-    if(hFlip != (owner.hFlip == conditionTile.hFlip)) return false;
-    if(vFlip != (owner.vFlip == conditionTile.vFlip)) return false;
+    if(hFlip == (owner.hFlip == conditionTile.hFlip)) return false;
+    if(vFlip == (owner.vFlip == conditionTile.vFlip)) return false;
     return true;
 }
 

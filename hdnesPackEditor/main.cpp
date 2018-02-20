@@ -21,6 +21,12 @@ string main::intToStr(int value){
     return stream.str();
 }
 
+string main::floatToStr(float value){
+    stringstream stream;
+    stream << value;
+    return stream.str();
+}
+
 vector<string> main::split(const string &s, char delim, vector<string> &elems) {
     stringstream ss(s);
     string item;

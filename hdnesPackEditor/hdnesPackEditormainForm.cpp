@@ -138,7 +138,7 @@ void hdnesPackEditormainForm::MenuFileSaveAs( wxCommandEvent& event ){
 }
 
 void hdnesPackEditormainForm::MenuFileGen( wxCommandEvent& event ){
-// TODO: Implement MenuFileGen
+    coreData::cData->genPackData();
 }
 
 void hdnesPackEditormainForm::MenuFileExit( wxCommandEvent& event ){
@@ -659,6 +659,7 @@ void hdnesPackEditormainForm::initGameObjs(){
     clearGameObj();
     gameObjClicked = false;
     editCondition = false;
+    conditionCounter = 0;
     gameObjRawImageDisplay = wxImage(pnlGameObjRaw->GetSize().x, pnlGameObjRaw->GetSize().y);
     gameObjNewImageDisplay = wxImage(pnlGameObjNew->GetSize().x, pnlGameObjNew->GetSize().y);
     gameObjBaseTile = wxImage(8, 8);
@@ -1078,13 +1079,15 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
             c.id = ndata->tiles[gameObjSelectedTiles[k]].id;
             c.objCoordX = ndata->tiles[gameObjSelectedTiles[k]].objCoordX - t.objCoordX;
             c.objCoordY = ndata->tiles[gameObjSelectedTiles[k]].objCoordY - t.objCoordY;
-            c.hFlip = (ndata->tiles[gameObjSelectedTiles[k]].hFlip == t.hFlip);
-            c.vFlip = (ndata->tiles[gameObjSelectedTiles[k]].vFlip == t.vFlip);
+            c.hFlip = (ndata->tiles[gameObjSelectedTiles[k]].hFlip != t.hFlip);
+            c.vFlip = (ndata->tiles[gameObjSelectedTiles[k]].vFlip != t.vFlip);
+            c.name = main::intToStr(conditionCounter++);
             t.conditions.push_back(c);
         }
         ndata->tiles[conditionGameObjID] = t;
         gameObjSelectedTiles.clear();
         drawGameObjEdits();
+        coreData::cData->dataChanged();
         break;
     case GAME_OBJ_PNL_CANCEL_CONDITION:
         editCondition = false;
@@ -1107,7 +1110,7 @@ void hdnesPackEditormainForm::setReplacement(int imageID, int x, int y){
         t.img = imageID;
         t.x = x + ((t.objCoordX - t2.objCoordX) * coreData::cData->scale);
         t.y = y + ((t.objCoordY - t2.objCoordY) * coreData::cData->scale);
-        t.brightness = 100;
+        t.brightness = 1;
         ndata->tiles[gameObjSelectedTiles[k]] = t;
     }
     refreshGameObj();
@@ -1580,6 +1583,7 @@ void hdnesPackEditormainForm::saveCfgGameObjs(fstream& inifile){
 
 void hdnesPackEditormainForm::loadGameObjs(fstream& file){
     loadGameObjItem(file, treeGameObjs->GetRootItem(), true);
+    renameGameObjConditions();
 }
 
 void hdnesPackEditormainForm::loadGameObjItem(fstream& file, wxTreeItemId item, bool isRoot){
@@ -1629,6 +1633,104 @@ void hdnesPackEditormainForm::saveChildGameObjs(fstream& file, wxTreeItemId item
     }
 }
 
+void hdnesPackEditormainForm::renameGameObjConditions(){
+    conditionCounter = 0;
+    renameChildGameObjItemConditions(tItmGameObjRoot);
+}
+
+void hdnesPackEditormainForm::renameChildGameObjConditions(wxTreeItemId item){
+    wxTreeItemIdValue cookie = 0;
+    wxTreeItemId child = treeGameObjs->GetFirstChild(item, cookie);
+    while(child.IsOk()){
+        renameChildGameObjItemConditions(child);
+        child = treeGameObjs->GetNextSibling(child);
+    }
+}
+
+void hdnesPackEditormainForm::renameChildGameObjItemConditions(wxTreeItemId item){
+    gameObjNode* node = (gameObjNode*)(treeGameObjs->GetItemData(item));
+    for(int i = 0; i < node->tiles.size(); ++i){
+        for(int j = 0; j <  node->tiles[i].conditions.size(); ++j){
+            node->tiles[i].conditions[j].name = main::intToStr(conditionCounter++);
+        }
+    }
+    renameChildGameObjConditions(item);
+}
+
+void hdnesPackEditormainForm::removeGameObjImage(int index){
+    removeChildGameObjItemImage(tItmGameObjRoot, index);
+}
+
+void hdnesPackEditormainForm::removeChildGameObjImage(wxTreeItemId item, int index){
+    wxTreeItemIdValue cookie = 0;
+    wxTreeItemId child = treeGameObjs->GetFirstChild(item, cookie);
+    while(child.IsOk()){
+        removeChildGameObjItemImage(child, index);
+        child = treeGameObjs->GetNextSibling(child);
+    }
+}
+
+void hdnesPackEditormainForm::removeChildGameObjItemImage(wxTreeItemId item, int index){
+    gameObjNode* node = (gameObjNode*)(treeGameObjs->GetItemData(item));
+    for(int i = 0; i < node->tiles.size(); ++i){
+        if(node->tiles[i].hasReplacement){
+            if(node->tiles[i].img < index){
+                node->tiles[i].img--;
+            }
+            else if(node->tiles[i].img == index){
+                node->tiles[i].hasReplacement = false;
+            }
+        }
+    }
+    removeChildGameObjImage(item, index);
+}
+
+void hdnesPackEditormainForm::genGameObjsConditionPack(fstream& file){
+    genGameObjItemConditionPack(file, tItmGameObjRoot);
+}
+
+void hdnesPackEditormainForm::genChildGameObjsConditionPack(fstream& file, wxTreeItemId item){
+    wxTreeItemIdValue cookie = 0;
+    wxTreeItemId child = treeGameObjs->GetFirstChild(item, cookie);
+    while(child.IsOk()){
+        genGameObjItemConditionPack(file, child);
+        child = treeGameObjs->GetNextSibling(child);
+    }
+}
+
+void hdnesPackEditormainForm::genGameObjItemConditionPack(fstream& file, wxTreeItemId item){
+    gameObjNode* node = (gameObjNode*)(treeGameObjs->GetItemData(item));
+    for(int i = 0; i < node->tiles.size(); ++i){
+        for(int j = 0; j <  node->tiles[i].conditions.size(); ++j){
+            node->tiles[i].conditions[j].conditionType = (node->isSprite ? "spriteNearby" : "tileNearby");
+            file << "<condition>" << node->tiles[i].conditions[j].writeLine() << "\n";
+        }
+    }
+    genChildGameObjsConditionPack(file, item);
+}
+
+void hdnesPackEditormainForm::genGameObjsTilePack(fstream& file, bool withCondition){
+    genGameObjItemTilePack(file, tItmGameObjRoot, withCondition);
+}
+
+void hdnesPackEditormainForm::genChildGameObjsTilePack(fstream& file, wxTreeItemId item, bool withCondition){
+    wxTreeItemIdValue cookie = 0;
+    wxTreeItemId child = treeGameObjs->GetFirstChild(item, cookie);
+    while(child.IsOk()){
+        genGameObjItemTilePack(file, child, withCondition);
+        child = treeGameObjs->GetNextSibling(child);
+    }
+}
+
+void hdnesPackEditormainForm::genGameObjItemTilePack(fstream& file, wxTreeItemId item, bool withCondition){
+    gameObjNode* node = (gameObjNode*)(treeGameObjs->GetItemData(item));
+    for(int i = 0; i < node->tiles.size(); ++i){
+        if(withCondition == (node->tiles[i].conditions.size() > 0)){
+            file << node->tiles[i].writeConditionNames() << "<tile>" << node->tiles[i].writeLine() << "\n";
+        }
+    }
+    genChildGameObjsTilePack(file, item, withCondition);
+}
 
 void hdnesPackEditormainForm::initHDImg(){
     lstHDImg->AppendColumn(wxString("Name"));
@@ -1958,6 +2060,7 @@ void hdnesPackEditormainForm::HDImgAdd( wxCommandEvent& event ){
 void hdnesPackEditormainForm::HDImgRemove( wxCommandEvent& event ){
     if(selectedHDImg > -1 && coreData::cData){
         coreData::cData->removeImage(selectedHDImg);
+        removeGameObjImage(selectedHDImg);
         coreData::cData->dataChanged();
         listOutHDImgImages();
         lstHDImgTiles->DeleteAllItems();

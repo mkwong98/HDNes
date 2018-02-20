@@ -47,6 +47,7 @@ class coreData
         void save();
         void saveAs(string path);
 
+        string writeConditionNames(vector<condition>& cond);
         void loadPackData();
         void genPackData();
         void genSection(fstream& inifile, vector<string>& sect);

@@ -30,6 +30,7 @@ class gameTile
 
         void readLine(string s);
         string writeLine();
+        string writeConditionNames();
         bool compareEqual(gameTile& t);
         void load(fstream& file);
         void save(fstream& file);

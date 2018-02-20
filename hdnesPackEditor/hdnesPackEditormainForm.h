@@ -192,6 +192,7 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         Uint32 conditionGameObjID;
         int conditionGameObjTileX;
         int conditionGameObjTileY;
+        int conditionCounter;
         wxImage gameObjImageWithSelection;
         wxImage gameObjBaseTile;
         wxImage gameObjBaseTileNew;
@@ -205,6 +206,19 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         void saveGameObjs(fstream& file);
         void saveChildGameObjs(fstream& file, wxTreeItemId item);
         void saveGameObjItem(fstream& file, wxTreeItemId item);
+        void renameGameObjConditions();
+        void renameChildGameObjConditions(wxTreeItemId item);
+        void renameChildGameObjItemConditions(wxTreeItemId item);
+        void removeGameObjImage(int index);
+        void removeChildGameObjImage(wxTreeItemId item, int index);
+        void removeChildGameObjItemImage(wxTreeItemId item, int index);
+        void genGameObjsConditionPack(fstream& file);
+        void genChildGameObjsConditionPack(fstream& file, wxTreeItemId item);
+        void genGameObjItemConditionPack(fstream& file, wxTreeItemId item);
+        void genGameObjsTilePack(fstream& file, bool withCondition);
+        void genChildGameObjsTilePack(fstream& file, wxTreeItemId item, bool withCondition);
+        void genGameObjItemTilePack(fstream& file, wxTreeItemId item, bool withCondition);
+
         void gameObjsROMChanged();
         void gameObjsTreeMenu( wxCommandEvent& event );
 
@@ -226,6 +240,7 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         void drawGameObjSelection();
         void showGameObj(wxImage& displayImg, wxImage& displayImg2, int x, int y);
         void setReplacement(int imageID, int x, int y);
+
         //--end game objs session
 
         //--image session

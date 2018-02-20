@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1517303755 source:c:\work\hdnesr\trunk\hdnespackeditor\main.cpp
+1519050096 source:c:\work\hdnesr\trunk\hdnespackeditor\main.cpp
 	"common.h"
 	"hdnesPackEditormainForm.h"
 	"main.h"
@@ -2135,7 +2135,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1518682413 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.cpp
+1519100448 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.cpp
 	"hdnesPackEditormainForm.h"
 	"hdnesPackEditornewProjectDialog.h"
 	"hdnesPackEditorcolourSelectDialog.h"
@@ -2148,13 +2148,13 @@
 	"gameObjNode.h"
 	"image.h"
 
-1518269591 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.h
+1519100186 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.h
 	"common.h"
 	"mainForm.h"
 	"colourDialogClient.h"
 	"gameObjNode.h"
 
-1516342945 c:\work\hdnesr\trunk\hdnespackeditor\main.h
+1519050096 c:\work\hdnesr\trunk\hdnespackeditor\main.h
 	"common.h"
 	<wx\wx.h>
 	<SDL2\SDL.h>
@@ -3465,18 +3465,18 @@
 1515164614 c:\work\hdnes\trunk\hdnespackeditor\image.h
 	"common.h"
 
-1518706082 source:c:\work\hdnesr\trunk\hdnespackeditor\condition.cpp
+1519097351 source:c:\work\hdnesr\trunk\hdnespackeditor\condition.cpp
 	"condition.h"
 	"coreData.h"
 	"gameTile.h"
 	"main.h"
 
-1518704909 c:\work\hdnesr\trunk\hdnespackeditor\condition.h
+1519097362 c:\work\hdnesr\trunk\hdnespackeditor\condition.h
 	"common.h"
 	"classList.h"
 	"tileReference.h"
 
-1517995390 source:c:\work\hdnesr\trunk\hdnespackeditor\coredata.cpp
+1519098967 source:c:\work\hdnesr\trunk\hdnespackeditor\coredata.cpp
 	"common.h"
 	"coreData.h"
 	"image.h"
@@ -3484,7 +3484,7 @@
 	"gameTile.h"
 	"hdnesPackEditormainForm.h"
 
-1518743252 c:\work\hdnesr\trunk\hdnespackeditor\coredata.h
+1519004174 c:\work\hdnesr\trunk\hdnespackeditor\coredata.h
 	"common.h"
 	"classList.h"
 	<wx/wx.h>
@@ -3821,13 +3821,13 @@
 	"gameTile.h"
 	<wx/treebase.h>
 
-1518674091 source:c:\work\hdnesr\trunk\hdnespackeditor\gametile.cpp
+1519096893 source:c:\work\hdnesr\trunk\hdnespackeditor\gametile.cpp
 	"common.h"
 	"coreData.h"
 	"gameTile.h"
 	"main.h"
 
-1518674091 c:\work\hdnesr\trunk\hdnespackeditor\gametile.h
+1519019155 c:\work\hdnesr\trunk\hdnespackeditor\gametile.h
 	"common.h"
 	"classList.h"
 	"condition.h"
@@ -3879,10 +3879,10 @@
 	"begin_code.h"
 	"close_code.h"
 
-1518674150 c:\work\hdnesr\trunk\hdnespackeditor\tilereference.h
+1518746557 c:\work\hdnesr\trunk\hdnespackeditor\tilereference.h
 	"common.h"
 
-1518674150 source:c:\work\hdnesr\trunk\hdnespackeditor\tilereference.cpp
+1518747495 source:c:\work\hdnesr\trunk\hdnespackeditor\tilereference.cpp
 	"tileReference.h"
 	"coreData.h"
 	"main.h"

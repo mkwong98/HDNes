@@ -7,6 +7,10 @@ gameTile::gameTile()
 {
     //ctor
     hasReplacement = false;
+    img = 0;
+    x = 0;
+    y = 0;
+    brightness = 0;
 }
 
 gameTile::~gameTile()
@@ -52,6 +56,7 @@ void gameTile::load(fstream& file){
     vector<string> tailStrs;
     condition g;
 
+    conditions.clear();
     getline(file, line);
     while(line != "<endGameTile>"){
         size_t found = line.find_first_of(">");
@@ -112,3 +117,15 @@ void gameTile::save(fstream& file){
     file << "<endGameTile>\n";
 }
 
+string gameTile::writeConditionNames(){
+    stringstream stream;
+    if(conditions.size() > 0){
+        stream << "[";
+        for(int i = 0; i < conditions.size(); ++i){
+            if(i > 0) stream << "&";
+            stream << conditions[i].name;
+        }
+        stream << "]";
+    }
+    return stream.str();
+}

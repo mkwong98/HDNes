@@ -355,9 +355,9 @@ void coreData::genPackData(){
 	fstream inifile;
     string s;
 
-	inifile.open(projectPath, ios::out);
+	inifile.open(hiresPath, ios::out);
 	genSection(inifile, ver);
-	inifile << "<scale>" << scale << "\n";
+	inifile << "<scale>" << main::intToStr(scale) << "\n";
 	genSection(inifile, supportedRom);
 	genSection(inifile, overscan);
 	genSection(inifile, patch);
@@ -367,7 +367,18 @@ void coreData::genPackData(){
 	}
 
 	inifile << "#editorSection\n";
+    main::mForm->genGameObjsConditionPack(inifile);
+    main::mForm->genGameObjsTilePack(inifile, true);
+    main::mForm->genGameObjsTilePack(inifile, false);
 	inifile << "#endEditorSection\n";
+
+	for(int i = 0; i < conditions.size(); ++i){
+        inifile << "<condition>" << conditions[i]->writeLine() << "\n";
+	}
+
+	for(int i = 0; i < tiles.size(); ++i){
+        inifile << tiles[i]->writeConditionNames() << "<tile>" << tiles[i]->writeLine() << "\n";
+	}
 
 	genSection(inifile, background);
 	genSection(inifile, options);
