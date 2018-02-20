@@ -11,6 +11,7 @@ gameTile::gameTile()
     x = 0;
     y = 0;
     brightness = 0;
+    markForDelete = false;
 }
 
 gameTile::~gameTile()

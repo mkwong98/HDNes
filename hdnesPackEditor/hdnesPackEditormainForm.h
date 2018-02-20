@@ -18,7 +18,8 @@
 #define GAME_OBJ_PNL_CONDITION          8
 #define GAME_OBJ_PNL_CONFIRM_CONDITION  9
 #define GAME_OBJ_PNL_CANCEL_CONDITION   10
-
+#define GAME_OBJ_PNL_SHOW_NOT_UNIQUE    11
+#define GAME_OBJ_PNL_AUTO_CONDITION     12
 
 /**
 @file
@@ -240,6 +241,9 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         void drawGameObjSelection();
         void showGameObj(wxImage& displayImg, wxImage& displayImg2, int x, int y);
         void setReplacement(int imageID, int x, int y);
+        void findGameObjNotUniqueTile();
+        void addGameObjNotUniqueTileCondition();
+
 
         //--end game objs session
 

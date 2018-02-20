@@ -871,6 +871,8 @@ void hdnesPackEditormainForm::gameObjsRawRUp( wxMouseEvent& event ){
                     menu.Append(GAME_OBJ_PNL_PASTE, wxT("Paste"));
                 }
             }
+            menu.Append(GAME_OBJ_PNL_SHOW_NOT_UNIQUE, wxT("Select untreated tiles"));
+            menu.Append(GAME_OBJ_PNL_AUTO_CONDITION, wxT("Add condition to untreated tiles"));
             //check right click on a selected tile
             bool tileFound = false;
             for(Uint32 k = 0; k < gameObjSelectedTiles.size(); ++k){
@@ -956,6 +958,11 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
         break;
     case GAME_OBJ_PNL_CONFIRM_PASTE:
         ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
+        //set bg colour this is the first tiles to be added
+        if(ndata->tiles.size() == 0){
+            ndata->bgColour = gameObjPasteData.tiles[0].id.palette[0];
+
+        }
         for(int i = 0; i < gameObjPasteData.tiles.size(); ++i){
             gameObjPasteData.tiles[i].objCoordX += gameObjRawCurrPos.x;
             gameObjPasteData.tiles[i].objCoordY += gameObjRawCurrPos.y;
@@ -1002,7 +1009,6 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
         break;
     case GAME_OBJ_PNL_DELETE:
         ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
-
         for(int k = 0; k < gameObjSelectedTiles.size(); ++k){
             ndata->tiles[gameObjSelectedTiles[k]].markForDelete = true;
         }
@@ -1094,6 +1100,43 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
         gameObjSelectedTiles.clear();
         drawGameObjEdits();
         break;
+    case GAME_OBJ_PNL_SHOW_NOT_UNIQUE:
+        gameObjSelectedTiles.clear();
+        findGameObjNotUniqueTile();
+        ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
+        for(int i = 0; i < ndata->tiles.size(); ++i){
+            if(ndata->tiles[i].conditions.size() == 0 && !ndata->tiles[i].isUnique){
+                gameObjSelectedTiles.push_back(i);
+            }
+        }
+        drawGameObjEdits();
+        break;
+    case GAME_OBJ_PNL_AUTO_CONDITION:
+        ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
+        //find an unique tile
+        int uniqueTileID = -1;
+        for(int i = 0; i < ndata->tiles.size(); ++i){
+            if(ndata->tiles[i].isUnique){
+                uniqueTileID = i;
+            }
+        }
+        if(uniqueTileID != -1){
+            t = ndata->tiles[uniqueTileID];
+            for(int i = 0; i < ndata->tiles.size(); ++i){
+                if(ndata->tiles[i].conditions.size() == 0 && !ndata->tiles[i].isUnique){
+                    c.id = t.id;
+                    c.objCoordX = t.objCoordX - ndata->tiles[i].objCoordX;
+                    c.objCoordY = t.objCoordY - ndata->tiles[i].objCoordY;
+                    c.hFlip = (ndata->tiles[i].hFlip != t.hFlip);
+                    c.vFlip = (ndata->tiles[i].vFlip != t.vFlip);
+                    c.name = main::intToStr(conditionCounter++);
+                    ndata->tiles[i].conditions.push_back(c);
+                }
+            }
+        }
+        coreData::cData->dataChanged();
+        break;
+
     }
 }
 
@@ -1168,6 +1211,10 @@ void hdnesPackEditormainForm::clearGameObj(){
     objDC->SetBackground(*wxBLACK_BRUSH);
     objDC->Clear();
     delete objDC;
+    objDC = new wxClientDC(pnlGameObjNew);
+    objDC->SetBackground(*wxBLACK_BRUSH);
+    objDC->Clear();
+    delete objDC;
 }
 
 void hdnesPackEditormainForm::drawGameObj(){
@@ -1177,7 +1224,6 @@ void hdnesPackEditormainForm::drawGameObj(){
     //clear image with blank colour
     gameObjRawImage.SetRGB(wxRect(gameObjRawImage.GetSize()), gameObjBlankColour.Red(), gameObjBlankColour.Green(), gameObjBlankColour.Blue());
     gameObjNewImage.SetRGB(wxRect(gameObjNewImage.GetSize()), gameObjBlankColour.Red(), gameObjBlankColour.Green(), gameObjBlankColour.Blue());
-
     Uint32 memAddress;
     Uint16 drawX;
     Uint16 drawY;
@@ -1211,12 +1257,14 @@ void hdnesPackEditormainForm::drawGameObj(){
                     coreData::cData->palette[ndata->tiles[i].id.palette[2]],
                     coreData::cData->palette[ndata->tiles[i].id.palette[3]]);
         }
-        gameObjBaseTile.ConvertAlphaToMask(255);
+        gameObjBaseTile.ConvertAlphaToMask(64);
         gameObjRawImage.Paste(gameObjBaseTile, drawX, drawY);
-
         if(ndata->tiles[i].hasReplacement){
             gameObjBaseTileNew = coreData::cData->images[ndata->tiles[i].img]->imageData.GetSubImage(wxRect(ndata->tiles[i].x, ndata->tiles[i].y, replaceSize, replaceSize));
+            gameObjBaseTileNew.ConvertAlphaToMask(64);
             gameObjNewImage.Paste(gameObjBaseTileNew, drawX * coreData::cData->scale, drawY * coreData::cData->scale);
+            gameObjNewImage.ConvertAlphaToMask(64);
+            gameObjNewImage.SetMask(false);
         }
         else{
             //look for replacement tiles
@@ -1239,7 +1287,11 @@ void hdnesPackEditormainForm::drawGameObj(){
             if(!hasHD){
                 gameObjBaseTileNew = gameObjBaseTile.Scale(replaceSize, replaceSize);
             }
+            gameObjBaseTileNew.ConvertAlphaToMask(64);
             gameObjNewImage.Paste(gameObjBaseTileNew, drawX * coreData::cData->scale, drawY * coreData::cData->scale);
+            gameObjNewImage.ConvertAlphaToMask(64);
+            gameObjNewImage.SetMask(false);
+
         }
     }
 }
@@ -1342,6 +1394,8 @@ void hdnesPackEditormainForm::drawGameObjSelection(){
         ++(pt2.y);
         main::drawRect(gameObjRawImage2, pt2, tileBoxSize, wxColour(0, 0, 0));
         main::drawRect(gameObjRawImage2, pt, tileBoxSize, wxColour(255, 255, 255));
+        main::drawRect(gameObjNewImage2, pt2, tileBoxSize, wxColour(0, 0, 0));
+        main::drawRect(gameObjNewImage2, pt, tileBoxSize, wxColour(255, 255, 255));
     }
     if(editCondition){
         pt.x = (ndata->tiles[conditionGameObjID].objCoordX - ndata->x1) * gameObjZoom;
@@ -1351,6 +1405,8 @@ void hdnesPackEditormainForm::drawGameObjSelection(){
         ++(pt2.y);
         main::drawRect(gameObjRawImage2, pt2, tileBoxSize, wxColour(0, 100, 100));
         main::drawRect(gameObjRawImage2, pt, tileBoxSize, wxColour(0, 255, 255));
+        main::drawRect(gameObjNewImage2, pt2, tileBoxSize, wxColour(0, 100, 100));
+        main::drawRect(gameObjNewImage2, pt, tileBoxSize, wxColour(0, 255, 255));
     }
 
     gameObjRawPasteX = ndata->x1 * gameObjZoom + (pnlGameObjRaw->GetSize().GetWidth() / 2) - gameObjViewCentreX;
@@ -1725,11 +1781,33 @@ void hdnesPackEditormainForm::genChildGameObjsTilePack(fstream& file, wxTreeItem
 void hdnesPackEditormainForm::genGameObjItemTilePack(fstream& file, wxTreeItemId item, bool withCondition){
     gameObjNode* node = (gameObjNode*)(treeGameObjs->GetItemData(item));
     for(int i = 0; i < node->tiles.size(); ++i){
-        if(withCondition == (node->tiles[i].conditions.size() > 0)){
+        if(node->tiles[i].hasReplacement && (withCondition == (node->tiles[i].conditions.size() > 0))){
             file << node->tiles[i].writeConditionNames() << "<tile>" << node->tiles[i].writeLine() << "\n";
         }
     }
     genChildGameObjsTilePack(file, item, withCondition);
+}
+
+void hdnesPackEditormainForm::findGameObjNotUniqueTile(){
+    gameObjNode* ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
+    for(int i = 0; i < ndata->tiles.size(); ++i){
+        ndata->tiles[i].isUnique = true;
+    }
+    for(int i = 0; i < ndata->tiles.size(); ++i){
+        if(ndata->tiles[i].isUnique){
+            for(int j = i + 1; j < ndata->tiles.size(); ++j){
+                if(ndata->tiles[j].isUnique){
+                    if(ndata->tiles[j].id.compareEqual(ndata->tiles[i].id)){
+                        ndata->tiles[j].isUnique = false;
+                        ndata->tiles[i].isUnique = false;
+                    }
+                }
+            }
+        }
+    }
+}
+
+void hdnesPackEditormainForm::addGameObjNotUniqueTileCondition(){
 }
 
 void hdnesPackEditormainForm::initHDImg(){
@@ -1777,7 +1855,10 @@ void hdnesPackEditormainForm::showHDImgImage(){
     wxImage displayImg;
     displayImg = wxImage(pnlHDImg->GetSize(), true);
     displayImg.SetRGB(displayImg.GetSize(), 128, 0, 128);
+    scaledImg.ConvertAlphaToMask(64);
     displayImg.Paste(scaledImg, (pnlHDImg->GetSize().x - scaledImg.GetWidth()) / 2, (pnlHDImg->GetSize().y - scaledImg.GetHeight()) / 2);
+    displayImg.ConvertAlphaToMask(64);
+    displayImg.SetMask(false);
 
     if(hdImgClicked){
         wxPoint p1;
@@ -2021,7 +2102,7 @@ void hdnesPackEditormainForm::HDImgAdd( wxCommandEvent& event ){
     string imgName;
 
     fullPath = openFileDialog.GetPath().ToStdString();
-    imgPath = fullPath.substr(0, fullPath.find_last_of("/\\") - 1);
+    imgPath = fullPath.substr(0, fullPath.find_last_of("/\\"));
     imgName = fullPath.substr(fullPath.find_last_of("/\\") + 1);
 
     if(coreData::cData){
@@ -2053,8 +2134,6 @@ void hdnesPackEditormainForm::HDImgAdd( wxCommandEvent& event ){
         }
         coreData::cData->dataChanged();
     }
-
-
 }
 
 void hdnesPackEditormainForm::HDImgRemove( wxCommandEvent& event ){

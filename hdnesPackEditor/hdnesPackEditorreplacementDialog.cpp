@@ -67,7 +67,10 @@ void hdnesPackEditorreplacementDialog::showImage(){
     wxImage displayImg;
     displayImg = wxImage(pnlImage->GetSize(), true);
     displayImg.SetRGB(displayImg.GetSize(), 128, 0, 128);
+    scaledImg.ConvertAlphaToMask(64);
     displayImg.Paste(scaledImg, imgOffsetX, imgOffsetY);
+    displayImg.ConvertAlphaToMask(64);
+    displayImg.SetMask(false);
 
     wxPoint pt;
     wxPoint pt2;

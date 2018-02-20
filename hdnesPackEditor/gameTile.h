@@ -19,6 +19,7 @@ class gameTile
         bool hFlip;
         bool vFlip;
         bool markForDelete;
+        bool isUnique;
 
         bool hasReplacement;
         bool isDefault;
