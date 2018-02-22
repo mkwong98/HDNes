@@ -180,6 +180,10 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         gameObjNode gameObjPasteData;
 
         wxPoint gameObjRawCurrPos;
+        int gameObjectGenImageCnt;
+        int gameObjectGenImageX;
+        int gameObjectGenImageY;
+        wxImage gameObjectGenImage;
 
         //selection
         vector<Uint32> gameObjSelectedTiles;
@@ -197,6 +201,7 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         wxImage gameObjImageWithSelection;
         wxImage gameObjBaseTile;
         wxImage gameObjBaseTileNew;
+
 
         void initGameObjs();
         void configGameObjs(string lineHdr, string lineTail);

@@ -959,7 +959,7 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
     case GAME_OBJ_PNL_CONFIRM_PASTE:
         ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
         //set bg colour this is the first tiles to be added
-        if(ndata->tiles.size() == 0){
+        if(ndata->tiles.size() == 0 && gameObjPasteData.tiles[0].id.palette[0] < 64 && !ndata->isSprite){
             ndata->bgColour = gameObjPasteData.tiles[0].id.palette[0];
 
         }
@@ -1743,6 +1743,9 @@ void hdnesPackEditormainForm::removeChildGameObjItemImage(wxTreeItemId item, int
 
 void hdnesPackEditormainForm::genGameObjsConditionPack(fstream& file){
     genGameObjItemConditionPack(file, tItmGameObjRoot);
+    gameObjectGenImageCnt = 0;
+    gameObjectGenImageX = 0;
+    gameObjectGenImageY = 0;
 }
 
 void hdnesPackEditormainForm::genChildGameObjsConditionPack(fstream& file, wxTreeItemId item){
@@ -1780,9 +1783,59 @@ void hdnesPackEditormainForm::genChildGameObjsTilePack(fstream& file, wxTreeItem
 
 void hdnesPackEditormainForm::genGameObjItemTilePack(fstream& file, wxTreeItemId item, bool withCondition){
     gameObjNode* node = (gameObjNode*)(treeGameObjs->GetItemData(item));
+    wxImage tmp;
+    gameTile newTile;
+    int replaceSize = 8 * coreData::cData->scale;
     for(int i = 0; i < node->tiles.size(); ++i){
         if(node->tiles[i].hasReplacement && (withCondition == (node->tiles[i].conditions.size() > 0))){
-            file << node->tiles[i].writeConditionNames() << "<tile>" << node->tiles[i].writeLine() << "\n";
+            if(node->isSprite && (node->tiles[i].hFlip || node->tiles[i].vFlip)){
+                //generate mirrored tile
+                //create if not yet
+                if(gameObjectGenImageX == 0 && gameObjectGenImageY == 0){
+                    gameObjectGenImage = wxImage(32 * replaceSize, 32 * replaceSize, true);
+                    gameObjectGenImage.InitAlpha();
+                    memset(gameObjectGenImage.GetAlpha(), 0, 32 * replaceSize * 32 * replaceSize);
+                    file << "<img>editorGenImage" + main::intToStr(gameObjectGenImageCnt) + ".png\n";
+                }
+                //add flipped tile to image
+                tmp = coreData::cData->images[node->tiles[i].img]->imageData.GetSubImage(wxRect(node->tiles[i].x, node->tiles[i].y, replaceSize, replaceSize));
+                if(node->tiles[i].hFlip){
+                    tmp = tmp.Mirror(true);
+                }
+                if(node->tiles[i].vFlip){
+                    tmp = tmp.Mirror(false);
+                }
+                //copy pixel data
+                gameObjectGenImage.Paste(tmp, gameObjectGenImageX * replaceSize, gameObjectGenImageY * replaceSize);
+                //copy alpha data
+                for(int dx = 0; dx < replaceSize; ++dx){
+                    for(int dy = 0; dy < replaceSize; ++dy){
+                        gameObjectGenImage.SetAlpha(gameObjectGenImageX * replaceSize + dx, gameObjectGenImageY * replaceSize + dy, tmp.GetAlpha(dx, dy));
+                    }
+                }
+                //create tmp tile
+                newTile = node->tiles[i];
+                newTile.img = coreData::cData->images.size() + gameObjectGenImageCnt;
+                newTile.x = gameObjectGenImageX * replaceSize;
+                newTile.y = gameObjectGenImageY * replaceSize;
+                file << newTile.writeConditionNames() << "<tile>" << newTile.writeLine() << "\n";
+                //save image file
+                gameObjectGenImage.SaveFile(wxString((coreData::cData->packPath + "\\editorGenImage" + main::intToStr(gameObjectGenImageCnt) + ".png").c_str()));
+
+                //move position
+                gameObjectGenImageX += 1;
+                if(gameObjectGenImageX == 32){
+                    gameObjectGenImageY += 1;
+                    gameObjectGenImageX = 0;
+                    if(gameObjectGenImageY == 32){
+                        gameObjectGenImageCnt ++;
+                        gameObjectGenImageY = 0;
+                    }
+                }
+            }
+            else{
+                file << node->tiles[i].writeConditionNames() << "<tile>" << node->tiles[i].writeLine() << "\n";
+            }
         }
     }
     genChildGameObjsTilePack(file, item, withCondition);
