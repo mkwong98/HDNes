@@ -115,15 +115,52 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	
 	bSizer14->Add( bSizer15, 0, wxEXPAND, 5 );
 	
+	wxBoxSizer* bSizer33;
+	bSizer33 = new wxBoxSizer( wxHORIZONTAL );
+	
+	wxBoxSizer* bSizer34;
+	bSizer34 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText11 = new wxStaticText( m_panel71, wxID_ANY, wxT("Original:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText11->Wrap( -1 );
+	bSizer34->Add( m_staticText11, 0, wxALL, 5 );
+	
+	
+	bSizer33->Add( bSizer34, 1, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer36;
+	bSizer36 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText12 = new wxStaticText( m_panel71, wxID_ANY, wxT("Replacement:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText12->Wrap( -1 );
+	bSizer36->Add( m_staticText12, 0, wxALL, 5 );
+	
+	m_staticText16 = new wxStaticText( m_panel71, wxID_ANY, wxT("Brightness"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText16->Wrap( -1 );
+	bSizer36->Add( m_staticText16, 0, wxALL, 5 );
+	
+	dialReplaceBrightness = new wxSlider( m_panel71, wxID_ANY, 100, 0, 100, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL );
+	bSizer36->Add( dialReplaceBrightness, 0, wxALL, 5 );
+	
+	lblReplaceBrightness = new wxStaticText( m_panel71, wxID_ANY, wxT("100"), wxDefaultPosition, wxDefaultSize, 0 );
+	lblReplaceBrightness->Wrap( -1 );
+	bSizer36->Add( lblReplaceBrightness, 0, wxALL, 5 );
+	
+	m_staticText18 = new wxStaticText( m_panel71, wxID_ANY, wxT("%"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText18->Wrap( -1 );
+	bSizer36->Add( m_staticText18, 0, wxALL, 5 );
+	
+	
+	bSizer33->Add( bSizer36, 1, wxEXPAND, 5 );
+	
+	
+	bSizer14->Add( bSizer33, 0, wxEXPAND, 5 );
+	
 	wxBoxSizer* bSizer16;
 	bSizer16 = new wxBoxSizer( wxHORIZONTAL );
 	
 	wxBoxSizer* bSizer18;
 	bSizer18 = new wxBoxSizer( wxVERTICAL );
-	
-	m_staticText11 = new wxStaticText( m_panel71, wxID_ANY, wxT("Original:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText11->Wrap( -1 );
-	bSizer18->Add( m_staticText11, 0, wxALL, 5 );
 	
 	wxFlexGridSizer* fgSizer11;
 	fgSizer11 = new wxFlexGridSizer( 0, 2, 0, 0 );
@@ -163,10 +200,6 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	
 	wxBoxSizer* bSizer20;
 	bSizer20 = new wxBoxSizer( wxVERTICAL );
-	
-	m_staticText12 = new wxStaticText( m_panel71, wxID_ANY, wxT("Replacement:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText12->Wrap( -1 );
-	bSizer20->Add( m_staticText12, 0, wxALL, 5 );
 	
 	wxFlexGridSizer* fgSizer12;
 	fgSizer12 = new wxFlexGridSizer( 0, 2, 0, 0 );
@@ -389,6 +422,15 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	rbnObjectSprite->Connect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( mainForm::gameObjSpriteClicked ), NULL, this );
 	rbnObjectBG->Connect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( mainForm::gameObjBGClicked ), NULL, this );
 	btnGameObjBGColour->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::gameObjBGColour ), NULL, this );
+	dialReplaceBrightness->Connect( wxEVT_SCROLL_TOP, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
+	dialReplaceBrightness->Connect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
+	dialReplaceBrightness->Connect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
+	dialReplaceBrightness->Connect( wxEVT_SCROLL_LINEDOWN, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
+	dialReplaceBrightness->Connect( wxEVT_SCROLL_PAGEUP, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
+	dialReplaceBrightness->Connect( wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
+	dialReplaceBrightness->Connect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
+	dialReplaceBrightness->Connect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
+	dialReplaceBrightness->Connect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
 	pnlGameObjRaw->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( mainForm::gameObjsRawEnter ), NULL, this );
 	pnlGameObjRaw->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( mainForm::gameObjsRawLDown ), NULL, this );
 	pnlGameObjRaw->Connect( wxEVT_LEFT_UP, wxMouseEventHandler( mainForm::gameObjsRawLUp ), NULL, this );
@@ -498,6 +540,15 @@ mainForm::~mainForm()
 	rbnObjectSprite->Disconnect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( mainForm::gameObjSpriteClicked ), NULL, this );
 	rbnObjectBG->Disconnect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( mainForm::gameObjBGClicked ), NULL, this );
 	btnGameObjBGColour->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::gameObjBGColour ), NULL, this );
+	dialReplaceBrightness->Disconnect( wxEVT_SCROLL_TOP, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
+	dialReplaceBrightness->Disconnect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
+	dialReplaceBrightness->Disconnect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
+	dialReplaceBrightness->Disconnect( wxEVT_SCROLL_LINEDOWN, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
+	dialReplaceBrightness->Disconnect( wxEVT_SCROLL_PAGEUP, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
+	dialReplaceBrightness->Disconnect( wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
+	dialReplaceBrightness->Disconnect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
+	dialReplaceBrightness->Disconnect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
+	dialReplaceBrightness->Disconnect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
 	pnlGameObjRaw->Disconnect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( mainForm::gameObjsRawEnter ), NULL, this );
 	pnlGameObjRaw->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( mainForm::gameObjsRawLDown ), NULL, this );
 	pnlGameObjRaw->Disconnect( wxEVT_LEFT_UP, wxMouseEventHandler( mainForm::gameObjsRawLUp ), NULL, this );

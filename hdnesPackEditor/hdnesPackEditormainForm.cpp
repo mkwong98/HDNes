@@ -19,6 +19,10 @@ mainForm( parent )
     initGeneral();
     initHDImg();
 
+    int widths[1];
+    widths[0] = 500;
+    m_statusBar->SetStatusWidths(1, widths);
+
     //load config
     string configPath;
     configPath = main::exeDir + string("\\config.txt");
@@ -1184,6 +1188,8 @@ void hdnesPackEditormainForm::refreshGameObj(){
 
     rbnObjectSprite->SetValue(ndata->isSprite);
     rbnObjectBG->SetValue(!ndata->isSprite);
+    dialReplaceBrightness->SetValue(ndata->brightness * 100);
+    lblReplaceBrightness->SetLabel(wxString(main::intToStr(dialReplaceBrightness->GetValue()).c_str()));
 
     //refresh bg colour button
     btnGameObjBGColour->SetBackgroundColour(coreData::cData->palette[ndata->bgColour]);
@@ -1568,9 +1574,16 @@ void hdnesPackEditormainForm::gameObjsRawLUp( wxMouseEvent& event ){
             corner2.y = max(p.y, gameObjLDownPos.y);
             corner1 = convertGameObjRawPosition(corner1);
             corner2 = convertGameObjRawPosition(corner2);
-
+            wxPoint ld = convertGameObjRawPosition(gameObjLDownPos);
             for(int i = 0; i < ndata->tiles.size(); i++){
                 if(editCondition && i == conditionGameObjID) continue;
+
+                if(ld.x <= ndata->tiles[i].objCoordX + 8
+                   && ld.x >= ndata->tiles[i].objCoordX
+                   && ld.y <= ndata->tiles[i].objCoordY + 8
+                   && ld.y >= ndata->tiles[i].objCoordY){
+                    m_statusBar->SetStatusText(wxString((ndata->tiles[i].id.writeID() + ", " + ndata->tiles[i].id.writePalette()).c_str()));
+                }
                 if(corner1.x <= ndata->tiles[i].objCoordX + 8
                    && corner2.x >= ndata->tiles[i].objCoordX
                    && corner1.y <= ndata->tiles[i].objCoordY + 8
@@ -1628,6 +1641,15 @@ void hdnesPackEditormainForm::zoomGameObjsChanged( wxSpinEvent& event ){
         gameObjViewCentreY = (gameObjViewCentreY * zoomGameObjs->GetValue()) / gameObjZoom;
         adjustGameObjSize();
         drawGameObjEdits();
+    }
+}
+
+void hdnesPackEditormainForm::replaceBrightnessChanged( wxScrollEvent& event ){
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
+    if(ndata){
+        ndata->brightness = (float)dialReplaceBrightness->GetValue() / 100.0;
+        lblReplaceBrightness->SetLabel(wxString(main::intToStr(dialReplaceBrightness->GetValue()).c_str()));
+        dataChanged();
     }
 }
 
@@ -1787,6 +1809,7 @@ void hdnesPackEditormainForm::genGameObjItemTilePack(fstream& file, wxTreeItemId
     gameTile newTile;
     int replaceSize = 8 * coreData::cData->scale;
     for(int i = 0; i < node->tiles.size(); ++i){
+        node->tiles[i].brightness = node->brightness;
         if(node->tiles[i].hasReplacement && (withCondition == (node->tiles[i].conditions.size() > 0))){
             if(node->isSprite && (node->tiles[i].hFlip || node->tiles[i].vFlip)){
                 //generate mirrored tile
@@ -1819,8 +1842,6 @@ void hdnesPackEditormainForm::genGameObjItemTilePack(fstream& file, wxTreeItemId
                 newTile.x = gameObjectGenImageX * replaceSize;
                 newTile.y = gameObjectGenImageY * replaceSize;
                 file << newTile.writeConditionNames() << "<tile>" << newTile.writeLine() << "\n";
-                //save image file
-                gameObjectGenImage.SaveFile(wxString((coreData::cData->packPath + "\\editorGenImage" + main::intToStr(gameObjectGenImageCnt) + ".png").c_str()));
 
                 //move position
                 gameObjectGenImageX += 1;
@@ -1828,6 +1849,9 @@ void hdnesPackEditormainForm::genGameObjItemTilePack(fstream& file, wxTreeItemId
                     gameObjectGenImageY += 1;
                     gameObjectGenImageX = 0;
                     if(gameObjectGenImageY == 32){
+                        //save image file
+                        gameObjectGenImage.SaveFile(wxString((coreData::cData->packPath + "\\editorGenImage" + main::intToStr(gameObjectGenImageCnt) + ".png").c_str()));
+
                         gameObjectGenImageCnt ++;
                         gameObjectGenImageY = 0;
                     }
@@ -1839,6 +1863,11 @@ void hdnesPackEditormainForm::genGameObjItemTilePack(fstream& file, wxTreeItemId
         }
     }
     genChildGameObjsTilePack(file, item, withCondition);
+    if(gameObjectGenImageX != 0 || gameObjectGenImageY != 0){
+        //save image file
+        gameObjectGenImage.SaveFile(wxString((coreData::cData->packPath + "\\editorGenImage" + main::intToStr(gameObjectGenImageCnt) + ".png").c_str()));
+    }
+
 }
 
 void hdnesPackEditormainForm::findGameObjNotUniqueTile(){

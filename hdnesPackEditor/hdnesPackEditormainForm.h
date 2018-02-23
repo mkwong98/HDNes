@@ -76,6 +76,7 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
 		void gameObjsRawHScrolled( wxScrollEvent& event );
 		void gameObjsRawLDown( wxMouseEvent& event );
 		void gameObjsRawLUp( wxMouseEvent& event );
+		void replaceBrightnessChanged( wxScrollEvent& event );
 
 		void HDImgSelected( wxListEvent& event );
 		void HDImgSizeChanged( wxSizeEvent& event );
@@ -121,7 +122,7 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         //--end general session
 
         //--rom view session
-        int romViewColours[4];
+        Uint8 romViewColours[4];
         int romViewDisplayRows;
         int romViewDisplayWidth;
         int romViewDisplayHeight;

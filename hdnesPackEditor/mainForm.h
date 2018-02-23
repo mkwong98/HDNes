@@ -27,6 +27,7 @@
 #include <wx/spinctrl.h>
 #include <wx/radiobut.h>
 #include <wx/button.h>
+#include <wx/slider.h>
 #include <wx/scrolbar.h>
 #include <wx/splitter.h>
 #include <wx/listctrl.h>
@@ -66,10 +67,14 @@ class mainForm : public wxFrame
 		wxStaticText* m_staticText101;
 		wxButton* btnGameObjBGColour;
 		wxStaticText* m_staticText11;
+		wxStaticText* m_staticText12;
+		wxStaticText* m_staticText16;
+		wxSlider* dialReplaceBrightness;
+		wxStaticText* lblReplaceBrightness;
+		wxStaticText* m_staticText18;
 		wxPanel* pnlGameObjRaw;
 		wxScrollBar* scrGameObjRawV;
 		wxScrollBar* scrGameObjRawH;
-		wxStaticText* m_staticText12;
 		wxPanel* pnlGameObjNew;
 		wxScrollBar* scrGameObjNewV;
 		wxScrollBar* scrGameObjNewH;
@@ -114,6 +119,7 @@ class mainForm : public wxFrame
 		virtual void gameObjSpriteClicked( wxCommandEvent& event ) { event.Skip(); }
 		virtual void gameObjBGClicked( wxCommandEvent& event ) { event.Skip(); }
 		virtual void gameObjBGColour( wxCommandEvent& event ) { event.Skip(); }
+		virtual void replaceBrightnessChanged( wxScrollEvent& event ) { event.Skip(); }
 		virtual void gameObjsRawEnter( wxMouseEvent& event ) { event.Skip(); }
 		virtual void gameObjsRawLDown( wxMouseEvent& event ) { event.Skip(); }
 		virtual void gameObjsRawLUp( wxMouseEvent& event ) { event.Skip(); }

@@ -35,6 +35,7 @@ class gameObjNode : public wxTreeItemData
         int objectHeight;
         Uint8 bgColour;
         bool isSprite;
+        float brightness;
 
         vector<gameTile> tiles;
 
