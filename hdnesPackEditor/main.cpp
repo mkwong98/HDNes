@@ -27,6 +27,20 @@ string main::floatToStr(float value){
     return stream.str();
 }
 
+string main::paletteToStr(vector<array<Uint8, 4>> p){
+    stringstream stream;
+    for(int i = 0; i < p.size(); ++i){
+        stream << main::intToHex(p[i][0]);
+        stream << main::intToHex(p[i][1]);
+        stream << main::intToHex(p[i][2]);
+        stream << main::intToHex(p[i][3]);
+        if(i < (p.size() - 1)){
+            stream << ",";
+        }
+    }
+    return stream.str();
+}
+
 vector<string> main::split(const string &s, char delim, vector<string> &elems) {
     stringstream ss(s);
     string item;

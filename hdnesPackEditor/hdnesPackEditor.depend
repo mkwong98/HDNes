@@ -1,13 +1,13 @@
 # depslib dependency file v1.0
-1519050096 source:c:\work\hdnesr\trunk\hdnespackeditor\main.cpp
+1519727291 source:c:\work\hdnesr\trunk\hdnespackeditor\main.cpp
 	"common.h"
 	"hdnesPackEditormainForm.h"
 	"main.h"
 
-1519359034 source:c:\work\hdnesr\trunk\hdnespackeditor\mainform.cpp
+1519960893 source:c:\work\hdnesr\trunk\hdnespackeditor\mainform.cpp
 	"mainForm.h"
 
-1519359034 c:\work\hdnesr\trunk\hdnespackeditor\mainform.h
+1519959041 c:\work\hdnesr\trunk\hdnespackeditor\mainform.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/string.h>
@@ -23,16 +23,15 @@
 	<wx/treectrl.h>
 	<wx/sizer.h>
 	<wx/panel.h>
-	<wx/stattext.h>
-	<wx/spinctrl.h>
 	<wx/radiobut.h>
+	<wx/stattext.h>
 	<wx/button.h>
-	<wx/slider.h>
+	<wx/spinctrl.h>
 	<wx/scrolbar.h>
-	<wx/splitter.h>
 	<wx/listctrl.h>
 	<wx/textctrl.h>
 	<wx/notebook.h>
+	<wx/splitter.h>
 	<wx/frame.h>
 	<wx/filepicker.h>
 	<wx/dialog.h>
@@ -2136,7 +2135,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1519374277 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.cpp
+1519981816 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.cpp
 	"hdnesPackEditormainForm.h"
 	"hdnesPackEditornewProjectDialog.h"
 	"hdnesPackEditorcolourSelectDialog.h"
@@ -2148,14 +2147,16 @@
 	<wx/clipbrd.h>
 	"gameObjNode.h"
 	"image.h"
+	"paletteSwap.h"
 
-1519379405 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.h
+1519981567 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.h
 	"common.h"
 	"mainForm.h"
 	"colourDialogClient.h"
 	"gameObjNode.h"
+	"classList.h"
 
-1519050096 c:\work\hdnesr\trunk\hdnespackeditor\main.h
+1519727167 c:\work\hdnesr\trunk\hdnespackeditor\main.h
 	"common.h"
 	<wx\wx.h>
 	<SDL2\SDL.h>
@@ -3490,17 +3491,18 @@
 	"classList.h"
 	<wx/wx.h>
 
-1512179199 c:\work\hdnesr\trunk\hdnespackeditor\common.h
+1519723156 c:\work\hdnesr\trunk\hdnespackeditor\common.h
 	<fstream>
 	<sstream>
 	<string>
 	<iostream>
 	<vector>
+	<array>
 	<iomanip>
 	<wx/image.h>
 	<SDL2/SDL.h>
 
-1515739277 c:\work\hdnesr\trunk\hdnespackeditor\classlist.h
+1519722010 c:\work\hdnesr\trunk\hdnespackeditor\classlist.h
 
 1504597737 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditornewprojectdialog.h
 	"mainForm.h"
@@ -3669,7 +3671,7 @@
 	"wx/grid.h"
 	"wx/datetime.h"
 
-1517994036 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditorcolourselectdialog.cpp
+1519956546 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditorcolourselectdialog.cpp
 	"common.h"
 	"hdnesPackEditorcolourSelectDialog.h"
 	"coreData.h"
@@ -3811,13 +3813,14 @@
 	"wx/window.h"
 	"wx/containr.h"
 
-1519360541 source:c:\work\hdnesr\trunk\hdnespackeditor\gameobjnode.cpp
+1519979097 source:c:\work\hdnesr\trunk\hdnespackeditor\gameobjnode.cpp
 	"gameObjNode.h"
 	"gameTile.h"
+	"paletteSwap.h"
 	"main.h"
 	"hdnesPackEditormainForm.h"
 
-1519360410 c:\work\hdnesr\trunk\hdnespackeditor\gameobjnode.h
+1519726054 c:\work\hdnesr\trunk\hdnespackeditor\gameobjnode.h
 	"common.h"
 	"gameTile.h"
 	<wx/treebase.h>
@@ -3898,4 +3901,11 @@
 1517542252 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditorreplacementdialog.h
 	"mainForm.h"
 	"gameTile.h"
+
+1519724692 c:\work\hdnesr\trunk\hdnespackeditor\paletteswap.h
+	"common.h"
+
+1520007787 source:c:\work\hdnesr\trunk\hdnespackeditor\paletteswap.cpp
+	"paletteSwap.h"
+	"main.h"
 

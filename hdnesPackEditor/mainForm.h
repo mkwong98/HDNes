@@ -23,16 +23,15 @@
 #include <wx/treectrl.h>
 #include <wx/sizer.h>
 #include <wx/panel.h>
-#include <wx/stattext.h>
-#include <wx/spinctrl.h>
 #include <wx/radiobut.h>
+#include <wx/stattext.h>
 #include <wx/button.h>
-#include <wx/slider.h>
+#include <wx/spinctrl.h>
 #include <wx/scrolbar.h>
-#include <wx/splitter.h>
 #include <wx/listctrl.h>
 #include <wx/textctrl.h>
 #include <wx/notebook.h>
+#include <wx/splitter.h>
 #include <wx/frame.h>
 #include <wx/filepicker.h>
 #include <wx/dialog.h>
@@ -59,18 +58,18 @@ class mainForm : public wxFrame
 		wxPanel* m_panel70;
 		wxTreeCtrl* treeGameObjs;
 		wxPanel* m_panel71;
-		wxStaticText* m_staticText61;
-		wxSpinCtrl* zoomGameObjs;
-		wxStaticText* m_staticText91;
+		wxNotebook* m_notebook2;
+		wxPanel* m_panel78;
 		wxRadioButton* rbnObjectSprite;
 		wxRadioButton* rbnObjectBG;
 		wxStaticText* m_staticText101;
 		wxButton* btnGameObjBGColour;
 		wxStaticText* m_staticText11;
+		wxStaticText* m_staticText61;
+		wxSpinCtrl* zoomGameObjs;
 		wxStaticText* m_staticText12;
 		wxStaticText* m_staticText16;
-		wxSlider* dialReplaceBrightness;
-		wxStaticText* lblReplaceBrightness;
+		wxSpinCtrl* spnBrightness;
 		wxStaticText* m_staticText18;
 		wxPanel* pnlGameObjRaw;
 		wxScrollBar* scrGameObjRawV;
@@ -78,6 +77,36 @@ class mainForm : public wxFrame
 		wxPanel* pnlGameObjNew;
 		wxScrollBar* scrGameObjNewV;
 		wxScrollBar* scrGameObjNewH;
+		wxPanel* m_panel79;
+		wxListCtrl* lstSwaps;
+		wxStaticText* m_staticText181;
+		wxTextCtrl* txtSwapName;
+		wxListCtrl* lstPalettes;
+		wxStaticText* m_staticText19;
+		wxStaticText* lblOrgPalette;
+		wxPanel* pnlOrgPaletteBG;
+		wxPanel* pnlOrgPalette1;
+		wxPanel* pnlOrgPalette2;
+		wxPanel* pnlOrgPalette3;
+		wxStaticText* m_staticText261;
+		wxStaticText* m_staticText21;
+		wxTextCtrl* txtSwapPaletteNew;
+		wxButton* btnNewPaletteBG;
+		wxButton* btnNewPalette1;
+		wxButton* btnNewPalette2;
+		wxButton* btnNewPalette3;
+		wxStaticText* m_staticText22;
+		wxSpinCtrl* spnSwapNewBrightness;
+		wxStaticText* m_staticText23;
+		wxStaticText* m_staticText24;
+		wxSpinCtrl* spnSwapRotateHue;
+		wxStaticText* m_staticText26;
+		wxStaticText* m_staticText27;
+		wxSpinCtrl* spnSwapNewSaturation;
+		wxStaticText* m_staticText28;
+		wxButton* btnAddSwap;
+		wxButton* btnUpdateSwap;
+		wxButton* btnDeleteSwap;
 		wxPanel* m_panel72;
 		wxSplitterWindow* m_splitter21;
 		wxPanel* m_panel741;
@@ -115,11 +144,11 @@ class mainForm : public wxFrame
 		virtual void gameObjTItemChangeName( wxTreeEvent& event ) { event.Skip(); }
 		virtual void gameObjTItemOpenMenu( wxTreeEvent& event ) { event.Skip(); }
 		virtual void gameObjTItemSelected( wxTreeEvent& event ) { event.Skip(); }
-		virtual void zoomGameObjsChanged( wxSpinEvent& event ) { event.Skip(); }
 		virtual void gameObjSpriteClicked( wxCommandEvent& event ) { event.Skip(); }
 		virtual void gameObjBGClicked( wxCommandEvent& event ) { event.Skip(); }
 		virtual void gameObjBGColour( wxCommandEvent& event ) { event.Skip(); }
-		virtual void replaceBrightnessChanged( wxScrollEvent& event ) { event.Skip(); }
+		virtual void zoomGameObjsChanged( wxSpinEvent& event ) { event.Skip(); }
+		virtual void replaceBrightnessChanged( wxSpinEvent& event ) { event.Skip(); }
 		virtual void gameObjsRawEnter( wxMouseEvent& event ) { event.Skip(); }
 		virtual void gameObjsRawLDown( wxMouseEvent& event ) { event.Skip(); }
 		virtual void gameObjsRawLUp( wxMouseEvent& event ) { event.Skip(); }
@@ -136,6 +165,19 @@ class mainForm : public wxFrame
 		virtual void gameObjsNewSizeChanged( wxSizeEvent& event ) { event.Skip(); }
 		virtual void gameObjsNewVScrolled( wxScrollEvent& event ) { event.Skip(); }
 		virtual void gameObjsNewHScrolled( wxScrollEvent& event ) { event.Skip(); }
+		virtual void SwapSeleted( wxListEvent& event ) { event.Skip(); }
+		virtual void SwapPaletteSelected( wxListEvent& event ) { event.Skip(); }
+		virtual void SwapPaletteNewChanged( wxCommandEvent& event ) { event.Skip(); }
+		virtual void SwapNewPaletteBGClicked( wxCommandEvent& event ) { event.Skip(); }
+		virtual void SwapNewPalette1Clicked( wxCommandEvent& event ) { event.Skip(); }
+		virtual void SwapNewPalette2Clicked( wxCommandEvent& event ) { event.Skip(); }
+		virtual void SwapNewPalette3Clicked( wxCommandEvent& event ) { event.Skip(); }
+		virtual void SwapNewBrightnessChanged( wxSpinEvent& event ) { event.Skip(); }
+		virtual void SwapRotateHueChanged( wxSpinEvent& event ) { event.Skip(); }
+		virtual void SwapNewSaturationChanged( wxSpinEvent& event ) { event.Skip(); }
+		virtual void AddSwapClicked( wxCommandEvent& event ) { event.Skip(); }
+		virtual void UpdateSwapClicked( wxCommandEvent& event ) { event.Skip(); }
+		virtual void DeleteSwapClicked( wxCommandEvent& event ) { event.Skip(); }
 		virtual void HDImgSelected( wxListEvent& event ) { event.Skip(); }
 		virtual void HDImgAdd( wxCommandEvent& event ) { event.Skip(); }
 		virtual void HDImgRemove( wxCommandEvent& event ) { event.Skip(); }
@@ -164,7 +206,7 @@ class mainForm : public wxFrame
 	
 	public:
 		
-		mainForm( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("HDNes Graphics Pack Editor"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 816,626 ), long style = wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER|wxTAB_TRAVERSAL );
+		mainForm( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("HDNes Graphics Pack Editor"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 980,626 ), long style = wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER|wxTAB_TRAVERSAL );
 		
 		~mainForm();
 		

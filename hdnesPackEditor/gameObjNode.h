@@ -38,12 +38,16 @@ class gameObjNode : public wxTreeItemData
         float brightness;
 
         vector<gameTile> tiles;
+        vector<paletteSwap> swaps;
+        vector<array<Uint8, 4>> palettes;
 
         void addTile(gameTile g);
         void addToObjectSize(int gIdx);
         void clearAllTiles();
+        void addSwap(paletteSwap g);
         void load(fstream& file, wxTreeItemId newItm);
         void save(fstream& file, wxTreeItemId newItm);
+        void updatePalettes();
     protected:
 
     private:

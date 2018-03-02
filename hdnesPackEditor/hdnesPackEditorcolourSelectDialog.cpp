@@ -83,6 +83,7 @@ void hdnesPackEditorcolourSelectDialog::colourSelectInit( wxInitDialogEvent& eve
 {
     for(int i = 0; i < 64; ++i){
         colourPanels[i]->SetBackgroundColour(coreData::cData->palette[i]);
+        colourPanels[i]->Refresh();
     }
 }
 

@@ -79,37 +79,29 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	m_panel70->Layout();
 	bSizer131->Fit( m_panel70 );
 	m_panel71 = new wxPanel( m_splitter2, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizer38;
+	bSizer38 = new wxBoxSizer( wxVERTICAL );
+	
+	m_notebook2 = new wxNotebook( m_panel71, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
+	m_panel78 = new wxPanel( m_notebook2, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer14;
 	bSizer14 = new wxBoxSizer( wxVERTICAL );
 	
 	wxBoxSizer* bSizer15;
 	bSizer15 = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_staticText61 = new wxStaticText( m_panel71, wxID_ANY, wxT("Zoom:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText61->Wrap( -1 );
-	bSizer15->Add( m_staticText61, 0, wxALL, 5 );
-	
-	zoomGameObjs = new wxSpinCtrl( m_panel71, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 1, 10, 1 );
-	zoomGameObjs->SetMinSize( wxSize( 50,-1 ) );
-	
-	bSizer15->Add( zoomGameObjs, 0, wxALL, 5 );
-	
-	m_staticText91 = new wxStaticText( m_panel71, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText91->Wrap( -1 );
-	bSizer15->Add( m_staticText91, 0, wxALL, 5 );
-	
-	rbnObjectSprite = new wxRadioButton( m_panel71, wxID_ANY, wxT("Sprite"), wxDefaultPosition, wxDefaultSize, 0 );
+	rbnObjectSprite = new wxRadioButton( m_panel78, wxID_ANY, wxT("Sprite"), wxDefaultPosition, wxDefaultSize, 0 );
 	rbnObjectSprite->SetValue( true ); 
 	bSizer15->Add( rbnObjectSprite, 0, wxALL, 5 );
 	
-	rbnObjectBG = new wxRadioButton( m_panel71, wxID_ANY, wxT("Back Ground"), wxDefaultPosition, wxDefaultSize, 0 );
+	rbnObjectBG = new wxRadioButton( m_panel78, wxID_ANY, wxT("Back Ground"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer15->Add( rbnObjectBG, 0, wxALL, 5 );
 	
-	m_staticText101 = new wxStaticText( m_panel71, wxID_ANY, wxT("BG colour: "), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText101 = new wxStaticText( m_panel78, wxID_ANY, wxT("BG colour: "), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText101->Wrap( -1 );
 	bSizer15->Add( m_staticText101, 0, wxALL, 5 );
 	
-	btnGameObjBGColour = new wxButton( m_panel71, wxID_ANY, wxT("..."), wxDefaultPosition, wxSize( 50,-1 ), 0 );
+	btnGameObjBGColour = new wxButton( m_panel78, wxID_ANY, wxT("..."), wxDefaultPosition, wxSize( 50,-1 ), 0 );
 	bSizer15->Add( btnGameObjBGColour, 0, wxALL, 5 );
 	
 	
@@ -121,9 +113,18 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxBoxSizer* bSizer34;
 	bSizer34 = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_staticText11 = new wxStaticText( m_panel71, wxID_ANY, wxT("Original:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText11 = new wxStaticText( m_panel78, wxID_ANY, wxT("Original:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText11->Wrap( -1 );
 	bSizer34->Add( m_staticText11, 0, wxALL, 5 );
+	
+	m_staticText61 = new wxStaticText( m_panel78, wxID_ANY, wxT("Zoom"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText61->Wrap( -1 );
+	bSizer34->Add( m_staticText61, 0, wxALL, 5 );
+	
+	zoomGameObjs = new wxSpinCtrl( m_panel78, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 1, 10, 1 );
+	zoomGameObjs->SetMinSize( wxSize( 50,-1 ) );
+	
+	bSizer34->Add( zoomGameObjs, 0, wxALL, 5 );
 	
 	
 	bSizer33->Add( bSizer34, 1, wxEXPAND, 5 );
@@ -131,22 +132,20 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxBoxSizer* bSizer36;
 	bSizer36 = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_staticText12 = new wxStaticText( m_panel71, wxID_ANY, wxT("Replacement:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText12 = new wxStaticText( m_panel78, wxID_ANY, wxT("Replacement:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText12->Wrap( -1 );
 	bSizer36->Add( m_staticText12, 0, wxALL, 5 );
 	
-	m_staticText16 = new wxStaticText( m_panel71, wxID_ANY, wxT("Brightness"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText16 = new wxStaticText( m_panel78, wxID_ANY, wxT("Brightness"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText16->Wrap( -1 );
 	bSizer36->Add( m_staticText16, 0, wxALL, 5 );
 	
-	dialReplaceBrightness = new wxSlider( m_panel71, wxID_ANY, 100, 0, 100, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL );
-	bSizer36->Add( dialReplaceBrightness, 0, wxALL, 5 );
+	spnBrightness = new wxSpinCtrl( m_panel78, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 0, 100, 100 );
+	spnBrightness->SetMaxSize( wxSize( 50,-1 ) );
 	
-	lblReplaceBrightness = new wxStaticText( m_panel71, wxID_ANY, wxT("100"), wxDefaultPosition, wxDefaultSize, 0 );
-	lblReplaceBrightness->Wrap( -1 );
-	bSizer36->Add( lblReplaceBrightness, 0, wxALL, 5 );
+	bSizer36->Add( spnBrightness, 0, wxALL, 5 );
 	
-	m_staticText18 = new wxStaticText( m_panel71, wxID_ANY, wxT("%"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText18 = new wxStaticText( m_panel78, wxID_ANY, wxT("%"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText18->Wrap( -1 );
 	bSizer36->Add( m_staticText18, 0, wxALL, 5 );
 	
@@ -169,7 +168,7 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	fgSizer11->SetFlexibleDirection( wxBOTH );
 	fgSizer11->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_ALL );
 	
-	pnlGameObjRaw = new wxPanel( m_panel71, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	pnlGameObjRaw = new wxPanel( m_panel78, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	pnlGameObjRaw->SetBackgroundColour( wxColour( 0, 0, 0 ) );
 	
 	fgSizer11->Add( pnlGameObjRaw, 1, wxEXPAND | wxALL, 5 );
@@ -177,7 +176,7 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxBoxSizer* bSizer101;
 	bSizer101 = new wxBoxSizer( wxVERTICAL );
 	
-	scrGameObjRawV = new wxScrollBar( m_panel71, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSB_VERTICAL );
+	scrGameObjRawV = new wxScrollBar( m_panel78, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSB_VERTICAL );
 	bSizer101->Add( scrGameObjRawV, 1, wxALL, 5 );
 	
 	
@@ -186,7 +185,7 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxBoxSizer* bSizer132;
 	bSizer132 = new wxBoxSizer( wxHORIZONTAL );
 	
-	scrGameObjRawH = new wxScrollBar( m_panel71, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSB_HORIZONTAL );
+	scrGameObjRawH = new wxScrollBar( m_panel78, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSB_HORIZONTAL );
 	bSizer132->Add( scrGameObjRawH, 1, wxALL, 5 );
 	
 	
@@ -208,7 +207,7 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	fgSizer12->SetFlexibleDirection( wxBOTH );
 	fgSizer12->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_ALL );
 	
-	pnlGameObjNew = new wxPanel( m_panel71, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	pnlGameObjNew = new wxPanel( m_panel78, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	pnlGameObjNew->SetBackgroundColour( wxColour( 0, 0, 0 ) );
 	
 	fgSizer12->Add( pnlGameObjNew, 1, wxEXPAND | wxALL, 5 );
@@ -216,7 +215,7 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxBoxSizer* bSizer102;
 	bSizer102 = new wxBoxSizer( wxVERTICAL );
 	
-	scrGameObjNewV = new wxScrollBar( m_panel71, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSB_VERTICAL );
+	scrGameObjNewV = new wxScrollBar( m_panel78, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSB_VERTICAL );
 	bSizer102->Add( scrGameObjNewV, 1, wxALL, 5 );
 	
 	
@@ -225,7 +224,7 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxBoxSizer* bSizer133;
 	bSizer133 = new wxBoxSizer( wxHORIZONTAL );
 	
-	scrGameObjNewH = new wxScrollBar( m_panel71, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSB_HORIZONTAL );
+	scrGameObjNewH = new wxScrollBar( m_panel78, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSB_HORIZONTAL );
 	bSizer133->Add( scrGameObjNewH, 1, wxALL, 5 );
 	
 	
@@ -241,9 +240,222 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	bSizer14->Add( bSizer16, 1, wxEXPAND, 5 );
 	
 	
-	m_panel71->SetSizer( bSizer14 );
+	m_panel78->SetSizer( bSizer14 );
+	m_panel78->Layout();
+	bSizer14->Fit( m_panel78 );
+	m_notebook2->AddPage( m_panel78, wxT("Object information"), true );
+	m_panel79 = new wxPanel( m_notebook2, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizer40;
+	bSizer40 = new wxBoxSizer( wxVERTICAL );
+	
+	lstSwaps = new wxListCtrl( m_panel79, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT|wxLC_SINGLE_SEL );
+	bSizer40->Add( lstSwaps, 2, wxALL|wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer43;
+	bSizer43 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText181 = new wxStaticText( m_panel79, wxID_ANY, wxT("Palette swap name:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText181->Wrap( -1 );
+	bSizer43->Add( m_staticText181, 0, wxALL, 5 );
+	
+	txtSwapName = new wxTextCtrl( m_panel79, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer43->Add( txtSwapName, 0, wxALL, 5 );
+	
+	
+	bSizer40->Add( bSizer43, 0, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer41;
+	bSizer41 = new wxBoxSizer( wxHORIZONTAL );
+	
+	lstPalettes = new wxListCtrl( m_panel79, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT|wxLC_SINGLE_SEL );
+	bSizer41->Add( lstPalettes, 1, wxALL|wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer42;
+	bSizer42 = new wxBoxSizer( wxVERTICAL );
+	
+	wxBoxSizer* bSizer44;
+	bSizer44 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText19 = new wxStaticText( m_panel79, wxID_ANY, wxT("Original palette:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText19->Wrap( -1 );
+	bSizer44->Add( m_staticText19, 0, wxALL, 5 );
+	
+	lblOrgPalette = new wxStaticText( m_panel79, wxID_ANY, wxT("00000000"), wxDefaultPosition, wxDefaultSize, 0 );
+	lblOrgPalette->Wrap( -1 );
+	bSizer44->Add( lblOrgPalette, 0, wxALL, 5 );
+	
+	
+	bSizer42->Add( bSizer44, 1, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer45;
+	bSizer45 = new wxBoxSizer( wxHORIZONTAL );
+	
+	pnlOrgPaletteBG = new wxPanel( m_panel79, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	bSizer45->Add( pnlOrgPaletteBG, 1, wxALL|wxEXPAND, 5 );
+	
+	pnlOrgPalette1 = new wxPanel( m_panel79, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	bSizer45->Add( pnlOrgPalette1, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlOrgPalette2 = new wxPanel( m_panel79, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	bSizer45->Add( pnlOrgPalette2, 1, wxEXPAND | wxALL, 5 );
+	
+	pnlOrgPalette3 = new wxPanel( m_panel79, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	bSizer45->Add( pnlOrgPalette3, 1, wxEXPAND | wxALL, 5 );
+	
+	
+	bSizer42->Add( bSizer45, 1, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer511;
+	bSizer511 = new wxBoxSizer( wxVERTICAL );
+	
+	m_staticText261 = new wxStaticText( m_panel79, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText261->Wrap( -1 );
+	bSizer511->Add( m_staticText261, 0, wxALL|wxEXPAND, 5 );
+	
+	
+	bSizer42->Add( bSizer511, 1, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer46;
+	bSizer46 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText21 = new wxStaticText( m_panel79, wxID_ANY, wxT("New palette:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText21->Wrap( -1 );
+	bSizer46->Add( m_staticText21, 0, wxALL, 5 );
+	
+	txtSwapPaletteNew = new wxTextCtrl( m_panel79, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	#ifdef __WXGTK__
+	if ( !txtSwapPaletteNew->HasFlag( wxTE_MULTILINE ) )
+	{
+	txtSwapPaletteNew->SetMaxLength( 8 );
+	}
+	#else
+	txtSwapPaletteNew->SetMaxLength( 8 );
+	#endif
+	bSizer46->Add( txtSwapPaletteNew, 0, wxALL, 5 );
+	
+	
+	bSizer42->Add( bSizer46, 1, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer48;
+	bSizer48 = new wxBoxSizer( wxHORIZONTAL );
+	
+	btnNewPaletteBG = new wxButton( m_panel79, wxID_ANY, wxT("BG"), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT );
+	bSizer48->Add( btnNewPaletteBG, 1, wxALL|wxEXPAND, 5 );
+	
+	btnNewPalette1 = new wxButton( m_panel79, wxID_ANY, wxT("1"), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT );
+	bSizer48->Add( btnNewPalette1, 1, wxALL|wxEXPAND, 5 );
+	
+	btnNewPalette2 = new wxButton( m_panel79, wxID_ANY, wxT("2"), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT );
+	bSizer48->Add( btnNewPalette2, 1, wxALL|wxEXPAND, 5 );
+	
+	btnNewPalette3 = new wxButton( m_panel79, wxID_ANY, wxT("3"), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT );
+	bSizer48->Add( btnNewPalette3, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	bSizer42->Add( bSizer48, 1, wxEXPAND, 5 );
+	
+	
+	bSizer41->Add( bSizer42, 1, wxEXPAND, 5 );
+	
+	
+	bSizer40->Add( bSizer41, 1, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer52;
+	bSizer52 = new wxBoxSizer( wxVERTICAL );
+	
+	wxBoxSizer* bSizer53;
+	bSizer53 = new wxBoxSizer( wxHORIZONTAL );
+	
+	wxBoxSizer* bSizer49;
+	bSizer49 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText22 = new wxStaticText( m_panel79, wxID_ANY, wxT("New brightness"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText22->Wrap( -1 );
+	bSizer49->Add( m_staticText22, 0, wxALL, 5 );
+	
+	spnSwapNewBrightness = new wxSpinCtrl( m_panel79, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 0, 100, 100 );
+	spnSwapNewBrightness->SetMaxSize( wxSize( 50,-1 ) );
+	
+	bSizer49->Add( spnSwapNewBrightness, 0, wxALL, 5 );
+	
+	m_staticText23 = new wxStaticText( m_panel79, wxID_ANY, wxT("%"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText23->Wrap( -1 );
+	bSizer49->Add( m_staticText23, 0, wxALL, 5 );
+	
+	
+	bSizer53->Add( bSizer49, 1, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer50;
+	bSizer50 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText24 = new wxStaticText( m_panel79, wxID_ANY, wxT("Rotate hue"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText24->Wrap( -1 );
+	bSizer50->Add( m_staticText24, 0, wxALL, 5 );
+	
+	spnSwapRotateHue = new wxSpinCtrl( m_panel79, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, -360, 360, 0 );
+	spnSwapRotateHue->SetMaxSize( wxSize( 70,-1 ) );
+	
+	bSizer50->Add( spnSwapRotateHue, 0, wxALL, 5 );
+	
+	m_staticText26 = new wxStaticText( m_panel79, wxID_ANY, wxT("degrees"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText26->Wrap( -1 );
+	bSizer50->Add( m_staticText26, 0, wxALL, 5 );
+	
+	
+	bSizer53->Add( bSizer50, 1, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer51;
+	bSizer51 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText27 = new wxStaticText( m_panel79, wxID_ANY, wxT("New saturation"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText27->Wrap( -1 );
+	bSizer51->Add( m_staticText27, 0, wxALL, 5 );
+	
+	spnSwapNewSaturation = new wxSpinCtrl( m_panel79, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 0, 100, 100 );
+	spnSwapNewSaturation->SetMaxSize( wxSize( 50,-1 ) );
+	
+	bSizer51->Add( spnSwapNewSaturation, 0, wxALL, 5 );
+	
+	m_staticText28 = new wxStaticText( m_panel79, wxID_ANY, wxT("%"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText28->Wrap( -1 );
+	bSizer51->Add( m_staticText28, 0, wxALL, 5 );
+	
+	
+	bSizer53->Add( bSizer51, 1, wxEXPAND, 5 );
+	
+	
+	bSizer52->Add( bSizer53, 1, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer54;
+	bSizer54 = new wxBoxSizer( wxHORIZONTAL );
+	
+	btnAddSwap = new wxButton( m_panel79, wxID_ANY, wxT("Add"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer54->Add( btnAddSwap, 0, wxALIGN_CENTER|wxALIGN_RIGHT, 5 );
+	
+	btnUpdateSwap = new wxButton( m_panel79, wxID_ANY, wxT("Update"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer54->Add( btnUpdateSwap, 0, wxALIGN_CENTER|wxALIGN_RIGHT, 5 );
+	
+	btnDeleteSwap = new wxButton( m_panel79, wxID_ANY, wxT("Delete"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer54->Add( btnDeleteSwap, 0, wxALIGN_CENTER|wxALIGN_RIGHT, 5 );
+	
+	
+	bSizer52->Add( bSizer54, 1, wxEXPAND, 5 );
+	
+	
+	bSizer40->Add( bSizer52, 0, wxEXPAND, 5 );
+	
+	
+	m_panel79->SetSizer( bSizer40 );
+	m_panel79->Layout();
+	bSizer40->Fit( m_panel79 );
+	m_notebook2->AddPage( m_panel79, wxT("Palette swaps"), false );
+	
+	bSizer38->Add( m_notebook2, 1, wxEXPAND | wxALL, 5 );
+	
+	
+	m_panel71->SetSizer( bSizer38 );
 	m_panel71->Layout();
-	bSizer14->Fit( m_panel71 );
+	bSizer38->Fit( m_panel71 );
 	m_splitter2->SplitVertically( m_panel70, m_panel71, 150 );
 	bSizer12->Add( m_splitter2, 1, wxEXPAND, 5 );
 	
@@ -418,19 +630,11 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	treeGameObjs->Connect( wxEVT_COMMAND_TREE_END_LABEL_EDIT, wxTreeEventHandler( mainForm::gameObjTItemChangeName ), NULL, this );
 	treeGameObjs->Connect( wxEVT_COMMAND_TREE_ITEM_MENU, wxTreeEventHandler( mainForm::gameObjTItemOpenMenu ), NULL, this );
 	treeGameObjs->Connect( wxEVT_COMMAND_TREE_SEL_CHANGED, wxTreeEventHandler( mainForm::gameObjTItemSelected ), NULL, this );
-	zoomGameObjs->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainForm::zoomGameObjsChanged ), NULL, this );
 	rbnObjectSprite->Connect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( mainForm::gameObjSpriteClicked ), NULL, this );
 	rbnObjectBG->Connect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( mainForm::gameObjBGClicked ), NULL, this );
 	btnGameObjBGColour->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::gameObjBGColour ), NULL, this );
-	dialReplaceBrightness->Connect( wxEVT_SCROLL_TOP, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
-	dialReplaceBrightness->Connect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
-	dialReplaceBrightness->Connect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
-	dialReplaceBrightness->Connect( wxEVT_SCROLL_LINEDOWN, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
-	dialReplaceBrightness->Connect( wxEVT_SCROLL_PAGEUP, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
-	dialReplaceBrightness->Connect( wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
-	dialReplaceBrightness->Connect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
-	dialReplaceBrightness->Connect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
-	dialReplaceBrightness->Connect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
+	zoomGameObjs->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainForm::zoomGameObjsChanged ), NULL, this );
+	spnBrightness->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
 	pnlGameObjRaw->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( mainForm::gameObjsRawEnter ), NULL, this );
 	pnlGameObjRaw->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( mainForm::gameObjsRawLDown ), NULL, this );
 	pnlGameObjRaw->Connect( wxEVT_LEFT_UP, wxMouseEventHandler( mainForm::gameObjsRawLUp ), NULL, this );
@@ -479,6 +683,19 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	scrGameObjNewH->Connect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( mainForm::gameObjsNewHScrolled ), NULL, this );
 	scrGameObjNewH->Connect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( mainForm::gameObjsNewHScrolled ), NULL, this );
 	scrGameObjNewH->Connect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( mainForm::gameObjsNewHScrolled ), NULL, this );
+	lstSwaps->Connect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( mainForm::SwapSeleted ), NULL, this );
+	lstPalettes->Connect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( mainForm::SwapPaletteSelected ), NULL, this );
+	txtSwapPaletteNew->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( mainForm::SwapPaletteNewChanged ), NULL, this );
+	btnNewPaletteBG->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::SwapNewPaletteBGClicked ), NULL, this );
+	btnNewPalette1->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::SwapNewPalette1Clicked ), NULL, this );
+	btnNewPalette2->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::SwapNewPalette2Clicked ), NULL, this );
+	btnNewPalette3->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::SwapNewPalette3Clicked ), NULL, this );
+	spnSwapNewBrightness->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainForm::SwapNewBrightnessChanged ), NULL, this );
+	spnSwapRotateHue->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainForm::SwapRotateHueChanged ), NULL, this );
+	spnSwapNewSaturation->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainForm::SwapNewSaturationChanged ), NULL, this );
+	btnAddSwap->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::AddSwapClicked ), NULL, this );
+	btnUpdateSwap->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::UpdateSwapClicked ), NULL, this );
+	btnDeleteSwap->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::DeleteSwapClicked ), NULL, this );
 	lstHDImg->Connect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( mainForm::HDImgSelected ), NULL, this );
 	btnHDImgAdd->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::HDImgAdd ), NULL, this );
 	btnHDImgRemove->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::HDImgRemove ), NULL, this );
@@ -536,19 +753,11 @@ mainForm::~mainForm()
 	treeGameObjs->Disconnect( wxEVT_COMMAND_TREE_END_LABEL_EDIT, wxTreeEventHandler( mainForm::gameObjTItemChangeName ), NULL, this );
 	treeGameObjs->Disconnect( wxEVT_COMMAND_TREE_ITEM_MENU, wxTreeEventHandler( mainForm::gameObjTItemOpenMenu ), NULL, this );
 	treeGameObjs->Disconnect( wxEVT_COMMAND_TREE_SEL_CHANGED, wxTreeEventHandler( mainForm::gameObjTItemSelected ), NULL, this );
-	zoomGameObjs->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainForm::zoomGameObjsChanged ), NULL, this );
 	rbnObjectSprite->Disconnect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( mainForm::gameObjSpriteClicked ), NULL, this );
 	rbnObjectBG->Disconnect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( mainForm::gameObjBGClicked ), NULL, this );
 	btnGameObjBGColour->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::gameObjBGColour ), NULL, this );
-	dialReplaceBrightness->Disconnect( wxEVT_SCROLL_TOP, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
-	dialReplaceBrightness->Disconnect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
-	dialReplaceBrightness->Disconnect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
-	dialReplaceBrightness->Disconnect( wxEVT_SCROLL_LINEDOWN, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
-	dialReplaceBrightness->Disconnect( wxEVT_SCROLL_PAGEUP, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
-	dialReplaceBrightness->Disconnect( wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
-	dialReplaceBrightness->Disconnect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
-	dialReplaceBrightness->Disconnect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
-	dialReplaceBrightness->Disconnect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
+	zoomGameObjs->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainForm::zoomGameObjsChanged ), NULL, this );
+	spnBrightness->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
 	pnlGameObjRaw->Disconnect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( mainForm::gameObjsRawEnter ), NULL, this );
 	pnlGameObjRaw->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( mainForm::gameObjsRawLDown ), NULL, this );
 	pnlGameObjRaw->Disconnect( wxEVT_LEFT_UP, wxMouseEventHandler( mainForm::gameObjsRawLUp ), NULL, this );
@@ -597,6 +806,19 @@ mainForm::~mainForm()
 	scrGameObjNewH->Disconnect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( mainForm::gameObjsNewHScrolled ), NULL, this );
 	scrGameObjNewH->Disconnect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( mainForm::gameObjsNewHScrolled ), NULL, this );
 	scrGameObjNewH->Disconnect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( mainForm::gameObjsNewHScrolled ), NULL, this );
+	lstSwaps->Disconnect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( mainForm::SwapSeleted ), NULL, this );
+	lstPalettes->Disconnect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( mainForm::SwapPaletteSelected ), NULL, this );
+	txtSwapPaletteNew->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( mainForm::SwapPaletteNewChanged ), NULL, this );
+	btnNewPaletteBG->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::SwapNewPaletteBGClicked ), NULL, this );
+	btnNewPalette1->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::SwapNewPalette1Clicked ), NULL, this );
+	btnNewPalette2->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::SwapNewPalette2Clicked ), NULL, this );
+	btnNewPalette3->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::SwapNewPalette3Clicked ), NULL, this );
+	spnSwapNewBrightness->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainForm::SwapNewBrightnessChanged ), NULL, this );
+	spnSwapRotateHue->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainForm::SwapRotateHueChanged ), NULL, this );
+	spnSwapNewSaturation->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainForm::SwapNewSaturationChanged ), NULL, this );
+	btnAddSwap->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::AddSwapClicked ), NULL, this );
+	btnUpdateSwap->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::UpdateSwapClicked ), NULL, this );
+	btnDeleteSwap->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::DeleteSwapClicked ), NULL, this );
 	lstHDImg->Disconnect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( mainForm::HDImgSelected ), NULL, this );
 	btnHDImgAdd->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::HDImgAdd ), NULL, this );
 	btnHDImgRemove->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::HDImgRemove ), NULL, this );

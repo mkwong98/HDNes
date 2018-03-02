@@ -9,6 +9,7 @@
 #include <wx/clipbrd.h>
 #include "gameObjNode.h"
 #include "image.h"
+#include "paletteSwap.h"
 
 hdnesPackEditormainForm::hdnesPackEditormainForm( wxWindow* parent )
 :
@@ -18,10 +19,6 @@ mainForm( parent )
     initGameObjs();
     initGeneral();
     initHDImg();
-
-    int widths[1];
-    widths[0] = 500;
-    m_statusBar->SetStatusWidths(1, widths);
 
     //load config
     string configPath;
@@ -150,6 +147,9 @@ void hdnesPackEditormainForm::MenuFileExit( wxCommandEvent& event ){
 }
 
 void hdnesPackEditormainForm::colourSelected(Uint8 selectedColour){
+    wxTreeItemId tID;
+    gameObjNode* data;
+
     switch(colourSelectSource){
     case COLOUR_CLIENT_ROM_VIEW_BG:
         romViewColours[0] = selectedColour;
@@ -172,11 +172,27 @@ void hdnesPackEditormainForm::colourSelected(Uint8 selectedColour){
         refreshROMView();
         break;
     case COLOUR_CLIENT_GAME_OBJ_BG:
-        wxTreeItemId tID = treeGameObjs->GetFocusedItem();
-        gameObjNode* data = (gameObjNode*)(treeGameObjs->GetItemData(tID));
+        tID = treeGameObjs->GetFocusedItem();
+        data = (gameObjNode*)(treeGameObjs->GetItemData(tID));
         data->bgColour = selectedColour;
         refreshGameObj();
         coreData::cData->dataChanged();
+        break;
+    case COLOUR_CLIENT_NEW_SWAP_BG:
+        swapNewColours[0] = selectedColour;
+        updateNewSwapText();
+        break;
+    case COLOUR_CLIENT_NEW_SWAP_1:
+        swapNewColours[1] = selectedColour;
+        updateNewSwapText();
+        break;
+    case COLOUR_CLIENT_NEW_SWAP_2:
+        swapNewColours[2] = selectedColour;
+        updateNewSwapText();
+        break;
+    case COLOUR_CLIENT_NEW_SWAP_3:
+        swapNewColours[3] = selectedColour;
+        updateNewSwapText();
         break;
     }
 }
@@ -667,6 +683,15 @@ void hdnesPackEditormainForm::initGameObjs(){
     gameObjRawImageDisplay = wxImage(pnlGameObjRaw->GetSize().x, pnlGameObjRaw->GetSize().y);
     gameObjNewImageDisplay = wxImage(pnlGameObjNew->GetSize().x, pnlGameObjNew->GetSize().y);
     gameObjBaseTile = wxImage(8, 8);
+
+    lstSwaps->AppendColumn(wxString("Name"));
+    lstSwaps->AppendColumn(wxString("New palettes"));
+    lstSwaps->AppendColumn(wxString("New brightness %"));
+    lstSwaps->AppendColumn(wxString("Rotate hue degrees"));
+    lstSwaps->AppendColumn(wxString("New saturation %"));
+
+    lstPalettes->AppendColumn(wxString("Original palette"));
+    lstPalettes->AppendColumn(wxString("New Palette"));
 }
 
 void hdnesPackEditormainForm::gameObjsROMChanged(){
@@ -965,13 +990,13 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
         //set bg colour this is the first tiles to be added
         if(ndata->tiles.size() == 0 && gameObjPasteData.tiles[0].id.palette[0] < 64 && !ndata->isSprite){
             ndata->bgColour = gameObjPasteData.tiles[0].id.palette[0];
-
         }
         for(int i = 0; i < gameObjPasteData.tiles.size(); ++i){
             gameObjPasteData.tiles[i].objCoordX += gameObjRawCurrPos.x;
             gameObjPasteData.tiles[i].objCoordY += gameObjRawCurrPos.y;
             ndata->addTile(gameObjPasteData.tiles[i]);
         }
+        ndata->updatePalettes();
         gameObjPasteData.clearAllTiles();
         refreshGameObj();
         coreData::cData->dataChanged();
@@ -1026,6 +1051,7 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
                 ++i;
             }
         }
+        ndata->updatePalettes();
         gameObjSelectedTiles.clear();
         refreshGameObj();
         coreData::cData->dataChanged();
@@ -1188,8 +1214,7 @@ void hdnesPackEditormainForm::refreshGameObj(){
 
     rbnObjectSprite->SetValue(ndata->isSprite);
     rbnObjectBG->SetValue(!ndata->isSprite);
-    dialReplaceBrightness->SetValue(ndata->brightness * 100);
-    lblReplaceBrightness->SetLabel(wxString(main::intToStr(dialReplaceBrightness->GetValue()).c_str()));
+    spnBrightness->SetValue(ndata->brightness * 100);
 
     //refresh bg colour button
     btnGameObjBGColour->SetBackgroundColour(coreData::cData->palette[ndata->bgColour]);
@@ -1207,6 +1232,26 @@ void hdnesPackEditormainForm::refreshGameObj(){
     drawGameObj();
     adjustGameObjSize();
     drawGameObjEdits();
+
+    loadSwaps();
+}
+
+void hdnesPackEditormainForm::loadSwaps(){
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
+    if(!ndata) return;
+
+    //add palette swaps
+    long j;
+    lstSwaps->DeleteAllItems();
+    for(int i = 0; i < ndata->swaps.size(); ++i){
+        j = lstSwaps->InsertItem(i, wxString(ndata->swaps[i].name.c_str()), 0);
+        lstSwaps->SetItem(j, 1, wxString(main::paletteToStr(ndata->swaps[i].newPalettes).c_str()));
+        lstSwaps->SetItem(j, 2, wxString(main::intToStr(ndata->swaps[i].brightness * 100).c_str()));
+        lstSwaps->SetItem(j, 3, wxString(main::intToStr(ndata->swaps[i].hueRotation * 360).c_str()));
+        lstSwaps->SetItem(j, 4, wxString(main::intToStr(ndata->swaps[i].saturation * 100).c_str()));
+    }
+    selectedSwap = -1;
+    showSwap();
 }
 
 void hdnesPackEditormainForm::clearGameObj(){
@@ -1512,8 +1557,13 @@ void hdnesPackEditormainForm::gameObjBGClicked( wxCommandEvent& event ){
 }
 
 void hdnesPackEditormainForm::gameObjBGColour( wxCommandEvent& event ){
-    if(getGameObjsSelectedObjectTreeNode()){
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
+    if(!ndata) return;
+    if(ndata->isSprite){
         openColourDialog(COLOUR_CLIENT_GAME_OBJ_BG);
+    }
+    else{
+        wxMessageBox("Only background color of sprite objects can be changed.", "Action invalid", wxICON_ERROR);
     }
 }
 
@@ -1582,7 +1632,7 @@ void hdnesPackEditormainForm::gameObjsRawLUp( wxMouseEvent& event ){
                    && ld.x >= ndata->tiles[i].objCoordX
                    && ld.y <= ndata->tiles[i].objCoordY + 8
                    && ld.y >= ndata->tiles[i].objCoordY){
-                    m_statusBar->SetStatusText(wxString((ndata->tiles[i].id.writeID() + ", " + ndata->tiles[i].id.writePalette()).c_str()));
+                    m_statusBar->SetLabel(wxString((ndata->tiles[i].id.writeID() + ", " + ndata->tiles[i].id.writePalette()).c_str()));
                 }
                 if(corner1.x <= ndata->tiles[i].objCoordX + 8
                    && corner2.x >= ndata->tiles[i].objCoordX
@@ -1647,8 +1697,7 @@ void hdnesPackEditormainForm::zoomGameObjsChanged( wxSpinEvent& event ){
 void hdnesPackEditormainForm::replaceBrightnessChanged( wxScrollEvent& event ){
     gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
     if(ndata){
-        ndata->brightness = (float)dialReplaceBrightness->GetValue() / 100.0;
-        lblReplaceBrightness->SetLabel(wxString(main::intToStr(dialReplaceBrightness->GetValue()).c_str()));
+        ndata->brightness = (float)spnBrightness->GetValue() / 100.0;
         dataChanged();
     }
 }
@@ -1763,6 +1812,20 @@ void hdnesPackEditormainForm::removeChildGameObjItemImage(wxTreeItemId item, int
     removeChildGameObjImage(item, index);
 }
 
+void hdnesPackEditormainForm::applySwap(Uint8* palette, paletteSwap& s){
+    for(int i = 0; i < s.orgPalettes.size(); ++i){
+        if(palette[0] == s.orgPalettes[i][0]
+           && palette[1] == s.orgPalettes[i][1]
+           && palette[2] == s.orgPalettes[i][2]
+           && palette[3] == s.orgPalettes[i][3]){
+            palette[0] = s.newPalettes[i][0];
+            palette[1] = s.newPalettes[i][1];
+            palette[2] = s.newPalettes[i][2];
+            palette[3] = s.newPalettes[i][3];
+        }
+    }
+}
+
 void hdnesPackEditormainForm::genGameObjsConditionPack(fstream& file){
     genGameObjItemConditionPack(file, tItmGameObjRoot);
     gameObjectGenImageCnt = 0;
@@ -1785,6 +1848,12 @@ void hdnesPackEditormainForm::genGameObjItemConditionPack(fstream& file, wxTreeI
         for(int j = 0; j <  node->tiles[i].conditions.size(); ++j){
             node->tiles[i].conditions[j].conditionType = (node->isSprite ? "spriteNearby" : "tileNearby");
             file << "<condition>" << node->tiles[i].conditions[j].writeLine() << "\n";
+            for(int k = 0; k < node->swaps.size(); ++k){
+                condition tmpC = node->tiles[i].conditions[j];
+                applySwap(tmpC.id.palette, node->swaps[k]);
+                tmpC.name = tmpC.name + "_" + main::intToStr(k);
+                file << "<condition>" << tmpC.writeLine() << "\n";
+            }
         }
     }
     genChildGameObjsConditionPack(file, item);
@@ -1805,60 +1874,14 @@ void hdnesPackEditormainForm::genChildGameObjsTilePack(fstream& file, wxTreeItem
 
 void hdnesPackEditormainForm::genGameObjItemTilePack(fstream& file, wxTreeItemId item, bool withCondition){
     gameObjNode* node = (gameObjNode*)(treeGameObjs->GetItemData(item));
-    wxImage tmp;
-    gameTile newTile;
-    int replaceSize = 8 * coreData::cData->scale;
+
     for(int i = 0; i < node->tiles.size(); ++i){
-        node->tiles[i].brightness = node->brightness;
         if(node->tiles[i].hasReplacement && (withCondition == (node->tiles[i].conditions.size() > 0))){
-            if(node->isSprite && (node->tiles[i].hFlip || node->tiles[i].vFlip)){
-                //generate mirrored tile
-                //create if not yet
-                if(gameObjectGenImageX == 0 && gameObjectGenImageY == 0){
-                    gameObjectGenImage = wxImage(32 * replaceSize, 32 * replaceSize, true);
-                    gameObjectGenImage.InitAlpha();
-                    memset(gameObjectGenImage.GetAlpha(), 0, 32 * replaceSize * 32 * replaceSize);
-                    file << "<img>editorGenImage" + main::intToStr(gameObjectGenImageCnt) + ".png\n";
-                }
-                //add flipped tile to image
-                tmp = coreData::cData->images[node->tiles[i].img]->imageData.GetSubImage(wxRect(node->tiles[i].x, node->tiles[i].y, replaceSize, replaceSize));
-                if(node->tiles[i].hFlip){
-                    tmp = tmp.Mirror(true);
-                }
-                if(node->tiles[i].vFlip){
-                    tmp = tmp.Mirror(false);
-                }
-                //copy pixel data
-                gameObjectGenImage.Paste(tmp, gameObjectGenImageX * replaceSize, gameObjectGenImageY * replaceSize);
-                //copy alpha data
-                for(int dx = 0; dx < replaceSize; ++dx){
-                    for(int dy = 0; dy < replaceSize; ++dy){
-                        gameObjectGenImage.SetAlpha(gameObjectGenImageX * replaceSize + dx, gameObjectGenImageY * replaceSize + dy, tmp.GetAlpha(dx, dy));
-                    }
-                }
-                //create tmp tile
-                newTile = node->tiles[i];
-                newTile.img = coreData::cData->images.size() + gameObjectGenImageCnt;
-                newTile.x = gameObjectGenImageX * replaceSize;
-                newTile.y = gameObjectGenImageY * replaceSize;
-                file << newTile.writeConditionNames() << "<tile>" << newTile.writeLine() << "\n";
-
-                //move position
-                gameObjectGenImageX += 1;
-                if(gameObjectGenImageX == 32){
-                    gameObjectGenImageY += 1;
-                    gameObjectGenImageX = 0;
-                    if(gameObjectGenImageY == 32){
-                        //save image file
-                        gameObjectGenImage.SaveFile(wxString((coreData::cData->packPath + "\\editorGenImage" + main::intToStr(gameObjectGenImageCnt) + ".png").c_str()));
-
-                        gameObjectGenImageCnt ++;
-                        gameObjectGenImageY = 0;
-                    }
-                }
-            }
-            else{
-                file << node->tiles[i].writeConditionNames() << "<tile>" << node->tiles[i].writeLine() << "\n";
+            paletteSwap s = paletteSwap();
+            s.brightness = node->brightness;
+            genCustomImage(file, node->tiles[i], s, node->isSprite, -1);
+            for(int j = 0; j < node->swaps.size(); ++j){
+                genCustomImage(file, node->tiles[i], node->swaps[j], node->isSprite, j);
             }
         }
     }
@@ -1868,6 +1891,81 @@ void hdnesPackEditormainForm::genGameObjItemTilePack(fstream& file, wxTreeItemId
         gameObjectGenImage.SaveFile(wxString((coreData::cData->packPath + "\\editorGenImage" + main::intToStr(gameObjectGenImageCnt) + ".png").c_str()));
     }
 
+}
+
+void hdnesPackEditormainForm::genCustomImage(fstream& file, gameTile t, paletteSwap s, bool isSprite, int swapID){
+    int replaceSize = 8 * coreData::cData->scale;
+    wxImage tmp;
+    t.brightness = s.brightness;
+    if(swapID >= 0){
+        applySwap(t.id.palette, s);
+        for(int i = 0; i < t.conditions.size(); ++i){
+            t.conditions[i].name = t.conditions[i].name + "_" + main::intToStr(swapID);
+        }
+    }
+
+    if((isSprite && (t.hFlip || t.vFlip)) || (s.hueRotation != 0.0) || (s.saturation != 1.0)){
+        //generate mirrored tile
+        //create if not yet
+        if(gameObjectGenImageX == 0 && gameObjectGenImageY == 0){
+            gameObjectGenImage = wxImage(32 * replaceSize, 32 * replaceSize, true);
+            gameObjectGenImage.InitAlpha();
+            memset(gameObjectGenImage.GetAlpha(), 0, 32 * replaceSize * 32 * replaceSize);
+            file << "<img>editorGenImage" + main::intToStr(gameObjectGenImageCnt) + ".png\n";
+        }
+        //add flipped tile to image
+        tmp = coreData::cData->images[t.img]->imageData.GetSubImage(wxRect(t.x, t.y, replaceSize, replaceSize));
+        if(t.hFlip){
+            tmp = tmp.Mirror(true);
+        }
+        if(t.vFlip){
+            tmp = tmp.Mirror(false);
+        }
+        if(s.hueRotation != 0.0){
+            tmp.RotateHue(s.hueRotation);
+        }
+        if(s.saturation != 1.0){
+            for(int dx = 0; dx < replaceSize; ++dx){
+                for(int dy = 0; dy < replaceSize; ++dy){
+                    wxImage::RGBValue rgbC = wxImage::RGBValue(tmp.GetRed(dx, dy), tmp.GetGreen(dx, dy), tmp.GetBlue(dx, dy));
+                    wxImage::HSVValue hsvC = wxImage::RGBtoHSV(rgbC);
+                    hsvC.saturation = hsvC.saturation * s.saturation;
+                    rgbC = wxImage::HSVtoRGB(hsvC);
+                    tmp.SetRGB(dx, dy, rgbC.red, rgbC.green, rgbC.blue);
+                }
+            }
+        }
+
+        //copy pixel data
+        gameObjectGenImage.Paste(tmp, gameObjectGenImageX * replaceSize, gameObjectGenImageY * replaceSize);
+        //copy alpha data
+        for(int dx = 0; dx < replaceSize; ++dx){
+            for(int dy = 0; dy < replaceSize; ++dy){
+                gameObjectGenImage.SetAlpha(gameObjectGenImageX * replaceSize + dx, gameObjectGenImageY * replaceSize + dy, tmp.GetAlpha(dx, dy));
+            }
+        }
+        //create tmp tile
+        t.img = coreData::cData->images.size() + gameObjectGenImageCnt;
+        t.x = gameObjectGenImageX * replaceSize;
+        t.y = gameObjectGenImageY * replaceSize;
+        file << t.writeConditionNames() << "<tile>" << t.writeLine() << "\n";
+
+        //move position
+        gameObjectGenImageX += 1;
+        if(gameObjectGenImageX == 32){
+            gameObjectGenImageY += 1;
+            gameObjectGenImageX = 0;
+            if(gameObjectGenImageY == 32){
+                //save image file
+                gameObjectGenImage.SaveFile(wxString((coreData::cData->packPath + "\\editorGenImage" + main::intToStr(gameObjectGenImageCnt) + ".png").c_str()));
+                gameObjectGenImageCnt ++;
+                gameObjectGenImageY = 0;
+            }
+        }
+    }
+    else{
+        file << t.writeConditionNames() << "<tile>" << t.writeLine() << "\n";
+    }
 }
 
 void hdnesPackEditormainForm::findGameObjNotUniqueTile(){
@@ -1891,6 +1989,214 @@ void hdnesPackEditormainForm::findGameObjNotUniqueTile(){
 
 void hdnesPackEditormainForm::addGameObjNotUniqueTileCondition(){
 }
+
+void hdnesPackEditormainForm::SwapSeleted( wxListEvent& event ){
+    selectedSwap = event.GetIndex();
+    showSwap();
+}
+
+void hdnesPackEditormainForm::showSwap(){
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
+    if(!ndata) return;
+    paletteSwap p;
+    if(selectedSwap >= 0){
+        p = ndata->swaps[selectedSwap];
+    }
+    txtSwapName->SetValue(wxString(p.name.c_str()));
+    spnSwapNewBrightness->SetValue(p.brightness * 100);
+    spnSwapRotateHue->SetValue(p.hueRotation * 360);
+    spnSwapNewSaturation->SetValue(p.saturation * 100);
+
+    lstPalettes->DeleteAllItems();
+    stringstream s;
+    long j;
+    for(int i = 0; i < ndata->palettes.size(); ++i){
+        s.str(std::string());
+        s.clear();
+        s << main::intToHex(ndata->palettes[i][0]);
+        s << main::intToHex(ndata->palettes[i][1]);
+        s << main::intToHex(ndata->palettes[i][2]);
+        s << main::intToHex(ndata->palettes[i][3]);
+
+        j = lstPalettes->InsertItem(i, wxString(s.str().c_str()), 0);
+        lstPalettes->SetItem(j, 1, wxString(s.str().c_str()));
+
+        for(int k = 0; k < p.orgPalettes.size(); ++k){
+            if(ndata->palettes[i][0] == p.orgPalettes[k][0] && ndata->palettes[i][1] == p.orgPalettes[k][1] && ndata->palettes[i][2] == p.orgPalettes[k][2] && ndata->palettes[i][3] == p.orgPalettes[k][3]){
+                s.str(std::string());
+                s.clear();
+                s << main::intToHex(p.newPalettes[k][0]);
+                s << main::intToHex(p.newPalettes[k][1]);
+                s << main::intToHex(p.newPalettes[k][2]);
+                s << main::intToHex(p.newPalettes[k][3]);
+
+                lstPalettes->SetItem(j, 1, wxString(s.str().c_str()));
+            }
+        }
+    }
+    if(ndata->palettes.size() > 0){
+        selectedSwapPalette = 0;
+        lstPalettes->SetItemState(selectedSwapPalette, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+        showSwapPalette();
+    }
+    else{
+        selectedSwapPalette = -1;
+    }
+}
+
+void hdnesPackEditormainForm::SwapPaletteSelected( wxListEvent& event ){
+    selectedSwapPalette = event.GetIndex();
+    showSwapPalette();
+}
+
+void hdnesPackEditormainForm::showSwapPalette(){
+    Uint8 tmpPalette[4];
+    lblOrgPalette->SetLabel(lstPalettes->GetItemText(selectedSwapPalette));
+    main::hexToByteArray(lstPalettes->GetItemText(selectedSwapPalette).ToStdString(), (Uint8*)tmpPalette);
+    if(tmpPalette[0] < 64){
+        pnlOrgPaletteBG->SetBackgroundColour(coreData::cData->palette[tmpPalette[0]]);
+    }
+    else{
+        pnlOrgPaletteBG->SetBackgroundColour(wxSystemSettings::GetColour( wxSYS_COLOUR_MENU ));
+    }
+    pnlOrgPaletteBG->Refresh();
+    pnlOrgPalette1->SetBackgroundColour(coreData::cData->palette[tmpPalette[1]]);
+    pnlOrgPalette1->Refresh();
+    pnlOrgPalette2->SetBackgroundColour(coreData::cData->palette[tmpPalette[2]]);
+    pnlOrgPalette2->Refresh();
+    pnlOrgPalette3->SetBackgroundColour(coreData::cData->palette[tmpPalette[3]]);
+    pnlOrgPalette3->Refresh();
+
+    txtSwapPaletteNew->SetValue(lstPalettes->GetItemText(selectedSwapPalette, 1));
+}
+
+void hdnesPackEditormainForm::SwapPaletteNewChanged( wxCommandEvent& event ){
+    showNewSwapPalette();
+    lstPalettes->SetItem(selectedSwapPalette, 1, txtSwapPaletteNew->GetValue());
+}
+
+void hdnesPackEditormainForm::SwapNewPaletteBGClicked( wxCommandEvent& event ){
+    openColourDialog(COLOUR_CLIENT_NEW_SWAP_BG);
+}
+
+void hdnesPackEditormainForm::SwapNewPalette1Clicked( wxCommandEvent& event ){
+    openColourDialog(COLOUR_CLIENT_NEW_SWAP_1);
+}
+
+void hdnesPackEditormainForm::SwapNewPalette2Clicked( wxCommandEvent& event ){
+    openColourDialog(COLOUR_CLIENT_NEW_SWAP_2);
+}
+
+void hdnesPackEditormainForm::SwapNewPalette3Clicked( wxCommandEvent& event ){
+    openColourDialog(COLOUR_CLIENT_ROM_VIEW_3);
+}
+
+void hdnesPackEditormainForm::AddSwapClicked( wxCommandEvent& event ){
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
+    if(!ndata) return;
+
+    paletteSwap p;
+    updateSwapData(p);
+    ndata->addSwap(p);
+    loadSwaps();
+    coreData::cData->dataChanged();
+}
+
+void hdnesPackEditormainForm::UpdateSwapClicked( wxCommandEvent& event ){
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
+    if(!ndata) return;
+    if(selectedSwap >= 0){
+        updateSwapData(ndata->swaps[selectedSwap]);
+        loadSwaps();
+        coreData::cData->dataChanged();
+    }
+}
+
+void hdnesPackEditormainForm::DeleteSwapClicked( wxCommandEvent& event ){
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
+    if(!ndata) return;
+    if(selectedSwap >= 0){
+        ndata->swaps.erase (ndata->swaps.begin()+selectedSwap);
+        loadSwaps();
+        coreData::cData->dataChanged();
+    }
+}
+
+void hdnesPackEditormainForm::showNewSwapPalette(){
+    main::hexToByteArray(txtSwapPaletteNew->GetValue().ToStdString(), (Uint8*)swapNewColours);
+    if(swapNewColours[0] < 64){
+        btnNewPaletteBG->SetBackgroundColour(coreData::cData->palette[swapNewColours[0]]);
+        if(coreData::cData->palette[swapNewColours[0]].Red() + coreData::cData->palette[swapNewColours[0]].Green() + coreData::cData->palette[swapNewColours[0]].Blue() > 256){
+            btnNewPaletteBG->SetForegroundColour(wxColour(0,0,0));
+        }
+        else{
+            btnNewPaletteBG->SetForegroundColour(wxColour(255,255,255));
+        }
+    }
+    else{
+        btnNewPaletteBG->SetBackgroundColour(wxSystemSettings::GetColour( wxSYS_COLOUR_MENU ));
+        btnNewPaletteBG->SetForegroundColour(wxColour(0,0,0));
+    }
+
+    btnNewPalette1->SetBackgroundColour(coreData::cData->palette[swapNewColours[1]]);
+    if(coreData::cData->palette[swapNewColours[1]].Red() + coreData::cData->palette[swapNewColours[1]].Green() + coreData::cData->palette[swapNewColours[1]].Blue() > 256){
+        btnNewPalette1->SetForegroundColour(wxColour(0,0,0));
+    }
+    else{
+        btnNewPalette1->SetForegroundColour(wxColour(255,255,255));
+    }
+    btnNewPalette2->SetBackgroundColour(coreData::cData->palette[swapNewColours[2]]);
+    if(coreData::cData->palette[swapNewColours[2]].Red() + coreData::cData->palette[swapNewColours[2]].Green() + coreData::cData->palette[swapNewColours[2]].Blue() > 256){
+        btnNewPalette2->SetForegroundColour(wxColour(0,0,0));
+    }
+    else{
+        btnNewPalette2->SetForegroundColour(wxColour(255,255,255));
+    }
+    btnNewPalette3->SetBackgroundColour(coreData::cData->palette[swapNewColours[3]]);
+    if(coreData::cData->palette[swapNewColours[3]].Red() + coreData::cData->palette[swapNewColours[3]].Green() + coreData::cData->palette[swapNewColours[3]].Blue() > 256){
+        btnNewPalette3->SetForegroundColour(wxColour(0,0,0));
+    }
+    else{
+        btnNewPalette3->SetForegroundColour(wxColour(255,255,255));
+    }
+}
+
+void hdnesPackEditormainForm::updateNewSwapText(){
+    stringstream s;
+    s.str(std::string());
+    s.clear();
+    s << main::intToHex(swapNewColours[0]);
+    s << main::intToHex(swapNewColours[1]);
+    s << main::intToHex(swapNewColours[2]);
+    s << main::intToHex(swapNewColours[3]);
+    txtSwapPaletteNew->SetValue(wxString(s.str().c_str()));
+}
+
+void hdnesPackEditormainForm::updateSwapData(paletteSwap& s){
+    s.name = txtSwapName->GetValue().ToStdString();
+    s.brightness = (float)spnSwapNewBrightness->GetValue() / 100.0;
+    s.hueRotation = (float)spnSwapRotateHue->GetValue() / 360.0;
+    s.saturation = (float)spnSwapNewSaturation->GetValue() / 100.0;
+
+    s.orgPalettes.clear();
+    s.newPalettes.clear();
+
+    Uint8 tmpPalette[4];
+    array<Uint8, 4> arr;
+    for(int i = 0; i < lstPalettes->GetItemCount(); ++i){
+        main::hexToByteArray(lstPalettes->GetItemText(i).ToStdString(), (Uint8*)tmpPalette);
+        for(int j = 0; j < 4; ++j){
+            arr[j] = tmpPalette[j];
+        }
+        s.orgPalettes.push_back(arr);
+        main::hexToByteArray(lstPalettes->GetItemText(i, 1).ToStdString(), (Uint8*)tmpPalette);
+        for(int j = 0; j < 4; ++j){
+            arr[j] = tmpPalette[j];
+        }
+        s.newPalettes.push_back(arr);
+    }
+}
+
 
 void hdnesPackEditormainForm::initHDImg(){
     lstHDImg->AppendColumn(wxString("Name"));

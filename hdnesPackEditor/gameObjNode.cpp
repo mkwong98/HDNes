@@ -1,5 +1,6 @@
 #include "gameObjNode.h"
 #include "gameTile.h"
+#include "paletteSwap.h"
 #include "main.h"
 #include "hdnesPackEditormainForm.h"
 
@@ -28,6 +29,10 @@ void gameObjNode::addTile(gameTile g){
     addToObjectSize(tiles.size() - 1);
 }
 
+void gameObjNode::addSwap(paletteSwap g){
+    swaps.push_back(g);
+}
+
 void gameObjNode::addToObjectSize(int gIdx){
     x1 = min(x1, tiles[gIdx].objCoordX);
     x2 = max(x2, tiles[gIdx].objCoordX + 8);
@@ -52,6 +57,7 @@ void gameObjNode::load(fstream& file, wxTreeItemId newItm){
     string lineHdr;
     string lineTail;
     gameTile g;
+    paletteSwap p;
 
     getline(file, line);
     while(line != "<endGameObject>"){
@@ -81,8 +87,19 @@ void gameObjNode::load(fstream& file, wxTreeItemId newItm){
             else if(lineHdr == "<tiles>"){
                 getline(file, line);
                 while(line != "<endTiles>"){
+                    g = gameTile();
                     g.load(file);
                     addTile(g);
+                    getline(file, line);
+                }
+                updatePalettes();
+            }
+            else if(lineHdr == "<swaps>"){
+                getline(file, line);
+                while(line != "<endSwaps>"){
+                    p = paletteSwap();
+                    p.load(file);
+                    addSwap(p);
                     getline(file, line);
                 }
             }
@@ -108,6 +125,12 @@ void gameObjNode::save(fstream& file, wxTreeItemId newItm){
             tiles[i].save(file);
         }
         file << "<endTiles>\n";
+
+        file << "<swaps>\n";
+        for(int i = 0; i < swaps.size(); ++i){
+            swaps[i].save(file);
+        }
+        file << "<endSwaps>\n";
     }
     else{
         file << "<childObjects>\n";
@@ -116,4 +139,26 @@ void gameObjNode::save(fstream& file, wxTreeItemId newItm){
     }
     file << "<endGameObject>\n";
 }
+
+void gameObjNode::updatePalettes(){
+    array<Uint8, 4> p;
+    bool paletteFound;
+    palettes.clear();
+    for(int i = 0; i < tiles.size(); ++i){
+        paletteFound = false;
+        for(int j = 0; j < palettes.size(); ++j){
+            if(palettes[j][0] == tiles[i].id.palette[0] && palettes[j][1] == tiles[i].id.palette[1] && palettes[j][2] == tiles[i].id.palette[2] && palettes[j][3] == tiles[i].id.palette[3]){
+                paletteFound = true;
+            }
+        }
+        if(!paletteFound){
+            p[0] = tiles[i].id.palette[0];
+            p[1] = tiles[i].id.palette[1];
+            p[2] = tiles[i].id.palette[2];
+            p[3] = tiles[i].id.palette[3];
+            palettes.push_back(p);
+        }
+    }
+}
+
 

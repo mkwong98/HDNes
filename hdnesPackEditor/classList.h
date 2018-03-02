@@ -8,5 +8,6 @@ class image;
 class condition;
 class gameTile;
 class tileReference;
+class paletteSwap;
 
 #endif // CLASSLIST_H_INCLUDED
