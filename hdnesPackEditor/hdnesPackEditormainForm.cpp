@@ -296,27 +296,10 @@ void hdnesPackEditormainForm::configROMView(string lineHdr, string lineTail){
 }
 
 void hdnesPackEditormainForm::saveCfgROMView(fstream& inifile){
-    ostringstream convert;
-    string s;
-
-	convert << romViewColours[0];
-	s = convert.str();
-	inifile << "<romViewColour0>" + s + "\n";
-	convert.str("");
-	convert.clear();
-	convert << romViewColours[1];
-	s = convert.str();
-	inifile << "<romViewColour1>" + s + "\n";
-	convert.str("");
-	convert.clear();
-	convert << romViewColours[2];
-	s = convert.str();
-	inifile << "<romViewColour2>" + s + "\n";
-	convert.str("");
-	convert.clear();
-	convert << romViewColours[3];
-	s = convert.str();
-	inifile << "<romViewColour3>" + s + "\n";
+	inifile << "<romViewColour0>" + main::intToStr(romViewColours[0]) + "\n";
+	inifile << "<romViewColour1>" + main::intToStr(romViewColours[1]) + "\n";
+	inifile << "<romViewColour2>" + main::intToStr(romViewColours[2]) + "\n";
+	inifile << "<romViewColour3>" + main::intToStr(romViewColours[3]) + "\n";
 }
 
 void hdnesPackEditormainForm::zoomRomChanged( wxSpinEvent& event ){
@@ -332,7 +315,9 @@ void hdnesPackEditormainForm::romBGColour( wxCommandEvent& event ){
 void hdnesPackEditormainForm::romViewPaletteHexChanged( wxCommandEvent& event ){
     string v = txtRomViewPalette->GetValue().ToStdString();
     main::hexToByteArray(v, (Uint8*)romViewColours);
-    refreshROMView();
+    if(coreData::cData){
+        refreshROMView();
+    }
 }
 
 void hdnesPackEditormainForm::romColour1( wxCommandEvent& event ){
