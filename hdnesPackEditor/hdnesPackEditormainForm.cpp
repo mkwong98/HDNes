@@ -887,6 +887,23 @@ void hdnesPackEditormainForm::gameObjsRawRUp( wxMouseEvent& event ){
             }
             menu.Append(GAME_OBJ_PNL_SHOW_NOT_UNIQUE, wxT("Select untreated tiles"));
             menu.Append(GAME_OBJ_PNL_AUTO_CONDITION, wxT("Add condition to untreated tiles"));
+
+            if(data->palettes.size() > 0){
+                wxMenu submenu(wxT(""));
+                stringstream s;
+                for(int i = 0; i < data->palettes.size(); ++i){
+                    s.str(std::string());
+                    s.clear();
+                    s << main::intToHex(data->palettes[i][0]);
+                    s << main::intToHex(data->palettes[i][1]);
+                    s << main::intToHex(data->palettes[i][2]);
+                    s << main::intToHex(data->palettes[i][3]);
+
+                    submenu.Append(i + 100, wxString(s.str().c_str()));
+                }
+                menu.AppendSubMenu(&submenu, wxT("Select tiles with palette"));
+            }
+
             //check right click on a selected tile
             bool tileFound = false;
             for(Uint32 k = 0; k < gameObjSelectedTiles.size(); ++k){
@@ -904,7 +921,12 @@ void hdnesPackEditormainForm::gameObjsRawRUp( wxMouseEvent& event ){
                 menu.Append(GAME_OBJ_PNL_COPY, wxT("Copy"));
                 menu.Append(GAME_OBJ_PNL_DELETE, wxT("Delete"));
                 menu.Append(GAME_OBJ_PNL_REPLACE, wxT("Set replacement"));
-                menu.Append(GAME_OBJ_PNL_CONDITION, wxT("Set conditions"));
+                if(gameObjSelectedTiles.size() == 1){
+                    menu.Append(GAME_OBJ_PNL_CONDITION, wxT("Set conditions"));
+                }
+                else{
+                    menu.Append(GAME_OBJ_PNL_GROUP_CONDITION, wxT("Set conditions for tiles"));
+                }
                 if(data->isSprite){
                     menu.Append(GAME_OBJ_PNL_HFLIP, wxT("Flip horizontally"));
                     menu.Append(GAME_OBJ_PNL_VFLIP, wxT("Flip vertically"));
@@ -921,6 +943,7 @@ void hdnesPackEditormainForm::gameObjsRawRUp( wxMouseEvent& event ){
     }
 }
 
+
 void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
     string copyContent = "";
     gameObjNode* ndata;
@@ -930,6 +953,8 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
     int clickedY;
     hdnesPackEditorreplacementDialog* fp;
     vector<gameTile> selectedTiles;
+    int offset;
+    int uniqueTileID;
 
     switch(event.GetId()){
     case GAME_OBJ_PNL_PASTE:
@@ -1074,12 +1099,11 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
         break;
     case GAME_OBJ_PNL_CONDITION:
         editCondition = true;
-        conditionGameObjID = rightClickedgameObjID;
-        conditionGameObjTileX = rightClickedGameObjTileX;
-        conditionGameObjTileY = rightClickedGameObjTileY;
+        gameObjconditionTiles.clear();
+        gameObjconditionTiles.push_back(rightClickedgameObjID);
         //set condition tiles to selected tiles
         ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
-        t = ndata->tiles[conditionGameObjID];
+        t = ndata->tiles[rightClickedgameObjID];
         gameObjSelectedTiles.clear();
         for(int k = 0; k < t.conditions.size(); ++k){
             for(int i = 0; i < ndata->tiles.size(); ++i){
@@ -1090,22 +1114,34 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
         }
         drawGameObjEdits();
         break;
+    case GAME_OBJ_PNL_GROUP_CONDITION:
+        editCondition = true;
+        gameObjconditionTiles.clear();
+        for(int k = 0; k < gameObjSelectedTiles.size(); ++k){
+            gameObjconditionTiles.push_back(gameObjSelectedTiles[k]);
+        }
+        gameObjSelectedTiles.clear();
+        drawGameObjEdits();
+        break;
     case GAME_OBJ_PNL_CONFIRM_CONDITION:
         editCondition = false;
         ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
-        t = ndata->tiles[conditionGameObjID];
-        t.conditions.clear();
-        //add selected tiles to condition
-        for(int k = 0; k < gameObjSelectedTiles.size(); ++k){
-            c.id = ndata->tiles[gameObjSelectedTiles[k]].id;
-            c.objCoordX = ndata->tiles[gameObjSelectedTiles[k]].objCoordX - t.objCoordX;
-            c.objCoordY = ndata->tiles[gameObjSelectedTiles[k]].objCoordY - t.objCoordY;
-            c.hFlip = (ndata->tiles[gameObjSelectedTiles[k]].hFlip != t.hFlip);
-            c.vFlip = (ndata->tiles[gameObjSelectedTiles[k]].vFlip != t.vFlip);
-            c.name = main::intToStr(conditionCounter++);
-            t.conditions.push_back(c);
+        for(int i = 0; i < gameObjconditionTiles.size(); ++i){
+            t = ndata->tiles[gameObjconditionTiles[i]];
+            t.conditions.clear();
+            //add selected tiles to condition
+            for(int k = 0; k < gameObjSelectedTiles.size(); ++k){
+                c.id = ndata->tiles[gameObjSelectedTiles[k]].id;
+                c.objCoordX = ndata->tiles[gameObjSelectedTiles[k]].objCoordX - t.objCoordX;
+                c.objCoordY = ndata->tiles[gameObjSelectedTiles[k]].objCoordY - t.objCoordY;
+                c.hFlip = (ndata->tiles[gameObjSelectedTiles[k]].hFlip != t.hFlip);
+                c.vFlip = (ndata->tiles[gameObjSelectedTiles[k]].vFlip != t.vFlip);
+                c.name = main::intToStr(conditionCounter++);
+                t.conditions.push_back(c);
+            }
+            ndata->tiles[gameObjconditionTiles[i]] = t;
         }
-        ndata->tiles[conditionGameObjID] = t;
+
         gameObjSelectedTiles.clear();
         drawGameObjEdits();
         coreData::cData->dataChanged();
@@ -1127,9 +1163,10 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
         drawGameObjEdits();
         break;
     case GAME_OBJ_PNL_AUTO_CONDITION:
+        findGameObjNotUniqueTile();
         ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
         //find an unique tile
-        int uniqueTileID = -1;
+        uniqueTileID = -1;
         for(int i = 0; i < ndata->tiles.size(); ++i){
             if(ndata->tiles[i].isUnique){
                 uniqueTileID = i;
@@ -1151,9 +1188,27 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
         }
         coreData::cData->dataChanged();
         break;
-
+    default:
+        if(event.GetId() >= GAME_OBJ_PNL_PALETTE_SELECT_OFFSET){
+            offset = event.GetId() - GAME_OBJ_PNL_PALETTE_SELECT_OFFSET;
+            gameObjSelectedTiles.clear();
+            ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
+            for(int i = 0; i < ndata->tiles.size(); ++i){
+                if(ndata->tiles[i].id.palette[0] == ndata->palettes[offset][0]
+                && ndata->tiles[i].id.palette[1] == ndata->palettes[offset][1]
+                && ndata->tiles[i].id.palette[2] == ndata->palettes[offset][2]
+                && ndata->tiles[i].id.palette[3] == ndata->palettes[offset][3]
+                ){
+                    gameObjSelectedTiles.push_back(i);
+                }
+            }
+            drawGameObjEdits();
+        }
+        break;
     }
 }
+
+
 
 void hdnesPackEditormainForm::setReplacement(int imageID, int x, int y){
     gameObjNode* ndata;
@@ -1434,15 +1489,17 @@ void hdnesPackEditormainForm::drawGameObjSelection(){
         main::drawRect(gameObjNewImage2, pt, tileBoxSize, wxColour(255, 255, 255));
     }
     if(editCondition){
-        pt.x = (ndata->tiles[conditionGameObjID].objCoordX - ndata->x1) * gameObjZoom;
-        pt.y = (ndata->tiles[conditionGameObjID].objCoordY - ndata->y1) * gameObjZoom;
-        pt2 = pt;
-        ++(pt2.x);
-        ++(pt2.y);
-        main::drawRect(gameObjRawImage2, pt2, tileBoxSize, wxColour(0, 100, 100));
-        main::drawRect(gameObjRawImage2, pt, tileBoxSize, wxColour(0, 255, 255));
-        main::drawRect(gameObjNewImage2, pt2, tileBoxSize, wxColour(0, 100, 100));
-        main::drawRect(gameObjNewImage2, pt, tileBoxSize, wxColour(0, 255, 255));
+        for(int i = 0; i < gameObjconditionTiles.size(); ++i){
+            pt.x = (ndata->tiles[gameObjconditionTiles[i]].objCoordX - ndata->x1) * gameObjZoom;
+            pt.y = (ndata->tiles[gameObjconditionTiles[i]].objCoordY - ndata->y1) * gameObjZoom;
+            pt2 = pt;
+            ++(pt2.x);
+            ++(pt2.y);
+            main::drawRect(gameObjRawImage2, pt2, tileBoxSize, wxColour(0, 100, 100));
+            main::drawRect(gameObjRawImage2, pt, tileBoxSize, wxColour(0, 255, 255));
+            main::drawRect(gameObjNewImage2, pt2, tileBoxSize, wxColour(0, 100, 100));
+            main::drawRect(gameObjNewImage2, pt, tileBoxSize, wxColour(0, 255, 255));
+        }
     }
 
     gameObjRawPasteX = ndata->x1 * gameObjZoom + (pnlGameObjRaw->GetSize().GetWidth() / 2) - gameObjViewCentreX;
@@ -1961,11 +2018,9 @@ void hdnesPackEditormainForm::findGameObjNotUniqueTile(){
     for(int i = 0; i < ndata->tiles.size(); ++i){
         if(ndata->tiles[i].isUnique){
             for(int j = i + 1; j < ndata->tiles.size(); ++j){
-                if(ndata->tiles[j].isUnique){
-                    if(ndata->tiles[j].id.compareEqual(ndata->tiles[i].id)){
-                        ndata->tiles[j].isUnique = false;
-                        ndata->tiles[i].isUnique = false;
-                    }
+                if(ndata->tiles[j].id.compareEqual(ndata->tiles[i].id)){
+                    ndata->tiles[j].isUnique = false;
+                    ndata->tiles[i].isUnique = false;
                 }
             }
         }

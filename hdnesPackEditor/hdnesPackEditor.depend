@@ -2135,7 +2135,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1520385820 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.cpp
+1522136595 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.cpp
 	"hdnesPackEditormainForm.h"
 	"hdnesPackEditornewProjectDialog.h"
 	"hdnesPackEditorcolourSelectDialog.h"
@@ -2149,7 +2149,7 @@
 	"image.h"
 	"paletteSwap.h"
 
-1519981567 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.h
+1522136762 c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.h
 	"common.h"
 	"mainForm.h"
 	"colourDialogClient.h"

@@ -24,6 +24,8 @@
 #define GAME_OBJ_PNL_CANCEL_CONDITION   10
 #define GAME_OBJ_PNL_SHOW_NOT_UNIQUE    11
 #define GAME_OBJ_PNL_AUTO_CONDITION     12
+#define GAME_OBJ_PNL_GROUP_CONDITION    13
+#define GAME_OBJ_PNL_PALETTE_SELECT_OFFSET    100
 
 /**
 @file
@@ -211,6 +213,7 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         Uint32 rightClickedgameObjID;
         int rightClickedGameObjTileX;
         int rightClickedGameObjTileY;
+        vector<Uint32> gameObjconditionTiles;
         Uint32 conditionGameObjID;
         int conditionGameObjTileX;
         int conditionGameObjTileY;
