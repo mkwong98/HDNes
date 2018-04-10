@@ -2135,7 +2135,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1522136595 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.cpp
+1523327358 source:c:\work\hdnesr\trunk\hdnespackeditor\hdnespackeditormainform.cpp
 	"hdnesPackEditormainForm.h"
 	"hdnesPackEditornewProjectDialog.h"
 	"hdnesPackEditorcolourSelectDialog.h"
@@ -3478,7 +3478,7 @@
 	"classList.h"
 	"tileReference.h"
 
-1519098967 source:c:\work\hdnesr\trunk\hdnespackeditor\coredata.cpp
+1522992641 source:c:\work\hdnesr\trunk\hdnespackeditor\coredata.cpp
 	"common.h"
 	"coreData.h"
 	"image.h"

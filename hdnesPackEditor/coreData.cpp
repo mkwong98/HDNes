@@ -15,6 +15,7 @@ coreData::coreData()
     romSize = 0;
     isCHRROM = true;
     notSaved = true;
+    saveNo = 0;
 }
 
 coreData::~coreData()

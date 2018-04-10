@@ -1843,7 +1843,7 @@ void hdnesPackEditormainForm::removeChildGameObjItemImage(wxTreeItemId item, int
     gameObjNode* node = (gameObjNode*)(treeGameObjs->GetItemData(item));
     for(int i = 0; i < node->tiles.size(); ++i){
         if(node->tiles[i].hasReplacement){
-            if(node->tiles[i].img < index){
+            if(node->tiles[i].img > index){
                 node->tiles[i].img--;
             }
             else if(node->tiles[i].img == index){
