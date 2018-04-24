@@ -1945,7 +1945,10 @@ void hdnesPackEditormainForm::genCustomImage(fstream& file, gameTile t, paletteS
             t.conditions[i].name = t.conditions[i].name + "_" + main::intToStr(swapID);
         }
     }
-
+    //adjust for sprite
+    if(isSprite){
+        t.id.palette[0] = 0xff;
+    }
     if((isSprite && (t.hFlip || t.vFlip)) || (s.hueRotation != 0.0) || (s.saturation != 1.0)){
         //generate mirrored tile
         //create if not yet
