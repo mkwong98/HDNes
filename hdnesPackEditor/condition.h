@@ -14,13 +14,22 @@ class condition
         string name;
         string conditionType;
 
+        //type 1 condition
         tileReference id;
-
         int objCoordX;
         int objCoordY;
 
         bool hFlip;
         bool vFlip;
+
+        //type 2 condition
+        string op;
+        int address;
+        int value;
+
+        //type 3 condition
+        int frame1;
+        int frame2;
 
         void readLine(string s);
         string writeLine();
@@ -28,6 +37,7 @@ class condition
         void load(fstream& file);
         void save(fstream& file);
         bool isMatch(gameTile& owner, gameTile& conditionTile);
+        int getType();
 
     protected:
 

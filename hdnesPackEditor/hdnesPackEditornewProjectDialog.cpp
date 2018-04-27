@@ -22,10 +22,6 @@ void hdnesPackEditornewProjectDialog::fileSelected( wxCommandEvent& event )
         wxMessageBox( wxT("Please select the location of the HD pack folder") );
     }
     else{
-        if(coreData::cData){
-            delete(coreData::cData);
-        }
-        coreData::cData = new coreData();
         coreData::cData->initPath(filePickRom->GetPath().ToStdString(), dirPickPack->GetPath().ToStdString());
         Show(false);
     }

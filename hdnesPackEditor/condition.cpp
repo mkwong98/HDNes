@@ -5,7 +5,7 @@
 
 condition::condition()
 {
-    //ctor
+    conditionType = "";
 }
 
 condition::~condition()
@@ -13,13 +13,34 @@ condition::~condition()
     //dtor
 }
 
+int condition::getType(){
+    if(conditionType == "tileNearby" || conditionType == "spriteNearby" || conditionType == "tileAtPosition" || conditionType == "spriteAtPosition" || conditionType == ""){
+        return 1;
+    }
+    else if(conditionType == "memoryCheck" || conditionType == "ppuMemoryCheck" || conditionType == "memoryCheckConstant" || conditionType == "ppuMemoryCheckConstant"){
+        return 2;
+    }
+    return 3;
+}
+
 bool condition::compareEqual(condition& c){
     if(conditionType != c.conditionType) return false;
-    if(!id.compareEqual(c.id)) return false;
-    if(objCoordX != c.objCoordX) return false;
-    if(objCoordY != c.objCoordY) return false;
-    if(hFlip != c.hFlip) return false;
-    if(vFlip != c.vFlip) return false;
+    if(getType() == 1){
+        if(!id.compareEqual(c.id)) return false;
+        if(objCoordX != c.objCoordX) return false;
+        if(objCoordY != c.objCoordY) return false;
+        if(hFlip != c.hFlip) return false;
+        if(vFlip != c.vFlip) return false;
+    }
+    else if(getType() == 2){
+        if(address != c.address) return false;
+        if(op != c.op) return false;
+        if(value != c.value) return false;
+    }
+    else{
+        if(frame1 != c.frame1) return false;
+        if(frame2 != c.frame2) return false;
+    }
     return true;
 }
 
@@ -37,7 +58,10 @@ void condition::load(fstream& file){
             lineTail = line.substr(found + 1);
             main::split(lineTail, ',', tailStrs);
 
-            if(lineHdr == "<tileReference>"){
+            if(lineHdr == "<conditionType>"){
+                conditionType = tailStrs[0];
+            }
+            else if(lineHdr == "<tileReference>"){
                 id.load(file);
             }
             else if(lineHdr == "<objCoord>"){
@@ -48,6 +72,15 @@ void condition::load(fstream& file){
                 hFlip = (tailStrs[0] == "Y");
                 vFlip = (tailStrs[1] == "Y");
             }
+            else if(lineHdr == "<compare>"){
+                address = atoi(tailStrs[0].c_str());
+                op = tailStrs[1];
+                value = atoi(tailStrs[2].c_str());
+            }
+            else if(lineHdr == "<frame>"){
+                frame1 = atoi(tailStrs[0].c_str());
+                frame2 = atoi(tailStrs[1].c_str());
+            }
         }
         getline(file, line);
     }
@@ -55,19 +88,31 @@ void condition::load(fstream& file){
 
 void condition::save(fstream& file){
     file << "<condition>\n";
-    id.save(file);
-    file << "<objCoord>" << objCoordX << "," << objCoordY << "\n";
-    file << "<flip>" << (hFlip ? "Y" : "N") << "," << (vFlip ? "Y" : "N") << "\n";
+    file << "<conditionType>" << conditionType << "\n";
+    if(getType() == 1){
+        id.save(file);
+        file << "<objCoord>" << objCoordX << "," << objCoordY << "\n";
+        file << "<flip>" << (hFlip ? "Y" : "N") << "," << (vFlip ? "Y" : "N") << "\n";
+    }
+    else if(getType() == 2){
+        file << "<compare>" << address << "," << op << "," << value << "\n";
+    }
+    else{
+        file << "<frame>" << frame1 << "," << frame2 << "\n";
+    }
     file << "<endCondition>\n";
 }
 
 bool condition::isMatch(gameTile& owner, gameTile& conditionTile){
-    if(!conditionTile.id.compareEqual(id)) return false;
-    if(owner.objCoordX + (hFlip ? -objCoordX : objCoordX) != conditionTile.objCoordX) return false;
-    if(owner.objCoordY + (vFlip ? -objCoordY : objCoordY) != conditionTile.objCoordY) return false;
-    if(hFlip == (owner.hFlip == conditionTile.hFlip)) return false;
-    if(vFlip == (owner.vFlip == conditionTile.vFlip)) return false;
-    return true;
+    if(getType() == 1){
+        if(!conditionTile.id.compareEqual(id)) return false;
+        if(owner.objCoordX + (hFlip ? -objCoordX : objCoordX) != conditionTile.objCoordX) return false;
+        if(owner.objCoordY + (vFlip ? -objCoordY : objCoordY) != conditionTile.objCoordY) return false;
+        if(hFlip == (owner.hFlip == conditionTile.hFlip)) return false;
+        if(vFlip == (owner.vFlip == conditionTile.vFlip)) return false;
+        return true;
+    }
+    return false;
 }
 
 void condition::readLine(string s){
@@ -76,14 +121,34 @@ void condition::readLine(string s){
 
     name = tokens[0];
     conditionType = tokens[1];
-    objCoordX = atoi(tokens[2].c_str());
-    objCoordY = atoi(tokens[3].c_str());
-    id.readID(tokens[4]);
-    id.readPalette(tokens[5]);
+    if(getType() == 1){
+        objCoordX = atoi(tokens[2].c_str());
+        objCoordY = atoi(tokens[3].c_str());
+        id.readID(tokens[4]);
+        id.readPalette(tokens[5]);
+    }
+    else if(getType() == 2){
+        address = strtol(tokens[2].c_str(), NULL, 16);
+        op = tokens[3];
+        value = strtol(tokens[4].c_str(), NULL, 16);
+    }
+    else{
+        frame1 = strtol(tokens[2].c_str(), NULL, 16);
+        frame2 = strtol(tokens[3].c_str(), NULL, 16);
+    }
+    std::cout << s;
 }
 
 string condition::writeLine(){
     stringstream stream;
-    stream << name << "," << conditionType << "," << objCoordX << "," << objCoordY << "," << id.writeID() << "," << id.writePalette();
+    if(getType() == 1){
+        stream << name << "," << conditionType << "," << objCoordX << "," << objCoordY << "," << id.writeID() << "," << id.writePalette();
+    }
+    else if(getType() == 2){
+        stream << name << "," << conditionType << "," << main::intToHex(address) << "," << op << "," << main::intToHex(value);
+    }
+    else{
+        stream << name << "," << conditionType << "," << main::intToHex(frame1) << "," << main::intToHex(frame2);
+    }
     return stream.str();
 }

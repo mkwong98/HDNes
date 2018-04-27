@@ -42,6 +42,7 @@ mainForm( parent )
         }
         fs.close();
     }
+    tItmGameObjMenu = NULL;
 }
 
 void hdnesPackEditormainForm::closeWindow( wxCloseEvent& event ){
@@ -100,6 +101,10 @@ void hdnesPackEditormainForm::saveCfgGeneral(fstream& inifile){
 }
 
 void hdnesPackEditormainForm::MenuFileNew( wxCommandEvent& event ){
+    if(coreData::cData){
+        delete(coreData::cData);
+    }
+    coreData::cData = new coreData();
     hdnesPackEditornewProjectDialog* fp = new hdnesPackEditornewProjectDialog(this);
     fp->Show(true);
 }
@@ -695,7 +700,7 @@ void hdnesPackEditormainForm::gameObjsROMChanged(){
 }
 
 gameObjNode* hdnesPackEditormainForm::getGameObjsSelectedObjectTreeNode(){
-    if(coreData::cData){
+    if(coreData::cData && tItmGameObjMenu){
         gameObjNode* ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
         if(ndata->nodeType == GAME_OBJ_NODE_TYPE_OBJECT) return ndata;
     }
@@ -899,7 +904,7 @@ void hdnesPackEditormainForm::gameObjsRawRUp( wxMouseEvent& event ){
                     s << main::intToHex(data->palettes[i][2]);
                     s << main::intToHex(data->palettes[i][3]);
 
-                    submenu.Append(i + 100, wxString(s.str().c_str()));
+                    submenu.Append(i + GAME_OBJ_PNL_PALETTE_SELECT_OFFSET, wxString(s.str().c_str()));
                 }
                 menu.AppendSubMenu(&submenu, wxT("Select tiles with palette"));
             }
@@ -928,8 +933,14 @@ void hdnesPackEditormainForm::gameObjsRawRUp( wxMouseEvent& event ){
                     menu.Append(GAME_OBJ_PNL_GROUP_CONDITION, wxT("Set conditions for tiles"));
                 }
                 if(data->isSprite){
-                    menu.Append(GAME_OBJ_PNL_HFLIP, wxT("Flip horizontally"));
-                    menu.Append(GAME_OBJ_PNL_VFLIP, wxT("Flip vertically"));
+                    wxMenu submenu2(wxT(""));
+                    submenu2.Append(GAME_OBJ_PNL_HFLIP, wxT("Flip direction horizontally"));
+                    submenu2.Append(GAME_OBJ_PNL_VFLIP, wxT("Flip direction vertically"));
+                    if(gameObjSelectedTiles.size() > 1){
+                        submenu2.Append(GAME_OBJ_PNL_HFLIP2, wxT("Flip direction and location horizontally"));
+                        submenu2.Append(GAME_OBJ_PNL_VFLIP2, wxT("Flip direction and location vertically"));
+                    }
+                    menu.AppendSubMenu(&submenu2, wxT("Flip tiles"));
                 }
             }
             else{
@@ -1075,6 +1086,28 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
         refreshGameObj();
         coreData::cData->dataChanged();
         break;
+
+    case GAME_OBJ_PNL_HFLIP2:
+        ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
+
+        int minX, maxX;
+        minX = ndata->tiles[gameObjSelectedTiles[0]].objCoordX;
+        maxX = ndata->tiles[gameObjSelectedTiles[0]].objCoordX;
+
+        for(int k = 0; k < gameObjSelectedTiles.size(); ++k){
+            ndata->tiles[gameObjSelectedTiles[k]].hFlip = !ndata->tiles[gameObjSelectedTiles[k]].hFlip;
+            if(ndata->tiles[gameObjSelectedTiles[k]].objCoordX < minX) minX = ndata->tiles[gameObjSelectedTiles[k]].objCoordX;
+            if(ndata->tiles[gameObjSelectedTiles[k]].objCoordX > maxX) maxX = ndata->tiles[gameObjSelectedTiles[k]].objCoordX;
+        }
+
+        for(int k = 0; k < gameObjSelectedTiles.size(); ++k){
+            ndata->tiles[gameObjSelectedTiles[k]].objCoordX = minX + (maxX - ndata->tiles[gameObjSelectedTiles[k]].objCoordX);
+        }
+
+        refreshGameObj();
+        coreData::cData->dataChanged();
+        break;
+
     case GAME_OBJ_PNL_VFLIP:
         ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
 
@@ -1084,6 +1117,27 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
         refreshGameObj();
         coreData::cData->dataChanged();
         break;
+
+    case GAME_OBJ_PNL_VFLIP2:
+        ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
+
+        int minY, maxY;
+        minY = ndata->tiles[gameObjSelectedTiles[0]].objCoordY;
+        maxY = ndata->tiles[gameObjSelectedTiles[0]].objCoordY;
+
+        for(int k = 0; k < gameObjSelectedTiles.size(); ++k){
+            ndata->tiles[gameObjSelectedTiles[k]].vFlip = !ndata->tiles[gameObjSelectedTiles[k]].vFlip;
+            if(ndata->tiles[gameObjSelectedTiles[k]].objCoordY < minY) minY = ndata->tiles[gameObjSelectedTiles[k]].objCoordY;
+            if(ndata->tiles[gameObjSelectedTiles[k]].objCoordY > maxY) maxY = ndata->tiles[gameObjSelectedTiles[k]].objCoordY;
+        }
+
+        for(int k = 0; k < gameObjSelectedTiles.size(); ++k){
+            ndata->tiles[gameObjSelectedTiles[k]].objCoordY = minY + (maxY - ndata->tiles[gameObjSelectedTiles[k]].objCoordY);
+        }
+        refreshGameObj();
+        coreData::cData->dataChanged();
+        break;
+
     case GAME_OBJ_PNL_REPLACE:
 
         ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
@@ -1329,8 +1383,8 @@ void hdnesPackEditormainForm::drawGameObj(){
         gameObjRawImage.SetRGB(wxRect(drawX, drawY, 8, 8), coreData::cData->palette[ndata->bgColour].Red(), coreData::cData->palette[ndata->bgColour].Green(), coreData::cData->palette[ndata->bgColour].Blue());
         gameObjNewImage.SetRGB(wxRect(drawX * coreData::cData->scale, drawY * coreData::cData->scale, replaceSize, replaceSize), coreData::cData->palette[ndata->bgColour].Red(), coreData::cData->palette[ndata->bgColour].Green(), coreData::cData->palette[ndata->bgColour].Blue());
     }
-    //draw tiles
-    for(int i = 0; i < ndata->tiles.size(); ++i){
+    //draw tiles in reverse order
+    for(int i = ndata->tiles.size() - 1; i >= 0; --i){
         drawX = ndata->tiles[i].objCoordX - ndata->x1;
         drawY = ndata->tiles[i].objCoordY - ndata->y1;
         gameObjBaseTile.InitAlpha();

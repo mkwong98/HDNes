@@ -46,6 +46,8 @@ class coreData
         void load(string path);
         void save();
         void saveAs(string path);
+        void checkAndLoadPaths();
+        void loadProjectData();
 
         string writeConditionNames(vector<condition>& cond);
         void loadPackData();

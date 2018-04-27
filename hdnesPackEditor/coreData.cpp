@@ -4,6 +4,7 @@
 #include "main.h"
 #include "gameTile.h"
 #include "hdnesPackEditormainForm.h"
+#include "hdnesPackEditornewProjectDialog.h"
 
 coreData* coreData::cData;
 
@@ -40,9 +41,41 @@ void coreData::initPath(string rPath, string pPath){
     packPath = pPath;
     loadRom();
     loadPackData();
+
+    if(projectPath != ""){
+        loadProjectData();
+    }
     main::mForm->dataChanged();
     if(!notSaved){
         main::mForm->dataSaved();
+    }
+}
+
+void coreData::checkAndLoadPaths(){
+    fstream file;
+	bool fileValid = false;
+
+	if(romSize > 0) free(romData);
+
+    file.open(romPath, ios::in | ios::binary);
+	if (file.is_open()){
+	    fileValid = true;
+	}
+    file.close();
+
+    string hiresPath;
+    hiresPath = packPath + string("\\hires.txt");
+    file.open(hiresPath, fstream::in);
+    if(file.is_open()){
+        fileValid = fileValid && true;
+    }
+    file.close();
+    if(!fileValid){
+        hdnesPackEditornewProjectDialog* fp = new hdnesPackEditornewProjectDialog(main::mForm);
+        fp->Show(true);
+    }
+    else{
+        initPath(romPath, packPath);
     }
 }
 
@@ -218,14 +251,34 @@ void coreData::load(string path){
                 lineTail = line.substr(found + 1);
                 if(lineHdr == "<romPath>"){
                     romPath = lineTail;
-                    loadRom();
                 }
                 else if(lineHdr == "<packPath>"){
                     packPath = lineTail;
-                    loadPackData();
-                    images.clear();
                 }
-                else if(lineHdr == "<saveNo>"){
+            }
+        }
+        fs.close();
+        if(romPath != "" && packPath != ""){
+            checkAndLoadPaths();
+        }
+    }
+}
+
+void coreData::loadProjectData(){
+    fstream fs;
+    string line;
+    string lineHdr;
+    string lineTail;
+
+    fs.open(projectPath, fstream::in);
+    if(fs.is_open()){
+        images.clear();
+        while(getline(fs, line)){
+            size_t found = line.find_first_of(">");
+            if(found!=string::npos){
+                lineHdr = line.substr(0, found + 1);
+                lineTail = line.substr(found + 1);
+                if(lineHdr == "<saveNo>"){
                     saveNo = atoi(lineTail.c_str());
                 }
                 else if(lineHdr == "<palette>"){
