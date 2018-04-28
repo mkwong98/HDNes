@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Dec 21 2016)
+// C++ code generated with wxFormBuilder (version Jun 17 2015)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -27,6 +27,7 @@
 #include <wx/stattext.h>
 #include <wx/button.h>
 #include <wx/spinctrl.h>
+#include <wx/checkbox.h>
 #include <wx/scrolbar.h>
 #include <wx/listctrl.h>
 #include <wx/textctrl.h>
@@ -36,7 +37,6 @@
 #include <wx/filepicker.h>
 #include <wx/dialog.h>
 #include <wx/combobox.h>
-#include <wx/checkbox.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -71,6 +71,8 @@ class mainForm : public wxFrame
 		wxStaticText* m_staticText16;
 		wxSpinCtrl* spnBrightness;
 		wxStaticText* m_staticText18;
+		wxStaticText* m_staticText271;
+		wxCheckBox* chkGameObjIsDefault;
 		wxPanel* pnlGameObjRaw;
 		wxScrollBar* scrGameObjRawV;
 		wxScrollBar* scrGameObjRawH;
@@ -149,6 +151,7 @@ class mainForm : public wxFrame
 		virtual void gameObjBGColour( wxCommandEvent& event ) { event.Skip(); }
 		virtual void zoomGameObjsChanged( wxSpinEvent& event ) { event.Skip(); }
 		virtual void replaceBrightnessChanged( wxSpinEvent& event ) { event.Skip(); }
+		virtual void gameObjDefaultClicked( wxCommandEvent& event ) { event.Skip(); }
 		virtual void gameObjsRawEnter( wxMouseEvent& event ) { event.Skip(); }
 		virtual void gameObjsRawLDown( wxMouseEvent& event ) { event.Skip(); }
 		virtual void gameObjsRawLUp( wxMouseEvent& event ) { event.Skip(); }

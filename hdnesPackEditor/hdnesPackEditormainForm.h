@@ -87,6 +87,7 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
 		void gameObjsRawLDown( wxMouseEvent& event );
 		void gameObjsRawLUp( wxMouseEvent& event );
 		void replaceBrightnessChanged( wxScrollEvent& event );
+		void gameObjDefaultClicked( wxCommandEvent& event );
 		void SwapSeleted( wxListEvent& event );
         void SwapPaletteSelected( wxListEvent& event );
         void SwapPaletteNewChanged( wxCommandEvent& event );
@@ -249,7 +250,7 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         void genGameObjsTilePack(fstream& file, bool withCondition);
         void genChildGameObjsTilePack(fstream& file, wxTreeItemId item, bool withCondition);
         void genGameObjItemTilePack(fstream& file, wxTreeItemId item, bool withCondition);
-        void genCustomImage(fstream& file, gameTile t, paletteSwap s, bool isSprite, int swapID);
+        void genCustomImage(fstream& file, gameTile t, paletteSwap s, bool isSprite, int swapID, bool isDefault);
 
         void gameObjsROMChanged();
         void gameObjsTreeMenu( wxCommandEvent& event );

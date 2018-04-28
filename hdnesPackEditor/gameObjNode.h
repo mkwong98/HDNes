@@ -36,6 +36,7 @@ class gameObjNode : public wxTreeItemData
         Uint8 bgColour;
         bool isSprite;
         float brightness;
+        bool isDefault;
 
         vector<gameTile> tiles;
         vector<paletteSwap> swaps;

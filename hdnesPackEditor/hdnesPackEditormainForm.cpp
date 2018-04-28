@@ -1309,6 +1309,7 @@ void hdnesPackEditormainForm::refreshGameObj(){
     rbnObjectSprite->SetValue(ndata->isSprite);
     rbnObjectBG->SetValue(!ndata->isSprite);
     spnBrightness->SetValue(ndata->brightness * 100);
+    chkGameObjIsDefault->SetValue(ndata->isDefault);
 
     //refresh bg colour button
     btnGameObjBGColour->SetBackgroundColour(coreData::cData->palette[ndata->bgColour]);
@@ -1798,6 +1799,14 @@ void hdnesPackEditormainForm::replaceBrightnessChanged( wxScrollEvent& event ){
     }
 }
 
+void hdnesPackEditormainForm::gameObjDefaultClicked( wxCommandEvent& event ){
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
+    if(ndata){
+        ndata->isDefault = chkGameObjIsDefault->GetValue();
+        dataChanged();
+    }
+}
+
 void hdnesPackEditormainForm::configGameObjs(string lineHdr, string lineTail){
 }
 
@@ -1975,9 +1984,9 @@ void hdnesPackEditormainForm::genGameObjItemTilePack(fstream& file, wxTreeItemId
         if(node->tiles[i].hasReplacement && (withCondition == (node->tiles[i].conditions.size() > 0))){
             paletteSwap s = paletteSwap();
             s.brightness = node->brightness;
-            genCustomImage(file, node->tiles[i], s, node->isSprite, -1);
+            genCustomImage(file, node->tiles[i], s, node->isSprite, -1, node->isDefault);
             for(int j = 0; j < node->swaps.size(); ++j){
-                genCustomImage(file, node->tiles[i], node->swaps[j], node->isSprite, j);
+                genCustomImage(file, node->tiles[i], node->swaps[j], node->isSprite, j, false);
             }
         }
     }
@@ -1989,10 +1998,11 @@ void hdnesPackEditormainForm::genGameObjItemTilePack(fstream& file, wxTreeItemId
 
 }
 
-void hdnesPackEditormainForm::genCustomImage(fstream& file, gameTile t, paletteSwap s, bool isSprite, int swapID){
+void hdnesPackEditormainForm::genCustomImage(fstream& file, gameTile t, paletteSwap s, bool isSprite, int swapID, bool isDefault){
     int replaceSize = 8 * coreData::cData->scale;
     wxImage tmp;
     t.brightness = s.brightness;
+    t.isDefault = isDefault;
     if(swapID >= 0){
         applySwap(t.id.palette, s);
         for(int i = 0; i < t.conditions.size(); ++i){

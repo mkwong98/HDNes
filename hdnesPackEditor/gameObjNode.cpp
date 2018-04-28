@@ -17,6 +17,7 @@ gameObjNode::gameObjNode()
     bgColour = 0;
     isSprite = false;
     brightness = 1;
+    isDefault = false;
 }
 
 gameObjNode::~gameObjNode()
@@ -81,6 +82,9 @@ void gameObjNode::load(fstream& file, wxTreeItemId newItm){
             else if(lineHdr == "<brightness>"){
                 brightness = atof(lineTail.c_str());
             }
+            else if(lineHdr == "<isDefault>"){
+                isDefault = (lineTail == "Y");
+            }
             else if(lineHdr == "<childObjects>"){
                 main::mForm->loadChildGameObjs(file, newItm);
             }
@@ -119,6 +123,7 @@ void gameObjNode::save(fstream& file, wxTreeItemId newItm){
         file << "<bgColour>" << main::intToHex(bgColour) << "\n";
         file << "<isSprite>" << (isSprite ? "Y" : "N") << "\n";
         file << "<brightness>" << main::floatToStr(brightness) << "\n";
+        file << "<isDefault>" << (isDefault ? "Y" : "N") << "\n";
 
         file << "<tiles>\n";
         for(int i = 0; i < tiles.size(); ++i){

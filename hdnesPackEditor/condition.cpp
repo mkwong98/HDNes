@@ -59,7 +59,12 @@ void condition::load(fstream& file){
             main::split(lineTail, ',', tailStrs);
 
             if(lineHdr == "<conditionType>"){
-                conditionType = tailStrs[0];
+                if(lineTail == ""){
+                    conditionType = "";
+                }
+                else{
+                    conditionType = tailStrs[0];
+                }
             }
             else if(lineHdr == "<tileReference>"){
                 id.load(file);

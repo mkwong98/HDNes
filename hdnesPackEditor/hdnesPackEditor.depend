@@ -3359,7 +3359,7 @@
 	<wx/image.h>
 	<SDL2/SDL.h>
 
-1524767215 source:c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.cpp
+1524914441 source:c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.cpp
 	"hdnesPackEditormainForm.h"
 	"hdnesPackEditornewProjectDialog.h"
 	"hdnesPackEditorcolourSelectDialog.h"
@@ -3373,14 +3373,14 @@
 	"image.h"
 	"paletteSwap.h"
 
-1524589698 c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.h
+1524914185 c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.h
 	"common.h"
 	"mainForm.h"
 	"colourDialogClient.h"
 	"gameObjNode.h"
 	"classList.h"
 
-1522858528 c:\work\hdnes\trunk\hdnespackeditor\mainform.h
+1524914152 c:\work\hdnes\trunk\hdnespackeditor\mainform.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/string.h>
@@ -3400,6 +3400,7 @@
 	<wx/stattext.h>
 	<wx/button.h>
 	<wx/spinctrl.h>
+	<wx/checkbox.h>
 	<wx/scrolbar.h>
 	<wx/listctrl.h>
 	<wx/textctrl.h>
@@ -3409,7 +3410,6 @@
 	<wx/filepicker.h>
 	<wx/dialog.h>
 	<wx/combobox.h>
-	<wx/checkbox.h>
 
 1412631242 c:\work\include\wx\filepicker.h
 	"wx/defs.h"
@@ -3451,7 +3451,7 @@
 	<wx\wx.h>
 	<SDL2\SDL.h>
 
-1522858528 source:c:\work\hdnes\trunk\hdnespackeditor\mainform.cpp
+1524914152 source:c:\work\hdnes\trunk\hdnespackeditor\mainform.cpp
 	"mainForm.h"
 
 1524851985 source:c:\work\hdnes\trunk\hdnespackeditor\condition.cpp
@@ -3849,7 +3849,7 @@
 	"classList.h"
 	"condition.h"
 
-1522858528 c:\work\hdnes\trunk\hdnespackeditor\gameobjnode.h
+1524913295 c:\work\hdnes\trunk\hdnespackeditor\gameobjnode.h
 	"common.h"
 	"gameTile.h"
 	<wx/treebase.h>
@@ -3860,7 +3860,7 @@
 	"condition.h"
 	"tileReference.h"
 
-1522858528 source:c:\work\hdnes\trunk\hdnespackeditor\gameobjnode.cpp
+1524913462 source:c:\work\hdnes\trunk\hdnespackeditor\gameobjnode.cpp
 	"gameObjNode.h"
 	"gameTile.h"
 	"paletteSwap.h"

@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Dec 21 2016)
+// C++ code generated with wxFormBuilder (version Jun 17 2015)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -148,6 +148,13 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	m_staticText18 = new wxStaticText( m_panel78, wxID_ANY, wxT("%"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText18->Wrap( -1 );
 	bSizer36->Add( m_staticText18, 0, wxALL, 5 );
+	
+	m_staticText271 = new wxStaticText( m_panel78, wxID_ANY, wxT(" "), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText271->Wrap( -1 );
+	bSizer36->Add( m_staticText271, 0, wxALL, 5 );
+	
+	chkGameObjIsDefault = new wxCheckBox( m_panel78, wxID_ANY, wxT("Use as default"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer36->Add( chkGameObjIsDefault, 0, wxALL, 5 );
 	
 	
 	bSizer33->Add( bSizer36, 1, wxEXPAND, 5 );
@@ -323,14 +330,7 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	bSizer46->Add( m_staticText21, 0, wxALL, 5 );
 	
 	txtSwapPaletteNew = new wxTextCtrl( m_panel79, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	#ifdef __WXGTK__
-	if ( !txtSwapPaletteNew->HasFlag( wxTE_MULTILINE ) )
-	{
-	txtSwapPaletteNew->SetMaxLength( 8 );
-	}
-	#else
-	txtSwapPaletteNew->SetMaxLength( 8 );
-	#endif
+	txtSwapPaletteNew->SetMaxLength( 8 ); 
 	bSizer46->Add( txtSwapPaletteNew, 0, wxALL, 5 );
 	
 	
@@ -635,6 +635,7 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	btnGameObjBGColour->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::gameObjBGColour ), NULL, this );
 	zoomGameObjs->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainForm::zoomGameObjsChanged ), NULL, this );
 	spnBrightness->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
+	chkGameObjIsDefault->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( mainForm::gameObjDefaultClicked ), NULL, this );
 	pnlGameObjRaw->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( mainForm::gameObjsRawEnter ), NULL, this );
 	pnlGameObjRaw->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( mainForm::gameObjsRawLDown ), NULL, this );
 	pnlGameObjRaw->Connect( wxEVT_LEFT_UP, wxMouseEventHandler( mainForm::gameObjsRawLUp ), NULL, this );
@@ -758,6 +759,7 @@ mainForm::~mainForm()
 	btnGameObjBGColour->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::gameObjBGColour ), NULL, this );
 	zoomGameObjs->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainForm::zoomGameObjsChanged ), NULL, this );
 	spnBrightness->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainForm::replaceBrightnessChanged ), NULL, this );
+	chkGameObjIsDefault->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( mainForm::gameObjDefaultClicked ), NULL, this );
 	pnlGameObjRaw->Disconnect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( mainForm::gameObjsRawEnter ), NULL, this );
 	pnlGameObjRaw->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( mainForm::gameObjsRawLDown ), NULL, this );
 	pnlGameObjRaw->Disconnect( wxEVT_LEFT_UP, wxMouseEventHandler( mainForm::gameObjsRawLUp ), NULL, this );
