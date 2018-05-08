@@ -8,6 +8,13 @@ IMPLEMENT_APP(main)
 hdnesPackEditormainForm* main::mForm;
 string main::exeDir;
 
+string main::trim(string pStr){
+    string s = pStr;
+    s.erase(s.find_last_not_of(" \t\n\r\f\v") + 1);
+    s.erase(0, s.find_first_not_of(" \t\n\r\f\v"));
+    return s;
+}
+
 string main::intToHex(int value){
     stringstream stream;
     stream << std::setfill('0') << std::setw(2);

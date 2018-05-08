@@ -44,7 +44,7 @@ string gameTile::writeLine(){
 bool gameTile::compareEqual(gameTile& t){
     if(conditions.size() != t.conditions.size()) return false;
     for(int i = 0; i < conditions.size(); ++i){
-        if(!conditions[i].compareEqual(t.conditions[i])) return false;
+        if(conSigns[i] != t.conSigns[i] || !conditions[i].compareEqual(t.conditions[i])) return false;
     }
     if(!id.compareEqual(t.id)) return false;
     return true;
@@ -93,6 +93,13 @@ void gameTile::load(fstream& file){
                     getline(file, line);
                 }
             }
+            else if(lineHdr == "<conSigns>"){
+                getline(file, line);
+                while(line != "<endConSigns>"){
+                    conSigns.push_back(line == "Y");
+                    getline(file, line);
+                }
+            }
         }
         getline(file, line);
     }
@@ -115,6 +122,11 @@ void gameTile::save(fstream& file){
         conditions[i].save(file);
     }
     file << "<endConditions>\n";
+    file << "<conSigns>\n";
+    for(int i = 0; i < conSigns.size(); ++i){
+        file << (conSigns[i] ? "Y" : "N") << "\n";
+    }
+    file << "<endConSigns>\n";
     file << "<endGameTile>\n";
 }
 
@@ -124,6 +136,7 @@ string gameTile::writeConditionNames(){
         stream << "[";
         for(int i = 0; i < conditions.size(); ++i){
             if(i > 0) stream << "&";
+            if(conSigns[i]) stream << "!";
             stream << conditions[i].name;
         }
         stream << "]";

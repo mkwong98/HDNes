@@ -107,6 +107,21 @@ void gameObjNode::load(fstream& file, wxTreeItemId newItm){
                     getline(file, line);
                 }
             }
+            else if(lineHdr == "<conditions>"){
+                getline(file, line);
+                while(line != "<endConditions>"){
+                    g.load(file);
+                    conditions.push_back(g);
+                    getline(file, line);
+                }
+            }
+            else if(lineHdr == "<conSigns>"){
+                getline(file, line);
+                while(line != "<endConSigns>"){
+                    conSigns.push_back(line == "Y");
+                    getline(file, line);
+                }
+            }
         }
         getline(file, line);
     }
@@ -136,6 +151,18 @@ void gameObjNode::save(fstream& file, wxTreeItemId newItm){
             swaps[i].save(file);
         }
         file << "<endSwaps>\n";
+
+        file << "<conditions>\n";
+        for(int i = 0; i < conditions.size(); ++i){
+            conditions[i].save(file);
+        }
+        file << "<endConditions>\n";
+
+        file << "<conSigns>\n";
+        for(int i = 0; i < conSigns.size(); ++i){
+            file << (conSigns[i] ? "Y" : "N") << "\n";
+        }
+        file << "<endConSigns>\n";
     }
     else{
         file << "<childObjects>\n";

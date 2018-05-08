@@ -14,7 +14,11 @@ condition::~condition()
 }
 
 int condition::getType(){
-    if(conditionType == "tileNearby" || conditionType == "spriteNearby" || conditionType == "tileAtPosition" || conditionType == "spriteAtPosition" || conditionType == ""){
+    if(conditionType == "hmirror" || conditionType == "vmirror" || conditionType == "bgpriority"){
+        //built in conditions
+        return 0;
+    }
+    else if(conditionType == "tileNearby" || conditionType == "spriteNearby" || conditionType == "tileAtPosition" || conditionType == "spriteAtPosition" || conditionType == ""){
         return 1;
     }
     else if(conditionType == "memoryCheck" || conditionType == "ppuMemoryCheck" || conditionType == "memoryCheckConstant" || conditionType == "ppuMemoryCheckConstant"){
@@ -25,7 +29,10 @@ int condition::getType(){
 
 bool condition::compareEqual(condition& c){
     if(conditionType != c.conditionType) return false;
-    if(getType() == 1){
+    if(getType() == 0){
+        if(name != c.name) return false;
+    }
+    else if(getType() == 1){
         if(!id.compareEqual(c.id)) return false;
         if(objCoordX != c.objCoordX) return false;
         if(objCoordY != c.objCoordY) return false;
@@ -102,7 +109,7 @@ void condition::save(fstream& file){
     else if(getType() == 2){
         file << "<compare>" << address << "," << op << "," << value << "\n";
     }
-    else{
+    else if(getType() == 3){
         file << "<frame>" << frame1 << "," << frame2 << "\n";
     }
     file << "<endCondition>\n";

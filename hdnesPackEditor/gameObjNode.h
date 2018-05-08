@@ -41,6 +41,8 @@ class gameObjNode : public wxTreeItemData
         vector<gameTile> tiles;
         vector<paletteSwap> swaps;
         vector<array<Uint8, 4>> palettes;
+        vector<condition> conditions;
+        vector<bool> conSigns;
 
         void addTile(gameTile g);
         void addToObjectSize(int gIdx);

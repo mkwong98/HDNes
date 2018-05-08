@@ -24,6 +24,7 @@ class gameTile
         bool hasReplacement;
         bool isDefault;
         vector<condition> conditions;
+        vector<bool> conSigns;
         int img;
         int x;
         int y;

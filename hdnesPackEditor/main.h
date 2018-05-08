@@ -20,6 +20,7 @@ public:
     static string paletteToStr(vector<array<Uint8, 4>> p);
     static vector<string> split(const string &s, char delim, vector<string> &elems);
     static void hexToByteArray(const string &s, UINT8* ar);
+    static string trim(string pStr);
     static void drawRect(wxImage &img, wxPoint pt, wxPoint rectSize, wxColour c);
     static void drawLine(wxImage &img, wxPoint pt, int len, wxColour c, bool hDir);
 

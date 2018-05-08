@@ -139,12 +139,33 @@ void coreData::loadPackData(){
                         t->readLine(lineTail);
                         if(conNames.size() > 0){
                             //add conditions
-                            for(int i = 0; i < conditions.size(); ++i){
-                                for(int j = 0; j < conNames.size(); ++j){
-                                    if(conditions[i]->name == conNames[j]){
+
+                            for(int j = 0; j < conNames.size(); ++j){
+                                string conName;
+                                bool hasConMatch;
+
+                                size_t conSign = conNames[j].find_first_of("!");
+                                if(conSign != string::npos){
+                                    conName = main::trim(conNames[j].substr(conSign + 1));
+                                }
+                                else{
+                                    conName = main::trim(conNames[j]);
+                                }
+                                hasConMatch = false;
+                                for(int i = 0; i < conditions.size(); ++i){
+                                    if(conditions[i]->name == conName){
                                         t->conditions.push_back(*conditions[i]);
+                                        hasConMatch = true;
                                     }
                                 }
+                                if(!hasConMatch){
+                                    condition c;
+                                    c.name = conName;
+                                    c.conditionType = conName;
+                                    t->conditions.push_back(c);
+                                }
+                                t->conSigns.push_back(conSign != string::npos);
+
                             }
                         }
                         tiles.push_back(t);
