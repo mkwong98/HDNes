@@ -149,7 +149,7 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	m_staticText18->Wrap( -1 );
 	bSizer36->Add( m_staticText18, 0, wxALL, 5 );
 	
-	m_staticText271 = new wxStaticText( m_panel78, wxID_ANY, wxT(" "), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText271 = new wxStaticText( m_panel78, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText271->Wrap( -1 );
 	bSizer36->Add( m_staticText271, 0, wxALL, 5 );
 	
@@ -449,6 +449,197 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	m_panel79->Layout();
 	bSizer40->Fit( m_panel79 );
 	m_notebook2->AddPage( m_panel79, wxT("Palette swaps"), false );
+	m_panel84 = new wxPanel( m_notebook2, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizer512;
+	bSizer512 = new wxBoxSizer( wxVERTICAL );
+	
+	lstConditions = new wxListCtrl( m_panel84, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT );
+	bSizer512->Add( lstConditions, 1, wxALL|wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer521;
+	bSizer521 = new wxBoxSizer( wxVERTICAL );
+	
+	wxBoxSizer* bSizer55;
+	bSizer55 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText281 = new wxStaticText( m_panel84, wxID_ANY, wxT("Type"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText281->Wrap( -1 );
+	bSizer55->Add( m_staticText281, 0, wxALL, 5 );
+	
+	wxArrayString cboConditionTypeChoices;
+	cboConditionType = new wxChoice( m_panel84, wxID_ANY, wxDefaultPosition, wxDefaultSize, cboConditionTypeChoices, 0 );
+	cboConditionType->SetSelection( 0 );
+	bSizer55->Add( cboConditionType, 0, wxALL, 5 );
+	
+	m_staticText29 = new wxStaticText( m_panel84, wxID_ANY, wxT("   "), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText29->Wrap( -1 );
+	bSizer55->Add( m_staticText29, 0, wxALL, 5 );
+	
+	m_staticText30 = new wxStaticText( m_panel84, wxID_ANY, wxT("Name"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText30->Wrap( -1 );
+	bSizer55->Add( m_staticText30, 0, wxALL, 5 );
+	
+	txtConditionName = new wxTextCtrl( m_panel84, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer55->Add( txtConditionName, 0, wxALL, 5 );
+	
+	
+	bSizer521->Add( bSizer55, 0, wxEXPAND, 5 );
+	
+	m_panel85 = new wxPanel( m_panel84, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizer56;
+	bSizer56 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText31 = new wxStaticText( m_panel85, wxID_ANY, wxT("X"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText31->Wrap( -1 );
+	bSizer56->Add( m_staticText31, 0, wxALL, 5 );
+	
+	m_textCtrl5 = new wxTextCtrl( m_panel85, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer56->Add( m_textCtrl5, 0, wxALL, 5 );
+	
+	m_staticText32 = new wxStaticText( m_panel85, wxID_ANY, wxT("   "), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText32->Wrap( -1 );
+	bSizer56->Add( m_staticText32, 0, wxALL, 5 );
+	
+	m_staticText33 = new wxStaticText( m_panel85, wxID_ANY, wxT("Y"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText33->Wrap( -1 );
+	bSizer56->Add( m_staticText33, 0, wxALL, 5 );
+	
+	m_textCtrl6 = new wxTextCtrl( m_panel85, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer56->Add( m_textCtrl6, 0, wxALL, 5 );
+	
+	m_staticText34 = new wxStaticText( m_panel85, wxID_ANY, wxT("   "), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText34->Wrap( -1 );
+	bSizer56->Add( m_staticText34, 0, wxALL, 5 );
+	
+	m_staticText35 = new wxStaticText( m_panel85, wxID_ANY, wxT("Tile"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText35->Wrap( -1 );
+	bSizer56->Add( m_staticText35, 0, wxALL, 5 );
+	
+	m_textCtrl7 = new wxTextCtrl( m_panel85, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer56->Add( m_textCtrl7, 0, wxALL, 5 );
+	
+	m_staticText36 = new wxStaticText( m_panel85, wxID_ANY, wxT("   "), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText36->Wrap( -1 );
+	bSizer56->Add( m_staticText36, 0, wxALL, 5 );
+	
+	m_staticText37 = new wxStaticText( m_panel85, wxID_ANY, wxT("Palette"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText37->Wrap( -1 );
+	bSizer56->Add( m_staticText37, 0, wxALL, 5 );
+	
+	m_textCtrl8 = new wxTextCtrl( m_panel85, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer56->Add( m_textCtrl8, 0, wxALL, 5 );
+	
+	
+	m_panel85->SetSizer( bSizer56 );
+	m_panel85->Layout();
+	bSizer56->Fit( m_panel85 );
+	bSizer521->Add( m_panel85, 0, wxALL|wxEXPAND, 5 );
+	
+	m_panel86 = new wxPanel( m_panel84, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizer57;
+	bSizer57 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText38 = new wxStaticText( m_panel86, wxID_ANY, wxT("Address1"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText38->Wrap( -1 );
+	bSizer57->Add( m_staticText38, 0, wxALL, 5 );
+	
+	m_textCtrl9 = new wxTextCtrl( m_panel86, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer57->Add( m_textCtrl9, 0, wxALL, 5 );
+	
+	m_staticText39 = new wxStaticText( m_panel86, wxID_ANY, wxT("   "), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText39->Wrap( -1 );
+	bSizer57->Add( m_staticText39, 0, wxALL, 5 );
+	
+	m_staticText40 = new wxStaticText( m_panel86, wxID_ANY, wxT("Operator"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText40->Wrap( -1 );
+	bSizer57->Add( m_staticText40, 0, wxALL, 5 );
+	
+	wxArrayString m_choice2Choices;
+	m_choice2 = new wxChoice( m_panel86, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice2Choices, 0 );
+	m_choice2->SetSelection( 0 );
+	bSizer57->Add( m_choice2, 0, wxALL, 5 );
+	
+	m_staticText41 = new wxStaticText( m_panel86, wxID_ANY, wxT("   "), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText41->Wrap( -1 );
+	bSizer57->Add( m_staticText41, 0, wxALL, 5 );
+	
+	m_staticText42 = new wxStaticText( m_panel86, wxID_ANY, wxT("Address2"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText42->Wrap( -1 );
+	bSizer57->Add( m_staticText42, 0, wxALL, 5 );
+	
+	m_textCtrl11 = new wxTextCtrl( m_panel86, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer57->Add( m_textCtrl11, 0, wxALL, 5 );
+	
+	
+	m_panel86->SetSizer( bSizer57 );
+	m_panel86->Layout();
+	bSizer57->Fit( m_panel86 );
+	bSizer521->Add( m_panel86, 0, wxEXPAND | wxALL, 5 );
+	
+	m_panel87 = new wxPanel( m_panel84, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizer58;
+	bSizer58 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText43 = new wxStaticText( m_panel87, wxID_ANY, wxT("Address"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText43->Wrap( -1 );
+	bSizer58->Add( m_staticText43, 0, wxALL, 5 );
+	
+	m_textCtrl12 = new wxTextCtrl( m_panel87, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer58->Add( m_textCtrl12, 0, wxALL, 5 );
+	
+	m_staticText44 = new wxStaticText( m_panel87, wxID_ANY, wxT("   "), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText44->Wrap( -1 );
+	bSizer58->Add( m_staticText44, 0, wxALL, 5 );
+	
+	m_staticText45 = new wxStaticText( m_panel87, wxID_ANY, wxT("Operator"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText45->Wrap( -1 );
+	bSizer58->Add( m_staticText45, 0, wxALL, 5 );
+	
+	wxArrayString m_choice3Choices;
+	m_choice3 = new wxChoice( m_panel87, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice3Choices, 0 );
+	m_choice3->SetSelection( 0 );
+	bSizer58->Add( m_choice3, 0, wxALL, 5 );
+	
+	m_staticText46 = new wxStaticText( m_panel87, wxID_ANY, wxT("   "), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText46->Wrap( -1 );
+	bSizer58->Add( m_staticText46, 0, wxALL, 5 );
+	
+	m_staticText47 = new wxStaticText( m_panel87, wxID_ANY, wxT("Value"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText47->Wrap( -1 );
+	bSizer58->Add( m_staticText47, 0, wxALL, 5 );
+	
+	m_textCtrl13 = new wxTextCtrl( m_panel87, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer58->Add( m_textCtrl13, 0, wxALL, 5 );
+	
+	
+	m_panel87->SetSizer( bSizer58 );
+	m_panel87->Layout();
+	bSizer58->Fit( m_panel87 );
+	bSizer521->Add( m_panel87, 0, wxEXPAND | wxALL, 5 );
+	
+	
+	bSizer512->Add( bSizer521, 0, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer541;
+	bSizer541 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_button17 = new wxButton( m_panel84, wxID_ANY, wxT("Add"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer541->Add( m_button17, 0, wxALL, 5 );
+	
+	m_button18 = new wxButton( m_panel84, wxID_ANY, wxT("Update"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer541->Add( m_button18, 0, wxALL, 5 );
+	
+	m_button19 = new wxButton( m_panel84, wxID_ANY, wxT("Delete"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer541->Add( m_button19, 0, wxALL, 5 );
+	
+	
+	bSizer512->Add( bSizer541, 0, wxEXPAND, 5 );
+	
+	
+	m_panel84->SetSizer( bSizer512 );
+	m_panel84->Layout();
+	bSizer512->Fit( m_panel84 );
+	m_notebook2->AddPage( m_panel84, wxT("Conditions"), false );
 	
 	bSizer38->Add( m_notebook2, 1, wxEXPAND | wxALL, 5 );
 	

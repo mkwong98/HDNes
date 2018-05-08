@@ -31,6 +31,7 @@
 #include <wx/scrolbar.h>
 #include <wx/listctrl.h>
 #include <wx/textctrl.h>
+#include <wx/choice.h>
 #include <wx/notebook.h>
 #include <wx/splitter.h>
 #include <wx/frame.h>
@@ -109,6 +110,46 @@ class mainForm : public wxFrame
 		wxButton* btnAddSwap;
 		wxButton* btnUpdateSwap;
 		wxButton* btnDeleteSwap;
+		wxPanel* m_panel84;
+		wxListCtrl* lstConditions;
+		wxStaticText* m_staticText281;
+		wxChoice* cboConditionType;
+		wxStaticText* m_staticText29;
+		wxStaticText* m_staticText30;
+		wxTextCtrl* txtConditionName;
+		wxPanel* m_panel85;
+		wxStaticText* m_staticText31;
+		wxTextCtrl* m_textCtrl5;
+		wxStaticText* m_staticText32;
+		wxStaticText* m_staticText33;
+		wxTextCtrl* m_textCtrl6;
+		wxStaticText* m_staticText34;
+		wxStaticText* m_staticText35;
+		wxTextCtrl* m_textCtrl7;
+		wxStaticText* m_staticText36;
+		wxStaticText* m_staticText37;
+		wxTextCtrl* m_textCtrl8;
+		wxPanel* m_panel86;
+		wxStaticText* m_staticText38;
+		wxTextCtrl* m_textCtrl9;
+		wxStaticText* m_staticText39;
+		wxStaticText* m_staticText40;
+		wxChoice* m_choice2;
+		wxStaticText* m_staticText41;
+		wxStaticText* m_staticText42;
+		wxTextCtrl* m_textCtrl11;
+		wxPanel* m_panel87;
+		wxStaticText* m_staticText43;
+		wxTextCtrl* m_textCtrl12;
+		wxStaticText* m_staticText44;
+		wxStaticText* m_staticText45;
+		wxChoice* m_choice3;
+		wxStaticText* m_staticText46;
+		wxStaticText* m_staticText47;
+		wxTextCtrl* m_textCtrl13;
+		wxButton* m_button17;
+		wxButton* m_button18;
+		wxButton* m_button19;
 		wxPanel* m_panel72;
 		wxSplitterWindow* m_splitter21;
 		wxPanel* m_panel741;
