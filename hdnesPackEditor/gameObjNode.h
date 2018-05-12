@@ -48,9 +48,11 @@ class gameObjNode : public wxTreeItemData
         void addToObjectSize(int gIdx);
         void clearAllTiles();
         void addSwap(paletteSwap g);
+        void addCondition(condition c, bool isNegative);
         void load(fstream& file, wxTreeItemId newItm);
         void save(fstream& file, wxTreeItemId newItm);
         void updatePalettes();
+        string writeConditionNames();
     protected:
 
     private:

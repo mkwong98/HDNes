@@ -34,6 +34,11 @@ void gameObjNode::addSwap(paletteSwap g){
     swaps.push_back(g);
 }
 
+void gameObjNode::addCondition(condition c, bool isNegative){
+    conditions.push_back(c);
+    conSigns.push_back(isNegative);
+}
+
 void gameObjNode::addToObjectSize(int gIdx){
     x1 = min(x1, tiles[gIdx].objCoordX);
     x2 = max(x2, tiles[gIdx].objCoordX + 8);
@@ -59,6 +64,7 @@ void gameObjNode::load(fstream& file, wxTreeItemId newItm){
     string lineTail;
     gameTile g;
     paletteSwap p;
+    condition c;
 
     getline(file, line);
     while(line != "<endGameObject>"){
@@ -110,8 +116,9 @@ void gameObjNode::load(fstream& file, wxTreeItemId newItm){
             else if(lineHdr == "<conditions>"){
                 getline(file, line);
                 while(line != "<endConditions>"){
-                    g.load(file);
-                    conditions.push_back(g);
+                    c = condition();
+                    c.load(file);
+                    conditions.push_back(c);
                     getline(file, line);
                 }
             }
@@ -191,6 +198,16 @@ void gameObjNode::updatePalettes(){
             palettes.push_back(p);
         }
     }
+}
+
+string gameObjNode::writeConditionNames(){
+    stringstream stream;
+    for(int i = 0; i < conditions.size(); ++i){
+        if(i > 0) stream << "&";
+        if(conSigns[i]) stream << "!";
+        stream << nodeName << "_" << conditions[i].name;
+    }
+    return stream.str();
 }
 
 

@@ -448,11 +448,21 @@ void coreData::genPackData(){
 	inifile << "#endEditorSection\n";
 
 	for(int i = 0; i < conditions.size(); ++i){
-        inifile << "<condition>" << conditions[i]->writeLine() << "\n";
+        inifile << "<condition>" << conditions[i]->name << "," << conditions[i]->conditionType;
+        s = conditions[i]->writeLine();
+        if(s != ""){
+            inifile << "," << s;
+        }
+        inifile << "\n";
 	}
 
 	for(int i = 0; i < tiles.size(); ++i){
-        inifile << tiles[i]->writeConditionNames() << "<tile>" << tiles[i]->writeLine() << "\n";
+        if(tiles[i]->conditions.size() > 0){
+            inifile << "[";
+            inifile << tiles[i]->writeConditionNames();
+            inifile << "]";
+        }
+        inifile << "<tile>" << tiles[i]->writeLine() << "\n";
 	}
 
 	genSection(inifile, background);

@@ -682,6 +682,38 @@ void hdnesPackEditormainForm::initGameObjs(){
 
     lstPalettes->AppendColumn(wxString("Original palette"));
     lstPalettes->AppendColumn(wxString("New Palette"));
+
+    lstConditions->AppendColumn(wxString(" "));
+    lstConditions->AppendColumn(wxString("Name"));
+    lstConditions->AppendColumn(wxString("Type"));
+    lstConditions->AppendColumn(wxString("Condition"));
+    lstConditions->SetColumnWidth(0, 20);
+    lstConditions->SetColumnWidth(3, 500);
+
+    cboConditionType->Append(wxString("hmirror"));
+    cboConditionType->Append(wxString("vmirror"));
+    cboConditionType->Append(wxString("bgpriority"));
+    cboConditionType->Append(wxString("tileAtPosition"));
+    cboConditionType->Append(wxString("spriteAtPosition"));
+    cboConditionType->Append(wxString("memoryCheck"));
+    cboConditionType->Append(wxString("ppuMemoryCheck"));
+    cboConditionType->Append(wxString("memoryCheckConstant"));
+    cboConditionType->Append(wxString("ppuMemoryCheckConstant"));
+    showConditionPanel();
+
+    cboConditionOp->Append(wxString("=="));
+    cboConditionOp->Append(wxString("!="));
+    cboConditionOp->Append(wxString(">"));
+    cboConditionOp->Append(wxString("<"));
+    cboConditionOp->Append(wxString("<="));
+    cboConditionOp->Append(wxString("<="));
+
+    cboConditionOp2->Append(wxString("=="));
+    cboConditionOp2->Append(wxString("!="));
+    cboConditionOp2->Append(wxString(">"));
+    cboConditionOp2->Append(wxString("<"));
+    cboConditionOp2->Append(wxString("<="));
+    cboConditionOp2->Append(wxString("<="));
 }
 
 void hdnesPackEditormainForm::gameObjsROMChanged(){
@@ -953,7 +985,6 @@ void hdnesPackEditormainForm::gameObjsRawRUp( wxMouseEvent& event ){
         pnlGameObjRaw->PopupMenu(&menu, p);
     }
 }
-
 
 void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
     string copyContent = "";
@@ -1264,8 +1295,6 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
     }
 }
 
-
-
 void hdnesPackEditormainForm::setReplacement(int imageID, int x, int y){
     gameObjNode* ndata;
     ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
@@ -1331,6 +1360,7 @@ void hdnesPackEditormainForm::refreshGameObj(){
     drawGameObjEdits();
 
     loadSwaps();
+    loadConditions();
 }
 
 void hdnesPackEditormainForm::loadSwaps(){
@@ -1349,6 +1379,23 @@ void hdnesPackEditormainForm::loadSwaps(){
     }
     selectedSwap = -1;
     showSwap();
+}
+
+void hdnesPackEditormainForm::loadConditions(){
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
+    if(!ndata) return;
+
+    //add palette swaps
+    long j;
+    lstConditions->DeleteAllItems();
+    for(int i = 0; i < ndata->conditions.size(); ++i){
+        j = lstConditions->InsertItem(i, (ndata->conSigns[i] ? "!" : ""), 0);
+        lstConditions->SetItem(j, 1, wxString(ndata->conditions[i].name.c_str()));
+        lstConditions->SetItem(j, 2, wxString(ndata->conditions[i].conditionType.c_str()));
+        lstConditions->SetItem(j, 3, wxString(ndata->conditions[i].writeLine().c_str()));
+    }
+    selectedCondition = -1;
+    showCondition();
 }
 
 void hdnesPackEditormainForm::clearGameObj(){
@@ -1951,15 +1998,18 @@ void hdnesPackEditormainForm::genChildGameObjsConditionPack(fstream& file, wxTre
 
 void hdnesPackEditormainForm::genGameObjItemConditionPack(fstream& file, wxTreeItemId item){
     gameObjNode* node = (gameObjNode*)(treeGameObjs->GetItemData(item));
+    for(int i = 0; i < node->conditions.size(); ++i){
+        file << "<condition>" << node->nodeName << "_" << node->conditions[i].name << "," << node->conditions[i].conditionType << "," << node->conditions[i].writeLine() << "\n";
+    }
     for(int i = 0; i < node->tiles.size(); ++i){
         for(int j = 0; j <  node->tiles[i].conditions.size(); ++j){
             node->tiles[i].conditions[j].conditionType = (node->isSprite ? "spriteNearby" : "tileNearby");
-            file << "<condition>" << node->tiles[i].conditions[j].writeLine() << "\n";
+            file << "<condition>" << node->tiles[i].conditions[j].name << "," << node->tiles[i].conditions[j].conditionType << "," << node->tiles[i].conditions[j].writeLine() << "\n";
             for(int k = 0; k < node->swaps.size(); ++k){
                 condition tmpC = node->tiles[i].conditions[j];
                 applySwap(tmpC.id.palette, node->swaps[k]);
                 tmpC.name = tmpC.name + "_" + main::intToStr(k);
-                file << "<condition>" << tmpC.writeLine() << "\n";
+                file << "<condition>" << tmpC.name << "," << tmpC.conditionType << "," << tmpC.writeLine() << "\n";
             }
         }
     }
@@ -1983,12 +2033,12 @@ void hdnesPackEditormainForm::genGameObjItemTilePack(fstream& file, wxTreeItemId
     gameObjNode* node = (gameObjNode*)(treeGameObjs->GetItemData(item));
 
     for(int i = 0; i < node->tiles.size(); ++i){
-        if(node->tiles[i].hasReplacement && (withCondition == (node->tiles[i].conditions.size() > 0))){
+        if(node->tiles[i].hasReplacement && (withCondition == (node->tiles[i].conditions.size() > 0 || node->conditions.size() > 0))){
             paletteSwap s = paletteSwap();
             s.brightness = node->brightness;
-            genCustomImage(file, node->tiles[i], s, node->isSprite, -1, node->isDefault);
+            genCustomImage(file, node->tiles[i], s, node->isSprite, -1, node->isDefault, node);
             for(int j = 0; j < node->swaps.size(); ++j){
-                genCustomImage(file, node->tiles[i], node->swaps[j], node->isSprite, j, false);
+                genCustomImage(file, node->tiles[i], node->swaps[j], node->isSprite, j, false, node);
             }
         }
     }
@@ -2000,7 +2050,7 @@ void hdnesPackEditormainForm::genGameObjItemTilePack(fstream& file, wxTreeItemId
 
 }
 
-void hdnesPackEditormainForm::genCustomImage(fstream& file, gameTile t, paletteSwap s, bool isSprite, int swapID, bool isDefault){
+void hdnesPackEditormainForm::genCustomImage(fstream& file, gameTile t, paletteSwap s, bool isSprite, int swapID, bool isDefault, gameObjNode* gObj){
     int replaceSize = 8 * coreData::cData->scale;
     wxImage tmp;
     t.brightness = s.brightness;
@@ -2059,7 +2109,6 @@ void hdnesPackEditormainForm::genCustomImage(fstream& file, gameTile t, paletteS
         t.img = coreData::cData->images.size() + gameObjectGenImageCnt;
         t.x = gameObjectGenImageX * replaceSize;
         t.y = gameObjectGenImageY * replaceSize;
-        file << t.writeConditionNames() << "<tile>" << t.writeLine() << "\n";
 
         //move position
         gameObjectGenImageX += 1;
@@ -2074,9 +2123,20 @@ void hdnesPackEditormainForm::genCustomImage(fstream& file, gameTile t, paletteS
             }
         }
     }
-    else{
-        file << t.writeConditionNames() << "<tile>" << t.writeLine() << "\n";
+
+
+    //write object condition
+    if(t.conditions.size() > 0 || gObj->conditions.size() > 0){
+        file << "[";
+        file << gObj->writeConditionNames();
+        if(t.conditions.size() > 0 && gObj->conditions.size() > 0){
+            file << "&";
+        }
+        file << t.writeConditionNames();
+        file << "]";
     }
+    //write line
+    file << "<tile>" << t.writeLine() << "\n";
 }
 
 void hdnesPackEditormainForm::findGameObjNotUniqueTile(){
@@ -2304,6 +2364,128 @@ void hdnesPackEditormainForm::updateSwapData(paletteSwap& s){
         }
         s.newPalettes.push_back(arr);
     }
+}
+
+void hdnesPackEditormainForm::ConditionSelected( wxListEvent& event ){
+    selectedCondition = event.GetIndex();
+    showCondition();
+}
+
+void hdnesPackEditormainForm::showCondition(){
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
+    if(!ndata) return;
+    if(selectedCondition < 0) return;
+    condition c = ndata->conditions[selectedCondition];
+    chkConditionNegative->SetValue(ndata->conSigns[selectedCondition]);
+    txtConditionName->SetValue(wxString(c.name.c_str()));
+    cboConditionType->SetSelection(cboConditionType->FindString(wxString(c.conditionType.c_str())));
+    showConditionPanel();
+
+    if(c.conditionType == "tileNearby" || c.conditionType == "spriteNearby" || c.conditionType == "tileAtPosition" || c.conditionType == "spriteAtPosition"){
+        txtConditionX->SetValue(main::intToStr(c.objCoordX));
+        txtConditionY->SetValue(main::intToStr(c.objCoordY));
+
+        txtConditionTile->SetValue(c.id.writeID());
+        txtConditionPalette->SetValue(c.id.writePalette());
+    }
+    else if(c.conditionType == "memoryCheck" || c.conditionType == "ppuMemoryCheck"){
+        txtConditionAddress1->SetValue(main::intToHex(c.address));
+        cboConditionOp->SetSelection(cboConditionOp->FindString(wxString(c.op.c_str())));
+        txtConditionAddress2->SetValue(main::intToHex(c.value));
+    }
+    else if(c.conditionType == "memoryCheckConstant" || c.conditionType == "ppuMemoryCheckConstant"){
+        txtConditionAddress->SetValue(main::intToHex(c.address));
+        cboConditionOp2->SetSelection(cboConditionOp2->FindString(wxString(c.op.c_str())));
+        txtConditionValue->SetValue(main::intToHex(c.value));
+    }
+}
+
+void hdnesPackEditormainForm::ConditionTypeSelect( wxCommandEvent& event ){
+    showConditionPanel();
+}
+
+void hdnesPackEditormainForm::ConditionAdd( wxCommandEvent& event ){
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
+    if(!ndata) return;
+
+    condition c;
+    updateConditionData(c);
+    ndata->addCondition(c, chkConditionNegative->GetValue());
+    loadConditions();
+    coreData::cData->dataChanged();
+}
+
+void hdnesPackEditormainForm::ConditionUpdate( wxCommandEvent& event ){
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
+    if(!ndata) return;
+
+    if(selectedCondition >= 0){
+        updateConditionData(ndata->conditions[selectedCondition]);
+        ndata->conSigns[selectedCondition] = chkConditionNegative->GetValue();
+        loadConditions();
+        coreData::cData->dataChanged();
+    }
+}
+
+void hdnesPackEditormainForm::ConditionDelete( wxCommandEvent& event ){
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
+    if(!ndata) return;
+    if(selectedCondition >= 0){
+        ndata->conditions.erase (ndata->conditions.begin()+selectedCondition);
+        ndata->conSigns.erase (ndata->conSigns.begin()+selectedCondition);
+        loadConditions();
+        coreData::cData->dataChanged();
+    }
+}
+
+void hdnesPackEditormainForm::updateConditionData(condition& c){
+    c.conditionType = cboConditionType->GetString(cboConditionType->GetSelection());
+    c.name = txtConditionName->GetValue().ToStdString();
+    if(c.conditionType == "tileNearby" || c.conditionType == "spriteNearby" || c.conditionType == "tileAtPosition" || c.conditionType == "spriteAtPosition"){
+        c.objCoordX = atoi(txtConditionX->GetValue());
+        c.objCoordY = atoi(txtConditionY->GetValue());
+
+        if(coreData::cData->isCHRROM){
+            c.id.id = atoi(txtConditionTile->GetValue());
+        }
+        else{
+            main::hexToByteArray(txtConditionTile->GetValue().ToStdString(), c.id.rawData);
+        }
+        main::hexToByteArray(txtConditionPalette->GetValue().ToStdString(), c.id.palette);
+    }
+    else if(c.conditionType == "memoryCheck" || c.conditionType == "ppuMemoryCheck"){
+        c.address = strtol(txtConditionAddress1->GetValue(), NULL, 16);
+        c.op = cboConditionOp->GetString(cboConditionOp->GetSelection());
+        c.value = strtol(txtConditionAddress2->GetValue(), NULL, 16);
+    }
+    else if(c.conditionType == "memoryCheckConstant" || c.conditionType == "ppuMemoryCheckConstant"){
+        c.address = strtol(txtConditionAddress->GetValue(), NULL, 16);
+        c.op = cboConditionOp2->GetString(cboConditionOp2->GetSelection());
+        c.value = strtol(txtConditionValue->GetValue(), NULL, 16);
+    }
+}
+
+void hdnesPackEditormainForm::showConditionPanel(){
+    string conType;
+    conType = cboConditionType->GetString(cboConditionType->GetSelection());
+
+    pnlConditionType0->Show(false);
+    pnlConditionType1->Show(false);
+    pnlConditionType2->Show(false);
+    pnlConditionType3->Show(false);
+    if(conType == "tileNearby" || conType == "spriteNearby" || conType == "tileAtPosition" || conType == "spriteAtPosition"){
+        pnlConditionType1->Show(true);
+    }
+    else if(conType == "memoryCheck" || conType == "ppuMemoryCheck"){
+        pnlConditionType2->Show(true);
+    }
+    else if(conType == "memoryCheckConstant" || conType == "ppuMemoryCheckConstant"){
+        pnlConditionType3->Show(true);
+    }
+    else{
+        pnlConditionType0->Show(true);
+    }
+    pnlConditions->Layout();
 }
 
 

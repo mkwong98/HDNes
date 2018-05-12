@@ -98,6 +98,12 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         void AddSwapClicked( wxCommandEvent& event );
         void UpdateSwapClicked( wxCommandEvent& event );
         void DeleteSwapClicked( wxCommandEvent& event );
+        void ConditionSelected( wxListEvent& event );
+		void ConditionTypeSelect( wxCommandEvent& event );
+		void ConditionAdd( wxCommandEvent& event );
+		void ConditionUpdate( wxCommandEvent& event );
+		void ConditionDelete( wxCommandEvent& event );
+
 
 
 		void HDImgSelected( wxListEvent& event );
@@ -228,6 +234,7 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         int selectedSwap;
         int selectedSwapPalette;
         Uint8 swapNewColours[4];
+        int selectedCondition;
 
         void initGameObjs();
         void configGameObjs(string lineHdr, string lineTail);
@@ -250,7 +257,7 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         void genGameObjsTilePack(fstream& file, bool withCondition);
         void genChildGameObjsTilePack(fstream& file, wxTreeItemId item, bool withCondition);
         void genGameObjItemTilePack(fstream& file, wxTreeItemId item, bool withCondition);
-        void genCustomImage(fstream& file, gameTile t, paletteSwap s, bool isSprite, int swapID, bool isDefault);
+        void genCustomImage(fstream& file, gameTile t, paletteSwap s, bool isSprite, int swapID, bool isDefault, gameObjNode* gObj);
 
         void gameObjsROMChanged();
         void gameObjsTreeMenu( wxCommandEvent& event );
@@ -283,6 +290,11 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         void updateNewSwapText();
         void updateSwapData(paletteSwap& s);
         void applySwap(Uint8* palette, paletteSwap& s);
+
+        void loadConditions();
+        void showCondition();
+        void updateConditionData(condition& c);
+        void showConditionPanel();
 
         //--end game objs session
 

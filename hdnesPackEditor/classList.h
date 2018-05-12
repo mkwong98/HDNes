@@ -4,6 +4,7 @@
 class hdnesPackEditormainForm;
 
 class coreData;
+class gameObjNode;
 class image;
 class condition;
 class gameTile;

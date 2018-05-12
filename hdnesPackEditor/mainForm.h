@@ -110,46 +110,50 @@ class mainForm : public wxFrame
 		wxButton* btnAddSwap;
 		wxButton* btnUpdateSwap;
 		wxButton* btnDeleteSwap;
-		wxPanel* m_panel84;
+		wxPanel* pnlConditions;
 		wxListCtrl* lstConditions;
 		wxStaticText* m_staticText281;
 		wxChoice* cboConditionType;
 		wxStaticText* m_staticText29;
 		wxStaticText* m_staticText30;
 		wxTextCtrl* txtConditionName;
-		wxPanel* m_panel85;
+		wxStaticText* m_staticText48;
+		wxCheckBox* chkConditionNegative;
+		wxPanel* pnlConditionType1;
 		wxStaticText* m_staticText31;
-		wxTextCtrl* m_textCtrl5;
+		wxTextCtrl* txtConditionX;
 		wxStaticText* m_staticText32;
 		wxStaticText* m_staticText33;
-		wxTextCtrl* m_textCtrl6;
+		wxTextCtrl* txtConditionY;
 		wxStaticText* m_staticText34;
 		wxStaticText* m_staticText35;
-		wxTextCtrl* m_textCtrl7;
+		wxTextCtrl* txtConditionTile;
 		wxStaticText* m_staticText36;
 		wxStaticText* m_staticText37;
-		wxTextCtrl* m_textCtrl8;
-		wxPanel* m_panel86;
+		wxTextCtrl* txtConditionPalette;
+		wxPanel* pnlConditionType2;
 		wxStaticText* m_staticText38;
-		wxTextCtrl* m_textCtrl9;
+		wxTextCtrl* txtConditionAddress1;
 		wxStaticText* m_staticText39;
 		wxStaticText* m_staticText40;
-		wxChoice* m_choice2;
+		wxChoice* cboConditionOp;
 		wxStaticText* m_staticText41;
 		wxStaticText* m_staticText42;
-		wxTextCtrl* m_textCtrl11;
-		wxPanel* m_panel87;
+		wxTextCtrl* txtConditionAddress2;
+		wxPanel* pnlConditionType3;
 		wxStaticText* m_staticText43;
-		wxTextCtrl* m_textCtrl12;
+		wxTextCtrl* txtConditionAddress;
 		wxStaticText* m_staticText44;
 		wxStaticText* m_staticText45;
-		wxChoice* m_choice3;
+		wxChoice* cboConditionOp2;
 		wxStaticText* m_staticText46;
 		wxStaticText* m_staticText47;
-		wxTextCtrl* m_textCtrl13;
-		wxButton* m_button17;
-		wxButton* m_button18;
-		wxButton* m_button19;
+		wxTextCtrl* txtConditionValue;
+		wxPanel* pnlConditionType0;
+		wxStaticText* m_staticText50;
+		wxButton* cmdConditionAdd;
+		wxButton* cmdConditionUpdate;
+		wxButton* cmdConditionDelete;
 		wxPanel* m_panel72;
 		wxSplitterWindow* m_splitter21;
 		wxPanel* m_panel741;
@@ -222,6 +226,11 @@ class mainForm : public wxFrame
 		virtual void AddSwapClicked( wxCommandEvent& event ) { event.Skip(); }
 		virtual void UpdateSwapClicked( wxCommandEvent& event ) { event.Skip(); }
 		virtual void DeleteSwapClicked( wxCommandEvent& event ) { event.Skip(); }
+		virtual void ConditionSelected( wxListEvent& event ) { event.Skip(); }
+		virtual void ConditionTypeSelect( wxCommandEvent& event ) { event.Skip(); }
+		virtual void ConditionAdd( wxCommandEvent& event ) { event.Skip(); }
+		virtual void ConditionUpdate( wxCommandEvent& event ) { event.Skip(); }
+		virtual void ConditionDelete( wxCommandEvent& event ) { event.Skip(); }
 		virtual void HDImgSelected( wxListEvent& event ) { event.Skip(); }
 		virtual void HDImgAdd( wxCommandEvent& event ) { event.Skip(); }
 		virtual void HDImgRemove( wxCommandEvent& event ) { event.Skip(); }

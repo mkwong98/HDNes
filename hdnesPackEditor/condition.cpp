@@ -73,6 +73,14 @@ void condition::load(fstream& file){
                     conditionType = tailStrs[0];
                 }
             }
+            if(lineHdr == "<name>"){
+                if(lineTail == ""){
+                    name = "";
+                }
+                else{
+                    name = tailStrs[0];
+                }
+            }
             else if(lineHdr == "<tileReference>"){
                 id.load(file);
             }
@@ -101,6 +109,7 @@ void condition::load(fstream& file){
 void condition::save(fstream& file){
     file << "<condition>\n";
     file << "<conditionType>" << conditionType << "\n";
+    file << "<name>" << name << "\n";
     if(getType() == 1){
         id.save(file);
         file << "<objCoord>" << objCoordX << "," << objCoordY << "\n";
@@ -144,7 +153,7 @@ void condition::readLine(string s){
         op = tokens[3];
         value = strtol(tokens[4].c_str(), NULL, 16);
     }
-    else{
+    else if(getType() == 3){
         frame1 = strtol(tokens[2].c_str(), NULL, 16);
         frame2 = strtol(tokens[3].c_str(), NULL, 16);
     }
@@ -154,13 +163,13 @@ void condition::readLine(string s){
 string condition::writeLine(){
     stringstream stream;
     if(getType() == 1){
-        stream << name << "," << conditionType << "," << objCoordX << "," << objCoordY << "," << id.writeID() << "," << id.writePalette();
+        stream << objCoordX << "," << objCoordY << "," << id.writeID() << "," << id.writePalette();
     }
     else if(getType() == 2){
-        stream << name << "," << conditionType << "," << main::intToHex(address) << "," << op << "," << main::intToHex(value);
+        stream << main::intToHex(address) << "," << op << "," << main::intToHex(value);
     }
-    else{
-        stream << name << "," << conditionType << "," << main::intToHex(frame1) << "," << main::intToHex(frame2);
+    else if(getType() == 3){
+        stream << main::intToHex(frame1) << "," << main::intToHex(frame2);
     }
     return stream.str();
 }

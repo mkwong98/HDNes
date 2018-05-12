@@ -1,5 +1,6 @@
 #include "common.h"
 #include "coreData.h"
+#include "gameObjNode.h"
 #include "gameTile.h"
 #include "main.h"
 
@@ -132,14 +133,10 @@ void gameTile::save(fstream& file){
 
 string gameTile::writeConditionNames(){
     stringstream stream;
-    if(conditions.size() > 0){
-        stream << "[";
-        for(int i = 0; i < conditions.size(); ++i){
-            if(i > 0) stream << "&";
-            if(conSigns[i]) stream << "!";
-            stream << conditions[i].name;
-        }
-        stream << "]";
+    for(int i = 0; i < conditions.size(); ++i){
+        if(i > 0) stream << "&";
+        if(conSigns[i]) stream << "!";
+        stream << conditions[i].name;
     }
     return stream.str();
 }
