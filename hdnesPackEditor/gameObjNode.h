@@ -8,6 +8,7 @@
 #define GAME_OBJ_NODE_TYPE_ROOT         0
 #define GAME_OBJ_NODE_TYPE_GROUP        1
 #define GAME_OBJ_NODE_TYPE_OBJECT       2
+#define GAME_OBJ_NODE_TYPE_BGIMAGE      3
 
 #define GAME_OBJ_NODE_MENU_ADD_FOLDER   1
 #define GAME_OBJ_NODE_MENU_ADD_OBJECT   2
@@ -37,6 +38,11 @@ class gameObjNode : public wxTreeItemData
         bool isSprite;
         float brightness;
         bool isDefault;
+
+        //bg image
+        double hScrollRate;
+        double vScrollRate;
+        string fileName;
 
         vector<gameTile> tiles;
         vector<paletteSwap> swaps;

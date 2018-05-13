@@ -18,6 +18,9 @@ gameObjNode::gameObjNode()
     isSprite = false;
     brightness = 1;
     isDefault = false;
+    hScrollRate = 0;
+    vScrollRate = 0;
+    fileName = "";
 }
 
 gameObjNode::~gameObjNode()
@@ -62,6 +65,7 @@ void gameObjNode::load(fstream& file, wxTreeItemId newItm){
     string line;
     string lineHdr;
     string lineTail;
+    vector<string> tailStrs;
     gameTile g;
     paletteSwap p;
     condition c;
@@ -72,12 +76,16 @@ void gameObjNode::load(fstream& file, wxTreeItemId newItm){
         if(found!=string::npos){
             lineHdr = line.substr(0, found + 1);
             lineTail = line.substr(found + 1);
+            main::split(lineTail, ',', tailStrs);
 
             if(lineHdr == "<type>"){
                 nodeType = atoi(lineTail.c_str());
             }
             else if(lineHdr == "<name>"){
                 nodeName = lineTail;
+            }
+            else if(lineHdr == "<fileName>"){
+                fileName = lineTail;
             }
             else if(lineHdr == "<bgColour>"){
                 bgColour = strtol(lineTail.c_str(), NULL, 16);
@@ -93,6 +101,10 @@ void gameObjNode::load(fstream& file, wxTreeItemId newItm){
             }
             else if(lineHdr == "<childObjects>"){
                 main::mForm->loadChildGameObjs(file, newItm);
+            }
+            else if(lineHdr == "<scrollRate>"){
+                hScrollRate = atof(tailStrs[0].c_str());
+                vScrollRate = atof(tailStrs[1].c_str());
             }
             else if(lineHdr == "<tiles>"){
                 getline(file, line);
@@ -141,24 +153,8 @@ void gameObjNode::save(fstream& file, wxTreeItemId newItm){
     if(nodeType != GAME_OBJ_NODE_TYPE_ROOT){
         file << "<name>" << nodeName << "\n";
     }
-    if(nodeType == GAME_OBJ_NODE_TYPE_OBJECT){
-        file << "<bgColour>" << main::intToHex(bgColour) << "\n";
-        file << "<isSprite>" << (isSprite ? "Y" : "N") << "\n";
-        file << "<brightness>" << main::floatToStr(brightness) << "\n";
-        file << "<isDefault>" << (isDefault ? "Y" : "N") << "\n";
-
-        file << "<tiles>\n";
-        for(int i = 0; i < tiles.size(); ++i){
-            tiles[i].save(file);
-        }
-        file << "<endTiles>\n";
-
-        file << "<swaps>\n";
-        for(int i = 0; i < swaps.size(); ++i){
-            swaps[i].save(file);
-        }
-        file << "<endSwaps>\n";
-
+    if(nodeType == GAME_OBJ_NODE_TYPE_OBJECT || nodeType == GAME_OBJ_NODE_TYPE_BGIMAGE){
+        file << "<brightness>" << brightness << "\n";
         file << "<conditions>\n";
         for(int i = 0; i < conditions.size(); ++i){
             conditions[i].save(file);
@@ -170,6 +166,28 @@ void gameObjNode::save(fstream& file, wxTreeItemId newItm){
             file << (conSigns[i] ? "Y" : "N") << "\n";
         }
         file << "<endConSigns>\n";
+
+        if(nodeType == GAME_OBJ_NODE_TYPE_OBJECT){
+            file << "<bgColour>" << main::intToHex(bgColour) << "\n";
+            file << "<isSprite>" << (isSprite ? "Y" : "N") << "\n";
+            file << "<isDefault>" << (isDefault ? "Y" : "N") << "\n";
+
+            file << "<tiles>\n";
+            for(int i = 0; i < tiles.size(); ++i){
+                tiles[i].save(file);
+            }
+            file << "<endTiles>\n";
+
+            file << "<swaps>\n";
+            for(int i = 0; i < swaps.size(); ++i){
+                swaps[i].save(file);
+            }
+            file << "<endSwaps>\n";
+        }
+        else if(nodeType == GAME_OBJ_NODE_TYPE_BGIMAGE){
+            file << "<fileName>" << fileName << "\n";
+            file << "<scrollRate>" << hScrollRate << "," << vScrollRate << "\n";
+        }
     }
     else{
         file << "<childObjects>\n";
