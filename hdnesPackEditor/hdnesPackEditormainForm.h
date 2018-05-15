@@ -88,6 +88,12 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
 		void gameObjsRawLUp( wxMouseEvent& event );
 		void replaceBrightnessChanged( wxScrollEvent& event );
 		void gameObjDefaultClicked( wxCommandEvent& event );
+
+        void BGImageSelect( wxCommandEvent& event );
+		void BGImageBrightness( wxSpinEvent& event );
+		void BGImageHScrollRate( wxSpinEvent& event );
+		void BGImageVScrollRate( wxSpinEvent& event );
+
 		void SwapSeleted( wxListEvent& event );
         void SwapPaletteSelected( wxListEvent& event );
         void SwapPaletteNewChanged( wxCommandEvent& event );
@@ -98,6 +104,7 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         void AddSwapClicked( wxCommandEvent& event );
         void UpdateSwapClicked( wxCommandEvent& event );
         void DeleteSwapClicked( wxCommandEvent& event );
+
         void ConditionSelected( wxListEvent& event );
 		void ConditionTypeSelect( wxCommandEvent& event );
 		void ConditionAdd( wxCommandEvent& event );
@@ -235,6 +242,7 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         int selectedSwapPalette;
         Uint8 swapNewColours[4];
         int selectedCondition;
+        bool loadingTab;
 
         void initGameObjs();
         void configGameObjs(string lineHdr, string lineTail);
@@ -270,7 +278,9 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         wxPoint convertGameObjRawPosition(wxPoint pos);
         gameObjNode* getGameObjsSelectedObjectTreeNode();
 
-
+        void refreshNode();
+        void refreshBGImage();
+        void drawBGImage();
         void refreshGameObj();
         void clearGameObj();
         void drawGameObj();

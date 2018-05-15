@@ -157,7 +157,6 @@ void condition::readLine(string s){
         frame1 = strtol(tokens[2].c_str(), NULL, 16);
         frame2 = strtol(tokens[3].c_str(), NULL, 16);
     }
-    std::cout << s;
 }
 
 string condition::writeLine(){

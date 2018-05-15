@@ -714,6 +714,8 @@ void hdnesPackEditormainForm::initGameObjs(){
     cboConditionOp2->Append(wxString("<"));
     cboConditionOp2->Append(wxString("<="));
     cboConditionOp2->Append(wxString("<="));
+
+    loadingTab = false;
 }
 
 void hdnesPackEditormainForm::gameObjsROMChanged(){
@@ -734,7 +736,7 @@ void hdnesPackEditormainForm::gameObjsROMChanged(){
 gameObjNode* hdnesPackEditormainForm::getGameObjsSelectedObjectTreeNode(){
     if(coreData::cData && tItmGameObjMenu){
         gameObjNode* ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
-        if(ndata->nodeType == GAME_OBJ_NODE_TYPE_OBJECT) return ndata;
+        if(ndata->nodeType == GAME_OBJ_NODE_TYPE_OBJECT || ndata->nodeType == GAME_OBJ_NODE_TYPE_BGIMAGE) return ndata;
     }
     return NULL;
 }
@@ -764,6 +766,7 @@ void hdnesPackEditormainForm::gameObjTItemChangeName( wxTreeEvent& event ){
         treeGameObjs->SetItemText(tID, wxString(data->nodeName + "\\"));
         break;
     case GAME_OBJ_NODE_TYPE_OBJECT:
+    case GAME_OBJ_NODE_TYPE_BGIMAGE:
         if(!event.IsEditCancelled()){
             data->nodeName = event.GetLabel();
         }
@@ -776,9 +779,10 @@ void hdnesPackEditormainForm::gameObjTItemOpenMenu( wxTreeEvent& event ){
     tItmGameObjMenu = event.GetItem();
     gameObjNode* data = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
     wxMenu menu(wxT(""));
-    if(data->nodeType != GAME_OBJ_NODE_TYPE_OBJECT){
+    if(data->nodeType != GAME_OBJ_NODE_TYPE_OBJECT && data->nodeType != GAME_OBJ_NODE_TYPE_BGIMAGE){
         menu.Append(GAME_OBJ_NODE_MENU_ADD_FOLDER, wxT("Add folder"));
         menu.Append(GAME_OBJ_NODE_MENU_ADD_OBJECT, wxT("Add object"));
+        menu.Append(GAME_OBJ_NODE_MENU_ADD_BGIMAGE, wxT("Add background"));
         if(gameObjectTreeWillMove && !(data->effectedByMove)){
             menu.Append(GAME_OBJ_NODE_MENU_MOVE_HERE, wxT("Move here"));
         }
@@ -803,7 +807,7 @@ void hdnesPackEditormainForm::gameObjTItemSelected( wxTreeEvent& event ){
     gameObjViewCentreX = 0;
     gameObjViewCentreY = 0;
     gameObjSelectedTiles.clear();
-    refreshGameObj();
+    refreshNode();
 }
 
 void hdnesPackEditormainForm::gameObjsTreeMenu( wxCommandEvent& event ){
@@ -820,16 +824,24 @@ void hdnesPackEditormainForm::gameObjsTreeMenu( wxCommandEvent& event ){
         coreData::cData->dataChanged();
         break;
     case GAME_OBJ_NODE_MENU_ADD_OBJECT:
+    case GAME_OBJ_NODE_MENU_ADD_BGIMAGE:
         node = new gameObjNode();
-        node->nodeType = GAME_OBJ_NODE_TYPE_OBJECT;
-        node->nodeName = "Object";
-        newItm = treeGameObjs->AppendItem(tItmGameObjMenu, wxString("Object"), -1, -1, node);
+        if(event.GetId() == GAME_OBJ_NODE_MENU_ADD_OBJECT){
+            node->nodeType = GAME_OBJ_NODE_TYPE_OBJECT;
+            node->nodeName = "Object";
+            newItm = treeGameObjs->AppendItem(tItmGameObjMenu, wxString("Object"), -1, -1, node);
+        }
+        else{
+            node->nodeType = GAME_OBJ_NODE_TYPE_BGIMAGE;
+            node->nodeName = "Background";
+            newItm = treeGameObjs->AppendItem(tItmGameObjMenu, wxString("Background"), -1, -1, node);
+        }
         treeGameObjs->Expand(tItmGameObjMenu);
         treeGameObjs->EditLabel(newItm);
         treeGameObjs->SetFocusedItem(newItm);
         tItmGameObjMenu = newItm;
         gameObjSelectedTiles.clear();
-        refreshGameObj();
+        refreshNode();
         coreData::cData->dataChanged();
         break;
     case GAME_OBJ_NODE_MENU_DEL:
@@ -1332,6 +1344,82 @@ bool hdnesPackEditormainForm::checkPasteValid(string content){
     return false;
 }
 
+void hdnesPackEditormainForm::refreshNode(){
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
+    if(!ndata) return;
+
+    loadingTab = true;
+    int i = nbkGameObject->GetPageCount();
+    while (i-- > 0) {
+        nbkGameObject->GetPage(i)->Show(false);
+        nbkGameObject->RemovePage(i);
+    }
+
+    if(ndata->nodeType == GAME_OBJ_NODE_TYPE_OBJECT){
+        pnlObj->Show(true);
+        nbkGameObject->AddPage(pnlObj, wxString("Objection Information"));
+        pnlSwaps->Show(true);
+        nbkGameObject->AddPage(pnlSwaps, wxString("Palette swaps"));
+        pnlConditions->Show(true);
+        nbkGameObject->AddPage(pnlConditions, wxString("Conditions"));
+    }
+    else{
+        pnlBGImage->Show(true);
+        nbkGameObject->AddPage(pnlBGImage, wxString("Background"), false);
+        pnlConditions->Show(true);
+        nbkGameObject->AddPage(pnlConditions, wxString("Conditions"), false);
+    }
+    loadingTab = false;
+    nbkGameObject->Refresh();
+    nbkGameObject->Update();
+    if(ndata->nodeType == GAME_OBJ_NODE_TYPE_OBJECT){
+        refreshGameObj();
+    }
+    else{
+        refreshBGImage();
+    }
+}
+
+void hdnesPackEditormainForm::refreshBGImage(){
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
+    if(!ndata) return;
+
+    spnBGBrightness->SetValue(ndata->brightness * 100);
+    spnBGHScrollRate->SetValue(ndata->hScrollRate * 100);
+    spnBGVScrollRate->SetValue(ndata->vScrollRate * 100);
+
+    drawBGImage();
+}
+
+void hdnesPackEditormainForm::drawBGImage(){
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
+    if(ndata && ndata->fileName > ""){
+        wxImage imageData;
+        imageData.LoadFile(wxString((coreData::cData->packPath + "\\" + ndata->fileName).c_str()));
+
+        float bgImgScale = min(((float)pnlBGImageDisplay->GetSize().x) / ((float)imageData.GetWidth()), ((float)pnlBGImageDisplay->GetSize().y) / ((float)imageData.GetHeight()));
+
+        wxImage scaledImg;
+        scaledImg = imageData.Scale(imageData.GetWidth() * bgImgScale, imageData.GetHeight() * bgImgScale);
+
+        wxImage displayImg;
+        displayImg = wxImage(pnlBGImageDisplay->GetSize(), true);
+        displayImg.SetRGB(displayImg.GetSize(), 128, 0, 128);
+        scaledImg.ConvertAlphaToMask(64);
+        displayImg.Paste(scaledImg, (pnlBGImageDisplay->GetSize().x - scaledImg.GetWidth()) / 2, (pnlBGImageDisplay->GetSize().y - scaledImg.GetHeight()) / 2);
+        displayImg.ConvertAlphaToMask(64);
+        displayImg.SetMask(false);
+
+        wxBitmap bmp = wxBitmap(displayImg);
+        if(bmp.IsOk()){
+            wxClientDC* objDC;
+            objDC = new wxClientDC(pnlBGImageDisplay);
+            objDC->DrawBitmap(bmp, 0, 0);
+            delete objDC;
+        }
+    }
+}
+
 void hdnesPackEditormainForm::refreshGameObj(){
     clearGameObj();
     gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
@@ -1805,7 +1893,7 @@ void hdnesPackEditormainForm::gameObjsRawLUp( wxMouseEvent& event ){
 }
 
 void hdnesPackEditormainForm::gameObjsRawSizeChanged( wxSizeEvent& event ){
-    if(coreData::cData){
+    if(coreData::cData && !loadingTab){
         gameObjRawImageDisplay = wxImage(pnlGameObjRaw->GetSize().x, pnlGameObjRaw->GetSize().y);
         gameObjNewImageDisplay = wxImage(pnlGameObjNew->GetSize().x, pnlGameObjNew->GetSize().y);
 
@@ -2138,6 +2226,8 @@ void hdnesPackEditormainForm::genCustomImage(fstream& file, gameTile t, paletteS
     //write line
     file << "<tile>" << t.writeLine() << "\n";
 }
+
+
 
 void hdnesPackEditormainForm::findGameObjNotUniqueTile(){
     gameObjNode* ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
@@ -2488,6 +2578,76 @@ void hdnesPackEditormainForm::showConditionPanel(){
     pnlConditions->Layout();
 }
 
+void hdnesPackEditormainForm::BGImageSelect( wxCommandEvent& event ){
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
+    if(!ndata) return;
+
+    wxFileDialog openFileDialog(this, _("Choose image file(PNG)"), "", "", "PNG files (*.png)|*.png", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
+
+    if (openFileDialog.ShowModal() == wxID_CANCEL)
+        return;     // the user changed idea...
+
+    //check name against existing images
+    bool hasExisting = false;
+    bool sameFolder;
+    string fullPath;
+    string imgPath;
+    string imgName;
+    string dstPath;
+
+    fullPath = openFileDialog.GetPath().ToStdString();
+    imgPath = fullPath.substr(0, fullPath.find_last_of("/\\"));
+    imgName = fullPath.substr(fullPath.find_last_of("/\\") + 1);
+    dstPath = coreData::cData->packPath + "\\" + imgName;
+
+    fstream file;
+    file.open(dstPath, ios::in | ios::binary);
+	if (file.is_open()){
+	    hasExisting = true;
+	}
+    file.close();
+
+    if(imgPath != coreData::cData->packPath){
+        if(hasExisting){
+            if (wxMessageBox(_("There is an image of the same name. This will replace that image. Proceed?"), _("Please confirm"),
+                    wxICON_QUESTION | wxYES_NO, this) == wxNO )
+            return;
+        }
+        std::cout << fullPath;
+        ifstream  src(fullPath, ios::binary);
+        ofstream  dst(dstPath, ios::binary);
+        dst << src.rdbuf();
+        dst.close();
+        src.close();
+    }
+    ndata->fileName = imgName;
+    drawBGImage();
+    coreData::cData->dataChanged();
+}
+
+void hdnesPackEditormainForm::BGImageBrightness( wxSpinEvent& event ){
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
+    if(ndata){
+        ndata->brightness = (float)spnBGBrightness->GetValue() / 100.0;
+        dataChanged();
+    }
+}
+
+void hdnesPackEditormainForm::BGImageHScrollRate( wxSpinEvent& event ){
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
+    if(ndata){
+        ndata->hScrollRate = (float)spnBGHScrollRate->GetValue() / 100.0;
+        dataChanged();
+    }
+}
+
+void hdnesPackEditormainForm::BGImageVScrollRate( wxSpinEvent& event ){
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
+    if(ndata){
+        ndata->vScrollRate = (float)spnBGVScrollRate->GetValue() / 100.0;
+        dataChanged();
+    }
+}
 
 void hdnesPackEditormainForm::initHDImg(){
     lstHDImg->AppendColumn(wxString("Name"));

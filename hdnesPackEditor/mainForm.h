@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Jun 17 2015)
+// C++ code generated with wxFormBuilder (version Dec 21 2016)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -53,14 +53,14 @@ class mainForm : public wxFrame
 		wxMenuBar* m_menubar;
 		wxMenu* m_menu3;
 		wxStatusBar* m_statusBar;
-		wxNotebook* m_notebook1;
+		wxNotebook* pnlGameObjects;
 		wxPanel* m_panel67;
 		wxSplitterWindow* m_splitter2;
 		wxPanel* m_panel70;
 		wxTreeCtrl* treeGameObjs;
 		wxPanel* m_panel71;
-		wxNotebook* m_notebook2;
-		wxPanel* m_panel78;
+		wxNotebook* nbkGameObject;
+		wxPanel* pnlObj;
 		wxRadioButton* rbnObjectSprite;
 		wxRadioButton* rbnObjectBG;
 		wxStaticText* m_staticText101;
@@ -80,7 +80,7 @@ class mainForm : public wxFrame
 		wxPanel* pnlGameObjNew;
 		wxScrollBar* scrGameObjNewV;
 		wxScrollBar* scrGameObjNewH;
-		wxPanel* m_panel79;
+		wxPanel* pnlSwaps;
 		wxListCtrl* lstSwaps;
 		wxStaticText* m_staticText181;
 		wxTextCtrl* txtSwapName;
@@ -110,6 +110,21 @@ class mainForm : public wxFrame
 		wxButton* btnAddSwap;
 		wxButton* btnUpdateSwap;
 		wxButton* btnDeleteSwap;
+		wxPanel* pnlBGImage;
+		wxButton* btnBGImage;
+		wxStaticText* m_staticText51;
+		wxSpinCtrl* spnBGBrightness;
+		wxStaticText* m_staticText52;
+		wxStaticText* m_staticText53;
+		wxStaticText* m_staticText54;
+		wxStaticText* m_staticText55;
+		wxSpinCtrl* spnBGHScrollRate;
+		wxStaticText* m_staticText58;
+		wxStaticText* m_staticText56;
+		wxStaticText* m_staticText57;
+		wxSpinCtrl* spnBGVScrollRate;
+		wxStaticText* m_staticText59;
+		wxPanel* pnlBGImageDisplay;
 		wxPanel* pnlConditions;
 		wxListCtrl* lstConditions;
 		wxStaticText* m_staticText281;
@@ -226,6 +241,10 @@ class mainForm : public wxFrame
 		virtual void AddSwapClicked( wxCommandEvent& event ) { event.Skip(); }
 		virtual void UpdateSwapClicked( wxCommandEvent& event ) { event.Skip(); }
 		virtual void DeleteSwapClicked( wxCommandEvent& event ) { event.Skip(); }
+		virtual void BGImageSelect( wxCommandEvent& event ) { event.Skip(); }
+		virtual void BGImageBrightness( wxSpinEvent& event ) { event.Skip(); }
+		virtual void BGImageHScrollRate( wxSpinEvent& event ) { event.Skip(); }
+		virtual void BGImageVScrollRate( wxSpinEvent& event ) { event.Skip(); }
 		virtual void ConditionSelected( wxListEvent& event ) { event.Skip(); }
 		virtual void ConditionTypeSelect( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ConditionAdd( wxCommandEvent& event ) { event.Skip(); }
