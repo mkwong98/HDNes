@@ -2120,22 +2120,34 @@ void hdnesPackEditormainForm::genChildGameObjsTilePack(fstream& file, wxTreeItem
 void hdnesPackEditormainForm::genGameObjItemTilePack(fstream& file, wxTreeItemId item, bool withCondition){
     gameObjNode* node = (gameObjNode*)(treeGameObjs->GetItemData(item));
 
-    for(int i = 0; i < node->tiles.size(); ++i){
-        if(node->tiles[i].hasReplacement && (withCondition == (node->tiles[i].conditions.size() > 0 || node->conditions.size() > 0))){
-            paletteSwap s = paletteSwap();
-            s.brightness = node->brightness;
-            genCustomImage(file, node->tiles[i], s, node->isSprite, -1, node->isDefault, node);
-            for(int j = 0; j < node->swaps.size(); ++j){
-                genCustomImage(file, node->tiles[i], node->swaps[j], node->isSprite, j, false, node);
+    if(node->nodeType == GAME_OBJ_NODE_TYPE_OBJECT){
+        for(int i = 0; i < node->tiles.size(); ++i){
+            if(node->tiles[i].hasReplacement && (withCondition == (node->tiles[i].conditions.size() > 0 || node->conditions.size() > 0))){
+                paletteSwap s = paletteSwap();
+                s.brightness = node->brightness;
+                genCustomImage(file, node->tiles[i], s, node->isSprite, -1, node->isDefault, node);
+                for(int j = 0; j < node->swaps.size(); ++j){
+                    genCustomImage(file, node->tiles[i], node->swaps[j], node->isSprite, j, false, node);
+                }
             }
         }
     }
-    genChildGameObjsTilePack(file, item, withCondition);
+    else if(node->nodeType == GAME_OBJ_NODE_TYPE_BGIMAGE && withCondition){
+        if(node->conditions.size() > 0){
+            file << "[";
+            file << node->writeConditionNames();
+            file << "]";
+        }
+        //write line
+        file << "<background>" << node->writeLine() << "\n";
+    }
+    else{
+        genChildGameObjsTilePack(file, item, withCondition);
+    }
     if(gameObjectGenImageX != 0 || gameObjectGenImageY != 0){
         //save image file
         gameObjectGenImage.SaveFile(wxString((coreData::cData->packPath + "\\editorGenImage" + main::intToStr(gameObjectGenImageCnt) + ".png").c_str()));
     }
-
 }
 
 void hdnesPackEditormainForm::genCustomImage(fstream& file, gameTile t, paletteSwap s, bool isSprite, int swapID, bool isDefault, gameObjNode* gObj){

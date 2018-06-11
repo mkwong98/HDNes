@@ -228,4 +228,10 @@ string gameObjNode::writeConditionNames(){
     return stream.str();
 }
 
+string gameObjNode::writeLine(){
+    stringstream stream;
+    stream << fileName << "," << brightness << "," << hScrollRate << "," << vScrollRate;
+    return stream.str();
+}
+
 

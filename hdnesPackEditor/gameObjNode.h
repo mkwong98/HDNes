@@ -61,6 +61,7 @@ class gameObjNode : public wxTreeItemData
         void load(fstream& file, wxTreeItemId newItm);
         void save(fstream& file, wxTreeItemId newItm);
         void updatePalettes();
+        string writeLine();
         string writeConditionNames();
     protected:
 
