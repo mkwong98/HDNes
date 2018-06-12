@@ -807,6 +807,8 @@ void hdnesPackEditormainForm::gameObjTItemSelected( wxTreeEvent& event ){
     gameObjViewCentreX = 0;
     gameObjViewCentreY = 0;
     gameObjSelectedTiles.clear();
+    gameObjconditionTiles.clear();
+    editCondition = false;
     refreshNode();
 }
 
@@ -1860,7 +1862,12 @@ void hdnesPackEditormainForm::gameObjsRawLUp( wxMouseEvent& event ){
             corner2 = convertGameObjRawPosition(corner2);
             wxPoint ld = convertGameObjRawPosition(gameObjLDownPos);
             for(int i = 0; i < ndata->tiles.size(); i++){
-                if(editCondition && i == conditionGameObjID) continue;
+                if(editCondition){
+                    for(int j = 0; j < gameObjconditionTiles.size(); j++){
+                        if(i == gameObjconditionTiles[j])
+                            continue;
+                    }
+                }
 
                 if(ld.x <= ndata->tiles[i].objCoordX + 8
                    && ld.x >= ndata->tiles[i].objCoordX

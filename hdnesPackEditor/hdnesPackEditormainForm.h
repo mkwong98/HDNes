@@ -231,7 +231,6 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         int rightClickedGameObjTileX;
         int rightClickedGameObjTileY;
         vector<Uint32> gameObjconditionTiles;
-        Uint32 conditionGameObjID;
         int conditionGameObjTileX;
         int conditionGameObjTileY;
         int conditionCounter;
