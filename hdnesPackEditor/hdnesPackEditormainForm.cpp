@@ -1390,6 +1390,7 @@ void hdnesPackEditormainForm::refreshBGImage(){
     spnBGHScrollRate->SetValue(ndata->hScrollRate * 100);
     spnBGVScrollRate->SetValue(ndata->vScrollRate * 100);
 
+    loadConditions();
     drawBGImage();
 }
 
