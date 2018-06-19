@@ -6,6 +6,13 @@
 #include "condition.h"
 #include "tileReference.h"
 
+struct replacement{
+    int img;
+    int x;
+    int y;
+    double brightness;
+};
+
 class gameTile
 {
     public:
@@ -25,10 +32,8 @@ class gameTile
         bool isDefault;
         vector<condition> conditions;
         vector<bool> conSigns;
-        int img;
-        int x;
-        int y;
-        double brightness;
+
+        vector<replacement> aniFrames;
 
         void readLine(string s);
         string writeLine();

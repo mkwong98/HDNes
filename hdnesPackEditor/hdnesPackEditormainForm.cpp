@@ -1319,10 +1319,10 @@ void hdnesPackEditormainForm::setReplacement(int imageID, int x, int y){
         t = ndata->tiles[gameObjSelectedTiles[k]];
         t.hasReplacement = true;
         t.isDefault = false;
-        t.img = imageID;
-        t.x = x + ((t.objCoordX - t2.objCoordX) * coreData::cData->scale);
-        t.y = y + ((t.objCoordY - t2.objCoordY) * coreData::cData->scale);
-        t.brightness = 1;
+        t.aniFrames[0].img = imageID;
+        t.aniFrames[0].x = x + ((t.objCoordX - t2.objCoordX) * coreData::cData->scale);
+        t.aniFrames[0].y = y + ((t.objCoordY - t2.objCoordY) * coreData::cData->scale);
+        t.aniFrames[0].brightness = 1;
         ndata->tiles[gameObjSelectedTiles[k]] = t;
     }
     refreshGameObj();
@@ -1546,7 +1546,7 @@ void hdnesPackEditormainForm::drawGameObj(){
         gameObjBaseTile.ConvertAlphaToMask(64);
         gameObjRawImage.Paste(gameObjBaseTile, drawX, drawY);
         if(ndata->tiles[i].hasReplacement){
-            gameObjBaseTileNew = coreData::cData->images[ndata->tiles[i].img]->imageData.GetSubImage(wxRect(ndata->tiles[i].x, ndata->tiles[i].y, replaceSize, replaceSize));
+            gameObjBaseTileNew = coreData::cData->images[ndata->tiles[i].aniFrames[0].img]->imageData.GetSubImage(wxRect(ndata->tiles[i].aniFrames[0].x, ndata->tiles[i].aniFrames[0].y, replaceSize, replaceSize));
             gameObjBaseTileNew.ConvertAlphaToMask(64);
             gameObjNewImage.Paste(gameObjBaseTileNew, drawX * coreData::cData->scale, drawY * coreData::cData->scale);
             gameObjNewImage.ConvertAlphaToMask(64);
@@ -1560,7 +1560,7 @@ void hdnesPackEditormainForm::drawGameObj(){
                 if(tile->compareEqual(ndata->tiles[i])){
                     if(tile->hasReplacement ){
                         hasHD = true;
-                        gameObjBaseTileNew = coreData::cData->images[tile->img]->imageData.GetSubImage(wxRect(tile->x, tile->y, replaceSize, replaceSize));
+                        gameObjBaseTileNew = coreData::cData->images[tile->aniFrames[0].img]->imageData.GetSubImage(wxRect(tile->aniFrames[0].x, tile->aniFrames[0].y, replaceSize, replaceSize));
                         if(ndata->tiles[i].hFlip){
                             gameObjBaseTileNew = gameObjBaseTileNew.Mirror(true);
                         }
@@ -2051,10 +2051,10 @@ void hdnesPackEditormainForm::removeChildGameObjItemImage(wxTreeItemId item, int
     gameObjNode* node = (gameObjNode*)(treeGameObjs->GetItemData(item));
     for(int i = 0; i < node->tiles.size(); ++i){
         if(node->tiles[i].hasReplacement){
-            if(node->tiles[i].img > index){
-                node->tiles[i].img--;
+            if(node->tiles[i].aniFrames[0].img > index){
+                node->tiles[i].aniFrames[0].img--;
             }
-            else if(node->tiles[i].img == index){
+            else if(node->tiles[i].aniFrames[0].img == index){
                 node->tiles[i].hasReplacement = false;
             }
         }
@@ -2161,7 +2161,7 @@ void hdnesPackEditormainForm::genGameObjItemTilePack(fstream& file, wxTreeItemId
 void hdnesPackEditormainForm::genCustomImage(fstream& file, gameTile t, paletteSwap s, bool isSprite, int swapID, bool isDefault, gameObjNode* gObj){
     int replaceSize = 8 * coreData::cData->scale;
     wxImage tmp;
-    t.brightness = s.brightness;
+    t.aniFrames[0].brightness = s.brightness;
     t.isDefault = isDefault;
     if(swapID >= 0){
         applySwap(t.id.palette, s);
@@ -2183,7 +2183,7 @@ void hdnesPackEditormainForm::genCustomImage(fstream& file, gameTile t, paletteS
             file << "<img>editorGenImage" + main::intToStr(gameObjectGenImageCnt) + ".png\n";
         }
         //add flipped tile to image
-        tmp = coreData::cData->images[t.img]->imageData.GetSubImage(wxRect(t.x, t.y, replaceSize, replaceSize));
+        tmp = coreData::cData->images[t.aniFrames[0].img]->imageData.GetSubImage(wxRect(t.aniFrames[0].x, t.aniFrames[0].y, replaceSize, replaceSize));
         if(t.hFlip){
             tmp = tmp.Mirror(true);
         }
@@ -2214,9 +2214,9 @@ void hdnesPackEditormainForm::genCustomImage(fstream& file, gameTile t, paletteS
             }
         }
         //create tmp tile
-        t.img = coreData::cData->images.size() + gameObjectGenImageCnt;
-        t.x = gameObjectGenImageX * replaceSize;
-        t.y = gameObjectGenImageY * replaceSize;
+        t.aniFrames[0].img = coreData::cData->images.size() + gameObjectGenImageCnt;
+        t.aniFrames[0].x = gameObjectGenImageX * replaceSize;
+        t.aniFrames[0].y = gameObjectGenImageY * replaceSize;
 
         //move position
         gameObjectGenImageX += 1;
@@ -2701,8 +2701,8 @@ void hdnesPackEditormainForm::showHDImgImage(){
         if(lstHDImgTiles->GetItemState(i, wxLIST_STATE_SELECTED) == wxLIST_STATE_SELECTED){
             j = atoi(lstHDImgTiles->GetItemText(i, 0));
             //draw outline of selected tiles
-            pt.x = coreData::cData->tiles[j]->x * hdImgScale;
-            pt.y = coreData::cData->tiles[j]->y * hdImgScale;
+            pt.x = coreData::cData->tiles[j]->aniFrames[0].x * hdImgScale;
+            pt.y = coreData::cData->tiles[j]->aniFrames[0].y * hdImgScale;
             pt2 = pt;
             ++(pt2.x);
             ++(pt2.y);
@@ -2778,7 +2778,7 @@ void hdnesPackEditormainForm::listOutHDImgTiles(){
     if(coreData::cData){
         lstHDImgTiles->DeleteAllItems();
         for(int i = 0; i < coreData::cData->tiles.size(); ++i){
-            if(coreData::cData->tiles[i]->hasReplacement && coreData::cData->tiles[i]->img == selectedHDImg){
+            if(coreData::cData->tiles[i]->hasReplacement && coreData::cData->tiles[i]->aniFrames[0].img == selectedHDImg){
                 if(coreData::cData->isCHRROM){
                     tmpVal = main::intToStr(coreData::cData->tiles[i]->id.id);
                 }
@@ -2842,10 +2842,10 @@ void hdnesPackEditormainForm::HDImgLUp( wxMouseEvent& event ){
             tileSize = 8 * coreData::cData->scale;
             for(int i = 0; i < lstHDImgTiles->GetItemCount(); ++i){
                 j = atoi(lstHDImgTiles->GetItemText(i, 0));
-                if(corner1.x <= coreData::cData->tiles[j]->x + tileSize
-                   && corner2.x >= coreData::cData->tiles[j]->x
-                   && corner1.y <= coreData::cData->tiles[j]->y + tileSize
-                   && corner2.y >= coreData::cData->tiles[j]->y){
+                if(corner1.x <= coreData::cData->tiles[j]->aniFrames[0].x + tileSize
+                   && corner2.x >= coreData::cData->tiles[j]->aniFrames[0].x
+                   && corner1.y <= coreData::cData->tiles[j]->aniFrames[0].y + tileSize
+                   && corner2.y >= coreData::cData->tiles[j]->aniFrames[0].y){
                     if(lstHDImgTiles->GetItemState(i, wxLIST_STATE_SELECTED) == wxLIST_STATE_SELECTED){
                         lstHDImgTiles->SetItemState(i, 0, wxLIST_STATE_SELECTED);
                     }
@@ -2904,15 +2904,15 @@ void hdnesPackEditormainForm::HDImgRUp( wxMouseEvent& event ){
         tileSize = 8 * coreData::cData->scale;
         for(int i = 0; i < lstHDImgTiles->GetItemCount(); ++i){
             j = atoi(lstHDImgTiles->GetItemText(i, 0));
-            if(p.x <= coreData::cData->tiles[j]->x + tileSize
-                && p.x >= coreData::cData->tiles[j]->x
-                && p.y <= coreData::cData->tiles[j]->y + tileSize
-                && p.y >= coreData::cData->tiles[j]->y){
+            if(p.x <= coreData::cData->tiles[j]->aniFrames[0].x + tileSize
+                && p.x >= coreData::cData->tiles[j]->aniFrames[0].x
+                && p.y <= coreData::cData->tiles[j]->aniFrames[0].y + tileSize
+                && p.y >= coreData::cData->tiles[j]->aniFrames[0].y){
                 if(lstHDImgTiles->GetItemState(i, wxLIST_STATE_SELECTED) == wxLIST_STATE_SELECTED){
                     tileFound = true;
                     rightClickedHDImgID = j;
-                    rightClickedHDImgTileX = coreData::cData->tiles[j]->x;
-                    rightClickedHDImgTileY = coreData::cData->tiles[j]->y;
+                    rightClickedHDImgTileX = coreData::cData->tiles[j]->aniFrames[0].x;
+                    rightClickedHDImgTileY = coreData::cData->tiles[j]->aniFrames[0].y;
                 }
             }
         }
@@ -2935,8 +2935,8 @@ void hdnesPackEditormainForm::hdImgMenu( wxCommandEvent& event ){
             }
             copyContent = copyContent + lstHDImgTiles->GetItemText(i, 1).ToStdString()
                             + "," + lstHDImgTiles->GetItemText(i, 2).ToStdString()
-                            + "," + main::intToStr((coreData::cData->tiles[j]->x - rightClickedHDImgTileX) / coreData::cData->scale)
-                            + "," + main::intToStr((coreData::cData->tiles[j]->y - rightClickedHDImgTileY) / coreData::cData->scale);
+                            + "," + main::intToStr((coreData::cData->tiles[j]->aniFrames[0].x - rightClickedHDImgTileX) / coreData::cData->scale)
+                            + "," + main::intToStr((coreData::cData->tiles[j]->aniFrames[0].y - rightClickedHDImgTileY) / coreData::cData->scale);
         }
     }
 

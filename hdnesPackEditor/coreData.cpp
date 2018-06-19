@@ -395,13 +395,13 @@ void coreData::removeImage(int index){
     //update index of tiles
     while(i < tiles.size()){
         if(tiles[i]->hasReplacement){
-            if(tiles[i]->img == index){
+            if(tiles[i]->aniFrames[0].img == index){
                 delete(tiles[i]);
                 tiles.erase(tiles.begin() + i);
                 --i;
             }
-            else if(tiles[i]->img > index){
-                --(tiles[i]->img);
+            else if(tiles[i]->aniFrames[0].img > index){
+                --(tiles[i]->aniFrames[0].img);
             }
         }
         ++i;

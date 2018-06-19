@@ -8,10 +8,13 @@ gameTile::gameTile()
 {
     //ctor
     hasReplacement = false;
-    img = 0;
-    x = 0;
-    y = 0;
-    brightness = 0;
+    replacement r;
+    r.img = 0;
+    r.x = 0;
+    r.y = 0;
+    r.brightness = 0;
+
+    aniFrames.push_back(r);
     markForDelete = false;
 }
 
@@ -25,20 +28,20 @@ void gameTile::readLine(string s){
     main::split(s, ',', tokens);
 
     hasReplacement = true;
-    img = atoi(tokens[0].c_str());
+    aniFrames[0].img = atoi(tokens[0].c_str());
 
     id.readID(tokens[1]);
     id.readPalette(tokens[2]);
 
-    x = atoi(tokens[3].c_str());
-    y = atoi(tokens[4].c_str());
-    brightness = atof(tokens[5].c_str());
+    aniFrames[0].x = atoi(tokens[3].c_str());
+    aniFrames[0].y = atoi(tokens[4].c_str());
+    aniFrames[0].brightness = atof(tokens[5].c_str());
     isDefault = (tokens[6] == "Y");
 }
 
 string gameTile::writeLine(){
     stringstream stream;
-    stream << img << "," << id.writeID() << "," << id.writePalette() << "," << x << "," << y << "," << brightness << "," << (isDefault ? "Y" : "N");
+    stream << aniFrames[0].img << "," << id.writeID() << "," << id.writePalette() << "," << aniFrames[0].x << "," << aniFrames[0].y << "," << aniFrames[0].brightness << "," << (isDefault ? "Y" : "N");
     return stream.str();
 }
 
@@ -81,10 +84,10 @@ void gameTile::load(fstream& file){
             else if(lineHdr == "<replacement>"){
                 hasReplacement = (tailStrs[0] == "Y");
                 isDefault = (tailStrs[1] == "Y");
-                img = atoi(tailStrs[2].c_str());
-                x = atoi(tailStrs[3].c_str());
-                y = atoi(tailStrs[4].c_str());
-                brightness = atof(tailStrs[5].c_str());
+                aniFrames[0].img = atoi(tailStrs[2].c_str());
+                aniFrames[0].x = atoi(tailStrs[3].c_str());
+                aniFrames[0].y = atoi(tailStrs[4].c_str());
+                aniFrames[0].brightness = atof(tailStrs[5].c_str());
             }
             else if(lineHdr == "<conditions>"){
                 getline(file, line);
@@ -113,10 +116,10 @@ void gameTile::save(fstream& file){
     file << "<flip>" << (hFlip ? "Y" : "N") << "," << (vFlip ? "Y" : "N") << "\n";
     file << "<replacement>" << (hasReplacement ? "Y" : "N")
                      << "," << (isDefault ? "Y" : "N")
-                     << "," << img
-                     << "," << x
-                     << "," << y
-                     << "," << brightness
+                     << "," << aniFrames[0].img
+                     << "," << aniFrames[0].x
+                     << "," << aniFrames[0].y
+                     << "," << aniFrames[0].brightness
                      << "\n";
     file << "<conditions>\n";
     for(int i = 0; i < conditions.size(); ++i){

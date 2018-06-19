@@ -3335,7 +3335,7 @@
 1412631242 c:\work\include\wx\cocoa\mdi.h
 	"wx/frame.h"
 
-1526227600 source:c:\work\hdnes\trunk\hdnespackeditor\coredata.cpp
+1529422079 source:c:\work\hdnes\trunk\hdnespackeditor\coredata.cpp
 	"common.h"
 	"coreData.h"
 	"image.h"
@@ -3360,7 +3360,7 @@
 	<wx/image.h>
 	<SDL2/SDL.h>
 
-1528797884 source:c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.cpp
+1529122743 source:c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.cpp
 	"hdnesPackEditormainForm.h"
 	"hdnesPackEditornewProjectDialog.h"
 	"hdnesPackEditorcolourSelectDialog.h"
@@ -3853,12 +3853,12 @@
 	"classList.h"
 	"condition.h"
 
-1526398032 c:\work\hdnes\trunk\hdnespackeditor\gameobjnode.h
+1529408529 c:\work\hdnes\trunk\hdnespackeditor\gameobjnode.h
 	"common.h"
 	"gameTile.h"
 	<wx/treebase.h>
 
-1526123420 c:\work\hdnes\trunk\hdnespackeditor\gametile.h
+1529421495 c:\work\hdnes\trunk\hdnespackeditor\gametile.h
 	"common.h"
 	"classList.h"
 	"condition.h"
@@ -3871,7 +3871,7 @@
 	"main.h"
 	"hdnesPackEditormainForm.h"
 
-1526125425 source:c:\work\hdnes\trunk\hdnespackeditor\gametile.cpp
+1529422354 source:c:\work\hdnes\trunk\hdnespackeditor\gametile.cpp
 	"common.h"
 	"coreData.h"
 	"gameObjNode.h"
