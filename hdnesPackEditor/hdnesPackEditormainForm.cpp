@@ -1317,7 +1317,7 @@ void hdnesPackEditormainForm::setReplacement(int imageID, int x, int y){
     t2 = ndata->tiles[rightClickedgameObjID];
     for(int k = 0; k < gameObjSelectedTiles.size(); ++k){
         t = ndata->tiles[gameObjSelectedTiles[k]];
-        t.hasReplacement = true;
+        t.aniFrames[0].hasReplacement = true;
         t.isDefault = false;
         t.aniFrames[0].img = imageID;
         t.aniFrames[0].x = x + ((t.objCoordX - t2.objCoordX) * coreData::cData->scale);
@@ -1545,7 +1545,7 @@ void hdnesPackEditormainForm::drawGameObj(){
         }
         gameObjBaseTile.ConvertAlphaToMask(64);
         gameObjRawImage.Paste(gameObjBaseTile, drawX, drawY);
-        if(ndata->tiles[i].hasReplacement){
+        if(ndata->tiles[i].aniFrames[0].hasReplacement){
             gameObjBaseTileNew = coreData::cData->images[ndata->tiles[i].aniFrames[0].img]->imageData.GetSubImage(wxRect(ndata->tiles[i].aniFrames[0].x, ndata->tiles[i].aniFrames[0].y, replaceSize, replaceSize));
             gameObjBaseTileNew.ConvertAlphaToMask(64);
             gameObjNewImage.Paste(gameObjBaseTileNew, drawX * coreData::cData->scale, drawY * coreData::cData->scale);
@@ -1558,7 +1558,7 @@ void hdnesPackEditormainForm::drawGameObj(){
             for(int j = 0; j < coreData::cData->tiles.size(); ++j){
                 tile = coreData::cData->tiles[j];
                 if(tile->compareEqual(ndata->tiles[i])){
-                    if(tile->hasReplacement ){
+                    if(tile->aniFrames[0].hasReplacement ){
                         hasHD = true;
                         gameObjBaseTileNew = coreData::cData->images[tile->aniFrames[0].img]->imageData.GetSubImage(wxRect(tile->aniFrames[0].x, tile->aniFrames[0].y, replaceSize, replaceSize));
                         if(ndata->tiles[i].hFlip){
@@ -2050,12 +2050,12 @@ void hdnesPackEditormainForm::removeChildGameObjImage(wxTreeItemId item, int ind
 void hdnesPackEditormainForm::removeChildGameObjItemImage(wxTreeItemId item, int index){
     gameObjNode* node = (gameObjNode*)(treeGameObjs->GetItemData(item));
     for(int i = 0; i < node->tiles.size(); ++i){
-        if(node->tiles[i].hasReplacement){
+        if(node->tiles[i].aniFrames[0].hasReplacement){
             if(node->tiles[i].aniFrames[0].img > index){
                 node->tiles[i].aniFrames[0].img--;
             }
             else if(node->tiles[i].aniFrames[0].img == index){
-                node->tiles[i].hasReplacement = false;
+                node->tiles[i].aniFrames[0].hasReplacement = false;
             }
         }
     }
@@ -2130,7 +2130,7 @@ void hdnesPackEditormainForm::genGameObjItemTilePack(fstream& file, wxTreeItemId
 
     if(node->nodeType == GAME_OBJ_NODE_TYPE_OBJECT){
         for(int i = 0; i < node->tiles.size(); ++i){
-            if(node->tiles[i].hasReplacement && (withCondition == (node->tiles[i].conditions.size() > 0 || node->conditions.size() > 0))){
+            if(node->tiles[i].aniFrames[0].hasReplacement && (withCondition == (node->tiles[i].conditions.size() > 0 || node->conditions.size() > 0))){
                 paletteSwap s = paletteSwap();
                 s.brightness = node->brightness;
                 genCustomImage(file, node->tiles[i], s, node->isSprite, -1, node->isDefault, node);
@@ -2778,7 +2778,7 @@ void hdnesPackEditormainForm::listOutHDImgTiles(){
     if(coreData::cData){
         lstHDImgTiles->DeleteAllItems();
         for(int i = 0; i < coreData::cData->tiles.size(); ++i){
-            if(coreData::cData->tiles[i]->hasReplacement && coreData::cData->tiles[i]->aniFrames[0].img == selectedHDImg){
+            if(coreData::cData->tiles[i]->aniFrames[0].hasReplacement && coreData::cData->tiles[i]->aniFrames[0].img == selectedHDImg){
                 if(coreData::cData->isCHRROM){
                     tmpVal = main::intToStr(coreData::cData->tiles[i]->id.id);
                 }

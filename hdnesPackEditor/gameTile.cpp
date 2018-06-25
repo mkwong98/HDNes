@@ -7,8 +7,9 @@
 gameTile::gameTile()
 {
     //ctor
-    hasReplacement = false;
     replacement r;
+    r.frameID = 0;
+    r.hasReplacement = false;
     r.img = 0;
     r.x = 0;
     r.y = 0;
@@ -27,7 +28,7 @@ void gameTile::readLine(string s){
     vector<string> tokens;
     main::split(s, ',', tokens);
 
-    hasReplacement = true;
+    aniFrames[0].hasReplacement = true;
     aniFrames[0].img = atoi(tokens[0].c_str());
 
     id.readID(tokens[1]);
@@ -82,7 +83,7 @@ void gameTile::load(fstream& file){
                 vFlip = (tailStrs[1] == "Y");
             }
             else if(lineHdr == "<replacement>"){
-                hasReplacement = (tailStrs[0] == "Y");
+                aniFrames[0].hasReplacement = (tailStrs[0] == "Y");
                 isDefault = (tailStrs[1] == "Y");
                 aniFrames[0].img = atoi(tailStrs[2].c_str());
                 aniFrames[0].x = atoi(tailStrs[3].c_str());
@@ -114,7 +115,7 @@ void gameTile::save(fstream& file){
     id.save(file);
     file << "<objCoord>" << objCoordX << "," << objCoordY << "\n";
     file << "<flip>" << (hFlip ? "Y" : "N") << "," << (vFlip ? "Y" : "N") << "\n";
-    file << "<replacement>" << (hasReplacement ? "Y" : "N")
+    file << "<replacement>" << (aniFrames[0].hasReplacement ? "Y" : "N")
                      << "," << (isDefault ? "Y" : "N")
                      << "," << aniFrames[0].img
                      << "," << aniFrames[0].x

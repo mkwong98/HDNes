@@ -7,6 +7,8 @@
 #include "tileReference.h"
 
 struct replacement{
+    int frameID;
+    bool hasReplacement;
     int img;
     int x;
     int y;
@@ -28,7 +30,7 @@ class gameTile
         bool markForDelete;
         bool isUnique;
 
-        bool hasReplacement;
+
         bool isDefault;
         vector<condition> conditions;
         vector<bool> conSigns;
