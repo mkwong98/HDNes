@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Dec 21 2016)
+// C++ code generated with wxFormBuilder (version Jun 17 2015)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -28,10 +28,10 @@
 #include <wx/button.h>
 #include <wx/spinctrl.h>
 #include <wx/checkbox.h>
+#include <wx/choice.h>
 #include <wx/scrolbar.h>
 #include <wx/listctrl.h>
 #include <wx/textctrl.h>
-#include <wx/choice.h>
 #include <wx/notebook.h>
 #include <wx/splitter.h>
 #include <wx/frame.h>
@@ -65,15 +65,17 @@ class mainForm : public wxFrame
 		wxRadioButton* rbnObjectBG;
 		wxStaticText* m_staticText101;
 		wxButton* btnGameObjBGColour;
-		wxStaticText* m_staticText11;
-		wxStaticText* m_staticText61;
-		wxSpinCtrl* zoomGameObjs;
 		wxStaticText* m_staticText12;
 		wxStaticText* m_staticText16;
 		wxSpinCtrl* spnBrightness;
 		wxStaticText* m_staticText18;
 		wxStaticText* m_staticText271;
 		wxCheckBox* chkGameObjIsDefault;
+		wxStaticText* m_staticText11;
+		wxStaticText* m_staticText61;
+		wxSpinCtrl* zoomGameObjs;
+		wxStaticText* m_staticText611;
+		wxChoice* cboFrameRange;
 		wxPanel* pnlGameObjRaw;
 		wxScrollBar* scrGameObjRawV;
 		wxScrollBar* scrGameObjRawH;
@@ -169,6 +171,19 @@ class mainForm : public wxFrame
 		wxButton* cmdConditionAdd;
 		wxButton* cmdConditionUpdate;
 		wxButton* cmdConditionDelete;
+		wxPanel* pnlAnimation;
+		wxListCtrl* lstFrameRange;
+		wxPanel* m_panel92;
+		wxStaticText* m_staticText591;
+		wxSpinCtrl* spnFrameRangeCnt;
+		wxStaticText* m_staticText62;
+		wxStaticText* m_staticText60;
+		wxTextCtrl* txtFrameRangeName;
+		wxButton* cmdFrameRangeAdd;
+		wxButton* cmdFrameRangeUpdate;
+		wxButton* cmdFrameRangeDelete;
+		wxButton* cmdFrameRangeMoveUp;
+		wxButton* cmdFrameRangeMoveDown;
 		wxPanel* m_panel72;
 		wxSplitterWindow* m_splitter21;
 		wxPanel* m_panel741;
@@ -209,9 +224,10 @@ class mainForm : public wxFrame
 		virtual void gameObjSpriteClicked( wxCommandEvent& event ) { event.Skip(); }
 		virtual void gameObjBGClicked( wxCommandEvent& event ) { event.Skip(); }
 		virtual void gameObjBGColour( wxCommandEvent& event ) { event.Skip(); }
-		virtual void zoomGameObjsChanged( wxSpinEvent& event ) { event.Skip(); }
 		virtual void replaceBrightnessChanged( wxSpinEvent& event ) { event.Skip(); }
 		virtual void gameObjDefaultClicked( wxCommandEvent& event ) { event.Skip(); }
+		virtual void zoomGameObjsChanged( wxSpinEvent& event ) { event.Skip(); }
+		virtual void ShowSelectedFrame( wxCommandEvent& event ) { event.Skip(); }
 		virtual void gameObjsRawEnter( wxMouseEvent& event ) { event.Skip(); }
 		virtual void gameObjsRawLDown( wxMouseEvent& event ) { event.Skip(); }
 		virtual void gameObjsRawLUp( wxMouseEvent& event ) { event.Skip(); }
@@ -250,6 +266,12 @@ class mainForm : public wxFrame
 		virtual void ConditionAdd( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ConditionUpdate( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ConditionDelete( wxCommandEvent& event ) { event.Skip(); }
+		virtual void FrameRangeItemSelected( wxListEvent& event ) { event.Skip(); }
+		virtual void AddFrameRangeClicked( wxCommandEvent& event ) { event.Skip(); }
+		virtual void UpdateFrameRangeClicked( wxCommandEvent& event ) { event.Skip(); }
+		virtual void DeleteFrameRangeClicked( wxCommandEvent& event ) { event.Skip(); }
+		virtual void MoveUpFrameRange( wxCommandEvent& event ) { event.Skip(); }
+		virtual void MoveDownFrameRange( wxCommandEvent& event ) { event.Skip(); }
 		virtual void HDImgSelected( wxListEvent& event ) { event.Skip(); }
 		virtual void HDImgAdd( wxCommandEvent& event ) { event.Skip(); }
 		virtual void HDImgRemove( wxCommandEvent& event ) { event.Skip(); }

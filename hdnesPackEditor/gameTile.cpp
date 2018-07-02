@@ -41,8 +41,16 @@ void gameTile::readLine(string s){
 }
 
 string gameTile::writeLine(){
+    return writeFrameLine(0);
+}
+
+string gameTile::writeFrameLine(int pFrameID){
     stringstream stream;
-    stream << aniFrames[0].img << "," << id.writeID() << "," << id.writePalette() << "," << aniFrames[0].x << "," << aniFrames[0].y << "," << aniFrames[0].brightness << "," << (isDefault ? "Y" : "N");
+    for(int i = 0; i < aniFrames.size(); ++i){
+        if(aniFrames[i].frameID == pFrameID){
+            stream << aniFrames[i].img << "," << id.writeID() << "," << id.writePalette() << "," << aniFrames[i].x << "," << aniFrames[i].y << "," << aniFrames[i].brightness << "," << (isDefault ? "Y" : "N");
+        }
+    }
     return stream.str();
 }
 
@@ -90,6 +98,21 @@ void gameTile::load(fstream& file){
                 aniFrames[0].y = atoi(tailStrs[4].c_str());
                 aniFrames[0].brightness = atof(tailStrs[5].c_str());
             }
+            else if(lineHdr == "<frames>"){
+                getline(file, line);
+                while(line != "<endFrames>"){
+                    main::split(line, ',', tailStrs);
+                    replacement r;
+                    r.frameID = atoi(tailStrs[0].c_str());
+                    r.hasReplacement = (tailStrs[1] == "Y");
+                    r.img = atoi(tailStrs[2].c_str());
+                    r.x = atoi(tailStrs[3].c_str());
+                    r.y = atoi(tailStrs[4].c_str());
+                    r.brightness = atof(tailStrs[5].c_str());
+                    aniFrames.push_back(r);
+                    getline(file, line);
+                }
+            }
             else if(lineHdr == "<conditions>"){
                 getline(file, line);
                 while(line != "<endConditions>"){
@@ -122,6 +145,19 @@ void gameTile::save(fstream& file){
                      << "," << aniFrames[0].y
                      << "," << aniFrames[0].brightness
                      << "\n";
+    if(aniFrames.size() > 1){
+        file << "<frames>\n";
+        for(int i = 1; i < aniFrames.size(); ++i){
+            file << aniFrames[i].frameID
+                     << "," << (aniFrames[i].hasReplacement ? "Y" : "N")
+                     << "," << aniFrames[i].img
+                     << "," << aniFrames[i].x
+                     << "," << aniFrames[i].y
+                     << "," << aniFrames[i].brightness
+                     << "\n";
+        }
+        file << "<endFrames>\n";
+    }
     file << "<conditions>\n";
     for(int i = 0; i < conditions.size(); ++i){
         conditions[i].save(file);

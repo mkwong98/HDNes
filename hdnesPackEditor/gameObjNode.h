@@ -19,7 +19,11 @@
 #define GAME_OBJ_NODE_MENU_MOVE_TO_FOLDER   7
 #define GAME_OBJ_NODE_MENU_MOVE_HERE    8
 
-
+struct frameRange{
+    int frameID;
+    int frameCnt;
+    string frameName;
+};
 
 class gameObjNode : public wxTreeItemData
 {
@@ -52,7 +56,7 @@ class gameObjNode : public wxTreeItemData
         vector<array<Uint8, 4>> palettes;
         vector<condition> conditions;
         vector<bool> conSigns;
-        vector<int[2]> frameRanges;
+        vector<frameRange> frameRanges;
 
         void addTile(gameTile g);
         void addToObjectSize(int gIdx);

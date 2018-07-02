@@ -111,7 +111,13 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
 		void ConditionUpdate( wxCommandEvent& event );
 		void ConditionDelete( wxCommandEvent& event );
 
-
+        void FrameRangeItemSelected( wxListEvent& event );
+		void AddFrameRangeClicked( wxCommandEvent& event );
+		void UpdateFrameRangeClicked( wxCommandEvent& event );
+		void DeleteFrameRangeClicked( wxCommandEvent& event );
+		void MoveUpFrameRange( wxCommandEvent& event );
+		void MoveDownFrameRange( wxCommandEvent& event );
+        void ShowSelectedFrame( wxCommandEvent& event );
 
 		void HDImgSelected( wxListEvent& event );
 		void HDImgSizeChanged( wxSizeEvent& event );
@@ -242,6 +248,7 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         Uint8 swapNewColours[4];
         int selectedCondition;
         bool loadingTab;
+        int selectedFrameRange;
 
         void initGameObjs();
         void configGameObjs(string lineHdr, string lineTail);
@@ -304,6 +311,10 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient
         void showCondition();
         void updateConditionData(condition& c);
         void showConditionPanel();
+
+        void loadFrameRanges();
+        void showFrameRange();
+        void refreshCboFrameRange(gameObjNode* );
 
         //--end game objs session
 

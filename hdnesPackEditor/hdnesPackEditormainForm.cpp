@@ -715,6 +715,10 @@ void hdnesPackEditormainForm::initGameObjs(){
     cboConditionOp2->Append(wxString("<="));
     cboConditionOp2->Append(wxString("<="));
 
+    lstFrameRange->AppendColumn(wxString("Frame name"));
+    lstFrameRange->AppendColumn(wxString("Display length (frames)"));
+
+
     loadingTab = false;
 }
 
@@ -1314,17 +1318,34 @@ void hdnesPackEditormainForm::setReplacement(int imageID, int x, int y){
     ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
     gameTile t;
     gameTile t2;
+    bool hasHD;
+    int selectFrame;
     t2 = ndata->tiles[rightClickedgameObjID];
+    selectFrame = cboFrameRange->GetSelection();
     for(int k = 0; k < gameObjSelectedTiles.size(); ++k){
         t = ndata->tiles[gameObjSelectedTiles[k]];
-        t.aniFrames[0].hasReplacement = true;
         t.isDefault = false;
-        t.aniFrames[0].img = imageID;
-        t.aniFrames[0].x = x + ((t.objCoordX - t2.objCoordX) * coreData::cData->scale);
-        t.aniFrames[0].y = y + ((t.objCoordY - t2.objCoordY) * coreData::cData->scale);
-        t.aniFrames[0].brightness = 1;
+
+        replacement r;
+        r.frameID = ndata->frameRanges[selectFrame].frameID;
+        r.hasReplacement = true;
+        r.img = imageID;
+        r.x = x + ((t.objCoordX - t2.objCoordX) * coreData::cData->scale);
+        r.y = y + ((t.objCoordY - t2.objCoordY) * coreData::cData->scale);
+        r.brightness = 1;
+
+        hasHD = false;
+        for(int i = 0; i < t.aniFrames.size(); ++i){
+            if(t.aniFrames[i].frameID == r.frameID){
+                t.aniFrames[i] = r;
+                hasHD = true;
+            }
+        }
+        if(!hasHD) t.aniFrames.push_back(r);
+
         ndata->tiles[gameObjSelectedTiles[k]] = t;
     }
+
     refreshGameObj();
     coreData::cData->dataChanged();
 }
@@ -1359,18 +1380,20 @@ void hdnesPackEditormainForm::refreshNode(){
 
     if(ndata->nodeType == GAME_OBJ_NODE_TYPE_OBJECT){
         pnlObj->Show(true);
-        nbkGameObject->AddPage(pnlObj, wxString("Objection Information"));
+        nbkGameObject->AddPage(pnlObj, wxString("Objection information"));
         pnlSwaps->Show(true);
         nbkGameObject->AddPage(pnlSwaps, wxString("Palette swaps"));
         pnlConditions->Show(true);
         nbkGameObject->AddPage(pnlConditions, wxString("Conditions"));
+        pnlAnimation->Show(true);
+        nbkGameObject->AddPage(pnlAnimation, wxString("Animation frames"));
     }
     else{
         pnlBGImage->Show(true);
         nbkGameObject->AddPage(pnlBGImage, wxString("Background"), false);
         pnlConditions->Show(true);
         nbkGameObject->AddPage(pnlConditions, wxString("Conditions"), false);
-    }
+   }
     loadingTab = false;
     nbkGameObject->Refresh();
     nbkGameObject->Update();
@@ -1433,6 +1456,9 @@ void hdnesPackEditormainForm::refreshGameObj(){
     spnBrightness->SetValue(ndata->brightness * 100);
     chkGameObjIsDefault->SetValue(ndata->isDefault);
 
+    refreshCboFrameRange(ndata);
+    selectedFrameRange = 0;
+
     //refresh bg colour button
     btnGameObjBGColour->SetBackgroundColour(coreData::cData->palette[ndata->bgColour]);
     if(coreData::cData->palette[ndata->bgColour].Red() + coreData::cData->palette[ndata->bgColour].Green() + coreData::cData->palette[ndata->bgColour].Blue() > 256){
@@ -1446,12 +1472,136 @@ void hdnesPackEditormainForm::refreshGameObj(){
     v = wxString(main::intToHex(ndata->bgColour).c_str());
     btnGameObjBGColour->SetLabel(v);
 
+    loadFrameRanges();
+
     drawGameObj();
     adjustGameObjSize();
     drawGameObjEdits();
 
     loadSwaps();
     loadConditions();
+}
+
+void hdnesPackEditormainForm::refreshCboFrameRange(gameObjNode* ndata){
+    int selectedFrame = cboFrameRange->GetSelection();
+    cboFrameRange->Clear();
+    for(int i = 0; i < ndata->frameRanges.size(); ++i){
+        cboFrameRange->Append(wxString(ndata->frameRanges[i].frameName));
+    }
+    if(selectedFrame >= 1 && selectedFrame < ndata->frameRanges.size())
+        cboFrameRange->SetSelection(selectedFrame);
+    else
+        cboFrameRange->SetSelection(0);
+}
+
+void hdnesPackEditormainForm::loadFrameRanges(){
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
+    if(!ndata) return;
+
+    //add frame ranges
+    long j;
+    lstFrameRange->DeleteAllItems();
+    for(int i = 0; i < ndata->frameRanges.size(); ++i){
+        j = lstFrameRange->InsertItem(i, wxString(ndata->frameRanges[i].frameName.c_str()), 0);
+        lstFrameRange->SetItem(j, 1, wxString(main::intToStr(ndata->frameRanges[i].frameCnt).c_str()));
+    }
+    showFrameRange();
+}
+
+void hdnesPackEditormainForm::FrameRangeItemSelected( wxListEvent& event ){
+    selectedFrameRange = event.GetIndex();
+    showFrameRange();
+}
+
+void hdnesPackEditormainForm::showFrameRange(){
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
+    if(!ndata) return;
+    if(selectedFrameRange < 0) return;
+    frameRange r = ndata->frameRanges[selectedFrameRange];
+    spnFrameRangeCnt->SetValue(r.frameCnt);
+    txtFrameRangeName->SetValue(r.frameName.c_str());
+
+    cmdFrameRangeDelete->Enable(selectedFrameRange != 0);
+    cmdFrameRangeMoveUp->Enable(selectedFrameRange != 0);
+    cmdFrameRangeMoveDown->Enable(selectedFrameRange + 1 < ndata->frameRanges.size());
+}
+
+void hdnesPackEditormainForm::AddFrameRangeClicked( wxCommandEvent& event ){
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
+    if(!ndata) return;
+
+    frameRange r;
+    r.frameCnt = spnFrameRangeCnt->GetValue();
+    r.frameName = txtFrameRangeName->GetValue().ToStdString();
+    int maxID = 0;
+    for(int i = 0; i < ndata->frameRanges.size(); ++i){
+        if(ndata->frameRanges[i].frameID > maxID)
+            maxID = ndata->frameRanges[i].frameID;
+    }
+    r.frameID = maxID + 1;
+    ndata->frameRanges.push_back(r);
+    selectedFrameRange = ndata->frameRanges.size() - 1;
+    refreshCboFrameRange(ndata);
+    loadFrameRanges();
+    coreData::cData->dataChanged();
+}
+
+void hdnesPackEditormainForm::UpdateFrameRangeClicked( wxCommandEvent& event ){
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
+    if(!ndata) return;
+    if(selectedFrameRange < 0) return;
+
+    ndata->frameRanges[selectedFrameRange].frameCnt = spnFrameRangeCnt->GetValue();
+    ndata->frameRanges[selectedFrameRange].frameName = txtFrameRangeName->GetValue().ToStdString();
+    refreshCboFrameRange(ndata);
+    loadFrameRanges();
+    coreData::cData->dataChanged();
+}
+
+void hdnesPackEditormainForm::DeleteFrameRangeClicked( wxCommandEvent& event ){
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
+    if(!ndata) return;
+    if(selectedFrameRange >= 0){
+        ndata->frameRanges.erase(ndata->frameRanges.begin()+selectedFrameRange);
+        if(selectedFrameRange == ndata->frameRanges.size()) selectedFrameRange--;
+        refreshCboFrameRange(ndata);
+        loadFrameRanges();
+        coreData::cData->dataChanged();
+    }
+}
+
+void hdnesPackEditormainForm::MoveUpFrameRange( wxCommandEvent& event ){
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
+    if(!ndata) return;
+    if(selectedFrameRange > 0){
+        frameRange r = ndata->frameRanges[selectedFrameRange];
+        ndata->frameRanges[selectedFrameRange] = ndata->frameRanges[selectedFrameRange - 1];
+        ndata->frameRanges[selectedFrameRange - 1] = r;
+        selectedFrameRange--;
+        refreshCboFrameRange(ndata);
+        loadFrameRanges();
+        coreData::cData->dataChanged();
+    }
+}
+
+void hdnesPackEditormainForm::MoveDownFrameRange( wxCommandEvent& event ){
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
+    if(!ndata) return;
+    if(selectedFrameRange < ndata->frameRanges.size() - 1){
+        frameRange r = ndata->frameRanges[selectedFrameRange];
+        ndata->frameRanges[selectedFrameRange] = ndata->frameRanges[selectedFrameRange + 1];
+        ndata->frameRanges[selectedFrameRange + 1] = r;
+        selectedFrameRange++;
+        refreshCboFrameRange(ndata);
+        loadFrameRanges();
+        coreData::cData->dataChanged();
+    }
+}
+
+void hdnesPackEditormainForm::ShowSelectedFrame( wxCommandEvent& event ){
+    drawGameObj();
+    adjustGameObjSize();
+    drawGameObjEdits();
 }
 
 void hdnesPackEditormainForm::loadSwaps(){
@@ -1545,40 +1695,21 @@ void hdnesPackEditormainForm::drawGameObj(){
         }
         gameObjBaseTile.ConvertAlphaToMask(64);
         gameObjRawImage.Paste(gameObjBaseTile, drawX, drawY);
-        if(ndata->tiles[i].aniFrames[0].hasReplacement){
-            gameObjBaseTileNew = coreData::cData->images[ndata->tiles[i].aniFrames[0].img]->imageData.GetSubImage(wxRect(ndata->tiles[i].aniFrames[0].x, ndata->tiles[i].aniFrames[0].y, replaceSize, replaceSize));
-            gameObjBaseTileNew.ConvertAlphaToMask(64);
-            gameObjNewImage.Paste(gameObjBaseTileNew, drawX * coreData::cData->scale, drawY * coreData::cData->scale);
-            gameObjNewImage.ConvertAlphaToMask(64);
-            gameObjNewImage.SetMask(false);
-        }
-        else{
-            //look for replacement tiles
-            hasHD = false;
-            for(int j = 0; j < coreData::cData->tiles.size(); ++j){
-                tile = coreData::cData->tiles[j];
-                if(tile->compareEqual(ndata->tiles[i])){
-                    if(tile->aniFrames[0].hasReplacement ){
-                        hasHD = true;
-                        gameObjBaseTileNew = coreData::cData->images[tile->aniFrames[0].img]->imageData.GetSubImage(wxRect(tile->aniFrames[0].x, tile->aniFrames[0].y, replaceSize, replaceSize));
-                        if(ndata->tiles[i].hFlip){
-                            gameObjBaseTileNew = gameObjBaseTileNew.Mirror(true);
-                        }
-                        if(ndata->tiles[i].vFlip){
-                            gameObjBaseTileNew = gameObjBaseTileNew.Mirror(false);
-                        }
-                    }
-                }
-            }
-            if(!hasHD){
-                gameObjBaseTileNew = gameObjBaseTile.Scale(replaceSize, replaceSize);
-            }
-            gameObjBaseTileNew.ConvertAlphaToMask(64);
-            gameObjNewImage.Paste(gameObjBaseTileNew, drawX * coreData::cData->scale, drawY * coreData::cData->scale);
-            gameObjNewImage.ConvertAlphaToMask(64);
-            gameObjNewImage.SetMask(false);
 
+        hasHD = false;
+        for(int j = 0; j < ndata->tiles[i].aniFrames.size(); ++j){
+            if(ndata->tiles[i].aniFrames[j].hasReplacement && ndata->tiles[i].aniFrames[j].frameID == ndata->frameRanges[cboFrameRange->GetSelection()].frameID){
+                gameObjBaseTileNew = coreData::cData->images[ndata->tiles[i].aniFrames[j].img]->imageData.GetSubImage(wxRect(ndata->tiles[i].aniFrames[j].x, ndata->tiles[i].aniFrames[j].y, replaceSize, replaceSize));
+                hasHD = true;
+            }
         }
+        if(!hasHD){
+            gameObjBaseTileNew = gameObjBaseTile.Scale(replaceSize, replaceSize);
+        }
+        gameObjBaseTileNew.ConvertAlphaToMask(64);
+        gameObjNewImage.Paste(gameObjBaseTileNew, drawX * coreData::cData->scale, drawY * coreData::cData->scale);
+        gameObjNewImage.ConvertAlphaToMask(64);
+        gameObjNewImage.SetMask(false);
     }
 }
 
@@ -2097,6 +2228,18 @@ void hdnesPackEditormainForm::genGameObjItemConditionPack(fstream& file, wxTreeI
     for(int i = 0; i < node->conditions.size(); ++i){
         file << "<condition>" << node->nodeName << "_" << node->conditions[i].name << "," << node->conditions[i].conditionType << "," << node->conditions[i].writeLine() << "\n";
     }
+    if(node->frameRanges.size() > 1){
+        int totalFrames = 0;
+        int frameCounter;
+        for(int i = 0; i < node->frameRanges.size(); ++i){
+            totalFrames += node->frameRanges[i].frameCnt;
+        }
+        frameCounter = totalFrames;
+        for(int i = node->frameRanges.size() - 1; i > 0; --i){
+            frameCounter -= node->frameRanges[i].frameCnt;
+            file << "<condition>" << node->nodeName << "_" << node->frameRanges[i].frameName << ",frameRange," << main::intToHex(totalFrames) << "," << main::intToHex(frameCounter) << "\n";
+        }
+    }
     for(int i = 0; i < node->tiles.size(); ++i){
         for(int j = 0; j <  node->tiles[i].conditions.size(); ++j){
             node->tiles[i].conditions[j].conditionType = (node->isSprite ? "spriteNearby" : "tileNearby");
@@ -2597,6 +2740,7 @@ void hdnesPackEditormainForm::showConditionPanel(){
     }
     pnlConditions->Layout();
 }
+
 
 void hdnesPackEditormainForm::BGImageSelect( wxCommandEvent& event ){
     gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();

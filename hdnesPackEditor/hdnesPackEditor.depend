@@ -3360,7 +3360,7 @@
 	<wx/image.h>
 	<SDL2/SDL.h>
 
-1529422710 source:c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.cpp
+1530548886 source:c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.cpp
 	"hdnesPackEditormainForm.h"
 	"hdnesPackEditornewProjectDialog.h"
 	"hdnesPackEditorcolourSelectDialog.h"
@@ -3374,14 +3374,14 @@
 	"image.h"
 	"paletteSwap.h"
 
-1528797884 c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.h
+1530500473 c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.h
 	"common.h"
 	"mainForm.h"
 	"colourDialogClient.h"
 	"gameObjNode.h"
 	"classList.h"
 
-1526395864 c:\work\hdnes\trunk\hdnespackeditor\mainform.h
+1530356627 c:\work\hdnes\trunk\hdnespackeditor\mainform.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/string.h>
@@ -3402,10 +3402,10 @@
 	<wx/button.h>
 	<wx/spinctrl.h>
 	<wx/checkbox.h>
+	<wx/choice.h>
 	<wx/scrolbar.h>
 	<wx/listctrl.h>
 	<wx/textctrl.h>
-	<wx/choice.h>
 	<wx/notebook.h>
 	<wx/splitter.h>
 	<wx/frame.h>
@@ -3453,7 +3453,7 @@
 	<wx\wx.h>
 	<SDL2\SDL.h>
 
-1526395864 source:c:\work\hdnes\trunk\hdnespackeditor\mainform.cpp
+1530359667 source:c:\work\hdnes\trunk\hdnespackeditor\mainform.cpp
 	"mainForm.h"
 
 1526395863 source:c:\work\hdnes\trunk\hdnespackeditor\condition.cpp
@@ -3853,25 +3853,25 @@
 	"classList.h"
 	"condition.h"
 
-1529408529 c:\work\hdnes\trunk\hdnespackeditor\gameobjnode.h
+1530330605 c:\work\hdnes\trunk\hdnespackeditor\gameobjnode.h
 	"common.h"
 	"gameTile.h"
 	<wx/treebase.h>
 
-1529598291 c:\work\hdnes\trunk\hdnespackeditor\gametile.h
+1530502485 c:\work\hdnes\trunk\hdnespackeditor\gametile.h
 	"common.h"
 	"classList.h"
 	"condition.h"
 	"tileReference.h"
 
-1526398306 source:c:\work\hdnes\trunk\hdnespackeditor\gameobjnode.cpp
+1530507666 source:c:\work\hdnes\trunk\hdnespackeditor\gameobjnode.cpp
 	"gameObjNode.h"
 	"gameTile.h"
 	"paletteSwap.h"
 	"main.h"
 	"hdnesPackEditormainForm.h"
 
-1529598468 source:c:\work\hdnes\trunk\hdnespackeditor\gametile.cpp
+1530508016 source:c:\work\hdnes\trunk\hdnespackeditor\gametile.cpp
 	"common.h"
 	"coreData.h"
 	"gameObjNode.h"

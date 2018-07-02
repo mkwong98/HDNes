@@ -21,6 +21,13 @@ gameObjNode::gameObjNode()
     hScrollRate = 0;
     vScrollRate = 0;
     fileName = "";
+
+    frameRange f;
+    f.frameCnt = 1;
+    f.frameID = 0;
+    f.frameName = "Basic";
+
+    frameRanges.push_back(f);
 }
 
 gameObjNode::~gameObjNode()
@@ -141,6 +148,19 @@ void gameObjNode::load(fstream& file, wxTreeItemId newItm){
                     getline(file, line);
                 }
             }
+            else if(lineHdr == "<frameRanges>"){
+                frameRanges.clear();
+                getline(file, line);
+                while(line != "<endFrameRanges>"){
+                    main::split(line, ',', tailStrs);
+                    frameRange f;
+                    f.frameID = atoi(tailStrs[0].c_str());
+                    f.frameCnt = atoi(tailStrs[1].c_str());
+                    f.frameName = tailStrs[2].c_str();
+                    frameRanges.push_back(f);
+                    getline(file, line);
+                }
+            }
         }
         getline(file, line);
     }
@@ -166,6 +186,14 @@ void gameObjNode::save(fstream& file, wxTreeItemId newItm){
             file << (conSigns[i] ? "Y" : "N") << "\n";
         }
         file << "<endConSigns>\n";
+
+        if(frameRanges.size() > 0){
+            file << "<frameRanges>\n";
+            for(int i = 0; i < frameRanges.size(); ++i){
+                file << frameRanges[i].frameID << "," << frameRanges[i].frameCnt << "," << frameRanges[i].frameName << "\n";
+            }
+            file << "<endFrameRanges>\n";
+        }
 
         if(nodeType == GAME_OBJ_NODE_TYPE_OBJECT){
             file << "<bgColour>" << main::intToHex(bgColour) << "\n";
