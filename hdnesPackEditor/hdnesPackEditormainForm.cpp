@@ -2304,7 +2304,7 @@ void hdnesPackEditormainForm::genGameObjItemTilePack(fstream& file, wxTreeItemId
 void hdnesPackEditormainForm::genCustomImage(fstream& file, gameTile t, paletteSwap s, bool isSprite, int swapID, bool isDefault, gameObjNode* gObj){
     int replaceSize = 8 * coreData::cData->scale;
     wxImage tmp;
-    t.aniFrames[0].brightness = s.brightness;
+    bool hasCondition;
     t.isDefault = isDefault;
     if(swapID >= 0){
         applySwap(t.id.palette, s);
@@ -2316,78 +2316,105 @@ void hdnesPackEditormainForm::genCustomImage(fstream& file, gameTile t, paletteS
     if(isSprite){
         t.id.palette[0] = 0xff;
     }
-    if((isSprite && (t.hFlip || t.vFlip)) || (s.hueRotation != 0.0) || (s.saturation != 1.0)){
-        //generate mirrored tile
-        //create if not yet
-        if(gameObjectGenImageX == 0 && gameObjectGenImageY == 0){
-            gameObjectGenImage = wxImage(32 * replaceSize, 32 * replaceSize, true);
-            gameObjectGenImage.InitAlpha();
-            memset(gameObjectGenImage.GetAlpha(), 0, 32 * replaceSize * 32 * replaceSize);
-            file << "<img>editorGenImage" + main::intToStr(gameObjectGenImageCnt) + ".png\n";
-        }
-        //add flipped tile to image
-        tmp = coreData::cData->images[t.aniFrames[0].img]->imageData.GetSubImage(wxRect(t.aniFrames[0].x, t.aniFrames[0].y, replaceSize, replaceSize));
-        if(t.hFlip){
-            tmp = tmp.Mirror(true);
-        }
-        if(t.vFlip){
-            tmp = tmp.Mirror(false);
-        }
-        if(s.hueRotation != 0.0){
-            tmp.RotateHue(s.hueRotation);
-        }
-        if(s.saturation != 1.0){
-            for(int dx = 0; dx < replaceSize; ++dx){
-                for(int dy = 0; dy < replaceSize; ++dy){
-                    wxImage::RGBValue rgbC = wxImage::RGBValue(tmp.GetRed(dx, dy), tmp.GetGreen(dx, dy), tmp.GetBlue(dx, dy));
-                    wxImage::HSVValue hsvC = wxImage::RGBtoHSV(rgbC);
-                    hsvC.saturation = hsvC.saturation * s.saturation;
-                    rgbC = wxImage::HSVtoRGB(hsvC);
-                    tmp.SetRGB(dx, dy, rgbC.red, rgbC.green, rgbC.blue);
+
+    for(int j = gObj->frameRanges.size() - 1; j >= 0; --j){
+        frameRange r = gObj->frameRanges[j];
+        for(int k = 0; k < t.aniFrames.size(); ++k){
+            if(r.frameID == t.aniFrames[k].frameID){
+
+                if((isSprite && (t.hFlip || t.vFlip)) || (s.hueRotation != 0.0) || (s.saturation != 1.0)){
+                    //generate mirrored tile
+                    //create if not yet
+                    if(gameObjectGenImageX == 0 && gameObjectGenImageY == 0){
+                        gameObjectGenImage = wxImage(32 * replaceSize, 32 * replaceSize, true);
+                        gameObjectGenImage.InitAlpha();
+                        memset(gameObjectGenImage.GetAlpha(), 0, 32 * replaceSize * 32 * replaceSize);
+                        file << "<img>editorGenImage" + main::intToStr(gameObjectGenImageCnt) + ".png\n";
+                    }
+                    //add flipped tile to image
+                    tmp = coreData::cData->images[t.aniFrames[k].img]->imageData.GetSubImage(wxRect(t.aniFrames[k].x, t.aniFrames[k].y, replaceSize, replaceSize));
+                    if(t.hFlip){
+                        tmp = tmp.Mirror(true);
+                    }
+                    if(t.vFlip){
+                        tmp = tmp.Mirror(false);
+                    }
+                    if(s.hueRotation != 0.0){
+                        tmp.RotateHue(s.hueRotation);
+                    }
+                    if(s.saturation != 1.0){
+                        for(int dx = 0; dx < replaceSize; ++dx){
+                            for(int dy = 0; dy < replaceSize; ++dy){
+                                wxImage::RGBValue rgbC = wxImage::RGBValue(tmp.GetRed(dx, dy), tmp.GetGreen(dx, dy), tmp.GetBlue(dx, dy));
+                                wxImage::HSVValue hsvC = wxImage::RGBtoHSV(rgbC);
+                                hsvC.saturation = hsvC.saturation * s.saturation;
+                                rgbC = wxImage::HSVtoRGB(hsvC);
+                                tmp.SetRGB(dx, dy, rgbC.red, rgbC.green, rgbC.blue);
+                            }
+                        }
+                    }
+
+                    //copy pixel data
+                    gameObjectGenImage.Paste(tmp, gameObjectGenImageX * replaceSize, gameObjectGenImageY * replaceSize);
+                    //copy alpha data
+                    for(int dx = 0; dx < replaceSize; ++dx){
+                        for(int dy = 0; dy < replaceSize; ++dy){
+                            gameObjectGenImage.SetAlpha(gameObjectGenImageX * replaceSize + dx, gameObjectGenImageY * replaceSize + dy, tmp.GetAlpha(dx, dy));
+                        }
+                    }
+                    //create tmp tile
+                    t.aniFrames[k].img = coreData::cData->images.size() + gameObjectGenImageCnt;
+                    t.aniFrames[k].x = gameObjectGenImageX * replaceSize;
+                    t.aniFrames[k].y = gameObjectGenImageY * replaceSize;
+
+                    //move position
+                    gameObjectGenImageX += 1;
+                    if(gameObjectGenImageX == 32){
+                        gameObjectGenImageY += 1;
+                        gameObjectGenImageX = 0;
+                        if(gameObjectGenImageY == 32){
+                            //save image file
+                            gameObjectGenImage.SaveFile(wxString((coreData::cData->packPath + "\\editorGenImage" + main::intToStr(gameObjectGenImageCnt) + ".png").c_str()));
+                            gameObjectGenImageCnt ++;
+                            gameObjectGenImageY = 0;
+                        }
+                    }
                 }
-            }
-        }
+                //write object condition
+                if(t.conditions.size() > 0 || gObj->conditions.size() > 0 || k > 0){
+                    hasCondition = false;
+                    file << "[";
+                    if(k > 0){
+                        file << gObj->nodeName << "_" << gObj->frameRanges[k].frameName;
+                        hasCondition = true;
+                    }
+                    if(hasCondition && t.conditions.size() > 0){
+                        file << "&";
+                    }
+                    if(t.conditions.size() > 0){
+                        file << t.writeConditionNames();
+                        hasCondition = true;
+                    }
+                    if(hasCondition && gObj->conditions.size() > 0){
+                        file << "&";
+                    }
+                    if(t.conditions.size() > 0){
+                        file << gObj->writeConditionNames();
+                    }
+                    file << "]";
+                }
+                //write line
+                file << "<tile>" << t.writeFrameLine(gObj->frameRanges[k].frameID) << "\n";
 
-        //copy pixel data
-        gameObjectGenImage.Paste(tmp, gameObjectGenImageX * replaceSize, gameObjectGenImageY * replaceSize);
-        //copy alpha data
-        for(int dx = 0; dx < replaceSize; ++dx){
-            for(int dy = 0; dy < replaceSize; ++dy){
-                gameObjectGenImage.SetAlpha(gameObjectGenImageX * replaceSize + dx, gameObjectGenImageY * replaceSize + dy, tmp.GetAlpha(dx, dy));
-            }
-        }
-        //create tmp tile
-        t.aniFrames[0].img = coreData::cData->images.size() + gameObjectGenImageCnt;
-        t.aniFrames[0].x = gameObjectGenImageX * replaceSize;
-        t.aniFrames[0].y = gameObjectGenImageY * replaceSize;
-
-        //move position
-        gameObjectGenImageX += 1;
-        if(gameObjectGenImageX == 32){
-            gameObjectGenImageY += 1;
-            gameObjectGenImageX = 0;
-            if(gameObjectGenImageY == 32){
-                //save image file
-                gameObjectGenImage.SaveFile(wxString((coreData::cData->packPath + "\\editorGenImage" + main::intToStr(gameObjectGenImageCnt) + ".png").c_str()));
-                gameObjectGenImageCnt ++;
-                gameObjectGenImageY = 0;
             }
         }
     }
 
 
-    //write object condition
-    if(t.conditions.size() > 0 || gObj->conditions.size() > 0){
-        file << "[";
-        file << gObj->writeConditionNames();
-        if(t.conditions.size() > 0 && gObj->conditions.size() > 0){
-            file << "&";
-        }
-        file << t.writeConditionNames();
-        file << "]";
-    }
-    //write line
-    file << "<tile>" << t.writeLine() << "\n";
+
+
+
+
 }
 
 
