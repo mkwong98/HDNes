@@ -2381,40 +2381,35 @@ void hdnesPackEditormainForm::genCustomImage(fstream& file, gameTile t, paletteS
                     }
                 }
                 //write object condition
-                if(t.conditions.size() > 0 || gObj->conditions.size() > 0 || k > 0){
+                if(t.conditions.size() > 0 || gObj->conditions.size() > 0 || j > 0){
                     hasCondition = false;
                     file << "[";
-                    if(k > 0){
-                        file << gObj->nodeName << "_" << gObj->frameRanges[k].frameName;
+                    if(j > 0){
+                        file << gObj->nodeName << "_" << gObj->frameRanges[j].frameName;
                         hasCondition = true;
                     }
-                    if(hasCondition && t.conditions.size() > 0){
-                        file << "&";
-                    }
+
                     if(t.conditions.size() > 0){
+                        if(hasCondition){
+                            file << "&";
+                        }
                         file << t.writeConditionNames();
                         hasCondition = true;
                     }
-                    if(hasCondition && gObj->conditions.size() > 0){
-                        file << "&";
-                    }
-                    if(t.conditions.size() > 0){
+
+                    if(gObj->conditions.size() > 0){
+                        if(hasCondition){
+                            file << "&";
+                        }
                         file << gObj->writeConditionNames();
                     }
                     file << "]";
                 }
                 //write line
-                file << "<tile>" << t.writeFrameLine(gObj->frameRanges[k].frameID) << "\n";
-
+                file << "<tile>" << t.writeFrameLine(gObj->frameRanges[j].frameID) << "\n";
             }
         }
     }
-
-
-
-
-
-
 }
 
 
