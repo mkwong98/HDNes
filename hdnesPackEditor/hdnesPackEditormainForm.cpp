@@ -1032,7 +1032,7 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
                 main::split(tileLines[i], ',', tileDetails);
                 if(tileDetails.size() == 4 || tileDetails.size() == 6){
                     if(coreData::cData->isCHRROM){
-                        g.id.id = atoi(tileDetails[0].c_str());
+                        g.id.id = strtol(tileDetails[0].c_str(), NULL, 16);
                     }
                     else{
                         main::hexToByteArray(tileDetails[0], g.id.rawData);
@@ -1082,16 +1082,7 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
             if(copyContent != ""){
                 copyContent = copyContent + "\n";
             }
-            if(coreData::cData->isCHRROM){
-                copyContent = copyContent + main::intToStr(ndata->tiles[gameObjSelectedTiles[k]].id.id);
-            }
-            else{
-                string tmpVal = "";
-                for(Uint8 i = 0; i < 16; ++i){
-                    tmpVal = tmpVal + main::intToHex(ndata->tiles[gameObjSelectedTiles[k]].id.rawData[i]);
-                }
-                copyContent = copyContent + tmpVal;
-            }
+            copyContent = copyContent + ndata->tiles[gameObjSelectedTiles[k]].id.writeID(true);
             copyContent = copyContent + "," + wxString(main::intToHex(ndata->bgColour).c_str())
                         + wxString(main::intToHex(ndata->tiles[gameObjSelectedTiles[k]].id.palette[1]).c_str())
                         + wxString(main::intToHex(ndata->tiles[gameObjSelectedTiles[k]].id.palette[2]).c_str())
@@ -2005,7 +1996,7 @@ void hdnesPackEditormainForm::gameObjsRawLUp( wxMouseEvent& event ){
                    && ld.x >= ndata->tiles[i].objCoordX
                    && ld.y <= ndata->tiles[i].objCoordY + 8
                    && ld.y >= ndata->tiles[i].objCoordY){
-                    m_statusBar->SetLabel(wxString((ndata->tiles[i].id.writeID() + ", " + ndata->tiles[i].id.writePalette()).c_str()));
+                    m_statusBar->SetLabel(wxString((ndata->tiles[i].id.writeID(true) + ", " + ndata->tiles[i].id.writePalette()).c_str()));
                 }
                 if(corner1.x <= ndata->tiles[i].objCoordX + 8
                    && corner2.x >= ndata->tiles[i].objCoordX
@@ -2660,7 +2651,7 @@ void hdnesPackEditormainForm::showCondition(){
         txtConditionX->SetValue(main::intToStr(c.objCoordX));
         txtConditionY->SetValue(main::intToStr(c.objCoordY));
 
-        txtConditionTile->SetValue(c.id.writeID());
+        txtConditionTile->SetValue(c.id.writeID(true));
         txtConditionPalette->SetValue(c.id.writePalette());
     }
     else if(c.conditionType == "memoryCheck" || c.conditionType == "ppuMemoryCheck"){
@@ -2719,13 +2710,7 @@ void hdnesPackEditormainForm::updateConditionData(condition& c){
     if(c.conditionType == "tileNearby" || c.conditionType == "spriteNearby" || c.conditionType == "tileAtPosition" || c.conditionType == "spriteAtPosition"){
         c.objCoordX = atoi(txtConditionX->GetValue());
         c.objCoordY = atoi(txtConditionY->GetValue());
-
-        if(coreData::cData->isCHRROM){
-            c.id.id = atoi(txtConditionTile->GetValue());
-        }
-        else{
-            main::hexToByteArray(txtConditionTile->GetValue().ToStdString(), c.id.rawData);
-        }
+        c.id.readID(txtConditionTile->GetValue().ToStdString(), true);
         main::hexToByteArray(txtConditionPalette->GetValue().ToStdString(), c.id.palette);
     }
     else if(c.conditionType == "memoryCheck" || c.conditionType == "ppuMemoryCheck"){
@@ -2946,7 +2931,7 @@ void hdnesPackEditormainForm::listOutHDImgTiles(){
         for(int i = 0; i < coreData::cData->tiles.size(); ++i){
             if(coreData::cData->tiles[i]->aniFrames[0].hasReplacement && coreData::cData->tiles[i]->aniFrames[0].img == selectedHDImg){
                 if(coreData::cData->isCHRROM){
-                    tmpVal = main::intToStr(coreData::cData->tiles[i]->id.id);
+                    tmpVal = main::intToHex(coreData::cData->tiles[i]->id.id);
                 }
                 else{
                     tmpVal = "";

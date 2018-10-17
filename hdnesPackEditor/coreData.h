@@ -25,7 +25,6 @@ class coreData
         Uint8* romData;
 
         //pack data
-        vector<string> ver;
         vector<string> supportedRom;
         vector<string> overscan;
         vector<string> patch;
@@ -34,6 +33,7 @@ class coreData
         vector<string> bgm;
         vector<string> sfx;
 
+        Uint32 verNo;
         Uint8 scale;
         vector<image*> images;
         vector<condition*> conditions;

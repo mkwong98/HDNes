@@ -31,7 +31,7 @@ void gameTile::readLine(string s){
     aniFrames[0].hasReplacement = true;
     aniFrames[0].img = atoi(tokens[0].c_str());
 
-    id.readID(tokens[1]);
+    id.readID(tokens[1], coreData::cData->verNo >= 103);
     id.readPalette(tokens[2]);
 
     aniFrames[0].x = atoi(tokens[3].c_str());
@@ -48,7 +48,7 @@ string gameTile::writeFrameLine(int pFrameID){
     stringstream stream;
     for(int i = 0; i < aniFrames.size(); ++i){
         if(aniFrames[i].frameID == pFrameID){
-            stream << aniFrames[i].img << "," << id.writeID() << "," << id.writePalette() << "," << aniFrames[i].x << "," << aniFrames[i].y << "," << aniFrames[i].brightness << "," << (isDefault ? "Y" : "N");
+            stream << aniFrames[i].img << "," << id.writeID(coreData::cData->verNo >= 103) << "," << id.writePalette() << "," << aniFrames[i].x << "," << aniFrames[i].y << "," << aniFrames[i].brightness << "," << (isDefault ? "Y" : "N");
         }
     }
     return stream.str();

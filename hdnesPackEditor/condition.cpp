@@ -145,7 +145,7 @@ void condition::readLine(string s){
     if(getType() == 1){
         objCoordX = atoi(tokens[2].c_str());
         objCoordY = atoi(tokens[3].c_str());
-        id.readID(tokens[4]);
+        id.readID(tokens[4], coreData::cData->verNo >= 103);
         id.readPalette(tokens[5]);
     }
     else if(getType() == 2){
@@ -162,7 +162,7 @@ void condition::readLine(string s){
 string condition::writeLine(){
     stringstream stream;
     if(getType() == 1){
-        stream << objCoordX << "," << objCoordY << "," << id.writeID() << "," << id.writePalette();
+        stream << objCoordX << "," << objCoordY << "," << id.writeID(coreData::cData->verNo >= 103) << "," << id.writePalette();
     }
     else if(getType() == 2){
         stream << main::intToHex(address) << "," << op << "," << main::intToHex(value);

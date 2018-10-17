@@ -27,18 +27,28 @@ bool tileReference::compareEqual(tileReference& t){
     return true;
 }
 
-void tileReference::readID(string s){
+void tileReference::readID(string s, bool useHex){
     if(coreData::cData->isCHRROM){
-        id = atoi(s.c_str());
+        if(useHex){
+            id = strtol(s.c_str(), NULL, 16);
+        }
+        else{
+            id = atoi(s.c_str());
+        }
     }
     else{
         main::hexToByteArray(s, (Uint8*)(rawData));
     }
 }
 
-string tileReference::writeID(){
+string tileReference::writeID(bool useHex){
     if(coreData::cData->isCHRROM){
-        return main::intToStr(id);
+        if(useHex){
+            return main::intToHex(id);
+        }
+        else{
+            return main::intToStr(id);
+        }
     }
     else{
         stringstream stream;
@@ -74,7 +84,7 @@ void tileReference::load(fstream& file){
             lineTail = line.substr(found + 1);
 
             if(lineHdr == "<id>"){
-                readID(lineTail);
+                readID(lineTail, false);
             }
             else if(lineHdr == "<palette>"){
                 readPalette(lineTail);
@@ -86,7 +96,7 @@ void tileReference::load(fstream& file){
 
 void tileReference::save(fstream& file){
     file << "<tileReference>\n";
-    file << "<id>" << writeID() << "\n";
+    file << "<id>" << writeID(false) << "\n";
     file << "<palette>" << writePalette() << "\n";
     file << "<endTileReference>\n";
 }

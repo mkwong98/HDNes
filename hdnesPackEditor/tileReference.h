@@ -17,8 +17,8 @@ class tileReference
         void load(fstream& file);
         void save(fstream& file);
 
-        void readID(string s);
-        string writeID();
+        void readID(string s, bool useHex);
+        string writeID(bool useHex);
         void readPalette(string s);
         string writePalette();
 

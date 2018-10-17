@@ -112,7 +112,7 @@ void coreData::loadPackData(){
                     lineHdr = line.substr(0, found + 1);
                     lineTail = line.substr(found + 1);
                     if(lineHdr == "<ver>"){
-                        ver.push_back(line);
+                        verNo = atoi(lineTail.c_str());
                     }
                     else if(lineHdr == "<scale>"){
                         scale = atoi(lineTail.c_str());
@@ -371,7 +371,7 @@ void coreData::dataChanged(){
 
 string coreData::getTileID(int tileIndex){
     if(isCHRROM){
-        return main::intToStr(tileIndex);
+        return main::intToHex(tileIndex);
     }
     else{
         Uint8* tileData = romData + (tileIndex * 16);
@@ -431,7 +431,7 @@ void coreData::genPackData(){
     string s;
 
 	inifile.open(hiresPath, ios::out);
-	genSection(inifile, ver);
+	inifile << "<ver>" << main::intToStr(verNo) << "\n";
 	inifile << "<scale>" << main::intToStr(scale) << "\n";
 	genSection(inifile, supportedRom);
 	genSection(inifile, overscan);
