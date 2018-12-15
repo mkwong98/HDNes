@@ -949,6 +949,7 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	bSizer7->Add( btnRomViewColour3, 0, wxALIGN_CENTER_VERTICAL, 5 );
 	
 	txtRomViewPalette = new wxTextCtrl( m_panel1, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtRomViewPalette->SetMaxLength( 8 ); 
 	bSizer7->Add( txtRomViewPalette, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	

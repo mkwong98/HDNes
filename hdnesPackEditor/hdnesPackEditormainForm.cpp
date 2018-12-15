@@ -361,7 +361,13 @@ void hdnesPackEditormainForm::refreshCoreDataDisplay(){
 }
 
 void hdnesPackEditormainForm::refreshROMView(){
+    if(romViewColours[0] >= 64) romViewColours[0] = 0x0f;
+    if(romViewColours[1] >= 64) romViewColours[1] = 0x0f;
+    if(romViewColours[2] >= 64) romViewColours[2] = 0x0f;
+    if(romViewColours[3] >= 64) romViewColours[3] = 0x0f;
+
     btnRomViewBGColour->SetBackgroundColour(coreData::cData->palette[romViewColours[0]]);
+
     if(coreData::cData->palette[romViewColours[0]].Red() + coreData::cData->palette[romViewColours[0]].Green() + coreData::cData->palette[romViewColours[0]].Blue() > 256){
         btnRomViewBGColour->SetForegroundColour(wxColour(0,0,0));
     }
