@@ -17,4 +17,5 @@ void image::load(string path){
 
 void image::reloadImg(){
     imageData.LoadFile(wxString((coreData::cData->packPath + "\\" + fileName).c_str()));
+    if(!imageData.HasAlpha()) imageData.InitAlpha();
 }

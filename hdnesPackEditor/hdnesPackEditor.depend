@@ -3360,7 +3360,7 @@
 	<wx/image.h>
 	<SDL2/SDL.h>
 
-1544871692 source:c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.cpp
+1546622334 source:c:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.cpp
 	"hdnesPackEditormainForm.h"
 	"hdnesPackEditornewProjectDialog.h"
 	"hdnesPackEditorcolourSelectDialog.h"
@@ -3469,7 +3469,7 @@
 
 1526227271 c:\work\hdnes\trunk\hdnespackeditor\classlist.h
 
-1515164614 source:c:\work\hdnes\trunk\hdnespackeditor\image.cpp
+1546622334 source:c:\work\hdnes\trunk\hdnespackeditor\image.cpp
 	"image.h"
 	"coreData.h"
 

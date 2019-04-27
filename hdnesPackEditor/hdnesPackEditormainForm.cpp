@@ -1419,6 +1419,7 @@ void hdnesPackEditormainForm::drawBGImage(){
     if(ndata && ndata->fileName > ""){
         wxImage imageData;
         imageData.LoadFile(wxString((coreData::cData->packPath + "\\" + ndata->fileName).c_str()));
+        if(!imageData.HasAlpha()) imageData.InitAlpha();
 
         float bgImgScale = min(((float)pnlBGImageDisplay->GetSize().x) / ((float)imageData.GetWidth()), ((float)pnlBGImageDisplay->GetSize().y) / ((float)imageData.GetHeight()));
 
@@ -2328,8 +2329,10 @@ void hdnesPackEditormainForm::genCustomImage(fstream& file, gameTile t, paletteS
                         memset(gameObjectGenImage.GetAlpha(), 0, 32 * replaceSize * 32 * replaceSize);
                         file << "<img>editorGenImage" + main::intToStr(gameObjectGenImageCnt) + ".png\n";
                     }
+
                     //add flipped tile to image
                     tmp = coreData::cData->images[t.aniFrames[k].img]->imageData.GetSubImage(wxRect(t.aniFrames[k].x, t.aniFrames[k].y, replaceSize, replaceSize));
+
                     if(t.hFlip){
                         tmp = tmp.Mirror(true);
                     }
@@ -2354,11 +2357,14 @@ void hdnesPackEditormainForm::genCustomImage(fstream& file, gameTile t, paletteS
                     //copy pixel data
                     gameObjectGenImage.Paste(tmp, gameObjectGenImageX * replaceSize, gameObjectGenImageY * replaceSize);
                     //copy alpha data
-                    for(int dx = 0; dx < replaceSize; ++dx){
-                        for(int dy = 0; dy < replaceSize; ++dy){
-                            gameObjectGenImage.SetAlpha(gameObjectGenImageX * replaceSize + dx, gameObjectGenImageY * replaceSize + dy, tmp.GetAlpha(dx, dy));
+                    if(tmp.HasAlpha()){
+                        for(int dx = 0; dx < replaceSize; ++dx){
+                            for(int dy = 0; dy < replaceSize; ++dy){
+                                gameObjectGenImage.SetAlpha(gameObjectGenImageX * replaceSize + dx, gameObjectGenImageY * replaceSize + dy, tmp.GetAlpha(dx, dy));
+                            }
                         }
                     }
+
                     //create tmp tile
                     t.aniFrames[k].img = coreData::cData->images.size() + gameObjectGenImageCnt;
                     t.aniFrames[k].x = gameObjectGenImageX * replaceSize;
