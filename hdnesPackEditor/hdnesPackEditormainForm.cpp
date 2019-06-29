@@ -2409,7 +2409,7 @@ void hdnesPackEditormainForm::genCustomImage(fstream& file, gameTile t, paletteS
                     file << "]";
                 }
                 //write line
-                file << "<tile>" << t.writeFrameLine(gObj->frameRanges[j].frameID) << "\n";
+                file << "<tile>" << t.writeFrameLine(gObj->frameRanges[j].frameID, s.brightness) << "\n";
             }
         }
     }

@@ -39,7 +39,7 @@ class gameTile
 
         void readLine(string s);
         string writeLine();
-        string writeFrameLine(int pFrameID);
+        string writeFrameLine(int pFrameID, double pSwapBrightness);
 
         string writeConditionNames();
         bool compareEqual(gameTile& t);

@@ -41,14 +41,14 @@ void gameTile::readLine(string s){
 }
 
 string gameTile::writeLine(){
-    return writeFrameLine(0);
+    return writeFrameLine(0, 1.0);
 }
 
-string gameTile::writeFrameLine(int pFrameID){
+string gameTile::writeFrameLine(int pFrameID, double pSwapBrightness){
     stringstream stream;
     for(int i = 0; i < aniFrames.size(); ++i){
         if(aniFrames[i].frameID == pFrameID){
-            stream << aniFrames[i].img << "," << id.writeID(coreData::cData->verNo >= 103) << "," << id.writePalette() << "," << aniFrames[i].x << "," << aniFrames[i].y << "," << aniFrames[i].brightness << "," << (isDefault ? "Y" : "N");
+            stream << aniFrames[i].img << "," << id.writeID(coreData::cData->verNo >= 103) << "," << id.writePalette() << "," << aniFrames[i].x << "," << aniFrames[i].y << "," << (aniFrames[i].brightness * pSwapBrightness) << "," << (isDefault ? "Y" : "N");
         }
     }
     return stream.str();

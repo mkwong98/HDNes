@@ -30,21 +30,34 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add option="-std=c++11" />
 			<Add option="-fexceptions" />
 			<Add directory="../../../include" />
 		</Compiler>
 		<Linker>
 			<Add option="-lmingw32 -lSDL2main -lSDL2" />
-			<Add library="../../../lib/libwxmsw30u_gl.a" />
-			<Add library="../../../lib/libwxmsw30u.a" />
-			<Add library="../../../lib/libwxscintilla.a" />
-			<Add library="../../../lib/libwxexpat.a" />
-			<Add library="../../../lib/libwxtiff.a" />
-			<Add library="../../../lib/libwxjpeg.a" />
-			<Add library="../../../lib/libwxpng.a" />
-			<Add library="../../../lib/libwxzlib.a" />
-			<Add library="../../../lib/libwxregexu.a" />
+			<Add library="../../../lib/libwx_mswu_gl-3.0.dll.a" />
+			<Add library="../../../lib/libwx_baseu-3.0.dll.a" />
+			<Add library="../../../lib/libwxscintilla-3.0.a" />
+			<Add library="../../../lib/libwxexpat-3.0.a" />
+			<Add library="../../../lib/libwxtiff-3.0.a" />
+			<Add library="../../../lib/libwxjpeg-3.0.a" />
+			<Add library="../../../lib/libwxpng-3.0.a" />
+			<Add library="../../../lib/libwxzlib-3.0.a" />
+			<Add library="../../../lib/libwxregexu-3.0.a" />
+			<Add library="../../../lib/libwx_baseu_net-3.0.dll.a" />
+			<Add library="../../../lib/libwx_baseu_xml-3.0.dll.a" />
+			<Add library="../../../lib/libwx_mswu_adv-3.0.dll.a" />
+			<Add library="../../../lib/libwx_mswu_aui-3.0.dll.a" />
+			<Add library="../../../lib/libwx_mswu_core-3.0.dll.a" />
+			<Add library="../../../lib/libwx_mswu_html-3.0.dll.a" />
+			<Add library="../../../lib/libwx_mswu_media-3.0.dll.a" />
+			<Add library="../../../lib/libwx_mswu_propgrid-3.0.dll.a" />
+			<Add library="../../../lib/libwx_mswu_qa-3.0.dll.a" />
+			<Add library="../../../lib/libwx_mswu_ribbon-3.0.dll.a" />
+			<Add library="../../../lib/libwx_mswu_richtext-3.0.dll.a" />
+			<Add library="../../../lib/libwx_mswu_stc-3.0.dll.a" />
+			<Add library="../../../lib/libwx_mswu_webview-3.0.dll.a" />
+			<Add library="../../../lib/libwx_mswu_xrc-3.0.dll.a" />
 			<Add directory="../../../lib" />
 			<Add directory="C:/Program Files (x86)/CodeBlocks/MinGW/lib" />
 		</Linker>
