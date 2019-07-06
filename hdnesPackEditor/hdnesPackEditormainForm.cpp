@@ -1285,6 +1285,7 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
                     c.vFlip = (ndata->tiles[i].vFlip != t.vFlip);
                     c.name = main::intToStr(conditionCounter++);
                     ndata->tiles[i].conditions.push_back(c);
+                    ndata->tiles[i].conSigns.push_back(false);
                 }
             }
         }
