@@ -1233,8 +1233,8 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
             //add selected tiles to condition
             for(int k = 0; k < gameObjSelectedTiles.size(); ++k){
                 c.id = ndata->tiles[gameObjSelectedTiles[k]].id;
-                c.objCoordX = ndata->tiles[gameObjSelectedTiles[k]].objCoordX - t.objCoordX;
-                c.objCoordY = ndata->tiles[gameObjSelectedTiles[k]].objCoordY - t.objCoordY;
+                c.objCoordX = (t.hFlip ? -1 : 1) * (ndata->tiles[gameObjSelectedTiles[k]].objCoordX - t.objCoordX);
+                c.objCoordY = (t.vFlip ? -1 : 1) * (ndata->tiles[gameObjSelectedTiles[k]].objCoordY - t.objCoordY);
                 c.hFlip = (ndata->tiles[gameObjSelectedTiles[k]].hFlip != t.hFlip);
                 c.vFlip = (ndata->tiles[gameObjSelectedTiles[k]].vFlip != t.vFlip);
                 c.name = main::intToStr(conditionCounter++);

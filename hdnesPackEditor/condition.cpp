@@ -162,6 +162,9 @@ void condition::readLine(string s){
 string condition::writeLine(){
     stringstream stream;
     if(getType() == 1){
+        if(conditionType == "spriteNearby"){
+            id.palette[0] = 0xff;
+        }
         stream << objCoordX << "," << objCoordY << "," << id.writeID(coreData::cData->verNo >= 103) << "," << id.writePalette();
     }
     else if(getType() == 2){
