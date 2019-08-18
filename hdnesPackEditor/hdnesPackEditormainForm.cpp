@@ -2225,7 +2225,7 @@ void hdnesPackEditormainForm::genChildGameObjsConditionPack(fstream& file, wxTre
 void hdnesPackEditormainForm::genGameObjItemConditionPack(fstream& file, wxTreeItemId item){
     gameObjNode* node = (gameObjNode*)(treeGameObjs->GetItemData(item));
     for(int i = 0; i < node->conditions.size(); ++i){
-        file << "<condition>" << node->nodeName << "_" << node->conditions[i].name << "," << node->conditions[i].conditionType << "," << node->conditions[i].writeLine() << "\n";
+        file << "<condition>" << node->nodeName << "_" << node->conditions[i].name << "_" << main::intToStr(i) << "," << node->conditions[i].conditionType << "," << node->conditions[i].writeLine() << "\n";
     }
     if(node->frameRanges.size() > 1){
         int totalFrames = 0;

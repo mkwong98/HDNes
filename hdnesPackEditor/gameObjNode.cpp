@@ -251,7 +251,7 @@ string gameObjNode::writeConditionNames(){
     for(int i = 0; i < conditions.size(); ++i){
         if(i > 0) stream << "&";
         if(conSigns[i]) stream << "!";
-        stream << nodeName << "_" << conditions[i].name;
+        stream << nodeName << "_" << conditions[i].name << "_" << main::intToStr(i);
     }
     return stream.str();
 }
