@@ -1410,6 +1410,8 @@ void hdnesPackEditormainForm::refreshBGImage(){
     spnBGBrightness->SetValue(ndata->brightness * 100);
     spnBGHScrollRate->SetValue(ndata->hScrollRate * 100);
     spnBGVScrollRate->SetValue(ndata->vScrollRate * 100);
+    chkBgShowBehind->SetValue(ndata->showBehindBgSprites);
+
 
     loadConditions();
     drawBGImage();
@@ -2832,6 +2834,15 @@ void hdnesPackEditormainForm::BGImageVScrollRate( wxSpinEvent& event ){
         dataChanged();
     }
 }
+
+void hdnesPackEditormainForm::BGImageShowBehindClicked( wxCommandEvent& event ) {
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
+    if(ndata){
+        ndata->showBehindBgSprites = chkBgShowBehind->GetValue();
+        dataChanged();
+    }
+}
+
 
 void hdnesPackEditormainForm::initHDImg(){
     lstHDImg->AppendColumn(wxString("Name"));

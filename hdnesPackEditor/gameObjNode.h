@@ -50,6 +50,7 @@ class gameObjNode : public wxTreeItemData
         double hScrollRate;
         double vScrollRate;
         string fileName;
+        bool showBehindBgSprites;
 
         vector<gameTile> tiles;
         vector<paletteSwap> swaps;

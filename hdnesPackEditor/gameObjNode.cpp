@@ -21,6 +21,7 @@ gameObjNode::gameObjNode()
     hScrollRate = 0;
     vScrollRate = 0;
     fileName = "";
+    showBehindBgSprites = false;
 
     frameRange f;
     f.frameCnt = 1;
@@ -112,6 +113,9 @@ void gameObjNode::load(fstream& file, wxTreeItemId newItm){
             else if(lineHdr == "<scrollRate>"){
                 hScrollRate = atof(tailStrs[0].c_str());
                 vScrollRate = atof(tailStrs[1].c_str());
+            }
+            else if(lineHdr == "<showBehindBGSprites>"){
+                showBehindBgSprites = (lineTail == "Y");
             }
             else if(lineHdr == "<tiles>"){
                 getline(file, line);
@@ -215,6 +219,7 @@ void gameObjNode::save(fstream& file, wxTreeItemId newItm){
         else if(nodeType == GAME_OBJ_NODE_TYPE_BGIMAGE){
             file << "<fileName>" << fileName << "\n";
             file << "<scrollRate>" << hScrollRate << "," << vScrollRate << "\n";
+            file << "<showBehindBGSprites>" << (showBehindBgSprites ? "Y" : "N") << "\n";
         }
     }
     else{
@@ -258,7 +263,7 @@ string gameObjNode::writeConditionNames(){
 
 string gameObjNode::writeLine(){
     stringstream stream;
-    stream << fileName << "," << brightness << "," << hScrollRate << "," << vScrollRate;
+    stream << fileName << "," << brightness << "," << hScrollRate << "," << vScrollRate << "," << (showBehindBgSprites ? "Y" : "N") ;
     return stream.str();
 }
 

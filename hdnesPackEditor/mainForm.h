@@ -1,12 +1,11 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Jun 17 2015)
+// C++ code generated with wxFormBuilder (version Oct 26 2018)
 // http://www.wxformbuilder.org/
 //
-// PLEASE DO "NOT" EDIT THIS FILE!
+// PLEASE DO *NOT* EDIT THIS FILE!
 ///////////////////////////////////////////////////////////////////////////
 
-#ifndef __MAINFORM_H__
-#define __MAINFORM_H__
+#pragma once
 
 #include <wx/artprov.h>
 #include <wx/xrc/xmlres.h>
@@ -45,10 +44,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 /// Class mainForm
 ///////////////////////////////////////////////////////////////////////////////
-class mainForm : public wxFrame 
+class mainForm : public wxFrame
 {
 	private:
-	
+
 	protected:
 		wxMenuBar* m_menubar;
 		wxMenu* m_menu3;
@@ -126,6 +125,7 @@ class mainForm : public wxFrame
 		wxStaticText* m_staticText57;
 		wxSpinCtrl* spnBGVScrollRate;
 		wxStaticText* m_staticText59;
+		wxCheckBox* chkBgShowBehind;
 		wxPanel* pnlBGImageDisplay;
 		wxPanel* pnlConditions;
 		wxListCtrl* lstConditions;
@@ -208,7 +208,7 @@ class mainForm : public wxFrame
 		wxPanel* pnlRom;
 		wxScrollBar* romVScroll;
 		wxScrollBar* romHScroll;
-		
+
 		// Virtual event handlers, overide them in your derived class
 		virtual void closeWindow( wxCloseEvent& event ) { event.Skip(); }
 		virtual void MenuFileNew( wxCommandEvent& event ) { event.Skip(); }
@@ -261,6 +261,7 @@ class mainForm : public wxFrame
 		virtual void BGImageBrightness( wxSpinEvent& event ) { event.Skip(); }
 		virtual void BGImageHScrollRate( wxSpinEvent& event ) { event.Skip(); }
 		virtual void BGImageVScrollRate( wxSpinEvent& event ) { event.Skip(); }
+		virtual void BGImageShowBehindClicked( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ConditionSelected( wxListEvent& event ) { event.Skip(); }
 		virtual void ConditionTypeSelect( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ConditionAdd( wxCommandEvent& event ) { event.Skip(); }
@@ -296,41 +297,41 @@ class mainForm : public wxFrame
 		virtual void romViewSizeChanged( wxSizeEvent& event ) { event.Skip(); }
 		virtual void romViewVScrolled( wxScrollEvent& event ) { event.Skip(); }
 		virtual void romViewHScrolled( wxScrollEvent& event ) { event.Skip(); }
-		
-	
+
+
 	public:
-		
+
 		mainForm( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("HDNes Graphics Pack Editor"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 980,626 ), long style = wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER|wxTAB_TRAVERSAL );
-		
+
 		~mainForm();
-		
+
 		void m_splitter2OnIdle( wxIdleEvent& )
 		{
 			m_splitter2->SetSashPosition( 150 );
 			m_splitter2->Disconnect( wxEVT_IDLE, wxIdleEventHandler( mainForm::m_splitter2OnIdle ), NULL, this );
 		}
-		
+
 		void m_splitter21OnIdle( wxIdleEvent& )
 		{
 			m_splitter21->SetSashPosition( 250 );
 			m_splitter21->Disconnect( wxEVT_IDLE, wxIdleEventHandler( mainForm::m_splitter21OnIdle ), NULL, this );
 		}
-		
+
 		void m_splitter3OnIdle( wxIdleEvent& )
 		{
 			m_splitter3->SetSashPosition( 250 );
 			m_splitter3->Disconnect( wxEVT_IDLE, wxIdleEventHandler( mainForm::m_splitter3OnIdle ), NULL, this );
 		}
-	
+
 };
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class newProjectDialog
 ///////////////////////////////////////////////////////////////////////////////
-class newProjectDialog : public wxDialog 
+class newProjectDialog : public wxDialog
 {
 	private:
-	
+
 	protected:
 		wxStaticText* m_staticText3;
 		wxFilePickerCtrl* filePickRom;
@@ -338,25 +339,25 @@ class newProjectDialog : public wxDialog
 		wxDirPickerCtrl* dirPickPack;
 		wxStaticText* m_staticText5;
 		wxButton* btnNewProjectOK;
-		
+
 		// Virtual event handlers, overide them in your derived class
 		virtual void fileSelected( wxCommandEvent& event ) { event.Skip(); }
-		
-	
+
+
 	public:
-		
-		newProjectDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Project config"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 517,149 ), long style = wxDEFAULT_DIALOG_STYLE ); 
+
+		newProjectDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Project config"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 517,149 ), long style = wxDEFAULT_DIALOG_STYLE );
 		~newProjectDialog();
-	
+
 };
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class colourSelectDialog
 ///////////////////////////////////////////////////////////////////////////////
-class colourSelectDialog : public wxDialog 
+class colourSelectDialog : public wxDialog
 {
 	private:
-	
+
 	protected:
 		wxPanel* pnlColour00;
 		wxPanel* pnlColour01;
@@ -423,27 +424,27 @@ class colourSelectDialog : public wxDialog
 		wxPanel* pnlColour3E;
 		wxPanel* pnlColour3F;
 		wxStaticText* m_staticText8;
-		
+
 		// Virtual event handlers, overide them in your derived class
 		virtual void colourSelectInit( wxInitDialogEvent& event ) { event.Skip(); }
 		virtual void colourLClick( wxMouseEvent& event ) { event.Skip(); }
 		virtual void colourRClick( wxMouseEvent& event ) { event.Skip(); }
-		
-	
+
+
 	public:
-		
-		colourSelectDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Choose a colour"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 774,288 ), long style = wxDEFAULT_DIALOG_STYLE ); 
+
+		colourSelectDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Choose a colour"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 774,288 ), long style = wxDEFAULT_DIALOG_STYLE );
 		~colourSelectDialog();
-	
+
 };
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class replacementDialog
 ///////////////////////////////////////////////////////////////////////////////
-class replacementDialog : public wxDialog 
+class replacementDialog : public wxDialog
 {
 	private:
-	
+
 	protected:
 		wxStaticText* m_staticText13;
 		wxComboBox* cboImage;
@@ -451,20 +452,19 @@ class replacementDialog : public wxDialog
 		wxCheckBox* chkSnapToGrid;
 		wxPanel* pnlImage;
 		wxButton* m_button9;
-		
+
 		// Virtual event handlers, overide them in your derived class
 		virtual void imageSelected( wxCommandEvent& event ) { event.Skip(); }
 		virtual void mouseClicked( wxMouseEvent& event ) { event.Skip(); }
 		virtual void mouseMoved( wxMouseEvent& event ) { event.Skip(); }
 		virtual void sizeChanged( wxSizeEvent& event ) { event.Skip(); }
 		virtual void replacementConfirm( wxCommandEvent& event ) { event.Skip(); }
-		
-	
+
+
 	public:
-		
-		replacementDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Choose a replacement"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 669,504 ), long style = wxDEFAULT_DIALOG_STYLE|wxMAXIMIZE_BOX|wxMINIMIZE_BOX|wxRESIZE_BORDER ); 
+
+		replacementDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Choose a replacement"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 669,504 ), long style = wxDEFAULT_DIALOG_STYLE|wxMAXIMIZE_BOX|wxMINIMIZE_BOX|wxRESIZE_BORDER );
 		~replacementDialog();
-	
+
 };
 
-#endif //__MAINFORM_H__
