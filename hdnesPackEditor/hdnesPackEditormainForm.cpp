@@ -1378,7 +1378,7 @@ void hdnesPackEditormainForm::refreshNode(){
 
     if(ndata->nodeType == GAME_OBJ_NODE_TYPE_OBJECT){
         pnlObj->Show(true);
-        nbkGameObject->AddPage(pnlObj, wxString("Objection information"));
+        nbkGameObject->AddPage(pnlObj, wxString("Object information"));
         pnlSwaps->Show(true);
         nbkGameObject->AddPage(pnlSwaps, wxString("Palette swaps"));
         pnlConditions->Show(true);
