@@ -950,7 +950,8 @@ void hdnesPackEditormainForm::gameObjsRawRUp( wxMouseEvent& event ){
             menu.Append(GAME_OBJ_PNL_AUTO_CONDITION, wxT("Add condition to untreated tiles"));
 
             if(data->palettes.size() > 0){
-                wxMenu submenu(wxT(""));
+                wxMenu* submenu;
+                submenu = new wxMenu(wxT(""));
                 stringstream s;
                 for(int i = 0; i < data->palettes.size(); ++i){
                     s.str(std::string());
@@ -960,9 +961,10 @@ void hdnesPackEditormainForm::gameObjsRawRUp( wxMouseEvent& event ){
                     s << main::intToHex(data->palettes[i][2]);
                     s << main::intToHex(data->palettes[i][3]);
 
-                    submenu.Append(i + GAME_OBJ_PNL_PALETTE_SELECT_OFFSET, wxString(s.str().c_str()));
+                    submenu->Append(i + GAME_OBJ_PNL_PALETTE_SELECT_OFFSET, wxString(s.str().c_str()));
                 }
-                menu.AppendSubMenu(&submenu, wxT("Select tiles with palette"));
+                menu.AppendSubMenu(submenu, wxT("Select tiles with palette"));
+
             }
 
             //check right click on a selected tile
@@ -989,14 +991,17 @@ void hdnesPackEditormainForm::gameObjsRawRUp( wxMouseEvent& event ){
                     menu.Append(GAME_OBJ_PNL_GROUP_CONDITION, wxT("Set conditions for tiles"));
                 }
                 if(data->isSprite){
-                    wxMenu submenu2(wxT(""));
-                    submenu2.Append(GAME_OBJ_PNL_HFLIP, wxT("Flip direction horizontally"));
-                    submenu2.Append(GAME_OBJ_PNL_VFLIP, wxT("Flip direction vertically"));
+
+                    wxMenu* submenu2;
+                    submenu2 = new wxMenu(wxT(""));
+                    submenu2->Append(GAME_OBJ_PNL_HFLIP, wxT("Flip direction horizontally"));
+                    submenu2->Append(GAME_OBJ_PNL_VFLIP, wxT("Flip direction vertically"));
                     if(gameObjSelectedTiles.size() > 1){
-                        submenu2.Append(GAME_OBJ_PNL_HFLIP2, wxT("Flip direction and location horizontally"));
-                        submenu2.Append(GAME_OBJ_PNL_VFLIP2, wxT("Flip direction and location vertically"));
+                        submenu2->Append(GAME_OBJ_PNL_HFLIP2, wxT("Flip direction and location horizontally"));
+                        submenu2->Append(GAME_OBJ_PNL_VFLIP2, wxT("Flip direction and location vertically"));
                     }
-                    menu.AppendSubMenu(&submenu2, wxT("Flip tiles"));
+                    menu.AppendSubMenu(submenu2, wxT("Flip tiles"));
+
                 }
             }
             else{
@@ -1292,6 +1297,7 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
         coreData::cData->dataChanged();
         break;
     default:
+
         if(event.GetId() >= GAME_OBJ_PNL_PALETTE_SELECT_OFFSET){
             offset = event.GetId() - GAME_OBJ_PNL_PALETTE_SELECT_OFFSET;
             gameObjSelectedTiles.clear();
@@ -1307,6 +1313,7 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
             }
             drawGameObjEdits();
         }
+
         break;
     }
 }
