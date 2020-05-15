@@ -2245,7 +2245,7 @@ void hdnesPackEditormainForm::genGameObjItemConditionPack(fstream& file, wxTreeI
         frameCounter = totalFrames;
         for(int i = node->frameRanges.size() - 1; i > 0; --i){
             frameCounter -= node->frameRanges[i].frameCnt;
-            file << "<condition>" << node->nodeName << "_" << node->frameRanges[i].frameName << ",frameRange," << main::intToHex(totalFrames) << "," << main::intToHex(frameCounter) << "\n";
+            file << "<condition>" << node->nodeName << "_" << node->frameRanges[i].frameName << ",frameRange," << (coreData::cData->verNo >= 103 ? main::intToStr(totalFrames) : main::intToHex(totalFrames)) << "," << (coreData::cData->verNo >= 103 ? main::intToStr(frameCounter) : main::intToHex(frameCounter)) << "\n";
         }
     }
     for(int i = 0; i < node->tiles.size(); ++i){
