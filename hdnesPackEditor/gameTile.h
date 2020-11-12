@@ -45,6 +45,7 @@ class gameTile
         bool compareEqual(gameTile& t);
         void load(fstream& file);
         void save(fstream& file);
+        gameTile clone();
     protected:
 
     private:

@@ -807,7 +807,9 @@ void hdnesPackEditormainForm::gameObjTItemOpenMenu( wxTreeEvent& event ){
         }
         menu.Append(GAME_OBJ_NODE_MENU_MOVE_TO_FOLDER, wxT("Move to folder"));
     }
-
+    if(data->nodeType == GAME_OBJ_NODE_TYPE_OBJECT){
+        menu.Append(GAME_OBJ_NODE_MENU_CLONE_OBJECT, wxT("Clone"));
+    }
     menu.Connect( wxEVT_MENU, wxCommandEventHandler(hdnesPackEditormainForm::gameObjsTreeMenu), NULL, this );
     treeGameObjs->PopupMenu(&menu, event.GetPoint());
 }
@@ -881,6 +883,20 @@ void hdnesPackEditormainForm::gameObjsTreeMenu( wxCommandEvent& event ){
         gameObjectTreeWillMove = false;
         gameObjsMoveTreeItem(tItmGameObjMove, tItmGameObjMenu, treeGameObjs->GetLastChild(tItmGameObjMenu));
         gameObjsCancelWillMove(tItmGameObjRoot);
+        coreData::cData->dataChanged();
+        break;
+    case GAME_OBJ_NODE_MENU_CLONE_OBJECT:
+        gameObjNode* data = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
+
+        node = data->clone();
+        newItm = treeGameObjs->AppendItem(treeGameObjs->GetItemParent(tItmGameObjMenu), wxString(node->nodeName), -1, -1, node);
+        treeGameObjs->Expand(tItmGameObjMenu);
+        treeGameObjs->EditLabel(newItm);
+        treeGameObjs->SetFocusedItem(newItm);
+        tItmGameObjMenu = newItm;
+        gameObjSelectedTiles.clear();
+        refreshNode();
+
         coreData::cData->dataChanged();
         break;
     }
@@ -1398,16 +1414,19 @@ void hdnesPackEditormainForm::refreshNode(){
         nbkGameObject->AddPage(pnlBGImage, wxString("Background"), false);
         pnlConditions->Show(true);
         nbkGameObject->AddPage(pnlConditions, wxString("Conditions"), false);
-   }
+    }
     loadingTab = false;
+
     nbkGameObject->Refresh();
     nbkGameObject->Update();
+
     if(ndata->nodeType == GAME_OBJ_NODE_TYPE_OBJECT){
         refreshGameObj();
     }
     else{
         refreshBGImage();
     }
+
 }
 
 void hdnesPackEditormainForm::refreshBGImage(){
@@ -1483,11 +1502,13 @@ void hdnesPackEditormainForm::refreshGameObj(){
     loadFrameRanges();
 
     drawGameObj();
+
     adjustGameObjSize();
     drawGameObjEdits();
 
     loadSwaps();
     loadConditions();
+
 }
 
 void hdnesPackEditormainForm::refreshCboFrameRange(gameObjNode* ndata){

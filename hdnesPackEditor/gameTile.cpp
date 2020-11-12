@@ -171,6 +171,25 @@ void gameTile::save(fstream& file){
     file << "<endGameTile>\n";
 }
 
+gameTile gameTile::clone(){
+    gameTile c = gameTile();
+    c.id = id.clone();
+    c.objCoordX = objCoordX;
+    c.objCoordY = objCoordY;
+    c.hFlip = hFlip;
+    c.vFlip = vFlip;
+    for(int i = 0; i < aniFrames.size(); i++){
+        c.aniFrames.push_back(aniFrames[i]);
+    }
+    for(int i = 0; i < conditions.size(); i++){
+        c.conditions.push_back(conditions[i].clone());
+    }
+    for(int i = 0; i < conSigns.size(); i++){
+        c.conSigns.push_back(conSigns[i]);
+    }
+    return c;
+}
+
 string gameTile::writeConditionNames(){
     stringstream stream;
     for(int i = 0; i < conditions.size(); ++i){

@@ -72,3 +72,18 @@ void paletteSwap::save(fstream& file){
     file << "<change>" << brightness << "," << hueRotation << "," << saturation << "\n";
     file << "<endPaletteSwap>\n";
 }
+
+paletteSwap paletteSwap::clone(){
+    paletteSwap p = paletteSwap();
+    p.brightness = brightness;
+    p.hueRotation = hueRotation;
+    p.name = name;
+    for(int i = 0; i < newPalettes.size(); i++){
+        p.newPalettes.push_back(newPalettes[i]);
+    }
+    for(int i = 0; i < orgPalettes.size(); i++){
+        p.orgPalettes.push_back(orgPalettes[i]);
+    }
+    p.saturation = saturation;
+    return p;
+}

@@ -101,3 +101,14 @@ void tileReference::save(fstream& file){
     file << "<endTileReference>\n";
 }
 
+tileReference tileReference::clone(){
+    tileReference t;
+    t.id = id;
+    for(int i = 0; i < 4; i++){
+        t.palette[i] = palette[i];
+    }
+    for(int i = 0; i < 16; i++){
+        t.rawData[i] = rawData[i];
+    }
+    return t;
+}

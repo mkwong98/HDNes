@@ -38,6 +38,7 @@ class condition
         void save(fstream& file);
         bool isMatch(gameTile& owner, gameTile& conditionTile);
         int getType();
+        condition clone();
 
     protected:
 

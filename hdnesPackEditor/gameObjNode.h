@@ -18,6 +18,7 @@
 #define GAME_OBJ_NODE_MENU_MOVE_DOWN    6
 #define GAME_OBJ_NODE_MENU_MOVE_TO_FOLDER   7
 #define GAME_OBJ_NODE_MENU_MOVE_HERE    8
+#define GAME_OBJ_NODE_MENU_CLONE_OBJECT 9
 
 struct frameRange{
     int frameID;
@@ -67,6 +68,7 @@ class gameObjNode : public wxTreeItemData
         void load(fstream& file, wxTreeItemId newItm);
         void save(fstream& file, wxTreeItemId newItm);
         void updatePalettes();
+        gameObjNode* clone();
         string writeLine();
         string writeConditionNames();
     protected:

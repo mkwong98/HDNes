@@ -3951,13 +3951,13 @@
 	"coreData.h"
 	"main.h"
 
-1564552673 source:d:\work\hdnes\trunk\hdnespackeditor\condition.cpp
+1605194635 source:d:\work\hdnes\trunk\hdnespackeditor\condition.cpp
 	"condition.h"
 	"coreData.h"
 	"gameTile.h"
 	"main.h"
 
-1561782682 d:\work\hdnes\trunk\hdnespackeditor\condition.h
+1604751097 d:\work\hdnes\trunk\hdnespackeditor\condition.h
 	"common.h"
 	"classList.h"
 	"tileReference.h"
@@ -5485,7 +5485,7 @@
 
 1561782682 d:\work\hdnes\trunk\hdnespackeditor\classlist.h
 
-1561782682 d:\work\hdnes\trunk\hdnespackeditor\tilereference.h
+1605194127 d:\work\hdnes\trunk\hdnespackeditor\tilereference.h
 	"common.h"
 
 1561782682 d:\work\hdnes\trunk\hdnespackeditor\coredata.h
@@ -7222,7 +7222,7 @@
 1520441738 d:\work\include\wx\cocoa\mdi.h
 	"wx/frame.h"
 
-1561808887 d:\work\hdnes\trunk\hdnespackeditor\gametile.h
+1604752180 d:\work\hdnes\trunk\hdnespackeditor\gametile.h
 	"common.h"
 	"classList.h"
 	"condition.h"
@@ -7510,7 +7510,7 @@
 
 1561782682 d:\work\hdnes\trunk\hdnespackeditor\colourdialogclient.h
 
-1585990253 d:\work\hdnes\trunk\hdnespackeditor\gameobjnode.h
+1604750244 d:\work\hdnes\trunk\hdnespackeditor\gameobjnode.h
 	"common.h"
 	"gameTile.h"
 	<wx/treebase.h>
@@ -7518,17 +7518,17 @@
 1561782682 d:\work\hdnes\trunk\hdnespackeditor\hdnespackeditornewprojectdialog.h
 	"mainForm.h"
 
-1585990968 source:d:\work\hdnes\trunk\hdnespackeditor\gameobjnode.cpp
+1605196382 source:d:\work\hdnes\trunk\hdnespackeditor\gameobjnode.cpp
 	"gameObjNode.h"
 	"gameTile.h"
 	"paletteSwap.h"
 	"main.h"
 	"hdnesPackEditormainForm.h"
 
-1561782682 d:\work\hdnes\trunk\hdnespackeditor\paletteswap.h
+1604752360 d:\work\hdnes\trunk\hdnespackeditor\paletteswap.h
 	"common.h"
 
-1561808996 source:d:\work\hdnes\trunk\hdnespackeditor\gametile.cpp
+1605195154 source:d:\work\hdnes\trunk\hdnespackeditor\gametile.cpp
 	"common.h"
 	"coreData.h"
 	"gameObjNode.h"
@@ -7572,7 +7572,7 @@
 	"wx/gdicmn.h"
 	"wx/dialog.h"
 
-1588481832 source:d:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.cpp
+1605196382 source:d:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.cpp
 	"hdnesPackEditormainForm.h"
 	"hdnesPackEditornewProjectDialog.h"
 	"hdnesPackEditorcolourSelectDialog.h"
@@ -7664,11 +7664,11 @@
 1585989500 source:d:\work\hdnes\trunk\hdnespackeditor\mainform.cpp
 	"mainForm.h"
 
-1561782682 source:d:\work\hdnes\trunk\hdnespackeditor\paletteswap.cpp
+1604761296 source:d:\work\hdnes\trunk\hdnespackeditor\paletteswap.cpp
 	"paletteSwap.h"
 	"main.h"
 
-1561782682 source:d:\work\hdnes\trunk\hdnespackeditor\tilereference.cpp
+1605194493 source:d:\work\hdnes\trunk\hdnespackeditor\tilereference.cpp
 	"tileReference.h"
 	"coreData.h"
 	"main.h"

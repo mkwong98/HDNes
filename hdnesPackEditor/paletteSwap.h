@@ -18,7 +18,7 @@ class paletteSwap
 
         void load(fstream& file);
         void save(fstream& file);
-
+        paletteSwap clone();
     protected:
 
     private:

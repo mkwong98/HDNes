@@ -21,6 +21,7 @@ class tileReference
         string writeID(bool useHex);
         void readPalette(string s);
         string writePalette();
+        tileReference clone();
 
     protected:
 

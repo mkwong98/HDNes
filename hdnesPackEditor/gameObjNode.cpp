@@ -37,6 +37,9 @@ gameObjNode::~gameObjNode()
 }
 
 void gameObjNode::addTile(gameTile g){
+    if(isSprite){
+        g.id.palette[0] = 0xff;
+    }
     tiles.push_back(g);
     addToObjectSize(tiles.size() - 1);
 }
@@ -249,6 +252,42 @@ void gameObjNode::updatePalettes(){
             palettes.push_back(p);
         }
     }
+}
+
+gameObjNode* gameObjNode::clone(){
+    gameObjNode* n = new gameObjNode();
+
+    n->nodeType = nodeType;
+    n->nodeName = nodeName;
+    n->brightness = brightness;
+
+
+    for(int i = 0; i < conditions.size(); ++i){
+        n->conditions.push_back(conditions[i].clone());
+    }
+    for(int i = 0; i < conSigns.size(); ++i){
+        n->conSigns.push_back(conSigns[i]);
+    }
+    n->frameRanges.clear();
+    for(int i = 0; i < frameRanges.size(); ++i){
+        n->frameRanges.push_back(frameRanges[i]);
+    }
+    n->bgColour = bgColour;
+    n->isSprite = isSprite;
+    n->isDefault = isDefault;
+
+    for(int i = 0; i < tiles.size(); ++i){
+        n->addTile(tiles[i].clone());
+    }
+
+    for(int i = 0; i < swaps.size(); ++i){
+        n->swaps.push_back(swaps[i].clone());
+    }
+    n->fileName = fileName;
+    n->hScrollRate = hScrollRate;
+    n->vScrollRate = vScrollRate;
+    n->updatePalettes();
+    return n;
 }
 
 string gameObjNode::writeConditionNames(){

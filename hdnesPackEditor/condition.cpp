@@ -175,3 +175,20 @@ string condition::writeLine(){
     }
     return stream.str();
 }
+
+condition condition::clone(){
+    condition c = condition();
+    c.id = id.clone();
+    c.conditionType = conditionType;
+    c.name = name;
+    c.objCoordX = objCoordX;
+    c.objCoordY = objCoordY;
+    c.hFlip = hFlip;
+    c.vFlip = vFlip;
+    c.address = address;
+    c.op = op;
+    c.value = value;
+    c.frame1 = frame1;
+    c.frame2 = frame2;
+    return c;
+}
