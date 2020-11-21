@@ -1916,3 +1916,73 @@ replacementDialog::~replacementDialog()
 	m_button9->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( replacementDialog::replacementConfirm ), NULL, this );
 
 }
+
+paletteDialog::paletteDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+
+	wxBoxSizer* bSizer7;
+	bSizer7 = new wxBoxSizer( wxVERTICAL );
+
+	wxBoxSizer* bSizer70;
+	bSizer70 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText10 = new wxStaticText( this, wxID_ANY, wxT("Choose a new palette: "), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText10->Wrap( -1 );
+	bSizer70->Add( m_staticText10, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+
+	btnPaletteBGColour = new wxButton( this, wxID_ANY, wxT("BG"), wxDefaultPosition, wxSize( 50,-1 ), 0 );
+	bSizer70->Add( btnPaletteBGColour, 0, wxALIGN_CENTER_VERTICAL, 5 );
+
+	btnPaletteColour1 = new wxButton( this, wxID_ANY, wxT("1"), wxDefaultPosition, wxSize( 50,-1 ), 0 );
+	bSizer70->Add( btnPaletteColour1, 0, wxALIGN_CENTER_VERTICAL, 5 );
+
+	btnPaletteColour2 = new wxButton( this, wxID_ANY, wxT("2"), wxDefaultPosition, wxSize( 50,-1 ), 0 );
+	bSizer70->Add( btnPaletteColour2, 0, wxALIGN_CENTER_VERTICAL, 5 );
+
+	btnPaletteColour3 = new wxButton( this, wxID_ANY, wxT("3"), wxDefaultPosition, wxSize( 50,-1 ), 0 );
+	bSizer70->Add( btnPaletteColour3, 0, wxALIGN_CENTER_VERTICAL, 5 );
+
+	txtPaletteHex = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	#ifdef __WXGTK__
+	if ( !txtPaletteHex->HasFlag( wxTE_MULTILINE ) )
+	{
+	txtPaletteHex->SetMaxLength( 8 );
+	}
+	#else
+	txtPaletteHex->SetMaxLength( 8 );
+	#endif
+	bSizer70->Add( txtPaletteHex, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+
+	btnPaletteOK = new wxButton( this, wxID_ANY, wxT("OK"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer70->Add( btnPaletteOK, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+
+
+	bSizer7->Add( bSizer70, 1, wxEXPAND, 5 );
+
+
+	this->SetSizer( bSizer7 );
+	this->Layout();
+
+	this->Centre( wxBOTH );
+
+	// Connect Events
+	btnPaletteBGColour->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( paletteDialog::paletteBGColour ), NULL, this );
+	btnPaletteColour1->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( paletteDialog::paletteColour1 ), NULL, this );
+	btnPaletteColour2->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( paletteDialog::paletteColour2 ), NULL, this );
+	btnPaletteColour3->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( paletteDialog::paletteColour3 ), NULL, this );
+	txtPaletteHex->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( paletteDialog::paletteHexChanged ), NULL, this );
+	btnPaletteOK->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( paletteDialog::paletteSelected ), NULL, this );
+}
+
+paletteDialog::~paletteDialog()
+{
+	// Disconnect Events
+	btnPaletteBGColour->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( paletteDialog::paletteBGColour ), NULL, this );
+	btnPaletteColour1->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( paletteDialog::paletteColour1 ), NULL, this );
+	btnPaletteColour2->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( paletteDialog::paletteColour2 ), NULL, this );
+	btnPaletteColour3->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( paletteDialog::paletteColour3 ), NULL, this );
+	txtPaletteHex->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( paletteDialog::paletteHexChanged ), NULL, this );
+	btnPaletteOK->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( paletteDialog::paletteSelected ), NULL, this );
+
+}

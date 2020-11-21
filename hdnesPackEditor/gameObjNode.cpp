@@ -1,3 +1,4 @@
+#include "coreData.h"
 #include "gameObjNode.h"
 #include "gameTile.h"
 #include "paletteSwap.h"
@@ -302,7 +303,7 @@ string gameObjNode::writeConditionNames(){
 
 string gameObjNode::writeLine(){
     stringstream stream;
-    stream << fileName << "," << brightness << "," << hScrollRate << "," << vScrollRate << "," << (showBehindBgSprites ? "Y" : "N") ;
+    stream << fileName << "," << brightness << "," << hScrollRate << "," << vScrollRate << "," << (coreData::cData->verNo >= 106 ? (showBehindBgSprites ? "0" : "10") : (showBehindBgSprites ? "Y" : "N")) ;
     return stream.str();
 }
 

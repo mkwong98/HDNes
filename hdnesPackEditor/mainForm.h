@@ -468,3 +468,35 @@ class replacementDialog : public wxDialog
 
 };
 
+///////////////////////////////////////////////////////////////////////////////
+/// Class paletteDialog
+///////////////////////////////////////////////////////////////////////////////
+class paletteDialog : public wxDialog
+{
+	private:
+
+	protected:
+		wxStaticText* m_staticText10;
+		wxButton* btnPaletteBGColour;
+		wxButton* btnPaletteColour1;
+		wxButton* btnPaletteColour2;
+		wxButton* btnPaletteColour3;
+		wxTextCtrl* txtPaletteHex;
+		wxButton* btnPaletteOK;
+
+		// Virtual event handlers, overide them in your derived class
+		virtual void paletteBGColour( wxCommandEvent& event ) { event.Skip(); }
+		virtual void paletteColour1( wxCommandEvent& event ) { event.Skip(); }
+		virtual void paletteColour2( wxCommandEvent& event ) { event.Skip(); }
+		virtual void paletteColour3( wxCommandEvent& event ) { event.Skip(); }
+		virtual void paletteHexChanged( wxCommandEvent& event ) { event.Skip(); }
+		virtual void paletteSelected( wxCommandEvent& event ) { event.Skip(); }
+
+
+	public:
+
+		paletteDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 574,68 ), long style = wxDEFAULT_DIALOG_STYLE );
+		~paletteDialog();
+
+};
+

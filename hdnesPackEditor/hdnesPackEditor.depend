@@ -7245,14 +7245,15 @@
 1561782682 d:\work\hdnes\trunk\hdnespackeditor\image.h
 	"common.h"
 
-1585990029 d:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.h
+1605864412 d:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.h
 	"common.h"
 	"mainForm.h"
 	"colourDialogClient.h"
+	"paletteDialogClient.h"
 	"gameObjNode.h"
 	"classList.h"
 
-1585989500 d:\work\hdnes\trunk\hdnespackeditor\mainform.h
+1605854357 d:\work\hdnes\trunk\hdnespackeditor\mainform.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/string.h>
@@ -7518,7 +7519,8 @@
 1561782682 d:\work\hdnes\trunk\hdnespackeditor\hdnespackeditornewprojectdialog.h
 	"mainForm.h"
 
-1605196382 source:d:\work\hdnes\trunk\hdnespackeditor\gameobjnode.cpp
+1605370594 source:d:\work\hdnes\trunk\hdnespackeditor\gameobjnode.cpp
+	"coreData.h"
 	"gameObjNode.h"
 	"gameTile.h"
 	"paletteSwap.h"
@@ -7572,11 +7574,12 @@
 	"wx/gdicmn.h"
 	"wx/dialog.h"
 
-1605196382 source:d:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.cpp
+1605888118 source:d:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.cpp
 	"hdnesPackEditormainForm.h"
 	"hdnesPackEditornewProjectDialog.h"
 	"hdnesPackEditorcolourSelectDialog.h"
 	"hdnesPackEditorreplacementDialog.h"
+	"hdnesPackEditorpaletteDialog.h"
 	"coreData.h"
 	"main.h"
 	"common.h"
@@ -7661,7 +7664,7 @@
 	"hdnesPackEditormainForm.h"
 	"main.h"
 
-1585989500 source:d:\work\hdnes\trunk\hdnespackeditor\mainform.cpp
+1605855896 source:d:\work\hdnes\trunk\hdnespackeditor\mainform.cpp
 	"mainForm.h"
 
 1604761296 source:d:\work\hdnes\trunk\hdnespackeditor\paletteswap.cpp
@@ -7672,4 +7675,18 @@
 	"tileReference.h"
 	"coreData.h"
 	"main.h"
+
+1605863515 d:\work\hdnes\trunk\hdnespackeditor\hdnespackeditorpalettedialog.h
+	"common.h"
+	"mainForm.h"
+	"colourDialogClient.h"
+	"paletteDialogClient.h"
+	"hdnesPackEditorcolourSelectDialog.h"
+
+1605863618 source:d:\work\hdnes\trunk\hdnespackeditor\hdnespackeditorpalettedialog.cpp
+	"hdnesPackEditorpaletteDialog.h"
+	"coreData.h"
+	"main.h"
+
+1605862953 d:\work\hdnes\trunk\hdnespackeditor\palettedialogclient.h
 

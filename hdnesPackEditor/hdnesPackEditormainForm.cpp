@@ -2,6 +2,7 @@
 #include "hdnesPackEditornewProjectDialog.h"
 #include "hdnesPackEditorcolourSelectDialog.h"
 #include "hdnesPackEditorreplacementDialog.h"
+#include "hdnesPackEditorpaletteDialog.h"
 #include "coreData.h"
 #include "main.h"
 #include "common.h"
@@ -968,6 +969,8 @@ void hdnesPackEditormainForm::gameObjsRawRUp( wxMouseEvent& event ){
             if(data->palettes.size() > 0){
                 wxMenu* submenu;
                 submenu = new wxMenu(wxT(""));
+                wxMenu* submenu2;
+                submenu2 = new wxMenu(wxT(""));
                 stringstream s;
                 for(int i = 0; i < data->palettes.size(); ++i){
                     s.str(std::string());
@@ -978,9 +981,10 @@ void hdnesPackEditormainForm::gameObjsRawRUp( wxMouseEvent& event ){
                     s << main::intToHex(data->palettes[i][3]);
 
                     submenu->Append(i + GAME_OBJ_PNL_PALETTE_SELECT_OFFSET, wxString(s.str().c_str()));
+                    submenu2->Append(i + GAME_OBJ_PNL_PALETTE_SELECT_OFFSET2, wxString(s.str().c_str()));
                 }
                 menu.AppendSubMenu(submenu, wxT("Select tiles with palette"));
-
+                menu.AppendSubMenu(submenu2, wxT("Replace palette"));
             }
 
             //check right click on a selected tile
@@ -1039,6 +1043,7 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
     int clickedX;
     int clickedY;
     hdnesPackEditorreplacementDialog* fp;
+    hdnesPackEditorpaletteDialog* palD;
     vector<gameTile> selectedTiles;
     int offset;
     int uniqueTileID;
@@ -1315,23 +1320,97 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
     default:
 
         if(event.GetId() >= GAME_OBJ_PNL_PALETTE_SELECT_OFFSET){
-            offset = event.GetId() - GAME_OBJ_PNL_PALETTE_SELECT_OFFSET;
-            gameObjSelectedTiles.clear();
             ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
-            for(int i = 0; i < ndata->tiles.size(); ++i){
-                if(ndata->tiles[i].id.palette[0] == ndata->palettes[offset][0]
-                && ndata->tiles[i].id.palette[1] == ndata->palettes[offset][1]
-                && ndata->tiles[i].id.palette[2] == ndata->palettes[offset][2]
-                && ndata->tiles[i].id.palette[3] == ndata->palettes[offset][3]
-                ){
-                    gameObjSelectedTiles.push_back(i);
+            if(event.GetId() < GAME_OBJ_PNL_PALETTE_SELECT_OFFSET2){
+                offset = event.GetId() - GAME_OBJ_PNL_PALETTE_SELECT_OFFSET;
+                gameObjSelectedTiles.clear();
+                for(int i = 0; i < ndata->tiles.size(); ++i){
+                    if(ndata->tiles[i].id.palette[0] == ndata->palettes[offset][0]
+                    && ndata->tiles[i].id.palette[1] == ndata->palettes[offset][1]
+                    && ndata->tiles[i].id.palette[2] == ndata->palettes[offset][2]
+                    && ndata->tiles[i].id.palette[3] == ndata->palettes[offset][3]
+                    ){
+                        gameObjSelectedTiles.push_back(i);
+                    }
                 }
+            }
+            else{
+                offset = event.GetId() - GAME_OBJ_PNL_PALETTE_SELECT_OFFSET2;
+                paletteToReplace = offset;
+                ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
+                palD = new hdnesPackEditorpaletteDialog(this);
+                palD->setPalette(ndata->palettes[offset]);
+                palD->setClient(this);
+                palD->Show(true);
+
             }
             drawGameObjEdits();
         }
 
         break;
     }
+}
+
+void hdnesPackEditormainForm::paletteSelected(Uint8* p){
+    gameObjNode* ndata;
+    ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
+    if(p[0] != 0xff){
+        ndata->bgColour = p[0];
+    }
+    for(int i = 0; i < ndata->tiles.size(); ++i){
+        if(ndata->tiles[i].id.palette[0] == ndata->palettes[paletteToReplace][0]
+        && ndata->tiles[i].id.palette[1] == ndata->palettes[paletteToReplace][1]
+        && ndata->tiles[i].id.palette[2] == ndata->palettes[paletteToReplace][2]
+        && ndata->tiles[i].id.palette[3] == ndata->palettes[paletteToReplace][3]
+        ){
+            ndata->tiles[i].id.palette[1] = p[1];
+            ndata->tiles[i].id.palette[2] = p[2];
+            ndata->tiles[i].id.palette[3] = p[3];
+        }
+        ndata->tiles[i].id.palette[0] = p[0];
+    }
+    for(int i = 0; i < ndata->conditions.size(); ++i){
+        if(ndata->conditions[i].id.palette[0] == ndata->palettes[paletteToReplace][0]
+        && ndata->conditions[i].id.palette[1] == ndata->palettes[paletteToReplace][1]
+        && ndata->conditions[i].id.palette[2] == ndata->palettes[paletteToReplace][2]
+        && ndata->conditions[i].id.palette[3] == ndata->palettes[paletteToReplace][3]
+        ){
+            ndata->conditions[i].id.palette[0] = p[0];
+            ndata->conditions[i].id.palette[1] = p[1];
+            ndata->conditions[i].id.palette[2] = p[2];
+            ndata->conditions[i].id.palette[3] = p[3];
+        }
+    }
+
+    for(int i = 0; i < ndata->swaps.size(); ++i){
+        for(int j = 0; j < ndata->swaps[i].orgPalettes.size(); ++j){
+            if(ndata->swaps[i].orgPalettes[j][0] == ndata->palettes[paletteToReplace][0]
+            && ndata->swaps[i].orgPalettes[j][1] == ndata->palettes[paletteToReplace][1]
+            && ndata->swaps[i].orgPalettes[j][2] == ndata->palettes[paletteToReplace][2]
+            && ndata->swaps[i].orgPalettes[j][3] == ndata->palettes[paletteToReplace][3]
+            ){
+                ndata->swaps[i].orgPalettes[j][0] = p[0];
+                ndata->swaps[i].orgPalettes[j][1] = p[1];
+                ndata->swaps[i].orgPalettes[j][2] = p[2];
+                ndata->swaps[i].orgPalettes[j][3] = p[3];
+            }
+        }
+        for(int j = 0; j < ndata->swaps[i].newPalettes.size(); ++j){
+            if(ndata->swaps[i].newPalettes[j][0] == ndata->palettes[paletteToReplace][0]
+            && ndata->swaps[i].newPalettes[j][1] == ndata->palettes[paletteToReplace][1]
+            && ndata->swaps[i].newPalettes[j][2] == ndata->palettes[paletteToReplace][2]
+            && ndata->swaps[i].newPalettes[j][3] == ndata->palettes[paletteToReplace][3]
+            ){
+                ndata->swaps[i].newPalettes[j][0] = p[0];
+                ndata->swaps[i].newPalettes[j][1] = p[1];
+                ndata->swaps[i].newPalettes[j][2] = p[2];
+                ndata->swaps[i].newPalettes[j][3] = p[3];
+            }
+        }
+    }
+    ndata->updatePalettes();
+    refreshGameObj();
+    coreData::cData->dataChanged();
 }
 
 void hdnesPackEditormainForm::setReplacement(int imageID, int x, int y){
