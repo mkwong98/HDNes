@@ -13,6 +13,8 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="include" />
+					<Add directory="../hdnesPackEditor" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -22,6 +24,8 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="include" />
+					<Add directory="../hdnesPackEditor" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -74,6 +78,8 @@
 		<Unit filename="gameTile.h" />
 		<Unit filename="hdnesPackEditorcolourSelectDialog.cpp" />
 		<Unit filename="hdnesPackEditorcolourSelectDialog.h" />
+		<Unit filename="hdnesPackEditorimageDialog.cpp" />
+		<Unit filename="hdnesPackEditorimageDialog.h" />
 		<Unit filename="hdnesPackEditormainForm.cpp" />
 		<Unit filename="hdnesPackEditormainForm.h" />
 		<Unit filename="hdnesPackEditornewProjectDialog.cpp" />
@@ -84,6 +90,7 @@
 		<Unit filename="hdnesPackEditorreplacementDialog.h" />
 		<Unit filename="image.cpp" />
 		<Unit filename="image.h" />
+		<Unit filename="imageDialogClient.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="main.h" />
 		<Unit filename="mainForm.cpp" />

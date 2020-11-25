@@ -55,10 +55,12 @@ class gameObjNode : public wxTreeItemData
 
         vector<gameTile> tiles;
         vector<paletteSwap> swaps;
-        vector<array<Uint8, 4>> palettes;
         vector<condition> conditions;
         vector<bool> conSigns;
         vector<frameRange> frameRanges;
+
+        vector<array<Uint8, 4>> palettes;
+        vector<int> images;
 
         void addTile(gameTile g);
         void addToObjectSize(int gIdx);
@@ -68,6 +70,7 @@ class gameObjNode : public wxTreeItemData
         void load(fstream& file, wxTreeItemId newItm);
         void save(fstream& file, wxTreeItemId newItm);
         void updatePalettes();
+        void updateImages();
         gameObjNode* clone();
         string writeLine();
         string writeConditionNames();

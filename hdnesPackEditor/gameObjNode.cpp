@@ -130,6 +130,7 @@ void gameObjNode::load(fstream& file, wxTreeItemId newItm){
                     getline(file, line);
                 }
                 updatePalettes();
+                updateImages();
             }
             else if(lineHdr == "<swaps>"){
                 getline(file, line);
@@ -255,6 +256,26 @@ void gameObjNode::updatePalettes(){
     }
 }
 
+void gameObjNode::updateImages(){
+    bool imageFound;
+    images.clear();
+    for(int i = 0; i < tiles.size(); ++i){
+        for(int j = 0; j < tiles[i].aniFrames.size(); ++j){
+            if(tiles[i].aniFrames[j].hasReplacement){
+                imageFound = false;
+                for(int k = 0; k < images.size(); ++k){
+                    if(images[k] == tiles[i].aniFrames[j].img){
+                        imageFound = true;
+                    }
+                }
+                if(!imageFound){
+                    images.push_back(tiles[i].aniFrames[j].img);
+                }
+            }
+        }
+    }
+}
+
 gameObjNode* gameObjNode::clone(){
     gameObjNode* n = new gameObjNode();
 
@@ -288,6 +309,7 @@ gameObjNode* gameObjNode::clone(){
     n->hScrollRate = hScrollRate;
     n->vScrollRate = vScrollRate;
     n->updatePalettes();
+    n->updateImages();
     return n;
 }
 

@@ -500,3 +500,26 @@ class paletteDialog : public wxDialog
 
 };
 
+///////////////////////////////////////////////////////////////////////////////
+/// Class imageDialog
+///////////////////////////////////////////////////////////////////////////////
+class imageDialog : public wxDialog
+{
+	private:
+
+	protected:
+		wxStaticText* m_staticText13;
+		wxComboBox* cboImage;
+		wxButton* btnImageOK;
+
+		// Virtual event handlers, overide them in your derived class
+		virtual void imageSelected( wxCommandEvent& event ) { event.Skip(); }
+
+
+	public:
+
+		imageDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE );
+		~imageDialog();
+
+};
+

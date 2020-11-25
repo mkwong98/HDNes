@@ -3,6 +3,7 @@
 #include "hdnesPackEditorcolourSelectDialog.h"
 #include "hdnesPackEditorreplacementDialog.h"
 #include "hdnesPackEditorpaletteDialog.h"
+#include "hdnesPackEditorimageDialog.h"
 #include "coreData.h"
 #include "main.h"
 #include "common.h"
@@ -890,11 +891,13 @@ void hdnesPackEditormainForm::gameObjsTreeMenu( wxCommandEvent& event ){
         gameObjNode* data = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
 
         node = data->clone();
+
         newItm = treeGameObjs->AppendItem(treeGameObjs->GetItemParent(tItmGameObjMenu), wxString(node->nodeName), -1, -1, node);
-        treeGameObjs->Expand(tItmGameObjMenu);
+        treeGameObjs->Expand(newItm);
         treeGameObjs->EditLabel(newItm);
         treeGameObjs->SetFocusedItem(newItm);
         tItmGameObjMenu = newItm;
+        renameChildGameObjItemConditions(tItmGameObjMenu);
         gameObjSelectedTiles.clear();
         refreshNode();
 
@@ -986,6 +989,14 @@ void hdnesPackEditormainForm::gameObjsRawRUp( wxMouseEvent& event ){
                 menu.AppendSubMenu(submenu, wxT("Select tiles with palette"));
                 menu.AppendSubMenu(submenu2, wxT("Replace palette"));
             }
+            if(data->images.size() > 0){
+                wxMenu* submenu3;
+                submenu3 = new wxMenu(wxT(""));
+                for(int i = 0; i < data->images.size(); ++i){
+                    submenu3->Append(i + GAME_OBJ_PNL_IMAGE_SELECT_OFFSET, wxString(coreData::cData->images[data->images[i]]->fileName.c_str()));
+                }
+                menu.AppendSubMenu(submenu3, wxT("Swap image"));
+            }
 
             //check right click on a selected tile
             bool tileFound = false;
@@ -1044,6 +1055,7 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
     int clickedY;
     hdnesPackEditorreplacementDialog* fp;
     hdnesPackEditorpaletteDialog* palD;
+    hdnesPackEditorimageDialog* imgD;
     vector<gameTile> selectedTiles;
     int offset;
     int uniqueTileID;
@@ -1145,6 +1157,7 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
             }
         }
         ndata->updatePalettes();
+        ndata->updateImages();
         gameObjSelectedTiles.clear();
         refreshGameObj();
         coreData::cData->dataChanged();
@@ -1334,7 +1347,7 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
                     }
                 }
             }
-            else{
+            else if(event.GetId() < GAME_OBJ_PNL_IMAGE_SELECT_OFFSET){
                 offset = event.GetId() - GAME_OBJ_PNL_PALETTE_SELECT_OFFSET2;
                 paletteToReplace = offset;
                 ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
@@ -1342,13 +1355,35 @@ void hdnesPackEditormainForm::gameObjsRawMenu( wxCommandEvent& event ){
                 palD->setPalette(ndata->palettes[offset]);
                 palD->setClient(this);
                 palD->Show(true);
-
+            }
+            else{
+                offset = event.GetId() - GAME_OBJ_PNL_IMAGE_SELECT_OFFSET;
+                imageToReplace = offset;
+                imgD = new hdnesPackEditorimageDialog(this);
+                imgD->setClient(this);
+                imgD->Show(true);
             }
             drawGameObjEdits();
         }
 
         break;
     }
+}
+
+void hdnesPackEditormainForm::imageSelected(int img){
+    gameObjNode* ndata;
+    ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
+
+    for(int i = 0; i < ndata->tiles.size(); ++i){
+        for(int j = 0; j < ndata->tiles[i].aniFrames.size(); ++j){
+            if(ndata->tiles[i].aniFrames[j].hasReplacement && ndata->tiles[i].aniFrames[j].img == ndata->images[imageToReplace]){
+                ndata->tiles[i].aniFrames[j].img = img;
+            }
+        }
+    }
+    ndata->updateImages();
+    refreshGameObj();
+    coreData::cData->dataChanged();
 }
 
 void hdnesPackEditormainForm::paletteSelected(Uint8* p){
@@ -1368,7 +1403,22 @@ void hdnesPackEditormainForm::paletteSelected(Uint8* p){
             ndata->tiles[i].id.palette[3] = p[3];
         }
         ndata->tiles[i].id.palette[0] = p[0];
+
+        for(int j = 0; j < ndata->tiles[i].conditions.size(); ++j){
+            if(ndata->tiles[i].conditions[j].id.palette[0] == ndata->palettes[paletteToReplace][0]
+            && ndata->tiles[i].conditions[j].id.palette[1] == ndata->palettes[paletteToReplace][1]
+            && ndata->tiles[i].conditions[j].id.palette[2] == ndata->palettes[paletteToReplace][2]
+            && ndata->tiles[i].conditions[j].id.palette[3] == ndata->palettes[paletteToReplace][3]
+            ){
+                ndata->tiles[i].conditions[j].id.palette[0] = p[0];
+                ndata->tiles[i].conditions[j].id.palette[1] = p[1];
+                ndata->tiles[i].conditions[j].id.palette[2] = p[2];
+                ndata->tiles[i].conditions[j].id.palette[3] = p[3];
+        }
+
     }
+}
+
     for(int i = 0; i < ndata->conditions.size(); ++i){
         if(ndata->conditions[i].id.palette[0] == ndata->palettes[paletteToReplace][0]
         && ndata->conditions[i].id.palette[1] == ndata->palettes[paletteToReplace][1]
@@ -1445,6 +1495,7 @@ void hdnesPackEditormainForm::setReplacement(int imageID, int x, int y){
 
         ndata->tiles[gameObjSelectedTiles[k]] = t;
     }
+    ndata->updateImages();
 
     refreshGameObj();
     coreData::cData->dataChanged();

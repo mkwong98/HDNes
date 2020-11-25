@@ -178,6 +178,7 @@ gameTile gameTile::clone(){
     c.objCoordY = objCoordY;
     c.hFlip = hFlip;
     c.vFlip = vFlip;
+    c.aniFrames.clear();
     for(int i = 0; i < aniFrames.size(); i++){
         c.aniFrames.push_back(aniFrames[i]);
     }

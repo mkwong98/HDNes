@@ -1986,3 +1986,38 @@ paletteDialog::~paletteDialog()
 	btnPaletteOK->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( paletteDialog::paletteSelected ), NULL, this );
 
 }
+
+imageDialog::imageDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+
+	wxBoxSizer* bSizer71;
+	bSizer71 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText13 = new wxStaticText( this, wxID_ANY, wxT("Select an image"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText13->Wrap( -1 );
+	bSizer71->Add( m_staticText13, 0, wxALL, 5 );
+
+	cboImage = new wxComboBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY );
+	bSizer71->Add( cboImage, 0, wxALL, 5 );
+
+	btnImageOK = new wxButton( this, wxID_ANY, wxT("OK"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer71->Add( btnImageOK, 0, wxALL, 5 );
+
+
+	this->SetSizer( bSizer71 );
+	this->Layout();
+	bSizer71->Fit( this );
+
+	this->Centre( wxBOTH );
+
+	// Connect Events
+	btnImageOK->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( imageDialog::imageSelected ), NULL, this );
+}
+
+imageDialog::~imageDialog()
+{
+	// Disconnect Events
+	btnImageOK->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( imageDialog::imageSelected ), NULL, this );
+
+}
