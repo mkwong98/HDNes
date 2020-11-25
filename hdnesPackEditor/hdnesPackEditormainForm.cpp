@@ -748,6 +748,7 @@ void hdnesPackEditormainForm::gameObjsROMChanged(){
 gameObjNode* hdnesPackEditormainForm::getGameObjsSelectedObjectTreeNode(){
     if(coreData::cData && tItmGameObjMenu){
         gameObjNode* ndata = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
+        if(!ndata) return NULL;
         if(ndata->nodeType == GAME_OBJ_NODE_TYPE_OBJECT || ndata->nodeType == GAME_OBJ_NODE_TYPE_BGIMAGE) return ndata;
     }
     return NULL;
