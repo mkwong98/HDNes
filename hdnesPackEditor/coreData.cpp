@@ -45,6 +45,9 @@ void coreData::initPath(string rPath, string pPath){
     if(projectPath != ""){
         loadProjectData();
     }
+    else{
+        loadScreenData();
+    }
     main::mForm->dataChanged();
     if(!notSaved){
         main::mForm->dataSaved();
@@ -194,6 +197,120 @@ void coreData::loadPackData(){
         fs.close();
     }
     loadPalette();
+}
+
+void coreData::loadScreenData(){
+    string idxPath;
+    idxPath = packPath + string("\\tileIndex.csv");
+
+    fstream fs;
+    string line;
+    string lastScreenId;
+    string currScreenId;
+    lastScreenId = "";
+    fs.open(idxPath, fstream::in);
+    if(fs.is_open()){
+        main::mForm->addScreenGameObjectFolder();
+        while(getline(fs, line)){
+            if(line.substr(0, 1) != "T"){
+                line = line.substr(0, line.length() - 1);
+                size_t found = line.find_last_of(",");
+                if(found!=string::npos){
+                    currScreenId = line.substr(found + 1);
+                    if(currScreenId != lastScreenId){
+                        readScreen(currScreenId);
+                        lastScreenId = currScreenId;
+                    }
+                }
+            }
+        }
+    }
+    fs.close();
+}
+
+void coreData::readScreen(string screenId){
+    string screenPath;
+    screenPath = packPath + string("\\screen_") + screenId + string(".csv");
+
+    fstream fs;
+    string line;
+    string token;
+    bool isSprite;
+    size_t found;
+    gameTile t;
+    int idx;
+
+    gameObjNode* sp = new gameObjNode();
+    sp->isSprite = true;
+    sp->nodeType = GAME_OBJ_NODE_TYPE_OBJECT;
+    sp->nodeName = screenId + string("sp");
+
+    gameObjNode* bg = new gameObjNode();
+    bg->isSprite = false;
+    bg->nodeType = GAME_OBJ_NODE_TYPE_OBJECT;
+    bg->nodeName = screenId + string("bg");
+
+    fs.open(screenPath, fstream::in);
+    if(fs.is_open()){
+        while(getline(fs, line)){
+            if(line.substr(0, 1) != "T"){
+                for(idx = 0; idx < 9; idx++){
+                    found = line.find_first_of(",");
+                    if(found!=string::npos){
+                        token = line.substr(0, found);
+                        line = line.substr(found + 1);
+                        switch(idx){
+                        case 0:
+                            isSprite = (token != "Background");
+                            break;
+                        case 1:
+                            t.objCoordX = atoi(token.c_str());
+                            break;
+                        case 2:
+                            t.objCoordY = atoi(token.c_str());
+                            break;
+                        case 3:
+                            t.id.readID(token, true);
+                            break;
+                        case 4:
+                            t.id.readPalette(token);
+                            break;
+                        case 6:
+                            t.hFlip = (token == "Y");
+                            break;
+                        case 7:
+                            t.vFlip = (token == "Y");
+                            break;
+                        }
+                    }
+                }
+                if(isSprite){
+                    sp->addTile(t);
+                }
+                else{
+                    bg->addTile(t);
+                    if(bg->tiles.size() == 1){
+                        bg->bgColour = t.id.palette[0];
+                    }
+                }
+            }
+        }
+    }
+    fs.close();
+
+    if(bg->tiles.size() > 0){
+        main::mForm->addScreenGameObject(bg);
+    }
+    else{
+        delete(bg);
+    }
+
+    if(sp->tiles.size() > 0){
+        main::mForm->addScreenGameObject(sp);
+    }
+    else{
+        delete(sp);
+    }
 }
 
 void coreData::loadRom(){

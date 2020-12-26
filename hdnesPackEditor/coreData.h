@@ -57,6 +57,8 @@ class coreData
         void loadPalette();
         void genPalette();
         string getTileID(int tileIndex);
+        void loadScreenData();
+        void readScreen(string screenId);
 
         void addImage(string path);
         void removeImage(int index);

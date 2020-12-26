@@ -677,6 +677,7 @@ void hdnesPackEditormainForm::initGameObjs(){
     clearGameObj();
     gameObjClicked = false;
     editCondition = false;
+    hasScreenFolder = false;
     conditionCounter = 0;
     gameObjRawImageDisplay = wxImage(pnlGameObjRaw->GetSize().x, pnlGameObjRaw->GetSize().y);
     gameObjNewImageDisplay = wxImage(pnlGameObjNew->GetSize().x, pnlGameObjNew->GetSize().y);
@@ -813,6 +814,10 @@ void hdnesPackEditormainForm::gameObjTItemOpenMenu( wxTreeEvent& event ){
     if(data->nodeType == GAME_OBJ_NODE_TYPE_OBJECT){
         menu.Append(GAME_OBJ_NODE_MENU_CLONE_OBJECT, wxT("Clone"));
     }
+    if(tItmGameObjMenu == tItmGameObjScreen){
+        menu.Append(GAME_OBJ_NODE_MENU_REMOVE_REDUNDANT, wxT("Remove redundant screens"));
+    }
+    menu.Append(GAME_OBJ_NODE_MENU_REREAD_SCREEN, wxT("Reload screens from files"));
     menu.Connect( wxEVT_MENU, wxCommandEventHandler(hdnesPackEditormainForm::gameObjsTreeMenu), NULL, this );
     treeGameObjs->PopupMenu(&menu, event.GetPoint());
 }
@@ -862,7 +867,11 @@ void hdnesPackEditormainForm::gameObjsTreeMenu( wxCommandEvent& event ){
         coreData::cData->dataChanged();
         break;
     case GAME_OBJ_NODE_MENU_DEL:
+        if(tItmGameObjScreen == tItmGameObjMenu){
+
+        }
         treeGameObjs->Delete(tItmGameObjMenu);
+
         coreData::cData->dataChanged();
         break;
     case GAME_OBJ_NODE_MENU_MOVE_UP:
@@ -889,20 +898,143 @@ void hdnesPackEditormainForm::gameObjsTreeMenu( wxCommandEvent& event ){
         coreData::cData->dataChanged();
         break;
     case GAME_OBJ_NODE_MENU_CLONE_OBJECT:
-        gameObjNode* data = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
+        {
+            gameObjNode* data = (gameObjNode*)(treeGameObjs->GetItemData(tItmGameObjMenu));
 
-        node = data->clone();
+            node = data->clone();
 
-        newItm = treeGameObjs->AppendItem(treeGameObjs->GetItemParent(tItmGameObjMenu), wxString(node->nodeName), -1, -1, node);
-        treeGameObjs->Expand(newItm);
-        treeGameObjs->EditLabel(newItm);
-        treeGameObjs->SetFocusedItem(newItm);
-        tItmGameObjMenu = newItm;
-        renameChildGameObjItemConditions(tItmGameObjMenu);
-        gameObjSelectedTiles.clear();
-        refreshNode();
+            newItm = treeGameObjs->AppendItem(treeGameObjs->GetItemParent(tItmGameObjMenu), wxString(node->nodeName), -1, -1, node);
+            treeGameObjs->Expand(newItm);
+            treeGameObjs->EditLabel(newItm);
+            treeGameObjs->SetFocusedItem(newItm);
+            tItmGameObjMenu = newItm;
+            renameChildGameObjItemConditions(tItmGameObjMenu);
+            gameObjSelectedTiles.clear();
+            refreshNode();
 
-        coreData::cData->dataChanged();
+            coreData::cData->dataChanged();
+        }
+        break;
+    case GAME_OBJ_NODE_MENU_REMOVE_REDUNDANT:
+        {
+            wxTreeItemId checkItem;
+            wxTreeItemId checkItem2;
+            wxTreeItemId checkedItem;
+            wxTreeItemId checkedItem2;
+            wxTreeItemId lookInItem;
+            gameObjNode* node2;
+            bool hasSameScreen;
+            bool noUnique;
+            bool noUnique2;
+            bool tileIsUnique;
+            string name;
+            string name2;
+            string name3;
+
+            wxTreeItemIdValue cookie = 0;
+            //get first screen
+            checkItem = treeGameObjs->GetFirstChild(tItmGameObjScreen, cookie);
+            while(checkItem.IsOk()){
+                name = treeGameObjs->GetItemText(checkItem).ToStdString();
+
+                //get second screen to see if it belongs to the same screen
+                hasSameScreen = false;
+                noUnique = true;
+                noUnique2 = true;
+                checkItem2 = treeGameObjs->GetNextSibling(checkItem);
+                if(checkItem2.IsOk()){
+                    name2 = treeGameObjs->GetItemText(checkItem2).ToStdString();
+                    if(name.substr(0, name.length() - 2) == name2.substr(0, name2.length() - 2)){
+                        hasSameScreen = true;
+                    }
+                }
+
+                node = (gameObjNode*)(treeGameObjs->GetItemData(checkItem));
+                for(int i = 0; i < node->tiles.size() && noUnique; i++){
+                    tileIsUnique = true;
+                    lookInItem = treeGameObjs->GetFirstChild(tItmGameObjScreen, cookie);
+                    while(lookInItem.IsOk() && tileIsUnique){
+                        name3 = treeGameObjs->GetItemText(lookInItem).ToStdString();
+                        if(name.substr(0, name.length() - 2) != name3.substr(0, name3.length() - 2)){
+                            node2 = (gameObjNode*)(treeGameObjs->GetItemData(lookInItem));
+                            for(int j = 0; j < node2->tiles.size(); j++){
+                                if(node->tiles[i].id.compareEqual(node2->tiles[j].id)){
+                                    tileIsUnique = false;
+                                }
+                            }
+                        }
+                        lookInItem = treeGameObjs->GetNextSibling(lookInItem);
+                    }
+                    if(tileIsUnique){
+                        noUnique = false;
+                    }
+                }
+
+                if(hasSameScreen){
+                    node = (gameObjNode*)(treeGameObjs->GetItemData(checkItem2));
+                    for(int i = 0; i < node->tiles.size() && noUnique2; i++){
+                        tileIsUnique = true;
+                        lookInItem = treeGameObjs->GetFirstChild(tItmGameObjScreen, cookie);
+                        while(lookInItem.IsOk() && tileIsUnique){
+                            name3 = treeGameObjs->GetItemText(lookInItem).ToStdString();
+                            if(name2.substr(0, name2.length() - 2) != name3.substr(0, name3.length() - 2)){
+                                node2 = (gameObjNode*)(treeGameObjs->GetItemData(lookInItem));
+                                for(int j = 0; j < node2->tiles.size(); j++){
+                                    if(node->tiles[i].id.compareEqual(node2->tiles[j].id)){
+                                        tileIsUnique = false;
+                                    }
+                                }
+                            }
+                            lookInItem = treeGameObjs->GetNextSibling(lookInItem);
+                        }
+                        if(tileIsUnique){
+                            noUnique2 = false;
+                        }
+                    }
+                }
+
+
+                if(noUnique && noUnique2){
+                    //keep reference to original
+                    checkedItem = checkItem;
+                    checkedItem2 = checkItem2;
+
+                    //move to next screen
+                    if(hasSameScreen){
+                        checkItem = treeGameObjs->GetNextSibling(checkItem2);
+                    }
+                    else{
+                        checkItem = treeGameObjs->GetNextSibling(checkItem);
+                    }
+
+                    //delete original
+                    treeGameObjs->Delete(checkedItem);
+                    if(hasSameScreen){
+                        treeGameObjs->Delete(checkedItem2);
+                    }
+                }
+                else{
+                    //move to next screen
+                    if(hasSameScreen){
+                        checkItem = treeGameObjs->GetNextSibling(checkItem2);
+                    }
+                    else{
+                        checkItem = treeGameObjs->GetNextSibling(checkItem);
+                    }
+                }
+            }
+
+            coreData::cData->dataChanged();
+        }
+        break;
+    case GAME_OBJ_NODE_MENU_REREAD_SCREEN:
+        {
+            if(hasScreenFolder){
+                treeGameObjs->Delete(tItmGameObjScreen);
+                hasScreenFolder = false;
+            }
+            coreData::cData->loadScreenData();
+        }
         break;
     }
 }
@@ -2267,6 +2399,10 @@ void hdnesPackEditormainForm::loadGameObjItem(fstream& file, wxTreeItemId item, 
     node->load(file, newItm);
     treeGameObjs->SetItemData(newItm, node);
     if(node->nodeType == GAME_OBJ_NODE_TYPE_GROUP){
+        if(node->nodeName == "Screen Data"){
+            tItmGameObjScreen = newItm;
+            hasScreenFolder = true;
+        }
         treeGameObjs->SetItemText(newItm, wxString(node->nodeName + "\\"));
     }
     else{
@@ -2299,6 +2435,24 @@ void hdnesPackEditormainForm::saveChildGameObjs(fstream& file, wxTreeItemId item
         saveGameObjItem(file, child);
         child = treeGameObjs->GetNextSibling(child);
     }
+}
+
+void hdnesPackEditormainForm::addScreenGameObjectFolder(){
+    if(hasScreenFolder) return;
+
+    wxTreeItemId root = treeGameObjs->GetRootItem();
+    gameObjNode* node = new gameObjNode();
+
+    tItmGameObjScreen = treeGameObjs->InsertItem(root, treeGameObjs->GetLastChild(root), "Screen Data\\");
+    node->nodeType = GAME_OBJ_NODE_TYPE_GROUP;
+    node->nodeName = "Screen Data";
+    treeGameObjs->SetItemData(tItmGameObjScreen, node);
+    hasScreenFolder = true;
+}
+
+void hdnesPackEditormainForm::addScreenGameObject(gameObjNode* n){
+    wxTreeItemId screenNode = treeGameObjs->InsertItem(tItmGameObjScreen, treeGameObjs->GetLastChild(tItmGameObjScreen), n->nodeName);
+    treeGameObjs->SetItemData(screenNode, n);
 }
 
 void hdnesPackEditormainForm::renameGameObjConditions(){

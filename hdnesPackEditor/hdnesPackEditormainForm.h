@@ -209,6 +209,8 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient, publ
         wxTreeItemId tItmGameObjMenu;
         bool gameObjectTreeWillMove;
         wxTreeItemId tItmGameObjMove;
+        wxTreeItemId tItmGameObjScreen;
+        bool hasScreenFolder;
 
         int gameObjTileSize;
         wxImage gameObjRawImage;
@@ -266,6 +268,8 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient, publ
         void loadGameObjs(fstream& file);
         void loadChildGameObjs(fstream& file, wxTreeItemId item);
         void loadGameObjItem(fstream& file, wxTreeItemId item, bool isRoot);
+        void addScreenGameObjectFolder();
+        void addScreenGameObject(gameObjNode* n);
         void saveGameObjs(fstream& file);
         void saveChildGameObjs(fstream& file, wxTreeItemId item);
         void saveGameObjItem(fstream& file, wxTreeItemId item);
