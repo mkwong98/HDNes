@@ -7512,7 +7512,7 @@
 
 1561782682 d:\work\hdnes\trunk\hdnespackeditor\colourdialogclient.h
 
-1608923406 d:\work\hdnes\trunk\hdnespackeditor\gameobjnode.h
+1609229127 d:\work\hdnes\trunk\hdnespackeditor\gameobjnode.h
 	"common.h"
 	"gameTile.h"
 	<wx/treebase.h>
@@ -7575,7 +7575,7 @@
 	"wx/gdicmn.h"
 	"wx/dialog.h"
 
-1608981258 source:d:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.cpp
+1609229868 source:d:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.cpp
 	"hdnesPackEditormainForm.h"
 	"hdnesPackEditornewProjectDialog.h"
 	"hdnesPackEditorcolourSelectDialog.h"

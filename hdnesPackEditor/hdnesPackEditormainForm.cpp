@@ -932,6 +932,24 @@ void hdnesPackEditormainForm::gameObjsTreeMenu( wxCommandEvent& event ){
             string name3;
 
             wxTreeItemIdValue cookie = 0;
+            //generate list of unique ids
+            checkItem = treeGameObjs->GetFirstChild(tItmGameObjScreen, cookie);
+            while(checkItem.IsOk()){
+                node = (gameObjNode*)(treeGameObjs->GetItemData(checkItem));
+                node->uniqueTiles.clear();
+                for(int i = 0; i < node->tiles.size(); i++){
+                    tileIsUnique = true;
+                    for(int j = 0; j < node->uniqueTiles.size(); j++){
+                        if(node->tiles[i].id.compareEqual(node->uniqueTiles[j])){
+                            tileIsUnique = false;
+                        }
+                    }
+                    if(tileIsUnique){
+                        node->uniqueTiles.push_back(node->tiles[i].id);
+                    }
+                }
+                checkItem = treeGameObjs->GetNextSibling(checkItem);
+            }
             //get first screen
             checkItem = treeGameObjs->GetFirstChild(tItmGameObjScreen, cookie);
             while(checkItem.IsOk()){
@@ -950,15 +968,15 @@ void hdnesPackEditormainForm::gameObjsTreeMenu( wxCommandEvent& event ){
                 }
 
                 node = (gameObjNode*)(treeGameObjs->GetItemData(checkItem));
-                for(int i = 0; i < node->tiles.size() && noUnique; i++){
+                for(int i = 0; i < node->uniqueTiles.size() && noUnique; i++){
                     tileIsUnique = true;
                     lookInItem = treeGameObjs->GetFirstChild(tItmGameObjScreen, cookie);
                     while(lookInItem.IsOk() && tileIsUnique){
                         name3 = treeGameObjs->GetItemText(lookInItem).ToStdString();
                         if(name.substr(0, name.length() - 2) != name3.substr(0, name3.length() - 2)){
                             node2 = (gameObjNode*)(treeGameObjs->GetItemData(lookInItem));
-                            for(int j = 0; j < node2->tiles.size(); j++){
-                                if(node->tiles[i].id.compareEqual(node2->tiles[j].id)){
+                            for(int j = 0; j < node2->uniqueTiles.size(); j++){
+                                if(node->uniqueTiles[i].compareEqual(node2->uniqueTiles[j])){
                                     tileIsUnique = false;
                                 }
                             }
@@ -972,15 +990,15 @@ void hdnesPackEditormainForm::gameObjsTreeMenu( wxCommandEvent& event ){
 
                 if(hasSameScreen){
                     node = (gameObjNode*)(treeGameObjs->GetItemData(checkItem2));
-                    for(int i = 0; i < node->tiles.size() && noUnique2; i++){
+                    for(int i = 0; i < node->uniqueTiles.size() && noUnique2; i++){
                         tileIsUnique = true;
                         lookInItem = treeGameObjs->GetFirstChild(tItmGameObjScreen, cookie);
                         while(lookInItem.IsOk() && tileIsUnique){
                             name3 = treeGameObjs->GetItemText(lookInItem).ToStdString();
                             if(name2.substr(0, name2.length() - 2) != name3.substr(0, name3.length() - 2)){
                                 node2 = (gameObjNode*)(treeGameObjs->GetItemData(lookInItem));
-                                for(int j = 0; j < node2->tiles.size(); j++){
-                                    if(node->tiles[i].id.compareEqual(node2->tiles[j].id)){
+                                for(int j = 0; j < node2->uniqueTiles.size(); j++){
+                                    if(node->uniqueTiles[i].compareEqual(node2->uniqueTiles[j])){
                                         tileIsUnique = false;
                                     }
                                 }

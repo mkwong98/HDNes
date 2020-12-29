@@ -65,6 +65,8 @@ class gameObjNode : public wxTreeItemData
         vector<array<Uint8, 4>> palettes;
         vector<int> images;
 
+        vector<tileReference> uniqueTiles;
+
         void addTile(gameTile g);
         void addToObjectSize(int gIdx);
         void clearAllTiles();
