@@ -550,6 +550,80 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 
 	bSizer59->Add( bSizer61, 0, wxEXPAND, 5 );
 
+	wxBoxSizer* bSizer721;
+	bSizer721 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText65 = new wxStaticText( pnlBGImage, wxID_ANY, wxT("Offset x:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText65->Wrap( -1 );
+	bSizer721->Add( m_staticText65, 0, wxALL, 5 );
+
+	txtBGOffsetX = new wxTextCtrl( pnlBGImage, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer721->Add( txtBGOffsetX, 0, wxALL, 5 );
+
+	m_staticText66 = new wxStaticText( pnlBGImage, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText66->Wrap( -1 );
+	bSizer721->Add( m_staticText66, 0, wxALL, 5 );
+
+	m_staticText67 = new wxStaticText( pnlBGImage, wxID_ANY, wxT("Offset y:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText67->Wrap( -1 );
+	bSizer721->Add( m_staticText67, 0, wxALL, 5 );
+
+	txtBGOffsetY = new wxTextCtrl( pnlBGImage, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer721->Add( txtBGOffsetY, 0, wxALL, 5 );
+
+	m_staticText68 = new wxStaticText( pnlBGImage, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText68->Wrap( -1 );
+	bSizer721->Add( m_staticText68, 0, wxALL, 5 );
+
+
+	bSizer59->Add( bSizer721, 0, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer73;
+	bSizer73 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText69 = new wxStaticText( pnlBGImage, wxID_ANY, wxT("Move"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText69->Wrap( -1 );
+	bSizer73->Add( m_staticText69, 0, wxALL, 5 );
+
+	txtBGMoveX = new wxTextCtrl( pnlBGImage, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtBGMoveX->SetMaxSize( wxSize( 70,-1 ) );
+
+	bSizer73->Add( txtBGMoveX, 0, wxALL, 5 );
+
+	m_staticText70 = new wxStaticText( pnlBGImage, wxID_ANY, wxT("pixels left and "), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText70->Wrap( -1 );
+	bSizer73->Add( m_staticText70, 0, wxALL, 5 );
+
+	txtBGMoveY = new wxTextCtrl( pnlBGImage, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtBGMoveY->SetMaxSize( wxSize( 70,-1 ) );
+
+	bSizer73->Add( txtBGMoveY, 0, wxALL, 5 );
+
+	m_staticText71 = new wxStaticText( pnlBGImage, wxID_ANY, wxT("pixels up every "), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText71->Wrap( -1 );
+	bSizer73->Add( m_staticText71, 0, wxALL, 5 );
+
+	txtBGMoveFreq = new wxTextCtrl( pnlBGImage, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtBGMoveFreq->SetMaxSize( wxSize( 70,-1 ) );
+
+	bSizer73->Add( txtBGMoveFreq, 0, wxALL, 5 );
+
+	m_staticText72 = new wxStaticText( pnlBGImage, wxID_ANY, wxT("frames"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText72->Wrap( -1 );
+	bSizer73->Add( m_staticText72, 0, wxALL, 5 );
+
+	txtBGMoveCount = new wxTextCtrl( pnlBGImage, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtBGMoveCount->SetMaxSize( wxSize( 70,-1 ) );
+
+	bSizer73->Add( txtBGMoveCount, 0, wxALL, 5 );
+
+	m_staticText73 = new wxStaticText( pnlBGImage, wxID_ANY, wxT("times then reset."), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText73->Wrap( -1 );
+	bSizer73->Add( m_staticText73, 1, wxALL, 5 );
+
+
+	bSizer59->Add( bSizer73, 0, wxEXPAND, 5 );
+
 	pnlBGImageDisplay = new wxPanel( pnlBGImage, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	bSizer59->Add( pnlBGImageDisplay, 1, wxEXPAND | wxALL, 5 );
 
@@ -1105,6 +1179,12 @@ mainForm::mainForm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	spnBGHScrollRate->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainForm::BGImageHScrollRate ), NULL, this );
 	spnBGVScrollRate->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainForm::BGImageVScrollRate ), NULL, this );
 	chkBgShowBehind->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( mainForm::BGImageShowBehindClicked ), NULL, this );
+	txtBGOffsetX->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( mainForm::BGImageOffsetX ), NULL, this );
+	txtBGOffsetY->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( mainForm::BGImageOffsetY ), NULL, this );
+	txtBGMoveX->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( mainForm::BGImageMoveX ), NULL, this );
+	txtBGMoveY->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( mainForm::BGImageMoveY ), NULL, this );
+	txtBGMoveFreq->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( mainForm::BGImageMoveFreq ), NULL, this );
+	txtBGMoveCount->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( mainForm::BGImageMoveCount ), NULL, this );
 	lstConditions->Connect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( mainForm::ConditionSelected ), NULL, this );
 	cboConditionType->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( mainForm::ConditionTypeSelect ), NULL, this );
 	cmdConditionAdd->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::ConditionAdd ), NULL, this );
@@ -1239,6 +1319,12 @@ mainForm::~mainForm()
 	spnBGHScrollRate->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainForm::BGImageHScrollRate ), NULL, this );
 	spnBGVScrollRate->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( mainForm::BGImageVScrollRate ), NULL, this );
 	chkBgShowBehind->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( mainForm::BGImageShowBehindClicked ), NULL, this );
+	txtBGOffsetX->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( mainForm::BGImageOffsetX ), NULL, this );
+	txtBGOffsetY->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( mainForm::BGImageOffsetY ), NULL, this );
+	txtBGMoveX->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( mainForm::BGImageMoveX ), NULL, this );
+	txtBGMoveY->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( mainForm::BGImageMoveY ), NULL, this );
+	txtBGMoveFreq->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( mainForm::BGImageMoveFreq ), NULL, this );
+	txtBGMoveCount->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( mainForm::BGImageMoveCount ), NULL, this );
 	lstConditions->Disconnect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( mainForm::ConditionSelected ), NULL, this );
 	cboConditionType->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( mainForm::ConditionTypeSelect ), NULL, this );
 	cmdConditionAdd->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( mainForm::ConditionAdd ), NULL, this );

@@ -55,6 +55,12 @@ class gameObjNode : public wxTreeItemData
         double vScrollRate;
         string fileName;
         bool showBehindBgSprites;
+        int offsetX;
+        int offsetY;
+        int moveX;
+        int moveY;
+        int moveFreq;
+        int moveCount;
 
         vector<gameTile> tiles;
         vector<paletteSwap> swaps;
@@ -77,7 +83,7 @@ class gameObjNode : public wxTreeItemData
         void updatePalettes();
         void updateImages();
         gameObjNode* clone();
-        string writeLine();
+        string writeLine(int frameID);
         string writeConditionNames();
     protected:
 

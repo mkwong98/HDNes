@@ -126,6 +126,21 @@ class mainForm : public wxFrame
 		wxSpinCtrl* spnBGVScrollRate;
 		wxStaticText* m_staticText59;
 		wxCheckBox* chkBgShowBehind;
+		wxStaticText* m_staticText65;
+		wxTextCtrl* txtBGOffsetX;
+		wxStaticText* m_staticText66;
+		wxStaticText* m_staticText67;
+		wxTextCtrl* txtBGOffsetY;
+		wxStaticText* m_staticText68;
+		wxStaticText* m_staticText69;
+		wxTextCtrl* txtBGMoveX;
+		wxStaticText* m_staticText70;
+		wxTextCtrl* txtBGMoveY;
+		wxStaticText* m_staticText71;
+		wxTextCtrl* txtBGMoveFreq;
+		wxStaticText* m_staticText72;
+		wxTextCtrl* txtBGMoveCount;
+		wxStaticText* m_staticText73;
 		wxPanel* pnlBGImageDisplay;
 		wxPanel* pnlConditions;
 		wxListCtrl* lstConditions;
@@ -262,6 +277,12 @@ class mainForm : public wxFrame
 		virtual void BGImageHScrollRate( wxSpinEvent& event ) { event.Skip(); }
 		virtual void BGImageVScrollRate( wxSpinEvent& event ) { event.Skip(); }
 		virtual void BGImageShowBehindClicked( wxCommandEvent& event ) { event.Skip(); }
+		virtual void BGImageOffsetX( wxCommandEvent& event ) { event.Skip(); }
+		virtual void BGImageOffsetY( wxCommandEvent& event ) { event.Skip(); }
+		virtual void BGImageMoveX( wxCommandEvent& event ) { event.Skip(); }
+		virtual void BGImageMoveY( wxCommandEvent& event ) { event.Skip(); }
+		virtual void BGImageMoveFreq( wxCommandEvent& event ) { event.Skip(); }
+		virtual void BGImageMoveCount( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ConditionSelected( wxListEvent& event ) { event.Skip(); }
 		virtual void ConditionTypeSelect( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ConditionAdd( wxCommandEvent& event ) { event.Skip(); }

@@ -23,6 +23,12 @@ gameObjNode::gameObjNode()
     vScrollRate = 0;
     fileName = "";
     showBehindBgSprites = false;
+    offsetX = 0;
+    offsetY = 0;
+    moveX = 0;
+    moveY = 0;
+    moveFreq = 0;
+    moveCount = 0;
 
     frameRange f;
     f.frameCnt = 1;
@@ -120,6 +126,16 @@ void gameObjNode::load(fstream& file, wxTreeItemId newItm){
             }
             else if(lineHdr == "<showBehindBGSprites>"){
                 showBehindBgSprites = (lineTail == "Y");
+            }
+            else if(lineHdr == "<offset>"){
+                offsetX = atoi(tailStrs[0].c_str());
+                offsetY = atoi(tailStrs[1].c_str());
+            }
+            else if(lineHdr == "<move>"){
+                moveX = atoi(tailStrs[0].c_str());
+                moveY = atoi(tailStrs[1].c_str());
+                moveFreq = atoi(tailStrs[2].c_str());
+                moveCount = atoi(tailStrs[3].c_str());
             }
             else if(lineHdr == "<tiles>"){
                 getline(file, line);
@@ -225,6 +241,8 @@ void gameObjNode::save(fstream& file, wxTreeItemId newItm){
             file << "<fileName>" << fileName << "\n";
             file << "<scrollRate>" << hScrollRate << "," << vScrollRate << "\n";
             file << "<showBehindBGSprites>" << (showBehindBgSprites ? "Y" : "N") << "\n";
+            file << "<offset>" << offsetX  << "," << offsetY << "\n";
+            file << "<move>" << moveX << "," << moveY  << "," << moveFreq << "," << moveCount << "\n";
         }
     }
     else{
@@ -308,6 +326,13 @@ gameObjNode* gameObjNode::clone(){
     n->fileName = fileName;
     n->hScrollRate = hScrollRate;
     n->vScrollRate = vScrollRate;
+    n->showBehindBgSprites = showBehindBgSprites;
+    n->offsetX = offsetY;
+    n->offsetY = offsetY;
+    n->moveX = moveX;
+    n->moveY = moveY;
+    n->moveFreq = moveFreq;
+    n->moveCount = moveCount;
     n->updatePalettes();
     n->updateImages();
     return n;
@@ -323,9 +348,9 @@ string gameObjNode::writeConditionNames(){
     return stream.str();
 }
 
-string gameObjNode::writeLine(){
+string gameObjNode::writeLine(int frameID){
     stringstream stream;
-    stream << fileName << "," << brightness << "," << hScrollRate << "," << vScrollRate << "," << (coreData::cData->verNo >= 106 ? (showBehindBgSprites ? "0" : "10") : (showBehindBgSprites ? "Y" : "N")) ;
+    stream << fileName << "," << brightness << "," << hScrollRate << "," << vScrollRate << "," << (coreData::cData->verNo >= 106 ? (showBehindBgSprites ? "0" : "10") : (showBehindBgSprites ? "Y" : "N")) << "," << offsetX + (frameID * moveX) << "," << offsetY + (frameID * moveY);
     return stream.str();
 }
 

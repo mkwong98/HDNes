@@ -264,10 +264,10 @@ void coreData::readScreen(string screenId){
                             isSprite = (token != "Background");
                             break;
                         case 1:
-                            t.objCoordX = atoi(token.c_str());
+                            t.objCoordX = atoi(token.c_str()) - 128;
                             break;
                         case 2:
-                            t.objCoordY = atoi(token.c_str());
+                            t.objCoordY = atoi(token.c_str()) - 120;
                             break;
                         case 3:
                             t.id.readID(token, true);

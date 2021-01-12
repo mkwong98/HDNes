@@ -1718,7 +1718,12 @@ void hdnesPackEditormainForm::refreshBGImage(){
     spnBGHScrollRate->SetValue(ndata->hScrollRate * 100);
     spnBGVScrollRate->SetValue(ndata->vScrollRate * 100);
     chkBgShowBehind->SetValue(ndata->showBehindBgSprites);
-
+    txtBGOffsetX->SetValue(main::intToStr(ndata->offsetX));
+    txtBGOffsetY->SetValue(main::intToStr(ndata->offsetY));
+    txtBGMoveX->SetValue(main::intToStr(ndata->moveX));
+    txtBGMoveY->SetValue(main::intToStr(ndata->moveY));
+    txtBGMoveFreq->SetValue(main::intToStr(ndata->moveFreq));
+    txtBGMoveCount->SetValue(main::intToStr(ndata->moveCount));
 
     loadConditions();
     drawBGImage();
@@ -2616,13 +2621,29 @@ void hdnesPackEditormainForm::genGameObjItemTilePack(fstream& file, wxTreeItemId
         }
     }
     else if(node->nodeType == GAME_OBJ_NODE_TYPE_BGIMAGE && withCondition){
-        if(node->conditions.size() > 0){
-            file << "[";
-            file << node->writeConditionNames();
-            file << "]";
+        if(node->moveCount > 1 && node->moveFreq > 0 ){
+            for(int i = node->moveCount - 1; i >= 0; i--){
+                file << "<condition>" << node->nodeName << "ani" << i << ",frameRange," << node->moveCount * node->moveFreq << "," << i * node->moveFreq << "\n";
+                file << "[";
+                if(node->conditions.size() > 0){
+                    file << node->writeConditionNames();
+                    file << "&";
+                 }
+                file << node->nodeName << "ani" << i ;
+                file << "]";
+               //write line
+                file << "<background>" << node->writeLine(i) << "\n";
+            }
         }
-        //write line
-        file << "<background>" << node->writeLine() << "\n";
+        else{
+            if(node->conditions.size() > 0){
+                file << "[";
+                file << node->writeConditionNames();
+                file << "]";
+            }
+            //write line
+            file << "<background>" << node->writeLine(0) << "\n";
+        }
     }
     else{
         genChildGameObjsTilePack(file, item, withCondition);
@@ -3170,6 +3191,54 @@ void hdnesPackEditormainForm::BGImageShowBehindClicked( wxCommandEvent& event ) 
     gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
     if(ndata){
         ndata->showBehindBgSprites = chkBgShowBehind->GetValue();
+        dataChanged();
+    }
+}
+
+void hdnesPackEditormainForm::BGImageOffsetX( wxCommandEvent& event ){
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
+    if(ndata){
+        ndata->offsetX = atoi(txtBGOffsetX->GetValue());
+        dataChanged();
+    }
+}
+
+void hdnesPackEditormainForm::BGImageOffsetY( wxCommandEvent& event ){
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
+    if(ndata){
+        ndata->offsetY = atoi(txtBGOffsetY->GetValue());
+        dataChanged();
+    }
+}
+
+void hdnesPackEditormainForm::BGImageMoveX( wxCommandEvent& event ){
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
+    if(ndata){
+        ndata->moveX = atoi(txtBGMoveX->GetValue());
+        dataChanged();
+    }
+}
+
+void hdnesPackEditormainForm::BGImageMoveY( wxCommandEvent& event ){
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
+    if(ndata){
+        ndata->moveY = atoi(txtBGMoveY->GetValue());
+        dataChanged();
+    }
+}
+
+void hdnesPackEditormainForm::BGImageMoveFreq( wxCommandEvent& event ){
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
+    if(ndata){
+        ndata->moveFreq = atoi(txtBGMoveFreq->GetValue());
+        dataChanged();
+    }
+}
+
+void hdnesPackEditormainForm::BGImageMoveCount( wxCommandEvent& event ){
+    gameObjNode* ndata = getGameObjsSelectedObjectTreeNode();
+    if(ndata){
+        ndata->moveCount = atoi(txtBGMoveCount->GetValue());
         dataChanged();
     }
 }

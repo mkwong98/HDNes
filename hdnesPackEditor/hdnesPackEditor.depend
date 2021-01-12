@@ -7245,7 +7245,7 @@
 1561782682 d:\work\hdnes\trunk\hdnespackeditor\image.h
 	"common.h"
 
-1608983034 d:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.h
+1609862968 d:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.h
 	"common.h"
 	"mainForm.h"
 	"colourDialogClient.h"
@@ -7254,7 +7254,7 @@
 	"gameObjNode.h"
 	"classList.h"
 
-1606273669 d:\work\hdnes\trunk\hdnespackeditor\mainform.h
+1609859670 d:\work\hdnes\trunk\hdnespackeditor\mainform.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/string.h>
@@ -7512,7 +7512,7 @@
 
 1561782682 d:\work\hdnes\trunk\hdnespackeditor\colourdialogclient.h
 
-1609229127 d:\work\hdnes\trunk\hdnespackeditor\gameobjnode.h
+1610017787 d:\work\hdnes\trunk\hdnespackeditor\gameobjnode.h
 	"common.h"
 	"gameTile.h"
 	<wx/treebase.h>
@@ -7520,7 +7520,7 @@
 1561782682 d:\work\hdnes\trunk\hdnespackeditor\hdnespackeditornewprojectdialog.h
 	"mainForm.h"
 
-1606278618 source:d:\work\hdnes\trunk\hdnespackeditor\gameobjnode.cpp
+1610018956 source:d:\work\hdnes\trunk\hdnespackeditor\gameobjnode.cpp
 	"coreData.h"
 	"gameObjNode.h"
 	"gameTile.h"
@@ -7575,7 +7575,7 @@
 	"wx/gdicmn.h"
 	"wx/dialog.h"
 
-1609229868 source:d:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.cpp
+1610022814 source:d:\work\hdnes\trunk\hdnespackeditor\hdnespackeditormainform.cpp
 	"hdnesPackEditormainForm.h"
 	"hdnesPackEditornewProjectDialog.h"
 	"hdnesPackEditorcolourSelectDialog.h"
@@ -7666,7 +7666,7 @@
 	"hdnesPackEditormainForm.h"
 	"main.h"
 
-1606273669 source:d:\work\hdnes\trunk\hdnespackeditor\mainform.cpp
+1609859670 source:d:\work\hdnes\trunk\hdnespackeditor\mainform.cpp
 	"mainForm.h"
 
 1604761296 source:d:\work\hdnes\trunk\hdnespackeditor\paletteswap.cpp

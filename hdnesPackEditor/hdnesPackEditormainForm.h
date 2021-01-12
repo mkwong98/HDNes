@@ -98,6 +98,12 @@ class hdnesPackEditormainForm : public mainForm, public colourDialogClient, publ
 		void BGImageHScrollRate( wxSpinEvent& event );
 		void BGImageVScrollRate( wxSpinEvent& event );
 		void BGImageShowBehindClicked( wxCommandEvent& event );
+		void BGImageOffsetX( wxCommandEvent& event );
+		void BGImageOffsetY( wxCommandEvent& event );
+		void BGImageMoveX( wxCommandEvent& event );
+		void BGImageMoveY( wxCommandEvent& event );
+		void BGImageMoveFreq( wxCommandEvent& event );
+		void BGImageMoveCount( wxCommandEvent& event );
 
 
 		void SwapSeleted( wxListEvent& event );
